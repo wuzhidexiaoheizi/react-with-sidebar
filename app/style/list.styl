@@ -1,0 +1,71 @@
+.list-page
+  background-color #E00024
+  
+  .list-poster
+    width 100%
+    display block
+    
+  ul.list
+    padding 10px
+    .item
+      position relative 
+      margin-bottom 10px
+      background-color #FFF
+      color #666
+      .left
+        padding 10px
+        width 40%
+        .avatar
+          width 100%
+          display block
+          min-height 100px
+          border 1px solid #EEE
+      .right
+        top 0px
+        left 40%
+        padding 10px
+        height 100%
+        position absolute
+        .title
+          margin 0 0 1.2rem 0
+          font-size 1.4rem
+          display -webkit-box
+          overflow hidden
+          text-overflow ellipsis
+          -webkit-line-clamp 2
+          -webkit-box-orient vertical
+        .price
+          color #F00
+          font-size 2rem
+          font-weight 900
+          margin-right 1rem
+
+.status-bar
+  color #FFF
+  bottom 10px
+  border-radius 5px
+  position absolute
+  left 10px
+  display inline-block
+  padding 10px
+
+  &.btn
+    border-radius 0
+    text-align center
+    width 100%
+    position fixed
+    left 0
+    bottom 0
+    background-color #666
+  &.started
+    background-color #F00
+  &.wait
+    background-color #F60
+  &.end
+  &.suspend
+  &.no-executies
+    background-color #666
+    
+
+
+    

@@ -1,28 +1,23 @@
-.example-enter
-  opacity: 0.01
+@import 'home.styl'
+@import 'list.styl'
 
-.example-enter.example-enter-active
-  opacity: 1;
-  transition: opacity 500ms ease-in
-
-.example-leave
-  opacity: 1;
-
-.example-leave.example-leave-active
-  opacity: 0.01;
-  transition: opacity 300ms ease-in
+*
+  box-sizing border-box
 
 html
   min-height 100%
   position relative
+  font-size 62.5%
 
 body
   margin 0
+
+ul
+  list-style none
+  margin 0
+  padding 0  
   
 ul.nav
-  margin 0
-  padding 0
-  list-style none
   &:after
     content ''
     display block
@@ -33,23 +28,20 @@ ul.nav
       display block
       padding 10px 20px
       background-color #555
-      color: #FFF
+      color #FFF
       &.active
         background-color #AAA
 
-.home 
-  .poster
-    width 100%
-    display block
-    
-  .introduction
-    padding 20px
-    background-image url('/images/background.jpg')
-    main
-      color #FFF
-      background-image url('/images/introduction-mid.png')
-      background-size 100%
-      padding 0 20px
-    > img
-      display block
-      width 100%
+.example-enter
+  opacity 0.01
+
+.example-enter.example-enter-active
+  opacity 1
+  transition opacity 500ms ease-in
+
+.example-leave
+  opacity 1
+
+.example-leave.example-leave-active
+  opacity 0.01
+  transition opacity 300ms ease-in

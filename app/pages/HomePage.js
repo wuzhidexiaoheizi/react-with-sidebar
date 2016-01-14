@@ -1,17 +1,13 @@
-import React, {Component, PropTypes} from 'react'
-import ReactDOM from 'react-dom'
-import {connect} from 'react-redux'
-import {signIn} from '../actions'
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 
 class HomePage extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
-  
+
   _handleSignIn() {
-    const {dispatch} = this.props
-    // dispatch(signIn())
   }
 
   render() {
@@ -30,14 +26,14 @@ class HomePage extends Component {
           />
         </div>
       </div>
-    )
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
     home: state.home
-  }
+  };
 }
 
-export default connect(mapStateToProps)(HomePage)
+export default connect(mapStateToProps)(HomePage);
