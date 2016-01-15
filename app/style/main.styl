@@ -19,6 +19,9 @@ ul
   padding 0  
   
 ul.nav
+  z-index 9
+  position fixed
+  top 0
   &:after
     content ''
     display block
@@ -28,24 +31,34 @@ ul.nav
     a
       display block
       padding 10px 20px
-      background-color #555
+      background-color rgba(0,0,0,.3)
       color #FFF
       &.active
-        background-color #AAA
+        background-color rgba(0,0,0,.6)
+
+.page
+  position absolute
+  top 0
+  left 0
+  min-height 100%
 
 .example-enter
   opacity 0.01
+  transform translateY(100%)
 
 .example-enter.example-enter-active
   opacity 1
-  transition opacity 500ms ease-in
+  transform translateY(0%)
+  transition all 500ms
 
 .example-leave
   opacity 1
+  transform translateY(0%)
 
 .example-leave.example-leave-active
   opacity 0.01
-  transition opacity 300ms ease-in
+  transform translateY(-100%)
+  transition all 500ms
   
 
 .status-bar

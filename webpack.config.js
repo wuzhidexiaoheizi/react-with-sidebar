@@ -22,7 +22,7 @@ module.exports = {
     filename: './bundle.js'
   },
   module: {
-    loaders:[
+    loaders: [
       { test: /\.css$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css'] },
       { test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel' },
       { test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'stylus'] },

@@ -5,14 +5,12 @@ import { Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
 import TransitionGroup from 'react-addons-css-transition-group';
 import configureStore from './store/configureStore';
 // import createBrowserHistory from 'history/lib/createBrowserHistory';
-
 // import DevTools from './pages/DevTools';
-
 import HomePage from './pages/HomePage';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
-
 import './style/main.styl';
+import {DEV} from './config.json';
 
 // const history = createBrowserHistory();
 const store = configureStore();
@@ -22,17 +20,25 @@ class App extends Component {
     super(props);
   }
 
-  render() {
-    const {pathname} = this.props.location;
-    return (
-      <div>
+  devNav() {
+    if (DEV) {
+      return (
         <ul className="nav">
           <li><IndexLink to="/" activeClassName="active">/</IndexLink></li>
           <li><Link to="/list" activeClassName="active">list</Link></li>
           <li><Link to="/detail/82" activeClassName="active">detail</Link></li>
         </ul>
+      );
+    }
+  }
+
+  render() {
+    const {pathname} = this.props.location;
+    return (
+      <div>
+        {this.devNav()}
         {/* <DevTools /> */}
-        <TransitionGroup transitionName="example" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
+        <TransitionGroup transitionName="example" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
           {cloneElement(this.props.children || <div/>, { key: pathname })}
         </TransitionGroup>
       </div>

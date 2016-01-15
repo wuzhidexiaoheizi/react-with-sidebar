@@ -1,4 +1,5 @@
 {
   "API": "http://m.wanliu.biz/api/promotions/one_money",
-  "ONE_MONEY_ID": 11
+  "ONE_MONEY_ID": 11,
+  "DEV": true
 }

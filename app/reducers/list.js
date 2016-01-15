@@ -1,4 +1,5 @@
 import { parseData } from '../helper';
+import update from 'react-addons-update';
 
 const initialState = {
   fetching: true,
@@ -7,21 +8,25 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-  case 'FETCH_LIST_DONE':
-    const items = [];
-    for (const item of action.items) {
-      item.has_fetch_detail = false;
-      items.push(parseData(item, action.td));
-    }
+  case 'FETCH_LIST_DONE': {
+    const items = action.items.map(item => {
+      return parseData(item);
+    });
+    return update(state, {
+      fetching: {$set: false},
+      items: {$set: items}
+    });
+  }
 
-    return Object.assign({}, state, {fetching: false, items});
+  case 'UPDATE_ITEM_STATUS': {
+    const index = state.items.findIndex(item => item.id === action.id);
 
-  case 'UPDATE_ITEM_STATUS':
-    const newItems = state.items.copyWithin();
-    const index = newItems.findIndex(item => item.id === action.id);
-    newItems[index] = action.status;
-
-    return Object.assign({}, state, {items: newItems});
+    return update(state, {
+      items: {$apply: (items) => {
+        items[index].status = action.status;
+      }}
+    });
+  }
 
   default: return state;
   }
