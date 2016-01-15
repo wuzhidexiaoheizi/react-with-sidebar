@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {PropTypes} from 'react-router';
 import {connect} from 'react-redux';
 
 
@@ -13,15 +14,15 @@ class HomePage extends Component {
   render() {
     return (
       <div className="page home">
-        <img className="poster" src="../images/poster.jpg"/>
+        <img className="poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3c6e051086bc13b4fccca045a3efe187.jpg"/>
         <div className="introduction">
-          <img className="introduction-top" src="../images/introduction-top.png"/>
+          <img className="introduction-top" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/8ca4d5a71c6b3e72734c6d238b5a88cf.png"/>
           <main className="introduction-text">
             text
           </main>
           <img
             className="introduction-bottom"
-            src="../images/introduction-bottom.png"
+            src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3a4c3db9b8d16578ebd1b94b9cbcbb5b.png"
             onClick={this._handleSignIn.bind(this)}
           />
         </div>
@@ -29,6 +30,8 @@ class HomePage extends Component {
     );
   }
 }
+
+HomePage.contextTypes = {history: PropTypes.history};
 
 function mapStateToProps(state) {
   return {

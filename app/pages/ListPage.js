@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {PropTypes} from 'react-router';
 import {connect} from 'react-redux';
 import {fetchList, updateItemStatus} from '../actions';
 
@@ -23,7 +24,7 @@ class ListPage extends Component {
   render() {
     return (
       <div className="page list-page">
-        <img className="list-poster" src="http://m.wanliu.biz/one_money/2016-01-15/images/list_top.jpg"/>
+        <img className="list-poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/1a147519bd2b1d9bebe7e3e7527869e3.jpg"/>
         <ul className="list">
           {
             this.props.list.items.map((item, index) => {
@@ -35,6 +36,8 @@ class ListPage extends Component {
     );
   }
 }
+
+ListPage.contextTypes = {history: PropTypes.history};
 
 
 function mapStateToProps(state) {

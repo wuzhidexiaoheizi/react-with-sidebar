@@ -8,7 +8,7 @@ import TransitionGroup from 'react-addons-css-transition-group';
 
 import configureStore from './store/configureStore';
 
-import DevTools from './pages/DevTools';
+// import DevTools from './pages/DevTools';
 import HomePage from './pages/HomePage';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
@@ -32,7 +32,7 @@ class App extends Component {
           <li><Link to="/list" activeClassName="active">list</Link></li>
           <li><Link to="/detail" activeClassName="active">detail</Link></li>
         </ul>
-        <DevTools />
+        {/* <DevTools /> */}
         <TransitionGroup transitionName="example" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
           {cloneElement(this.props.children || <div/>, { key: pathname })}
         </TransitionGroup>

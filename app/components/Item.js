@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 import StatusBar from './StatusBar';
 
 export default class extends Component {
@@ -32,15 +33,17 @@ export default class extends Component {
     const {title, cover_urls, price, ori_price, status, index} = this.props;
     return (
       <li className="item" onClick={() => console.log(index)}>
-        <div className="left">
-          <img className="avatar" src={cover_urls[0]}/>
-        </div>
-        <div className="right">
-          <h3 className="title">{title}</h3>
-            <span className="price">￥{price}</span>
-            <span className="ori_price">原价:<s>{ori_price}</s></span>
-          <StatusBar status={status}/>
-        </div>
+        <Link to={`/detail?index=${index}`}>
+          <div className="left">
+            <img className="avatar" src={cover_urls[0]}/>
+          </div>
+          <div className="right">
+            <h3 className="title">{title}</h3>
+              <span className="price">￥{price}</span>
+              <span className="ori_price">原价:<s>{ori_price}</s></span>
+            <StatusBar status={status}/>
+          </div>
+        </Link>
       </li>
     );
   }
