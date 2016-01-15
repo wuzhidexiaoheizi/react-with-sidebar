@@ -1,5 +1,5 @@
 export function parseData(obj, td = 0) {
-  const shouldDateParseArray = ['start_at', 'end_at,'];
+  const shouldDateParseArray = ['start_at', 'end_at'];
   const shouldJSONParseArray = ['avatar_urls', 'cover_urls', 'image_urls'];
 
   const o = {};
@@ -60,5 +60,27 @@ export function diffTime(t) {
 
   const seconds = add0(d);
 
-  return `${days}天${hours}:${minutes}:${seconds}`;
+  if (days) return `${days}天${hours}:${minutes}:${seconds}`;
+  if (hours) return `${hours}:${minutes}:${seconds}`;
+  return `${minutes}:${seconds}`;
+}
+
+export function statusDescs(status, flag) {
+  switch (status) {
+  case 'wait':
+    if (flag) return '距离活动开始还有';
+    return '请等待';
+
+  case 'started':
+    if (flag) return '距离活动结束还有';
+    return '马上抢购';
+
+  case 'end': return '活动已结束';
+
+  case 'suspend': return '已售罄';
+
+  case 'no-executies': return '已经不能再强此商品了';
+
+  default: return '...';
+  }
 }

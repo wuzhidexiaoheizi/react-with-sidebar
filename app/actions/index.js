@@ -40,3 +40,20 @@ export function updateItemStatus(id, status) {
     });
   };
 }
+
+export function fetchDetail(id) {
+  return (dispatch, getState) => {
+    if (getState().detail[id]) return;
+
+    fetch(`${API}/${ONE_MONEY_ID}/items/${id}?u=${Date.now()}`)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        dispatch({
+          type: 'FETCH_DETAIL_DONE',
+          item: json,
+          id,
+        });
+      });
+  };
+}

@@ -1,55 +1,66 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StatusBar from '../components/StatusBar';
-// import {diffTime} from '../helper';
-// import {fetchItemDetail} from '../actions';
-
+import {diffTime, statusDescs} from '../helper';
+import {fetchDetail} from '../actions';
 
 class DetailPage extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      countTime: '····',
+    };
   }
 
-  componentWillMount() {
-    console.log('did');
-    const {params: {id}, items, history} = this.props;
-    const item = items.find(i => i.id == id);
-    if (!item) {
-      console.log('没有该活动');
-      return history.pushState(null, '/list');
-    }
+  componentDidMount() {
+    const {params: {id}, dispatch} = this.props;
+    dispatch(fetchDetail(id));
+
+    this.interval = setInterval(() => {
+      const {end_at, start_at, status} = this.props.detail[id] || {};
+      const now = Date.now();
+
+      if (status == 'wait') {
+        if (now >= start_at) dispatch({type: 'ITEM_STARTED', id});
+        return this.setState({countTime: <div>{diffTime(start_at)}</div>});
+      }
+
+      if (status == 'started') {
+        if (now >= end_at) dispatch({type: 'ITEM_END', id});
+        return this.setState({countTime: <div>{diffTime(end_at)}</div>});
+      }
+
+      return this.setState({countTime: '····'});
+    }, 1000);
   }
 
   componentWillUnmount() {
-    this.props.dispatch({type: 'CLEAN_DETAIL_DATA'});
+    clearInterval(this.interval);
   }
 
   render() {
-    const {id} = this.props.params;
-    console.log(id);
-    // const index = this.props.items.findIndex(i => i.id == id);
-    // const {image_urls} = this.props.items[index];
+    const {params: {id}} = this.props;
+    const {price, ori_price, image_urls, status} = this.props.detail[id] || {};
+
     return (
-      <div className="page detail-page" onClick={() => console.log(this.props.detail.fetched, this.props.detail.name)}>
+      <div className="page detail-page">
         <header className="detail-top">
-          <img className="detail-imgs" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/1a147519bd2b1d9bebe7e3e7527869e3.jpg"/>
+          <img className="detail-imgs" src={image_urls && image_urls[0]}/>
           <div className="info">
             <div className="table">
-              <div className="cell">1元购</div>
+              <div className="cell logo">{+price}元购</div>
               <div className="cell">
-                <div>原价</div>
+                <div><s>{ori_price}</s></div>
                 <div>已卖</div>
-                <div>{/* has_fetch_detail */}</div>
               </div>
-              <div className="cell">
-                <div>距离活动开始还有</div>
-                <div>difftime</div>
+              <div className="cell right">
+                <div>{statusDescs(status, true)}</div>
+                {this.state.countTime}
               </div>
             </div>
           </div>
         </header>
-        <main></main>
-        <StatusBar className="btn"/>
+        <StatusBar className="btn" status={status}/>
       </div>
     );
   }
@@ -57,8 +68,7 @@ class DetailPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    index: state.detail.index,
-    items: state.list.items,
+    detail: state.detail,
   };
 }
 
