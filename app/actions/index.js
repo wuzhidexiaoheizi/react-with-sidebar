@@ -31,12 +31,12 @@ export function fetchList() {
   };
 }
 
-export function updateItemStatus(index, status) {
+export function updateItemStatus(id, status) {
   return dispatch => {
     dispatch({
       type: 'UPDATE_ITEM_STATUS',
       status,
-      index,
+      id,
     });
   };
 }

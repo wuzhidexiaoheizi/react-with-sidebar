@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {PropTypes} from 'react-router';
 import {connect} from 'react-redux';
-
 
 class HomePage extends Component {
   constructor(props) {
@@ -30,8 +28,6 @@ class HomePage extends Component {
     );
   }
 }
-
-HomePage.contextTypes = {history: PropTypes.history};
 
 function mapStateToProps(state) {
   return {

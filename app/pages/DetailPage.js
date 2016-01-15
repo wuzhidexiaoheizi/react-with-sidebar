@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {PropTypes} from 'react-router';
 import {connect} from 'react-redux';
 import StatusBar from '../components/StatusBar';
-import {diffTime} from '../actions';
+// import {diffTime} from '../helper';
+// import {fetchItemDetail} from '../actions';
 
 
 class DetailPage extends Component {
@@ -10,21 +10,36 @@ class DetailPage extends Component {
     super(props);
   }
 
-  countDownTime() {
-    const {end_at} = this.props;
-    console.log(diffTime(end_at));
+  componentWillMount() {
+    console.log('did');
+    const {params: {id}, items, history} = this.props;
+    const item = items.find(i => i.id == id);
+    if (!item) {
+      console.log('没有该活动');
+      return history.pushState(null, '/list');
+    }
   }
+
+  componentWillUnmount() {
+    this.props.dispatch({type: 'CLEAN_DETAIL_DATA'});
+  }
+
   render() {
+    const {id} = this.props.params;
+    console.log(id);
+    // const index = this.props.items.findIndex(i => i.id == id);
+    // const {image_urls} = this.props.items[index];
     return (
-      <div className="page detail-page" onClick={() => this.context.history.pushState(null, '/some/path')}>
+      <div className="page detail-page" onClick={() => console.log(this.props.detail.fetched, this.props.detail.name)}>
         <header className="detail-top">
-          <img className="detail-imgs" src="http://wanliu-piano.b0.upaiyun.com/uploads/item/images/04df3397996fd5bfdd55dfb1a575e66a.jpg"/>
+          <img className="detail-imgs" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/1a147519bd2b1d9bebe7e3e7527869e3.jpg"/>
           <div className="info">
             <div className="table">
               <div className="cell">1元购</div>
               <div className="cell">
                 <div>原价</div>
                 <div>已卖</div>
+                <div>{/* has_fetch_detail */}</div>
               </div>
               <div className="cell">
                 <div>距离活动开始还有</div>
@@ -40,11 +55,10 @@ class DetailPage extends Component {
   }
 }
 
-DetailPage.contextTypes = {history: PropTypes.history};
-
 function mapStateToProps(state) {
   return {
-    detail: state.home
+    index: state.detail.index,
+    items: state.list.items,
   };
 }
 

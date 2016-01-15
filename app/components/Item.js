@@ -9,9 +9,9 @@ export default class extends Component {
 
   componentDidMount() {
     this.interval = setInterval(() => {
-      const {status, index, updateItemStatus} = this.props;
+      const {status, updateItemStatus, id} = this.props;
       const _status = this.getStatus();
-      if (_status !== status) return updateItemStatus(index, _status);
+      if (_status !== status) return updateItemStatus(id, _status);
     }, 1000);
   }
   componentWillUnmount() {
@@ -30,10 +30,10 @@ export default class extends Component {
   }
 
   render() {
-    const {title, cover_urls, price, ori_price, status, index} = this.props;
+    const {title, cover_urls, price, ori_price, id, status} = this.props;
     return (
-      <li className="item" onClick={() => console.log(index)}>
-        <Link to={`/detail?index=${index}`}>
+      <li className="item">
+        <Link to={`/detail/${id}`}>
           <div className="left">
             <img className="avatar" src={cover_urls[0]}/>
           </div>

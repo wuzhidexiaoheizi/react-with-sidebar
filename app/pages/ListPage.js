@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {PropTypes} from 'react-router';
 import {connect} from 'react-redux';
 import {fetchList, updateItemStatus} from '../actions';
 
@@ -36,9 +35,6 @@ class ListPage extends Component {
     );
   }
 }
-
-ListPage.contextTypes = {history: PropTypes.history};
-
 
 function mapStateToProps(state) {
   return {
