@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
 
 import {API, ONE_MONEY_ID} from '../config.json';
-
 export function signIn() {
   fetch(`${API}/${ONE_MONEY_ID}/signup`, {method: 'put'})
     .then(res => {
