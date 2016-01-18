@@ -2,8 +2,8 @@ import { parseData } from '../helper';
 import update from 'react-addons-update';
 
 const initialState = {
-  fetching: true,
-  items: []
+  listFetched: false,
+  items: [],
 };
 
 export default function(state = initialState, action) {
@@ -13,7 +13,7 @@ export default function(state = initialState, action) {
       return parseData(item);
     });
     return update(state, {
-      fetching: {$set: false},
+      listFetched: {$set: true},
       items: {$set: items}
     });
   }
@@ -28,6 +28,20 @@ export default function(state = initialState, action) {
     });
   }
 
+  case 'FETCH_DETAIL_DONE': {
+    const index = state.items.findIndex(item => item.id == action.id);
+
+    if (index > -1) {
+      return update(state, {
+        items: {
+          [index]: {$merge: parseData(action.item)}
+        }
+      });
+    }
+    return update(state, {
+      items: {$push: [parseData(action.item)]}
+    });
+  }
   default: return state;
   }
 }

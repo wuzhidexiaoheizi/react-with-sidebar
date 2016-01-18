@@ -42,6 +42,11 @@ function add0(n) {
   return n < 10 ? '0' + n : n;
 }
 
+
+export function positiveNumber(n) {
+  return n > 0 ? n : 0;
+}
+
 export function diffTime(t) {
   const MINUTE = 60;
   const HOUR = MINUTE * 60;

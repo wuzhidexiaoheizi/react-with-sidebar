@@ -1,5 +1,3 @@
-import fetch from 'isomorphic-fetch';
-
 import {API, ONE_MONEY_ID} from '../config.json';
 export function signIn() {
   fetch(`${API}/${ONE_MONEY_ID}/signup`, {method: 'put'})
@@ -16,7 +14,7 @@ export function signIn() {
 
 export function fetchList() {
   return (dispatch, getState) => {
-    if (getState().list.items.length) return;
+    if (getState().list.listFetched) return;
 
     fetch(`${API}/${ONE_MONEY_ID}/items?u=${Date.now()}`)
       .then(res => res.json())
@@ -41,18 +39,17 @@ export function updateItemStatus(id, status) {
 }
 
 export function fetchDetail(id) {
-  return (dispatch, getState) => {
-    if (getState().detail[id]) return;
-
+  return dispatch => {
     fetch(`${API}/${ONE_MONEY_ID}/items/${id}?u=${Date.now()}`)
       .then(res => res.json())
       .then(json => {
-        console.log(json);
-        dispatch({
-          type: 'FETCH_DETAIL_DONE',
-          item: json,
-          id,
-        });
+        dispatch({type: 'FETCH_DETAIL_DONE', item: json, id});
+      });
+
+    fetch(`${API}/${ONE_MONEY_ID}/status/${id}?winners=10`)
+      .then(res => res.json())
+      .then(json => {
+        dispatch({type: 'FETCH_DETAIL_DONE', item: json, id});
       });
   };
 }
@@ -67,33 +64,3 @@ export function fetchDetail(id) {
 // 'state-invalid': '活动未开始/已结束',
 // 'total_amount_zero': '本期活动中此商品总库存为0',
 // 'quantity_zero': '本期活动中此商品的每次抢购个数为0'
-
-export function interval(id) {
-  return (dispatch, getState) => {
-    const {end_at, start_at, status} = getState.detail[id];
-    const now = Date.now();
-
-    switch (status) {
-    case 'timing': return console.log(status);
-    case 'no-executies': return console.log(status);
-    case 'suspend': return console.log(status);
-    default: return console.log(status);
-    }
-
-    if (now >= start_at) {
-      dispatch({
-        type: 'UPDATE_ITEM_STATUS',
-        status: 'started',
-        id,
-      });
-    }
-
-    if (now >= end_at) {
-      dispatch({
-        type: 'UPDATE_ITEM_STATUS',
-        status: 'end',
-        id,
-      });
-    }
-  };
-}

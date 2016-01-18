@@ -7,24 +7,50 @@
     width 100%
     display block
     
-  .info
+  .info-top
     position relative
-  .table
-    display table
+    .table
+      height 50px
+      background #F00
+      color #FFF
+    .logo
+      color #FF0
+      font-size 2rem
+      font-weight 900
+    .right
+      color #FF0
+      font-weight 900
+      width 50%
+      padding-left 2rem
+      text-align left
+      line-height 1rem
+      
+  .info-main
+    color #666
     width 100%
-    height 50px
-    background #F00
-    color #FFF
-    .cell
-      display table-cell
-      vertical-align middle
-      text-align center
-      &.logo
-        color #FF0
-        font-size 2rem
-        font-weight 900
-      &.right
-        width 50%
-        padding-left 2rem
-        text-align left
-        line-height 1rem
+    padding 10px 0
+    border-bottom 1px solid #DDD
+    .title
+      text-align left
+      padding 5px
+    .min
+      border-left 1px solid #DDD
+      width 25%
+      
+  .winner-wrap
+    padding 5px
+    &:after
+      content ''
+      display block
+      clear both
+    .winner
+      float left
+      width 40px
+      height 40px
+      padding 3px
+      > img
+        border 1px solid #EEE
+        width 100%
+        height 100%
+
+  
