@@ -1,3 +1,5 @@
+@import 'color.styl'
+
 .detail-page
   padding-bottom 50px
   .detail-top
@@ -11,7 +13,7 @@
     position relative
     .table
       height 50px
-      background #F00
+      background $red
       color #FFF
     .logo
       color #FF0
@@ -32,25 +34,25 @@
     border-bottom 1px solid #DDD
     .title
       text-align left
-      padding 5px
+      padding 10px
     .min
       border-left 1px solid #DDD
       width 25%
       
   .winner-wrap
     padding 5px
+    border-bottom 1px solid #DDD
     &:after
       content ''
       display block
       clear both
     .winner
       float left
-      width 40px
-      height 40px
       padding 3px
-      > img
-        border 1px solid #EEE
-        width 100%
-        height 100%
+  .avatar
+    border 1px solid #EEE
+    width 40px
+    height 40px
+    vertical-align middle
 
   

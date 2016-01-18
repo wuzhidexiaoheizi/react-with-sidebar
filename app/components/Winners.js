@@ -8,10 +8,12 @@ export default class Winner extends Component {
   render() {
     return (
       <div className="winner-wrap">
-        <h3>幸运用户</h3>
-        {this.props.winners.map(winner => {
+        <div style={{color: '#666'}}>幸运用户</div>
+        {this.props.winners.map((winner, index) => {
           return (
-            <div className="winner"><img src={winner.avatar_url} alt={winner.title}/></div>
+            <div key={index} className="winner">
+              <img className="avatar" src={winner.avatar_url} alt={winner.title}/>
+            </div>
           );
         })}
       </div>

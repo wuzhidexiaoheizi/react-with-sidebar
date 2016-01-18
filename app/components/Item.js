@@ -11,7 +11,7 @@ export default class extends Component {
     this.interval = setInterval(() => {
       const {status, updateItemStatus, id} = this.props;
       const _status = this.getStatus();
-      if (_status !== status) return updateItemStatus(id, _status);
+      if (_status != status) updateItemStatus(id, _status);
     }, 1000);
   }
   componentWillUnmount() {
@@ -23,7 +23,7 @@ export default class extends Component {
 
     const now = Date.now();
     if (total_amount < 1) return 'suspend';
-    if (status !== 'timing') return status;
+    if (status != 'timing') return status;
     if (now < start_at) return 'wait';
     if (now > end_at) return 'end';
     return 'started';

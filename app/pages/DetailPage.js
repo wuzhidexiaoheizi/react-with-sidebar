@@ -1,35 +1,58 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import StatusBar from '../components/StatusBar';
 import Winners from '../components/Winners';
-import {statusDescs, positiveNumber} from '../helper';
-import {fetchDetail} from '../actions';
+import {statusDescs, positiveNumber, diffTime, getStatus} from '../helper';
+import * as Actions from '../actions';
 
 class DetailPage extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      countdown: '',
+    };
   }
 
   componentDidMount() {
     const {params: {id}, dispatch} = this.props;
-    dispatch(fetchDetail(id));
+    dispatch(Actions.fetchDetail(id));
+
+    this.interval = setInterval(() => {
+      const item = this.props.items.find(i => i.id == id) || {};
+      const {status, end_at, start_at, total_amount} = item;
+      const _status = getStatus(item);
+
+      if (total_amount < 1) {
+        this.setState({countdown: <div>售罄</div>});
+      } else if (_status == 'wait') {
+        this.setState({countdown: <div>{diffTime(start_at)}</div>});
+      } else if (_status == 'started') {
+        this.setState({countdown: <div>{diffTime(end_at)}</div>});
+      }
+
+      if (_status != status) dispatch(Actions.updateItemStatus(id, _status));
+    }, 1000);
   }
 
   componentWillUnmount() {
-    // clearInterval();
+    clearInterval(this.interval);
   }
 
   render() {
-    const {params: {id}} = this.props;
+    const {params: {id}, dispatch} = this.props;
+    const boundActionCreators = bindActionCreators(Actions, dispatch);
     const {
       title,
       price,
       status,
+      winners,
+      shop_name,
       ori_price,
       completes,
       image_urls,
-      winners,
       total_amount,
+      shop_avatar_url,
       participant_count,
     } = this.props.items.find(item => item.id == id) || {};
 
@@ -41,11 +64,12 @@ class DetailPage extends Component {
             <div className="table">
               <div className="cell logo">{+price}元购</div>
               <div className="cell">
-                <div><s>{ori_price}</s></div>
+                <div><s>￥{ori_price}</s></div>
                 <div>已卖</div>
               </div>
               <div className="cell right">
                 <div className="yellow">{statusDescs(status, true)}</div>
+                {this.state.countdown}
               </div>
             </div>
           </div>
@@ -64,7 +88,11 @@ class DetailPage extends Component {
           </div>
         </div>
         {winners && winners.length > 0 ? <Winners winners={winners}/> : null}
-        <StatusBar className="btn" status={status}/>
+        <div style={{padding: '8px'}}>
+          <img style={{marginRight: '5px'}} className="avatar" src={shop_avatar_url}/>
+          <span>{shop_name}</span>
+        </div>
+        <StatusBar id={id} className="btn" status={status} {...boundActionCreators}/>
       </div>
     );
   }

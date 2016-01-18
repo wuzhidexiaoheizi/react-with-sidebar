@@ -7,6 +7,7 @@ import configureStore from './store/configureStore';
 // import createBrowserHistory from 'history/lib/createBrowserHistory';
 // import DevTools from './pages/DevTools';
 import HomePage from './pages/HomePage';
+import Alert from './components/Alert';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import './style/main.styl';
@@ -36,6 +37,7 @@ class App extends Component {
     const {pathname} = this.props.location;
     return (
       <div>
+        <Alert/>
         {this.devNav()}
         {/* <DevTools /> */}
         <TransitionGroup transitionName="example" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>

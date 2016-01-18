@@ -18,17 +18,7 @@ export default function(state = initialState, action) {
     });
   }
 
-  case 'UPDATE_ITEM_STATUS': {
-    const index = state.items.findIndex(item => item.id === action.id);
-
-    return update(state, {
-      items: {$apply: (items) => {
-        items[index].status = action.status;
-      }}
-    });
-  }
-
-  case 'FETCH_DETAIL_DONE': {
+  case 'UPDATE_ITEM_DONE': {
     const index = state.items.findIndex(item => item.id == action.id);
 
     if (index > -1) {
