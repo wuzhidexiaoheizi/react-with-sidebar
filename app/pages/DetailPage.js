@@ -1,37 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import StatusBar from '../components/StatusBar';
-import {diffTime, statusDescs} from '../helper';
+import {statusDescs} from '../helper';
 import {fetchDetail} from '../actions';
 
 class DetailPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      countTime: '····',
-    };
   }
 
   componentDidMount() {
     const {params: {id}, dispatch} = this.props;
     dispatch(fetchDetail(id));
-
-    this.interval = setInterval(() => {
-      const {end_at, start_at, status} = this.props.detail[id] || {};
-      const now = Date.now();
-
-      if (status == 'wait') {
-        if (now >= start_at) dispatch({type: 'ITEM_STARTED', id});
-        return this.setState({countTime: <div>{diffTime(start_at)}</div>});
-      }
-
-      if (status == 'started') {
-        if (now >= end_at) dispatch({type: 'ITEM_END', id});
-        return this.setState({countTime: <div>{diffTime(end_at)}</div>});
-      }
-
-      return this.setState({countTime: '····'});
-    }, 1000);
+    this.interval = setInterval(this._interval.bind(this), 1000);
   }
 
   componentWillUnmount() {
