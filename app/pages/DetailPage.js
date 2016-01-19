@@ -42,6 +42,7 @@ class DetailPage extends Component {
   render() {
     const {params: {id}, dispatch} = this.props;
     const boundActionCreators = bindActionCreators(Actions, dispatch);
+    const item = this.props.items.find(i => i.id == id) || {};
     const {
       title,
       price,
@@ -54,7 +55,7 @@ class DetailPage extends Component {
       total_amount,
       shop_avatar_url,
       participant_count,
-    } = this.props.items.find(item => item.id == id) || {};
+    } = item;
 
     return (
       <div className="page detail-page">
@@ -92,7 +93,7 @@ class DetailPage extends Component {
           <img style={{marginRight: '5px'}} className="avatar" src={shop_avatar_url}/>
           <span>{shop_name}</span>
         </div>
-        <StatusBar id={id} className="btn" status={status} {...boundActionCreators}/>
+        <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
       </div>
     );
   }

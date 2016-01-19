@@ -8,14 +8,14 @@ export default class Alert extends Component {
   }
 
   _renderAlert() {
-    const {url, btn, title, message} = this.props.alert;
+    const {title, message, url, btn} = this.props.alert;
     return (
       <div className="alert-wrap">
         <div className="alert-container">
           <span onClick={() => this.props.dispatch({type: 'ALERT_CLOSE'})} className="close-btn">×</span>
-          <div>{title}</div>
-          <div>{message}</div>
-          <a href={url}>{btn}</a>
+          <div className="title">{title}</div>
+          <div className="message">{message}</div>
+          {url && <div style={{textAlign: 'center'}}><a className="url-btn" href={url}>{btn}</a></div>}
         </div>
       </div>
     );
@@ -24,13 +24,11 @@ export default class Alert extends Component {
     const {show} = this.props.alert;
     return (
       <TransitionGroup
-        transitionName="example"
+        transitionName="fade"
         component="div"
         transitionEnterTimeout={500}
         transitionLeaveTimeout={500}>
-
-        {show ? this._renderAlert() : null}
-
+        {show && this._renderAlert()}
       </TransitionGroup>
     );
   }

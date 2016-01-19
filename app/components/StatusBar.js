@@ -5,14 +5,14 @@ export default class extends Component {
   handleClick() {
     console.log(this.props.status);
 
-    const {status, className, grab, id} = this.props;
+    const {fetchGrab, status, className, grabs, id} = this.props;
     if (className && !className.includes('btn')) return;
 
     if (status == 'started') {
-      console.log('可以抢...');
-      grab(id);
+      fetchGrab(id);
     } else if (status == 'pending') {
       console.log('去领取奖励!');
+      location.href = grabs[0].callback_url;
     } else {
       console.log('不能抢...');
     }

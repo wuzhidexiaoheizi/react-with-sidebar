@@ -1,25 +1,25 @@
-import update from 'react-addons-update';
-import {statusDescs} from '../helper';
+// import update from 'react-addons-update';
 
 const initalState = {
   show: false,
-  title: '提示消息',
-  url: '',
+  title: '',
   message: '',
+  type: '',
+  url: '',
+  btn: ''
 };
 
 export default function(state = initalState, action) {
   switch (action.type) {
-  case 'SHOW_ALERT': {
-    return update(state, {
-      show: {$set: true},
-      url: {$set: action.url},
-      message: {$set: statusDescs(action.status)},
-    });
+  case 'FETCH_GRAB_DONE': {
+    const {title, message, url, btn} = action;
+    return {show: true, title, url, message, btn};
   }
+
   case 'ALERT_CLOSE': {
     return initalState;
   }
+
   default: return state;
   }
 }

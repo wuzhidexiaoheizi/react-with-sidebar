@@ -32,6 +32,20 @@ export default function(state = initialState, action) {
       items: {$push: [parseData(action.item)]}
     });
   }
+
+  case 'FETCH_GRAB_DONE': {
+    const index = state.items.findIndex(item => item.id == action.id);
+    return update(state, {
+      items: {
+        [index]: {
+          $set: {
+            grabs: {$push: [action.grab]}
+          }
+        }
+      }
+    });
+  }
+
   default: return state;
   }
 }

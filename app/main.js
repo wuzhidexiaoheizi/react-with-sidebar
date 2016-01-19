@@ -25,6 +25,7 @@ class App extends Component {
     if (DEV) {
       return (
         <ul className="nav">
+          {/* <DevTools /> */}
           <li><IndexLink to="/" activeClassName="active">/</IndexLink></li>
           <li><Link to="/list" activeClassName="active">list</Link></li>
           <li><Link to="/detail/82" activeClassName="active">detail</Link></li>
@@ -37,10 +38,9 @@ class App extends Component {
     const {pathname} = this.props.location;
     return (
       <div>
-        <Alert/>
         {this.devNav()}
-        {/* <DevTools /> */}
-        <TransitionGroup transitionName="example" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+        <Alert/>
+        <TransitionGroup transitionName="page" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
           {cloneElement(this.props.children || <div/>, { key: pathname })}
         </TransitionGroup>
       </div>

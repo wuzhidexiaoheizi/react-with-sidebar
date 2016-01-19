@@ -72,6 +72,21 @@ ul.nav
   transition all 500ms
   
 
+.fade-enter
+  opacity 0.01
+
+.fade-enter.fade-enter-active
+  opacity 1
+  transition all 500ms
+
+.fade-leave
+  opacity 1
+
+.fade-leave.fade-leave-active
+  opacity 0.01
+  transition all 500ms
+  
+
 .status-bar
   color #FFF
   left 10px
@@ -82,6 +97,7 @@ ul.nav
   position absolute
   display inline-block
   background-color $gray
+  white-space nowrap
 
   &.btn
     left 0

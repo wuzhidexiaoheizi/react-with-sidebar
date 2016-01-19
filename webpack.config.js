@@ -9,7 +9,12 @@ module.exports = {
     inline: true,
     progress: true,
     contentBase: './app',
-    port: 8080
+    port: 8080,
+    proxy: {
+      '/api/*': {
+        target: 'http://localhost:3000'
+      }
+    }
   },
   entry: [
     'webpack/hot/dev-server',
