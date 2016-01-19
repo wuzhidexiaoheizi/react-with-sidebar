@@ -28,10 +28,19 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.css$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css'] },
-      { test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel' },
-      { test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'stylus'] },
-      { test: /\.json$/, include: path.resolve(__dirname, 'app'), loaders: ['json'] },
+      {test: /\.css$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css']},
+      {
+        test: /\.js[x]?$/,
+        include: path.resolve(__dirname, 'app'),
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: ['react', 'es2015'],
+          // plugins: ['transform-runtime']
+        }
+      },
+      {test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'stylus']},
+      {test: /\.json$/, include: path.resolve(__dirname, 'app'), loaders: ['json']},
     ]
   },
   plugins: [
