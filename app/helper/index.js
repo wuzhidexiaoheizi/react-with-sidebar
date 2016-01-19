@@ -98,7 +98,7 @@ export function statusDescs(status, flag) {
   case 'suspend': return '已售罄';
   case 'pending': return '领取奖励';
   case 'success': return '抢购成功'; // 只有grab 的时候在alert 里会用到
-  case 'always': return '您已经抢过了';
+  case 'always': return '您已经抢过其他商品了';
   case 'created': return '已经领取奖励';
   case 'no-executies': return '不能再抢此商品了';
   case 'lack-multi-item': return '已经抢过其他商品了';

@@ -40,7 +40,7 @@ class App extends Component {
       <div>
         {this.devNav()}
         <Alert/>
-        <TransitionGroup transitionName="page" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+        <TransitionGroup transitionName="fade" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
           {cloneElement(this.props.children || <div/>, { key: pathname })}
         </TransitionGroup>
       </div>
