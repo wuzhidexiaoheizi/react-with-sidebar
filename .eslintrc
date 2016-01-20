@@ -6,6 +6,7 @@
     jsx: true
   },
   "globals": {
+    "__ENV__": true
   },
   "plugins": [
     "react"
