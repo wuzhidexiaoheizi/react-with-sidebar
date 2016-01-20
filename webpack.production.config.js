@@ -22,6 +22,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      __ENV__: JSON.stringify('PRODUCTION')
+    }),
     new webpack.optimize.DedupePlugin(),
     new uglifyJsPlugin({
       compress: {
@@ -31,6 +34,6 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: './app/index.html', to: 'index.html' },
       // { from: './app/main.css', to: 'main.css' }
-    ]),
+    ])
   ]
 };

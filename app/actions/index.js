@@ -1,19 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import {API, ONE_MONEY_ID} from '../config.json';
 
-export function signIn() {
-  fetch(`${API}/${ONE_MONEY_ID}/signup`, {method: 'put'})
-    .then(res => {
-      console.log(res);
-      return res.json();
-    })
-    .then(json => {
-      console.log(json);
-    }).catch(e => {
-      console.log(e);
-    });
-}
-
 export function fetchList() {
   return (dispatch, getState) => {
     if (getState().list.listFetched) return;

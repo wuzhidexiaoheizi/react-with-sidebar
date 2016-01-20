@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
 import TransitionGroup from 'react-addons-css-transition-group';
 import configureStore from './store/configureStore';
+import 'babel-polyfill';
+
 // import createBrowserHistory from 'history/lib/createBrowserHistory';
 // import DevTools from './pages/DevTools';
 import HomePage from './pages/HomePage';

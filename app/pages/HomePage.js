@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import config from '../config.json'; 
 
 class HomePage extends Component {
   constructor(props) {
@@ -7,6 +8,12 @@ class HomePage extends Component {
   }
 
   _handleSignIn() {
+    // const url = [ONE_MONEY_PREFIX, SALES_START_DATE, '/#/list'].join('');
+    const url = `${config[__ENV__].AUTHORIZED_PATH}/#/list`;
+
+    const signup_url = `${config[__ENV__].SIGNUP_URL}`;
+
+    location.href = signup_url + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
   }
 
   render() {
