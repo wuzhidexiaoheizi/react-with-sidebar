@@ -10,10 +10,8 @@ class HomePage extends Component {
     super(props);
   }
 
-  _handleSignIn() {
-    // const url = [ONE_MONEY_PREFIX, SALES_START_DATE, '/#/list'].join('');
+  _handleSignup() {
     const url = `${AUTHORIZED_PATH}/#/list`;
-
     location.href = SIGNUP_URL + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
   }
 
@@ -29,7 +27,7 @@ class HomePage extends Component {
           <img
             className="introduction-bottom"
             src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3a4c3db9b8d16578ebd1b94b9cbcbb5b.png"
-            onClick={this._handleSignIn.bind(this)}
+            onClick={this._handleSignup.bind(this)}
           />
         </div>
       </div>
