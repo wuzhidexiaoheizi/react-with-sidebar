@@ -1,9 +1,9 @@
-const HOST = `http://m.wanliu.biz`;
+const HOST = ``;
 
 const config = {
   DEV: {
     API: `${HOST}/api/promotions/one_money`,
-    ONE_MONEY_ID: 16,
+    ONE_MONEY_ID: 1,
     SIGNUP_URL: `${HOST}/authorize/weixin`,
     DEFAULT_AVATAR: `http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar`,
     AUTHORIZED_PATH: `http://192.168.0.161:8080`
