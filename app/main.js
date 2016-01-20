@@ -5,15 +5,14 @@ import { Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
 import TransitionGroup from 'react-addons-css-transition-group';
 import configureStore from './store/configureStore';
 import 'babel-polyfill';
-
 // import createBrowserHistory from 'history/lib/createBrowserHistory';
 // import DevTools from './pages/DevTools';
+
 import HomePage from './pages/HomePage';
 import Alert from './components/Alert';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import './style/main.styl';
-import {DEV} from './config.json';
 
 // const history = createBrowserHistory();
 const store = configureStore();
@@ -24,7 +23,7 @@ class App extends Component {
   }
 
   devNav() {
-    if (DEV) {
+    if (__ENV__ == 'DEV') {
       return (
         <ul className="nav">
           {/* <DevTools /> */}

@@ -1,5 +1,7 @@
 import fetch from 'isomorphic-fetch';
-import {API, ONE_MONEY_ID} from '../config.json';
+import config from '../config.js';
+
+const {API, ONE_MONEY_ID} = config[__ENV__];
 
 export function fetchList() {
   return (dispatch, getState) => {
