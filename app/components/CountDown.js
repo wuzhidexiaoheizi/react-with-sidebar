@@ -10,6 +10,24 @@ function add0(n) {
 }
 
 export default class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      now: Date.now()
+    };
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.setState({
+        now: Date.now()
+      });
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   spanNumber(str) {
     return str.toString().split('').map((n, i) => {
@@ -19,14 +37,14 @@ export default class extends Component {
 
   render() {
     const {time} = this.props;
-    let d = Math.floor(Math.abs(Date.now() - time) / 1000);
+    const {now} = this.state;
+    let d = Math.floor(Math.abs(now - time) / 1000);
     const days = Math.floor(d / DAY);
     d -= days * DAY;
     const hours = add0(Math.floor(d / HOUR));
     d -= hours * HOUR;
     const minutes = add0(Math.floor(d / MINUTE));
     d -= minutes * MINUTE;
-
     const seconds = add0(d);
 
     if (days) {

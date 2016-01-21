@@ -11,10 +11,29 @@
     
   .info-top
     position relative
-    
-    .start-end
-      background-color #FF0
-      
+    .start-end-wrap
+      position absolute
+      top -2.5rem
+      width 100%
+      text-align center
+      &:after
+        content ''
+        display block
+        height 0.5rem
+        background-color #FED931
+        width 100%
+        position absolute
+        bottom 0
+      .start-end
+        background-color #FED931
+        color $red
+        line-height 2.5rem
+        vertical-align top
+        display inline-block
+        font-weight 900
+      .wings
+        height 2rem
+        display inline-block
 
     .table
       height 50px

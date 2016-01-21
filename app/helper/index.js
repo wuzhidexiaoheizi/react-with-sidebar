@@ -26,19 +26,14 @@ export function parseData(obj, td = 0) {
 // 格式化时间
 export function formatTime(t) {
   const time = new Date(t);
-  const year = time.getFullYear();
+  // const year = time.getFullYear();
   const month = time.getMonth() + 1;
   const day = time.getDate();
   const hours = time.getHours();
   const minutes = time.getMinutes();
-  const seconds = time.getSeconds();
+  // const seconds = time.getSeconds();
 
-  return {
-    longDate: `${year}年 ${month}月 ${day}日`,
-    shortDate: `${month}月 ${day}日`,
-    longTime: `${hours}时:${minutes}分:${seconds}秒`,
-    shortTime: `${hours}时:${minutes}分`,
-  };
+  return `${month}月${day}日${hours}时${minutes}分`;
 }
 
 

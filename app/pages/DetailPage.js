@@ -4,36 +4,24 @@ import {bindActionCreators} from 'redux';
 import StatusBar from '../components/StatusBar';
 import Winners from '../components/Winners';
 import CountDown from '../components/CountDown';
-import {statusDescs, positiveNumber, getStatus} from '../helper';
+import {statusDescs, positiveNumber, getStatus, formatTime} from '../helper';
 import * as Actions from '../actions';
 // import config from '../config';
 
 class DetailPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      countdown: '',
-    };
   }
+
+
   componentDidMount() {
     const {params: {id}, dispatch} = this.props;
     dispatch(Actions.fetchDetail(id));
 
     this.interval = setInterval(() => {
       const item = this.props.items.find(i => i.id == id) || {};
-      const {status, end_at, start_at, total_amount} = item;
       const _status = getStatus(item);
-
-      if (total_amount < 1) {
-        this.setState({countdown: <div>售罄</div>});
-      } else if (_status == 'wait') {
-        this.setState({countdown: <CountDown time={start_at}/>});
-      } else if (_status == 'started') {
-        this.setState({countdown: <CountDown time={end_at}/>});
-      } else {
-        this.setState({countdown: ''});
-      }
-      if (_status != status) dispatch(Actions.updateItemStatus(id, _status));
+      if (_status != item.status) dispatch(Actions.updateItemStatus(id, _status));
     }, 1000);
   }
 
@@ -47,6 +35,8 @@ class DetailPage extends Component {
     const item = this.props.items.find(i => i.id == id) || {};
     const {
       title,
+      start_at,
+      end_at,
       price,
       status,
       winners,
@@ -64,11 +54,12 @@ class DetailPage extends Component {
         <div className="page detail-page">
           <div className="detail-top">
             <img className="detail-imgs" src={image_urls && image_urls[0]}/>
+
             <div className="info-top">
-              <div className="start-end">
-                <span className="wings"></span>
-                <span>xxx</span>
-                <span className="wings"></span>
+              <div className="start-end-wrap">
+                <img className="wings" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/ad6e3e53e50da45b695fa77107fadeb7.png"/>
+                <span className="start-end">{formatTime(start_at)} 至 {formatTime(end_at)}</span>
+                <img className="wings" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/dd76c451418cab27154ff1c75d60f515.png"/>
               </div>
               <div className="table">
                 <div className="cell logo">{+price}元购</div>
@@ -78,10 +69,12 @@ class DetailPage extends Component {
                 </div>
                 <div className="cell right">
                   <div className="yellow">{statusDescs(status, true)}</div>
-                  {this.state.countdown}
+                  {status == 'started' && <CountDown time={end_at}/>}
+                  {status == 'wait' && <CountDown time={start_at}/>}
                 </div>
               </div>
             </div>
+
             <div className="info-main">
               <div className="table">
                 <div className="cell title">{title}</div>
@@ -95,8 +88,11 @@ class DetailPage extends Component {
                 </div>
               </div>
             </div>
+
           </div>
+
           {winners && winners.length > 0 ? <Winners winners={winners}/> : null}
+
           <div className="shop">
             <img className="avatar" src={shop_avatar_url}/>
             <span>{shop_name}</span>
