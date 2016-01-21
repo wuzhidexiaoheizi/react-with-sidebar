@@ -13,6 +13,9 @@ import Alert from './components/Alert';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import './style/main.styl';
+import FastClick from 'fastclick';
+
+FastClick.attach(document.body);
 
 // const history = createBrowserHistory();
 const store = configureStore();

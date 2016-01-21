@@ -33,14 +33,23 @@ export default function(state = initialState, action) {
     });
   }
 
-  case 'FETCH_GRAB_DONE': {
+  case 'FETCH_GRAB_SUCCESS': {
     const index = state.items.findIndex(item => item.id == action.id);
     return update(state, {
       items: {
         [index]: {
-          $set: {
-            grabs: {$push: [action.grab]}
-          }
+          grabs: {$set: [action.grab]}
+        }
+      }
+    });
+  }
+
+  case 'FETCH_GRAB_INSUFFICIENT': {
+    const index = state.items.findIndex(item => item.id == action.id);
+    return update(state, {
+      items: {
+        [index]: {
+          status: {$set: 'suspend'}
         }
       }
     });

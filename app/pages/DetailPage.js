@@ -3,8 +3,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import StatusBar from '../components/StatusBar';
 import Winners from '../components/Winners';
-import {statusDescs, positiveNumber, diffTime, getStatus} from '../helper';
+import CountDown from '../components/CountDown';
+import {statusDescs, positiveNumber, getStatus} from '../helper';
 import * as Actions from '../actions';
+// import config from '../config';
 
 class DetailPage extends Component {
   constructor(props) {
@@ -13,7 +15,6 @@ class DetailPage extends Component {
       countdown: '',
     };
   }
-
   componentDidMount() {
     const {params: {id}, dispatch} = this.props;
     dispatch(Actions.fetchDetail(id));
@@ -26,11 +27,12 @@ class DetailPage extends Component {
       if (total_amount < 1) {
         this.setState({countdown: <div>售罄</div>});
       } else if (_status == 'wait') {
-        this.setState({countdown: <div>{diffTime(start_at)}</div>});
+        this.setState({countdown: <CountDown time={start_at}/>});
       } else if (_status == 'started') {
-        this.setState({countdown: <div>{diffTime(end_at)}</div>});
+        this.setState({countdown: <CountDown time={end_at}/>});
+      } else {
+        this.setState({countdown: ''});
       }
-
       if (_status != status) dispatch(Actions.updateItemStatus(id, _status));
     }, 1000);
   }
@@ -58,43 +60,51 @@ class DetailPage extends Component {
     } = item;
 
     return (
-      <div className="page detail-page">
-        <div className="detail-top">
-          <img className="detail-imgs" src={image_urls && image_urls[0]}/>
-          <div className="info-top">
-            <div className="table">
-              <div className="cell logo">{+price}元购</div>
-              <div className="cell">
-                <div><s>￥{ori_price}</s></div>
-                <div>已卖</div>
+      <div>
+        <div className="page detail-page">
+          <div className="detail-top">
+            <img className="detail-imgs" src={image_urls && image_urls[0]}/>
+            <div className="info-top">
+              <div className="start-end">
+                <span className="wings"></span>
+                <span>xxx</span>
+                <span className="wings"></span>
               </div>
-              <div className="cell right">
-                <div className="yellow">{statusDescs(status, true)}</div>
-                {this.state.countdown}
+              <div className="table">
+                <div className="cell logo">{+price}元购</div>
+                <div className="cell">
+                  <div><s>￥{ori_price}</s></div>
+                  <div>已卖</div>
+                </div>
+                <div className="cell right">
+                  <div className="yellow">{statusDescs(status, true)}</div>
+                  {this.state.countdown}
+                </div>
+              </div>
+            </div>
+            <div className="info-main">
+              <div className="table">
+                <div className="cell title">{title}</div>
+                <div className="cell min">
+                  <div>活动库存</div>
+                  <div>{total_amount - positiveNumber(completes)}</div>
+                </div>
+                <div className="cell min">
+                  <div>参与人数</div>
+                  <div>{participant_count}</div>
+                </div>
               </div>
             </div>
           </div>
-          <div className="info-main">
-            <div className="table">
-              <div className="cell title">{title}</div>
-              <div className="cell min">
-                <div>活动库存</div>
-                <div>{total_amount - positiveNumber(completes)}</div>
-              </div>
-              <div className="cell min">
-                <div>参与人数</div>
-                <div>{participant_count}</div>
-              </div>
-            </div>
+          {winners && winners.length > 0 ? <Winners winners={winners}/> : null}
+          <div className="shop">
+            <img className="avatar" src={shop_avatar_url}/>
+            <span>{shop_name}</span>
           </div>
-        </div>
-        {winners && winners.length > 0 ? <Winners winners={winners}/> : null}
-        <div style={{padding: '8px'}}>
-          <img style={{marginRight: '5px'}} className="avatar" src={shop_avatar_url}/>
-          <span>{shop_name}</span>
         </div>
         <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
       </div>
+
     );
   }
 }

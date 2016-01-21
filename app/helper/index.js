@@ -1,3 +1,4 @@
+
 // parse 数据
 export function parseData(obj, td = 0) {
   const shouldDateParseArray = ['start_at', 'end_at', 'suspend_at'];
@@ -40,38 +41,10 @@ export function formatTime(t) {
   };
 }
 
-// 10位 补0
-export function add0(n) {
-  return n < 10 ? '0' + n : n;
-}
 
 // 获取正数
 export function positiveNumber(n) {
   return n > 0 ? n : 0;
-}
-
-// 距离现在的时间
-export function diffTime(t) {
-  const MINUTE = 60;
-  const HOUR = MINUTE * 60;
-  const DAY = HOUR * 24;
-
-  let d = Math.floor(Math.abs(Date.now() - t) / 1000);
-
-  const days = Math.floor(d / DAY);
-  d -= days * DAY;
-
-  const hours = add0(Math.floor(d / HOUR));
-  d -= hours * HOUR;
-
-  const minutes = add0(Math.floor(d / MINUTE));
-  d -= minutes * MINUTE;
-
-  const seconds = add0(d);
-
-  if (days) return `${days}天${hours}:${minutes}:${seconds}`;
-  if (hours) return `${hours}:${minutes}:${seconds}`;
-  return `${minutes}:${seconds}`;
 }
 
 // 'always': '您已经抢过了',
@@ -109,14 +82,14 @@ export function statusDescs(status, flag) {
 
 // 获取状态
 export function getStatus(item) {
-  const {item_status, grabs, status, end_at, start_at, total_amount} = item;
+  const {item_status, grabs, end_at, start_at, total_amount} = item;
   const now = Date.now();
 
   if (grabs && grabs.length) return grabs[0].status;
   if (item_status) return item_status;
   if (total_amount < 1) return 'suspend';
-  if (status !== 'timing') return status;
   if (now < start_at) return 'wait';
   if (now > end_at) return 'end';
+
   return 'started';
 }
