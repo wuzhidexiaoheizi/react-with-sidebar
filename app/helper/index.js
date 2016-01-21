@@ -63,6 +63,7 @@ export function statusDescs(status, flag) {
     return '马上抢购';
   }
   case 'end': return '活动已结束';
+  case 'insufficient': return '没有货啦';
   case 'suspend': return '已售罄';
   case 'pending': return '领取奖励';
   case 'success': return '抢购成功'; // 只有grab 的时候在alert 里会用到

@@ -79,7 +79,7 @@ class DetailPage extends Component {
               <div className="table">
                 <div className="cell title">{title}</div>
                 <div className="cell min">
-                  <div>活动库存</div>
+                  <div>剩余库存</div>
                   <div>{total_amount - positiveNumber(completes)}</div>
                 </div>
                 <div className="cell min">

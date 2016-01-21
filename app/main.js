@@ -23,6 +23,18 @@ const store = configureStore();
 class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      transitionName: 'right',
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const currntPathname = this.props.location.pathname;
+    const nextPathname = nextProps.location.pathname;
+    let transitionName = 'right';
+
+    if (currntPathname == '/' || nextPathname.includes('/detail')) transitionName = 'left';
+    this.setState({transitionName});
   }
 
   devNav() {
@@ -44,7 +56,7 @@ class App extends Component {
       <div>
         {this.devNav()}
         <Alert/>
-        <TransitionGroup transitionName="fade" component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+        <TransitionGroup transitionName={this.state.transitionName} component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
           {cloneElement(this.props.children || <div/>, { key: pathname })}
         </TransitionGroup>
       </div>

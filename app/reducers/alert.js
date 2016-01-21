@@ -17,7 +17,7 @@ export default function(state = initalState, action) {
     return {
       show: true,
       title: '抢购成功',
-      message: '请前往订单页面领取奖励, 有效时间15分钟!',
+      message: '请前往订单页面领取奖励,<br/>有效时间15分钟!',
       url: action.url,
       btn: '前往订单页面',
     };
@@ -27,7 +27,7 @@ export default function(state = initalState, action) {
     return {
       show: true,
       title: '抢购失败',
-      message: '抢购太火爆, 要不您再试试?',
+      message: '抢购太火爆, <br/>出现了未知错误,<br/>要不您再试试?',
     };
   }
 
@@ -35,7 +35,7 @@ export default function(state = initalState, action) {
     return {
       show: true,
       title: '抢购失败',
-      message: '手慢了一点点, 看看其他活动吧!'
+      message: '手慢了一点点, <br/>被其他小伙伴抢光了.<br/>快去看看其他活动吧!'
     };
   }
 
@@ -43,8 +43,8 @@ export default function(state = initalState, action) {
     return {
       show: true,
       title: '未登陆',
-      message: '如果您不登陆的话, <br/>就无法抢购商品哦.',
-      url: SIGNUP_URL + '?callback=' + encodeURIComponent(`${AUTHORIZED_PATH}/#/list`) + '&goto_one_money=true',
+      message: '如果您不登陆的话, <br/>就无法参加活动.',
+      url: SIGNUP_URL + '?callback=' + encodeURIComponent(`${AUTHORIZED_PATH}#/list`) + '&goto_one_money=true',
       btn: '使用微信登陆',
     };
   }

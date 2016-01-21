@@ -1,15 +1,30 @@
-.page-enter
-  transform translateY(-100%)
+.left-enter
+  transform translateX(100%)
 
-.page-enter.page-enter-active
-  transform translateY(0%)
+.left-enter.left-enter-active
+  transform translateX(0%)
   transition all 500ms
 
-.page-leave
-  transform translateY(0%)
+.left-leave
+  transform translateX(0%)
 
-.page-leave.page-leave-active
-  transform translateY(100%)
+.left-leave.left-leave-active
+  transform translateX(-100%)
+  transition all 500ms
+  
+
+.right-enter
+  transform translateX(-100%)
+
+.right-enter.right-enter-active
+  transform translateX(0%)
+  transition all 500ms
+
+.right-leave
+  transform translateX(0%)
+
+.right-leave.right-leave-active
+  transform translateX(100%)
   transition all 500ms
   
 
