@@ -32,7 +32,7 @@ class App extends Component {
           {/* <DevTools /> */}
           <li><IndexLink to="/" activeClassName="active">/</IndexLink></li>
           <li><Link to="/list" activeClassName="active">list</Link></li>
-          <li><Link to="/detail/82" activeClassName="active">detail</Link></li>
+          <li><Link to="/detail/1" activeClassName="active">detail</Link></li>
         </ul>
       );
     }

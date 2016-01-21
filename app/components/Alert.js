@@ -14,7 +14,7 @@ export default class Alert extends Component {
         <div className="alert-container">
           <span onClick={() => this.props.dispatch({type: 'ALERT_CLOSE'})} className="close-btn">×</span>
           <div className="title">{title}</div>
-          <div className="message">{message}</div>
+          <div className="message" dangerouslySetInnerHTML={{__html: message}}/>
           {url && <div style={{textAlign: 'center'}}><a className="url-btn" href={url}>{btn}</a></div>}
         </div>
       </div>

@@ -1,4 +1,6 @@
 // import update from 'react-addons-update';
+import config from '../config.js';
+const {AUTHORIZED_PATH, SIGNUP_URL} = config[__ENV__];
 
 const initalState = {
   show: false,
@@ -34,6 +36,16 @@ export default function(state = initalState, action) {
       show: true,
       title: '抢购失败',
       message: '手慢了一点点, 看看其他活动吧!'
+    };
+  }
+
+  case 'NOT_SIGN_UP': {
+    return {
+      show: true,
+      title: '未登陆',
+      message: '如果您不登陆的话, <br/>就无法抢购商品哦.',
+      url: SIGNUP_URL + '?callback=' + encodeURIComponent(`${AUTHORIZED_PATH}/#/list`) + '&goto_one_money=true',
+      btn: '使用微信登陆',
     };
   }
 

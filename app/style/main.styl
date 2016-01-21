@@ -1,9 +1,4 @@
-@import 'transition.styl'
 @import 'color.styl'
-@import 'home.styl'
-@import 'list.styl'
-@import 'detail.styl'
-@import 'alert.styl'
 
 *
   box-sizing border-box
@@ -54,8 +49,9 @@ ul.nav
   left 0
   bottom 0
   right 0
-  overflow scroll
+  overflow-y scroll
   z-index 1
+  background-color #FFF
 
 .status-bar
   color #FFF
@@ -87,3 +83,14 @@ ul.nav
     background-color $red
   &.pending
     background-color $green
+    
+
+
+
+
+
+@import 'transition.styl'
+@import 'home.styl'
+@import 'list.styl'
+@import 'detail.styl'
+@import 'alert.styl'
