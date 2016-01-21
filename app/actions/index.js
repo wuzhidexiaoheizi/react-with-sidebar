@@ -39,10 +39,7 @@ export function fetchWinners(id) {
 export function fetchCallback(id) {
   return dispatch => {
     fetch(`${API}/${ONE_MONEY_ID}/callback/${id}`, {credentials: 'same-origin'})
-      .then(res => {
-        console.log(res);
-        return res.json();
-      })
+      .then(res => res.json())
       .then(json => {
         if (json.grabs && json.grabs.length) json.status = json.grabs[0].status;
         if (json.status == 'success') delete json.status;
@@ -61,8 +58,8 @@ export function fetchDetail(id) {
       .then(json => {
         dispatch({type: 'UPDATE_ITEM_DONE', item: json, id});
       });
-    dispatch(fetchWinners(id)); // 获取 winners
-    dispatch(fetchCallback(id)); // 获取 callback
+    dispatch(fetchWinners(id));
+    dispatch(fetchCallback(id));
   };
 }
 

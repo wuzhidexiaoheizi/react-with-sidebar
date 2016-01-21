@@ -11,8 +11,14 @@ module.exports = {
     contentBase: './app',
     port: 8080,
     proxy: {
-      '/api/*': {
-        target: 'http://192.168.0.171:3000'
+      '*': {
+        target: 'http://localhost:3000',
+        secure: false,
+        bypass: function(req, res, proxyOptions) {
+          if (req.url.indexOf('/one_money/index.html') > -1) {
+            return './index.html';
+          }
+        },
       }
     }
   },
@@ -23,7 +29,7 @@ module.exports = {
   ],
   output: {
     path: __dirname + '/build',
-    publicPath: '/',
+    publicPath: '/one_money',
     filename: './bundle.js'
   },
   module: {
@@ -39,6 +45,6 @@ module.exports = {
       __ENV__: JSON.stringify('DEV')
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new OpenBrowserPlugin({ url: 'http://localhost:8080' })
+    new OpenBrowserPlugin({ url: 'http://localhost:8080/one_money/index.html' })
   ]
 };
