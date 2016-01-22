@@ -6,7 +6,6 @@ import Winners from '../components/Winners';
 import CountDown from '../components/CountDown';
 import {statusDescs, positiveNumber, getStatus, formatTime} from '../helper';
 import * as Actions from '../actions';
-// import config from '../config';
 
 class DetailPage extends Component {
   constructor(props) {

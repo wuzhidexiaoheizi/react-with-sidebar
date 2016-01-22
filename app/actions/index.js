@@ -1,7 +1,4 @@
 import fetch from 'isomorphic-fetch';
-import config from '../config.js';
-
-const {API, ONE_MONEY_ID, WINNERS_NUM} = config[__ENV__];
 
 const _fetch = url => {
   return fetch(url, {
@@ -26,7 +23,7 @@ export function fetchList() {
   return (dispatch, getState) => {
     if (getState().list.listFetched) return;
 
-    _fetch(`${API}/${ONE_MONEY_ID}/items?u=${Date.now()}`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/items?u=${Date.now()}`)
       .then(handleHTTPError)
       .then(res => res.json())
       .then(json => {
@@ -47,7 +44,7 @@ export function updateItemStatus(id, status) {
 
 export function fetchWinners(id) {
   return dispatch => {
-    _fetch(`${API}/${ONE_MONEY_ID}/status/${id}?winners=${WINNERS_NUM}`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/status/${id}?winners=${__WINNERS_NUM__}`)
       .then(handleHTTPError)
       .then(res => res.json())
       .then(json => {
@@ -59,7 +56,7 @@ export function fetchWinners(id) {
 
 export function fetchCallback(id) {
   return dispatch => {
-    _fetch(`${API}/${ONE_MONEY_ID}/callback/${id}`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/callback/${id}`)
       .then(handleHTTPError)
       .then(res => res.json())
       .then(json => {
@@ -79,7 +76,7 @@ export function fetchCallback(id) {
 
 export function fetchDetail(id) {
   return dispatch => {
-    _fetch(`${API}/${ONE_MONEY_ID}/items/${id}?u=${Date.now()}`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/items/${id}?u=${Date.now()}`)
       .then(handleHTTPError)
       .then(res => res.json())
       .then(json => {
@@ -92,7 +89,7 @@ export function fetchDetail(id) {
 
 export function fetchGrab(id) {
   return dispatch => {
-    _fetch(`${API}/${ONE_MONEY_ID}/grab/${id}`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/grab/${id}`)
     .then(handleHTTPError)
     .then(res => res.json())
     .then(json => {

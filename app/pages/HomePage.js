@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import config from '../config.js';
-
-const {SIGNUP_URL} = config[__ENV__];
 
 
 class HomePage extends Component {
@@ -12,7 +9,7 @@ class HomePage extends Component {
 
   _handleSignup() {
     const url = `${location.origin + location.pathname}#/list`;
-    location.href = SIGNUP_URL + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
+    location.href = __SIGNUP_URL__ + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
   }
 
   render() {

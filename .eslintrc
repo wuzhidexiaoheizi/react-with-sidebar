@@ -6,7 +6,12 @@
     jsx: true
   },
   "globals": {
-    "__ENV__": true
+    "__ENV__": true,
+    "__ONE_MONEY_ID__": true,
+    "__WINNERS_NUM__": true,
+    "__API__" : true,
+    "__SIGNUP_URL__": true,
+    "__DEFAULT_AVATAR__": true,
   },
   "plugins": [
     "react"

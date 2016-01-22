@@ -2,6 +2,15 @@ var webpack = require('webpack');
 var path = require('path');
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
+var config = {
+  __SIGNUP_URL__: JSON.stringify('http://192.168.0.171:8080/users/sign_in'),
+  __ONE_MONEY_ID__: JSON.stringify(1),
+  __ENV__: JSON.stringify('DEV'),
+  __API__: JSON.stringify('/api/promotions/one_money'),
+  __WINNERS_NUM__: JSON.stringify(50),
+  __DEFAULT_AVATAR__: JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
+};
+
 module.exports = {
   devServer: {
     historyApiFallback: true,
@@ -41,9 +50,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      __ENV__: JSON.stringify('DEV')
-    }),
+    new webpack.DefinePlugin(config),
     new webpack.HotModuleReplacementPlugin(),
     new OpenBrowserPlugin({ url: 'http://localhost:8080/one_money/index.html' })
   ]

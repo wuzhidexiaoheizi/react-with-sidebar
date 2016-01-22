@@ -3,6 +3,15 @@ var path = require('path');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
+var config = {
+  __ENV__           : JSON.stringify('PRODUCTION'),
+  __ONE_MONEY_ID__  : JSON.stringify(1),
+  __WINNERS_NUM__   : JSON.stringify(50),
+  __API__           : JSON.stringify('/api/promotions/one_money'),
+  __SIGNUP_URL__    : JSON.stringify('http://m.wanliu.biz/authorize/weixin'),
+  __DEFAULT_AVATAR__: JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
+};
+
 module.exports = {
   devtool: 'cheap-source-map',
   entry: [
@@ -22,9 +31,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({
-      __ENV__: JSON.stringify('PRODUCTION')
-    }),
+    new webpack.DefinePlugin(config),
     new webpack.optimize.DedupePlugin(),
     new UglifyJsPlugin({
       compress: {

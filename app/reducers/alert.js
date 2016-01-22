@@ -1,6 +1,4 @@
 // import update from 'react-addons-update';
-import config from '../config.js';
-const {SIGNUP_URL} = config[__ENV__];
 
 const initalState = {
   show: false,
@@ -44,7 +42,7 @@ export default function(state = initalState, action) {
       show: true,
       title: '未登陆',
       message: '如果您不登陆的话, <br/>就无法参加活动.',
-      url: SIGNUP_URL + '?callback=' + encodeURIComponent(`${location.origin + location.pathname}#/list`) + '&goto_one_money=true',
+      url: __SIGNUP_URL__ + '?callback=' + encodeURIComponent(`${location.origin + location.pathname}#/list`) + '&goto_one_money=true',
       btn: '使用微信登陆',
     };
   }
