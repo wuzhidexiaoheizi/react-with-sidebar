@@ -50,7 +50,7 @@ class DetailPage extends Component {
     } = item;
 
     return (
-      <div>
+      <div style={{position: 'absolute', width: '100%', height: '100%'}}>
         <div className="page detail-page">
           <div className="detail-top">
             <img className="detail-imgs" src={image_urls && image_urls[0]}/>
@@ -65,7 +65,7 @@ class DetailPage extends Component {
                 <div className="cell logo">{+price}元购</div>
                 <div className="cell">
                   <div><s>￥{ori_price}</s></div>
-                  <div>已卖</div>
+                  <div>{completes ? `出售${completes}` : null}</div>
                 </div>
                 <div className="cell right">
                   <div className="yellow">{statusDescs(status, true)}</div>

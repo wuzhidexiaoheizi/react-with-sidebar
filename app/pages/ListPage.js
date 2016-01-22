@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as Actions from '../actions';
 
-import Item from '../components/Item';
+import ItemsGroup from '../components/ItemsGroup';
 
 class ListPage extends Component {
   constructor(props) {
@@ -15,18 +15,24 @@ class ListPage extends Component {
     dispatch(Actions.fetchList());
   }
 
-  render() {
-    const {dispatch} = this.props;
+  sortByPrice(priceArr) {
+    const {list: {items}, dispatch} = this.props;
     const boundActionCreators = bindActionCreators(Actions, dispatch);
+    return priceArr.map(price =>
+      <ItemsGroup
+        key={price}
+        price={price}
+        items={items.filter(item => item.price == price)}
+        boundActionCreators={boundActionCreators}
+      />);
+  }
+
+  render() {
     return (
       <div className="page list-page">
         <img className="list-poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/1a147519bd2b1d9bebe7e3e7527869e3.jpg"/>
         <ul className="list">
-          {
-            this.props.list.items.map(item => {
-              return <Item key={item.id} {...item} {...boundActionCreators}/>;
-            })
-          }
+          {this.sortByPrice([1, 5, 10])}
         </ul>
       </div>
     );

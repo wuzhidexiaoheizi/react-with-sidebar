@@ -22,7 +22,17 @@ class HomePage extends Component {
         <div className="introduction">
           <img className="introduction-top" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/8ca4d5a71c6b3e72734c6d238b5a88cf.png"/>
           <main className="introduction-text">
-            text
+            <b>参与方式:</b>
+            <div className="indent">关注我们的"耒阳街上"公众号之后，即可参与我们的线上抢购伊利大礼包活动</div>
+
+            <b>抢购规则:</b>
+            <div className="indent">每位关注的用户（仅限耒阳市区）只能在一次活动中抢购一件的商品，抢购的价格为一元，抢完即刻恢复正常售价</div>
+
+            <b>商品发放:</b>
+            <div className="indent">活动结束，我们将逐步发货至您填写的地址，邮费方式需货到付款</div>
+
+            <b>活动时间:</b>
+            <div className="indent start-end-time"></div>
           </main>
           <img
             className="introduction-bottom"

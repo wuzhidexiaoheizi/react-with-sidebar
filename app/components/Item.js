@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 import StatusBar from './StatusBar';
+import {getStatus} from '../helper';
 
 export default class extends Component {
   constructor(props) {
@@ -9,12 +10,10 @@ export default class extends Component {
 
   componentDidMount() {
     const {id, fetchCallback} = this.props;
-
     setTimeout(() => fetchCallback(id), 300);
-
     this.interval = setInterval(() => {
       const {status, updateItemStatus} = this.props;
-      const _status = this.getStatus();
+      const _status = getStatus(this.props);
       if (_status != status) updateItemStatus(id, _status);
     }, 1000);
   }
@@ -23,15 +22,12 @@ export default class extends Component {
     clearInterval(this.interval);
   }
 
-  getStatus() {
-    const { status, end_at, start_at, total_amount} = this.props;
-
-    const now = Date.now();
-    if (total_amount < 1) return 'suspend';
-    if (status != 'timing') return status;
-    if (now < start_at) return 'wait';
-    if (now > end_at) return 'end';
-    return 'started';
+  priceLogo() {
+    const {price} = this.props;
+    if (price == 1) return <img className="price-logo" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/a329beccdfd82a9ef1cf20c0f4e7bbb4.jpg"/>;
+    if (price == 5) return <img className="price-logo" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/543d1f60de9220e69d15b1260e66b4cf.jpg"/>;
+    if (price == 10) return <img className="price-logo" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/427038b84edf7ff904fa572ad61f2048.jpg"/>;
+    return null;
   }
 
   render() {
@@ -40,6 +36,7 @@ export default class extends Component {
       <li className="item">
         <Link to={`/detail/${id}`}>
           <div className="left">
+            {this.priceLogo()}
             <img className="avatar" src={cover_urls[0]}/>
           </div>
           <div className="right">
