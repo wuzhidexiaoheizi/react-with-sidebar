@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import config from '../config.js';
 
-const {ONE_MONEY_PATH, SIGNUP_URL} = config[__ENV__];
+const {SIGNUP_URL} = config[__ENV__];
 
 
 class HomePage extends Component {
@@ -11,7 +11,7 @@ class HomePage extends Component {
   }
 
   _handleSignup() {
-    const url = `${ONE_MONEY_PATH}/#/list`;
+    const url = `${location.origin + location.pathname}#/list`;
     location.href = SIGNUP_URL + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
   }
 
