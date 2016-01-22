@@ -1,13 +1,14 @@
 import fetch from 'isomorphic-fetch';
 
-const _fetch = url => {
+const _fetch = (url, method = 'get') => {
   return fetch(url, {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    credentials: 'same-origin'}
-  );
+    credentials: 'same-origin',
+    method,
+  });
 };
 
 const handleHTTPError = res => {
@@ -60,12 +61,12 @@ export function fetchCallback(id) {
       .then(handleHTTPError)
       .then(res => res.json())
       .then(json => {
-        if (json.grabs && json.grabs.length) json.status = json.grabs[0].status;
-        if (json.status == 'success') {
-          delete json.status;
-        } else {
-          json.item_status = json.status;
-        }
+        // if (json.grabs && json.grabs.length) json.status = json.grabs[0].status;
+        // if (json.status == 'success') {
+        //   delete json.status;
+        // } else {
+        //   json.item_status = json.status;
+        // }
         dispatch({type: 'FETCH_CALLBACK_DONE', item: json, id, tag: 'fetchCallback'});
       }).catch(err => {
         console.log('callback error:', err);
@@ -89,7 +90,7 @@ export function fetchDetail(id) {
 
 export function fetchGrab(id) {
   return dispatch => {
-    _fetch(`${__API__}/${__ONE_MONEY_ID__}/grab/${id}`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/grab/${id}`, 'put')
     .then(handleHTTPError)
     .then(res => res.json())
     .then(json => {
