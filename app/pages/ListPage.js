@@ -27,12 +27,26 @@ class ListPage extends Component {
       />);
   }
 
+  otherPrice(priceArr) {
+    const {list: {items}, dispatch} = this.props;
+    const boundActionCreators = bindActionCreators(Actions, dispatch);
+    return (
+      <ItemsGroup
+        key="other"
+        price="other"
+        items={items.filter(item => !priceArr.includes(+item.price))}
+        boundActionCreators={boundActionCreators}
+      />
+    );
+  }
+
   render() {
     return (
       <div className="page list-page">
         <img className="list-poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/1a147519bd2b1d9bebe7e3e7527869e3.jpg"/>
         <ul className="list">
           {this.sortByPrice([1, 5, 10])}
+          {this.otherPrice([1, 5, 10])}
         </ul>
       </div>
     );
