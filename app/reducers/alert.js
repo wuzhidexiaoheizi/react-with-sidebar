@@ -1,6 +1,6 @@
 // import update from 'react-addons-update';
 import config from '../config.js';
-const {AUTHORIZED_PATH, SIGNUP_URL} = config[__ENV__];
+const {ONE_MONEY_PATH, SIGNUP_URL} = config[__ENV__];
 
 const initalState = {
   show: false,
@@ -44,7 +44,7 @@ export default function(state = initalState, action) {
       show: true,
       title: '未登陆',
       message: '如果您不登陆的话, <br/>就无法参加活动.',
-      url: SIGNUP_URL + '?callback=' + encodeURIComponent(`${AUTHORIZED_PATH}#/list`) + '&goto_one_money=true',
+      url: SIGNUP_URL + '?callback=' + encodeURIComponent(`${ONE_MONEY_PATH}#/list`) + '&goto_one_money=true',
       btn: '使用微信登陆',
     };
   }
