@@ -39,7 +39,6 @@ export default function(state = initialState, action) {
     if (action.item.item_status) {
       action.item.status = action.item.item_status;
       delete action.item.item_status;
-      console.log(123)
     }
     if (index > -1) {
       return update(state, {

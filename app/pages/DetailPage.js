@@ -12,7 +12,6 @@ class DetailPage extends Component {
     super(props);
   }
 
-
   componentDidMount() {
     const {params: {id}, dispatch} = this.props;
     dispatch(Actions.fetchDetail(id));
