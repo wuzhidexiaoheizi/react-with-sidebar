@@ -1,4 +1,5 @@
 // import update from 'react-addons-update';
+import {statusDescs} from '../helper';
 
 const initalState = {
   show: false,
@@ -25,15 +26,7 @@ export default function(state = initalState, action) {
     return {
       show: true,
       title: '抢购失败',
-      message: '抢购太火爆, <br/>出现了未知错误,<br/>要不您再试试?',
-    };
-  }
-
-  case 'FETCH_GRAB_INSUFFICIENT': {
-    return {
-      show: true,
-      title: '抢购失败',
-      message: '手慢了一点点, <br/>被其他小伙伴抢光了.<br/>快去看看其他活动吧!'
+      message: statusDescs(action.status),
     };
   }
 

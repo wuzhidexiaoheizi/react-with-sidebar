@@ -1,5 +1,4 @@
 
-// parse 数据
 export function parseData(obj, td = 0) {
   const shouldDateParseArray = ['start_at', 'end_at', 'suspend_at'];
   const shouldJSONParseArray = ['avatar_urls', 'cover_urls', 'image_urls'];
@@ -23,7 +22,6 @@ export function parseData(obj, td = 0) {
   return o;
 }
 
-// 格式化时间
 export function formatTime(t) {
   const time = new Date(t);
   // const year = time.getFullYear();
@@ -36,8 +34,6 @@ export function formatTime(t) {
   return `${month}月${day}日${hours}时${minutes}分`;
 }
 
-
-// 获取正数
 export function positiveNumber(n) {
   return n > 0 ? n : 0;
 }
@@ -54,6 +50,7 @@ export function positiveNumber(n) {
 // 'quantity_zero': '本期活动中此商品的每次抢购个数为0'
 export function statusDescs(status, flag) {
   switch (status) {
+  case 'waiting':
   case 'wait': {
     if (flag) return '距离活动开始还有';
     return '请等待';
@@ -63,29 +60,33 @@ export function statusDescs(status, flag) {
     return '马上抢购';
   }
   case 'end': return '活动已结束';
-  case 'insufficient': return '没有货啦';
+  case 'timing': return '获取状态中';
   case 'suspend': return '已售罄';
   case 'pending': return '领取奖励';
-  case 'success': return '抢购成功'; // 只有grab 的时候在alert 里会用到
-  case 'always': return '您已经抢过其他商品了';
+  case 'success': return '成功'; // 只有grab 的时候在alert 里会用到
+  case 'always': return '已经抢过其他商品';
   case 'created': return '已经领取奖励';
+  case 'insufficient': return '已售罄';
+  case 'total_amount_zero': return '已售罄';
   case 'no-executies': return '不能再抢此商品了';
   case 'lack-multi-item': return '已经抢过其他商品了';
-  case 'state-invalid': return '活动未开始或已结束';
-  default: return '下次再来吧';
+  case 'state-invalid': return '活动未开始/已结束';
+  default: return '...';
   }
 }
 
-// 获取状态
 export function getStatus(item) {
-  const {item_status, grabs, end_at, start_at, total_amount} = item;
+  const {status, grabs, end_at, start_at, total_amount} = item;
   const now = Date.now();
-
   if (grabs && grabs.length) return grabs[0].status;
-  if (item_status) return item_status;
   if (total_amount < 1) return 'suspend';
-  if (now < start_at) return 'wait';
-  if (now > end_at) return 'end';
-
-  return 'started';
+  if (status == 'waiting' || status == 'wait' || status == 'started' || status == 'timing') {
+    if (now < start_at) {
+      return 'wait';
+    } else if (now > end_at) {
+      return 'end';
+    }
+    return 'started';
+  }
+  return status;
 }

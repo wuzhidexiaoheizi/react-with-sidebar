@@ -20,6 +20,9 @@ export default function(state = initialState, action) {
   }
 
   case 'FETCH_CALLBACK_DONE': {
+    if (action.item.grabs && action.item.grabs.length) action.item.status = action.item.grabs[0].status;
+    if (action.item.status == 'success') delete action.item.status;
+
     const index = state.items.findIndex(item => item.id == action.id);
     if (index > -1) {
       return update(state, {
@@ -33,6 +36,10 @@ export default function(state = initialState, action) {
   case 'UPDATE_ITEM_DONE': {
     const index = state.items.findIndex(item => item.id == action.id);
 
+    if (action.item.item_status) {
+      if (action.item.item_status != 'waiting') action.item.status = action.item.item_status;
+      delete action.item.item_status;
+    }
     if (index > -1) {
       return update(state, {
         items: {
@@ -55,7 +62,6 @@ export default function(state = initialState, action) {
       }
     });
   }
-
   default: return state;
   }
 }
