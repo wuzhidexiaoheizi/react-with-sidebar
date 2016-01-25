@@ -12,6 +12,7 @@ import HomePage from './pages/HomePage';
 import Alert from './components/Alert';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
+import SharePage from './pages/SharePage';
 import './style/main.styl';
 import FastClick from 'fastclick';
 
@@ -44,7 +45,8 @@ class App extends Component {
           {/* <DevTools /> */}
           <li><IndexLink to="/" activeClassName="active">/</IndexLink></li>
           <li><Link to="/list" activeClassName="active">list</Link></li>
-          <li><Link to="/detail/1" activeClassName="active">detail</Link></li>
+          <li><Link to="/detail/82" activeClassName="active">detail</Link></li>
+          <li><Link to="/share" activeClassName="active">share</Link></li>
         </ul>
       );
     }
@@ -71,6 +73,7 @@ ReactDOM.render(
         <IndexRoute component={HomePage}/>
         <Route path="/list" component={ListPage}/>
         <Route path="detail/:id" component={DetailPage}/>
+        <Route path="/share" component={SharePage} />
       </Route>
     </Router>
   </Provider>,
