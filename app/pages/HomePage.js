@@ -1,10 +1,27 @@
+import fetch from 'isomorphic-fetch';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {formatTime} from '../helper';
 
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      start_at: '',
+      end_at: '',
+    };
+  }
+
+  componentDidMount() {
+    fetch(`${__API__}/${__ONE_MONEY_ID__}`)
+    .then(res => res.json())
+    .then(json => {
+      this.setState({
+        start_at: formatTime(Date.parse(json.start_at)),
+        end_at: formatTime(Date.parse(json.end_at)),
+      });
+    });
   }
 
   _handleSignup() {
@@ -15,7 +32,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className="page home-page">
-        <img className="poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3c6e051086bc13b4fccca045a3efe187.jpg"/>
+        <img style={{minHeight: '400px'}} className="poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3c6e051086bc13b4fccca045a3efe187.jpg"/>
         <div className="introduction">
           <img className="introduction-top" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/8ca4d5a71c6b3e72734c6d238b5a88cf.png"/>
           <main className="introduction-text">
@@ -29,7 +46,9 @@ class HomePage extends Component {
             <div className="indent">活动结束，我们将逐步发货至您填写的地址，邮费方式需货到付款</div>
 
             <b>活动时间:</b>
-            <div className="indent start-end-time"></div>
+            <div className="start-end-time">
+              {this.state.start_at} 至 {this.state.end_at}
+            </div>
           </main>
           <img
             className="introduction-bottom"
