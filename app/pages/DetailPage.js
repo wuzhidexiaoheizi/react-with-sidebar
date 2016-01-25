@@ -32,6 +32,7 @@ class DetailPage extends Component {
     const boundActionCreators = bindActionCreators(Actions, dispatch);
     const item = this.props.items.find(i => i.id == id) || {};
     const {
+      td,
       title,
       start_at,
       end_at,
@@ -67,8 +68,8 @@ class DetailPage extends Component {
                 </div>
                 <div className="cell right">
                   <div className="yellow">{statusDescs(status, true)}</div>
-                  {status == 'started' && <CountDown time={end_at}/>}
-                  {(status == 'wait' || status == 'waiting') && <CountDown time={start_at}/>}
+                  {status == 'started' && <CountDown td={td} time={end_at}/>}
+                  {(status == 'wait' || status == 'waiting') && <CountDown td={td} time={start_at}/>}
                 </div>
               </div>
             </div>

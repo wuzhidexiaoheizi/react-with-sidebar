@@ -6,7 +6,6 @@ export default class Alert extends Component {
   constructor(props) {
     super(props);
   }
-
   _renderAlert() {
     const {title, message, url, btn} = this.props.alert;
     return (

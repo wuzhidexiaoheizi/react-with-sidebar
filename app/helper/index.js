@@ -1,5 +1,4 @@
-
-export function parseData(obj, td = 0) {
+export function parseData(obj) {
   const shouldDateParseArray = ['start_at', 'end_at', 'suspend_at'];
   const shouldJSONParseArray = ['avatar_urls', 'cover_urls', 'image_urls'];
 
@@ -9,7 +8,7 @@ export function parseData(obj, td = 0) {
   for (const key of keys) {
     try {
       if (shouldDateParseArray.indexOf(key) > -1) {
-        o[key] = Date.parse(obj[key]) - td;
+        o[key] = Date.parse(obj[key]);
       } else if (shouldJSONParseArray.indexOf(key) > -1) {
         o[key] = JSON.parse(obj[key]);
       } else {
@@ -76,8 +75,8 @@ export function statusDescs(status, flag) {
 }
 
 export function getStatus(item) {
-  const {status, grabs, end_at, start_at, total_amount} = item;
-  const now = Date.now();
+  const {td, status, grabs, end_at, start_at, total_amount} = item;
+  const now = Date.now() + td;
   if (grabs && grabs.length) return grabs[0].status;
   if (total_amount < 1) return 'suspend';
   if (status == 'waiting' || status == 'wait' || status == 'started' || status == 'timing') {

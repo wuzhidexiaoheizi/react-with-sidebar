@@ -11,6 +11,7 @@ export default function(state = initialState, action) {
   switch (action.type) {
   case 'FETCH_LIST_DONE': {
     const items = action.items.map(item => {
+      item.td = action.td;
       return parseData(item);
     });
     return {
@@ -35,7 +36,6 @@ export default function(state = initialState, action) {
 
   case 'UPDATE_ITEM_DONE': {
     const index = state.items.findIndex(item => item.id == action.id);
-
     if (action.item.item_status) {
       if (action.item.item_status != 'waiting') action.item.status = action.item.item_status;
       delete action.item.item_status;

@@ -18,7 +18,7 @@ module.exports = {
     path.resolve(__dirname, 'app/main.js'),
   ],
   output: {
-    path: __dirname + '/1111-11-11',
+    path: __dirname + '/build',
     publicPath: '/',
     filename: './bundle.js',
   },

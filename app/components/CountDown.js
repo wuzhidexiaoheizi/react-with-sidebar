@@ -13,14 +13,14 @@ export default class extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      now: Date.now()
+      now: Date.now() + this.props.td
     };
   }
 
   componentDidMount() {
     this.interval = setInterval(() => {
       this.setState({
-        now: Date.now()
+        now: Date.now() + this.props.td
       });
     }, 1000);
   }
