@@ -12,7 +12,6 @@ class DetailPage extends Component {
     super(props);
   }
 
-
   componentDidMount() {
     const {params: {id}, dispatch} = this.props;
     dispatch(Actions.fetchDetail(id));
@@ -69,7 +68,7 @@ class DetailPage extends Component {
                 <div className="cell right">
                   <div className="yellow">{statusDescs(status, true)}</div>
                   {status == 'started' && <CountDown time={end_at}/>}
-                  {status == 'wait' && <CountDown time={start_at}/>}
+                  {(status == 'wait' || status == 'waiting') && <CountDown time={start_at}/>}
                 </div>
               </div>
             </div>

@@ -5,7 +5,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var config = {
   __ENV__           : JSON.stringify('PRODUCTION'),
-  __ONE_MONEY_ID__  : JSON.stringify(1),
+  __ONE_MONEY_ID__  : JSON.stringify(17),
   __WINNERS_NUM__   : JSON.stringify(50),
   __API__           : JSON.stringify('/api/promotions/one_money'),
   __SIGNUP_URL__    : JSON.stringify('http://m.wanliu.biz/authorize/weixin'),
@@ -18,7 +18,7 @@ module.exports = {
     path.resolve(__dirname, 'app/main.js'),
   ],
   output: {
-    path: __dirname + '/build',
+    path: __dirname + '/1111-11-11',
     publicPath: '/',
     filename: './bundle.js',
   },
