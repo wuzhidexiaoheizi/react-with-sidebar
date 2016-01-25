@@ -34,6 +34,7 @@ class DetailPage extends Component {
     const {
       td,
       title,
+      shop_id,
       start_at,
       end_at,
       price,
@@ -92,10 +93,10 @@ class DetailPage extends Component {
 
           {winners && winners.length > 0 ? <Winners winners={winners}/> : null}
 
-          <div className="shop">
+          <a className="shop" href={`/goshop/${shop_id}`}>
             <img className="avatar" src={shop_avatar_url}/>
             <span>{shop_name}</span>
-          </div>
+          </a>
         </div>
         <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
       </div>
