@@ -1,0 +1,155 @@
+.share-page
+  .share-pic
+    position relative
+
+    .share-avatar img
+      width 100%
+      height auto
+
+    .awardee-avatar
+      position absolute
+      width 130px
+      height 130px
+      border-radius 50%
+      background-color rgba(255, 255, 255, 0.85)
+      top 11%
+      left 50%
+      margin-left -65px
+      padding 5px
+      overflow hidden
+
+      .awardee-pic
+        width 100%
+        height 100%
+        border-radius 50%
+
+    .share-content
+      position absolute
+      height 34%
+      bottom 6%
+      left 20px
+      right 20px
+      
+      .awardee-name
+        padding 8px 0
+        margin 0
+        text-align center
+        font-size 16px
+        color #FFF
+
+      .award-testimonials
+        position absolute
+        left 0
+        right 0
+        top 35px
+        bottom 0
+        background #FFF
+        border-radius 5px
+        padding 5px 0
+        box-shadow 0 0 8px #999
+        -webkit-box-shadow 0 0 8px #999
+
+        &:before
+          content ""
+          position absolute
+          top -6px
+          left 50%
+          margin-left -4px
+          border-width 0 8px 8px 8px
+          border-color #FFF transparent
+          border-style solid
+
+        .testimonials
+          height 100%
+          width 100%
+          overflow: auto
+          word-break break-word
+          padding 0 5px
+          font-size 16px
+          color #FF2B2B
+          position relative
+
+  .share-product
+    width 46%
+    margin 10px auto 10px
+
+    .share-product-pic
+      border 2px solid #E22548
+      position relative
+
+      .product-cover
+        max-width 100%
+        height auto
+        vertical-align middle
+
+      .product-link
+        background #EC0C33
+        padding 8px 0
+        text-align center
+        font-size 14px
+        color #FFF
+
+      .sales-border
+        position absolute
+        top 5px
+        left 5px
+
+  .share-button
+    text-align center
+    
+    .like-btn
+      position relative
+      display inline-block
+      background none
+      border none
+      cursor pointer
+
+      .like-amount
+        position absolute
+        bottom 18px
+        display inline-block
+        width 100%
+        left 0
+        text-align center
+        color #FFF
+        font-size 16px
+
+  .share-count
+    text-align center
+    font-size 14px
+
+.share-list-container
+  margin-top 10px
+
+  .share-list
+    margin 0 auto
+
+    .like-item
+      float left
+      width 35px
+      height 35px
+      margin 0 5px 5px 0
+
+      img
+        width 100%
+        height 100%
+        border-radius 5px
+
+    &:after
+      content ""
+      clear both
+      display table
+
+@media(max-width: 320px)
+  .share-page .share-pic .awardee-avatar
+    width 100px
+    height 100px
+    margin-left -50px
+    top 30px
+
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px)
+  .share-page .share-pic .awardee-avatar
+    width 250px
+    height 250px
+    top 12%
+    margin-left -125px
