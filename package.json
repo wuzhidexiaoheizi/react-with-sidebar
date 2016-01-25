@@ -9,7 +9,8 @@
     "build": "webpack",
     "start": "webpack-dev-server --devtool eval --progress --hot --colors --host 0.0.0.0 --content-base app",
     "deploy": "NODE_ENV=PRODUCTION webpack -p --config webpack.production.config.js",
-    "upload": "ssh -t develop@42.62.40.66 'mkdir /data/work/PianoServer/public/one_money/1111-11-11' && scp -r /home/yinz/项目/react-one-money/build/* develop@42.62.40.66:/data/work/PianoServer/public/one_money/1111-11-11/",
+    "mkdir": "ssh -t develop@42.62.40.66 'mkdir /data/work/PianoServer/public/one_money/2016-01-29'",
+    "upload": "scp -r /home/yinz/项目/react-one-money/build/* develop@42.62.40.66:/data/work/PianoServer/public/one_money/2016-01-29",
     "validate": "npm ls"
   },
   "dependencies": {
