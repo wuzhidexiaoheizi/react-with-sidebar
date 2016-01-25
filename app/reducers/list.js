@@ -37,7 +37,7 @@ export default function(state = initialState, action) {
     const index = state.items.findIndex(item => item.id == action.id);
 
     if (action.item.item_status) {
-      action.item.status = action.item.item_status;
+      if (action.item.item_status != 'waiting') action.item.status = action.item.item_status;
       delete action.item.item_status;
     }
     if (index > -1) {

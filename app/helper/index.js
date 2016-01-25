@@ -50,6 +50,7 @@ export function positiveNumber(n) {
 // 'quantity_zero': '本期活动中此商品的每次抢购个数为0'
 export function statusDescs(status, flag) {
   switch (status) {
+  case 'waiting':
   case 'wait': {
     if (flag) return '距离活动开始还有';
     return '请等待';
@@ -79,7 +80,7 @@ export function getStatus(item) {
   const now = Date.now();
   if (grabs && grabs.length) return grabs[0].status;
   if (total_amount < 1) return 'suspend';
-  if (status == 'timing') {
+  if (status == 'waiting' || status == 'wait' || status == 'started' || status == 'timing') {
     if (now < start_at) {
       return 'wait';
     } else if (now > end_at) {
