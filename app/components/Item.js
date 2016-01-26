@@ -10,7 +10,7 @@ export default class extends Component {
 
   componentDidMount() {
     const {id, fetchCallback} = this.props;
-    setTimeout(() => fetchCallback(id), 300);
+    fetchCallback(id);
     this.interval = setInterval(() => {
       const {status, updateItemStatus} = this.props;
       const _status = getStatus(this.props);

@@ -17,6 +17,7 @@
     "babel-polyfill": "^6.3.14",
     "babel-runtime": "~6.2.0",
     "fastclick": "^1.0.6",
+    "halogen": "^0.1.10",
     "history": "^1.17.0",
     "install": "^0.4.1",
     "isomorphic-fetch": "^2.2.1",
