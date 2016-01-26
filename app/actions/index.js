@@ -88,6 +88,7 @@ export function fetchGrab(id) {
         dispatch({type: 'FETCH_GRAB_SUCCESS', id, grab: json, url: json.callback_url});
       } else {
         dispatch({type: 'FETCH_GRAB_FAILED', status: json.status});
+        dispatch(fetchCallback(id));
       }
     })
     .catch(err => {
