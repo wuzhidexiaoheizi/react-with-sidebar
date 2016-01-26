@@ -14,6 +14,7 @@ export default function(state = initialState, action) {
       item.td = action.td;
       return parseData(item);
     });
+
     return {
       listFetched: true,
       items,

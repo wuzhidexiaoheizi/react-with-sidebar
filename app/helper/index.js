@@ -1,3 +1,6 @@
+import React from 'react';
+import Loading from 'halogen/PulseLoader';
+
 export function parseData(obj) {
   const shouldDateParseArray = ['start_at', 'end_at', 'suspend_at'];
   const shouldJSONParseArray = ['avatar_urls', 'cover_urls', 'image_urls'];
@@ -47,6 +50,7 @@ export function positiveNumber(n) {
 // 'state-invalid': '活动未开始/已结束',
 // 'total_amount_zero': '本期活动中此商品总库存为0',
 // 'quantity_zero': '本期活动中此商品的每次抢购个数为0'
+
 export function statusDescs(status, flag) {
   switch (status) {
   case 'waiting':
@@ -59,7 +63,7 @@ export function statusDescs(status, flag) {
     return '马上抢购';
   }
   case 'end': return '活动已结束';
-  case 'timing': return '获取状态中';
+  case 'timing': return <Loading color="#FFF" size="11px" margin="4px"/>;
   case 'suspend': return '已售罄';
   case 'pending': return '领取奖励';
   case 'success': return '成功'; // 只有grab 的时候在alert 里会用到
@@ -70,7 +74,7 @@ export function statusDescs(status, flag) {
   case 'no-executies': return '不能再抢此商品了';
   case 'lack-multi-item': return '已经抢过其他商品了';
   case 'state-invalid': return '活动未开始/已结束';
-  default: return '...';
+  default: return <Loading color="#FFF" size="11px" margin="4px"/>;
   }
 }
 

@@ -21,16 +21,17 @@ const checkLogup = res => {
 export function fetchList() {
   return (dispatch, getState) => {
     if (getState().list.listFetched) return;
-
-    _fetch(`${__API__}/${__ONE_MONEY_ID__}/items?u=${Date.now()}`)
-      .then(res => res.json())
-      .then(json => {
-        dispatch({
-          type: 'FETCH_LIST_DONE',
-          items: json.items,
-          td: json.td || 0,
+    setTimeout(() => {
+      _fetch(`${__API__}/${__ONE_MONEY_ID__}/items?u=${Date.now()}`)
+        .then(res => res.json())
+        .then(json => {
+          dispatch({
+            type: 'FETCH_LIST_DONE',
+            items: json.items,
+            td: json.td || 0,
+          });
         });
-      });
+    }, 300);
   };
 }
 
@@ -53,7 +54,7 @@ export function fetchWinners(id) {
 
 export function fetchCallback(id) {
   return dispatch => {
-    _fetch(`${__API__}/${__ONE_MONEY_ID__}/callback/${id}`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/callback/${id}_&${Date.now()}`)
       .then(checkLogup)
       .then(res => res.json())
       .then(json => {

@@ -1,7 +1,7 @@
 import React, {Component, cloneElement} from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
+import {Provider} from 'react-redux';
+import {Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
 import TransitionGroup from 'react-addons-css-transition-group';
 import configureStore from './store/configureStore';
 import 'babel-polyfill';
