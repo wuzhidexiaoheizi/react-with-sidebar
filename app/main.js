@@ -13,6 +13,7 @@ import Alert from './components/Alert';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import SharePage from './pages/SharePage';
+import CommentPage from './pages/CommentPage';
 import './style/main.styl';
 import FastClick from 'fastclick';
 
@@ -46,6 +47,7 @@ class App extends Component {
           <li><IndexLink to="/" activeClassName="active">/</IndexLink></li>
           <li><Link to="/list" activeClassName="active">list</Link></li>
           <li><Link to="/detail/82" activeClassName="active">detail</Link></li>
+          <li><Link to="/comment" activeClassName="active">comment</Link></li>
           <li><Link to="/share" activeClassName="active">share</Link></li>
         </ul>
       );
@@ -73,6 +75,7 @@ ReactDOM.render(
         <IndexRoute component={HomePage}/>
         <Route path="/list" component={ListPage}/>
         <Route path="detail/:id" component={DetailPage}/>
+        <Route path="/comment" component={CommentPage} />
         <Route path="/share" component={SharePage} />
       </Route>
     </Router>
