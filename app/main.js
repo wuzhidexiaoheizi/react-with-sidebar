@@ -75,7 +75,7 @@ ReactDOM.render(
         <IndexRoute component={HomePage}/>
         <Route path="/list" component={ListPage}/>
         <Route path="detail/:id" component={DetailPage}/>
-        <Route path="/comment" component={CommentPage} />
+        <Route path="/comment/:grab_id" component={CommentPage} />
         <Route path="/share" component={SharePage} />
       </Route>
     </Router>
