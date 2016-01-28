@@ -5,20 +5,24 @@ import React, {Component} from 'react';
 // onTouchStart
 // onTouchCancel
 
-export default class extends Component {
+export default class Slider extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      index: 0,
+    };
+
     this.touchStartX = 0;
     this.sliderX = 0;
     this.translateX = 0;
     this.screenWidth = window.screen.width;
-    this.imgNum = this.props.images && (this.props.images.length || 0);
+    this.imgNum = this.props.images.length;
     this.sliderWidth = this.screenWidth * this.imgNum;
     this.sliderMaxX = -this.screenWidth * (this.imgNum - 1);
   }
 
   getStyle() {
-    this.imgNum = this.props.images && (this.props.images.length || 0);
+    this.imgNum = this.props.images.length;
     this.sliderWidth = this.screenWidth * this.imgNum;
     this.sliderMaxX = -this.screenWidth * (this.imgNum - 1);
     return {
@@ -35,7 +39,7 @@ export default class extends Component {
       },
       img: {
         width: this.screenWidth + 'px',
-      }
+      },
     };
   }
 
@@ -51,7 +55,6 @@ export default class extends Component {
   handleOnTouchMove(e) {
     const {slider} = this.refs;
     const {pageX} = e.touches[0];
-
     const diffX = pageX - this.touchStartX;
 
     if (diffX + this.sliderX < 50) {
@@ -75,6 +78,44 @@ export default class extends Component {
 
     slider.style.transform = `translateX(${index * this.screenWidth}px)`;
     this.sliderX = index * this.screenWidth;
+    this.setState({index});
+  }
+
+  renderNav() {
+    const navStyle = {
+      textAlign: 'center',
+      width: '100%',
+      position: 'absolute',
+      bottom: '30px',
+      zIndex: '3'
+    };
+    const spanStyle = {
+      width: '10px',
+      height: '10px',
+      display: 'inline-block',
+      borderRadius: '50%',
+      margin: '5px',
+      border: '1px solid #EEE',
+      transition: 'all 500ms',
+    };
+    const lightStyle = Object.assign({
+      backgroundColor: 'rgba(255, 255, 255, 1)',
+    }, spanStyle);
+    const darkStyle = Object.assign({
+      backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    }, spanStyle);
+    return (
+      <nav style={navStyle}>
+      {
+        this.props.images.map((_, index) => {
+          if (this.state.index == -index) {
+            return <span key={`navSpan-${index}`} style={lightStyle}></span>;
+          }
+          return <span key={`navSpan-${index}`} style={darkStyle}></span>;
+        })
+      }
+      </nav>
+    );
   }
 
   render() {
@@ -82,6 +123,7 @@ export default class extends Component {
 
     return (
       <div style={this.getStyle().container}>
+        {this.renderNav()}
         <div
           ref="slider"
           style={this.getStyle().sliderContainer}
@@ -100,4 +142,9 @@ export default class extends Component {
       </div>
     );
   }
+}
+
+
+Slider.defaultProps = {
+  images: [],
 }

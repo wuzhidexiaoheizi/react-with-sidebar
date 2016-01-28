@@ -78,15 +78,12 @@ class SharePage extends Component {
         */}
         <div className="share-product">
           <div className="share-product-pic">
-            <div className="product-pic">
+            <Link to={`/detail/${pmo_item_id}`} className="product-pic">
               {/* <Slider images={image_urls}/> */}
               <img className="product-cover" src={image_urls[0]}/>
               {/* <div className="sales-border">
                 <img className="sales-pic" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/73be4db79919ba98fc1f9992d5d8c4d8.jpg" />
               </div> */}
-            </div>
-            <Link to={`/detail/${pmo_item_id}`} className="product-link">
-              点击查看商品详情
             </Link>
           </div>
         </div>

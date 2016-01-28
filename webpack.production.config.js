@@ -5,7 +5,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 var config = {
   __ENV__           : JSON.stringify('PRODUCTION'),
-  __ONE_MONEY_ID__  : JSON.stringify(19),
+  __ONE_MONEY_ID__  : JSON.stringify(21),
   __WINNERS_NUM__   : JSON.stringify(50),
   __API__           : JSON.stringify('/api/promotions/one_money'),
   __SIGNUP_URL__    : JSON.stringify('http://m.wanliu.biz/authorize/weixin'),
