@@ -9,9 +9,9 @@ class CommentPage extends Component {
     this.state = {
       name: '',
       desc: '',
-      good: -1,
-      delivery: -1,
-      customer_service: -1,
+      good: 0,
+      delivery: 0,
+      customer_service: 0,
     };
   }
 
@@ -28,6 +28,13 @@ class CommentPage extends Component {
     const {params: {pmo_grab_id}, dispatch, history} = this.props;
     const {desc, good, delivery, customer_service} = this.state;
 
+    if (!good || !delivery || !customer_service || !desc) {
+      return dispatch({
+        type: 'SUBMIT_COMMENT_FAILED',
+        message: '请完善评论内容',
+      });
+    }
+
     const body = JSON.stringify({
       evaluation: {
         desc,
@@ -40,8 +47,19 @@ class CommentPage extends Component {
 
     _fetch(`/evaluations`, 'post', body)
     .then(json => {
-      if (json.errors) return dispatch({type: 'SUBMIT_COMMENT_FAILED', message: json.errors.join(',')});
-      history.pushState(null, `/share/${pmo_grab_id}`);
+      if (json.errors) {
+        if (json.evaluation_id) {
+          return dispatch({
+            type: 'SUBMIT_COMMENT_FAILED',
+            message: json.errors.join(','),
+            evaluation_id: json.evaluation_id,
+          });
+        }
+      }
+      history.pushState(null, `/share/${json.evaluation.id}`);
+
+      // 需要一个提示微信分享
+      //
     })
     .catch(err => {
       if (err.message == 401) return dispatch({type: 'NOT_SIGN_UP'});

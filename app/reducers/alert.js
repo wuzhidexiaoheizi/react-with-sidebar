@@ -31,9 +31,26 @@ export default function(state = initalState, action) {
   }
 
   case 'SUBMIT_COMMENT_FAILED': {
+    if (action.evaluation_id) {
+      return {
+        show: true,
+        title: '评论失败',
+        btn: '查看评论',
+        historyUrl: `/share/${action.evaluation_id}`,
+        message: action.message,
+      };
+    }
     return {
       show: true,
       title: '评论失败',
+      message: action.message,
+    };
+  }
+
+  case 'THUMB_FAILED': {
+    return {
+      show: true,
+      title: '点赞失败',
       message: action.message,
     };
   }

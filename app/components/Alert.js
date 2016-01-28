@@ -6,8 +6,14 @@ export default class Alert extends Component {
   constructor(props) {
     super(props);
   }
+
+  handleChangeHistory() {
+    const {alert: {historyUrl}, dispatch} = this.props;
+    this.props.history.pushState(null, historyUrl);
+    dispatch({type: 'ALERT_CLOSE'});
+  }
   _renderAlert() {
-    const {title, message, url, btn} = this.props.alert;
+    const {title, message, url, btn, historyUrl} = this.props.alert;
     return (
       <div className="alert-wrap">
         <div className="alert-container">
@@ -15,6 +21,12 @@ export default class Alert extends Component {
           <div className="title">{title}</div>
           <div className="message" dangerouslySetInnerHTML={{__html: message}}/>
           {url && <div style={{textAlign: 'center'}}><a className="url-btn" href={url}>{btn}</a></div>}
+          {
+            historyUrl &&
+            <div style={{textAlign: 'center'}} onClick={this.handleChangeHistory.bind(this)}>
+              <span className="url-btn">{btn}</span>
+            </div>
+          }
         </div>
       </div>
     );

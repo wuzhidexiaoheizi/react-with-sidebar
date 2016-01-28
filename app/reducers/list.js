@@ -9,6 +9,11 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+
+  case 'CLEAN_LIST': {
+    return initialState;
+  }
+
   case 'FETCH_LIST_DONE': {
     const items = action.items.map(item => {
       item.td = action.td;

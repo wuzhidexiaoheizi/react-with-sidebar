@@ -3,8 +3,6 @@ import React, {Component} from 'react';
 
 export default class extends Component {
   handleClick() {
-    console.log(this.props.status);
-
     const {fetchGrab, status, className, grabs, id} = this.props;
     if (className && !className.includes('btn')) return;
 
