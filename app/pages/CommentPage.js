@@ -7,11 +7,11 @@ class CommentPage extends Component {
   constructor(props) {
     super(props);
     const defaultDesc = [
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
+      '感谢CCTV,MTV,ETV, 感谢我的亲朋好友,经过多年等待,终于人品爆发了,谢谢大家分享我的好运!',
+      '开心!!!收到抢来的东西,就是爽爽爽!!!谢谢大家!',
+      '像我这样貌美如花,上天都眷恋如我一般的人品, 抢到这这么简单!',
+      '一周才一次的机会,就让我抽中了, 这手气要与我所有认识的人分享, 等下我还要去买彩票!',
+      '等了一周没有白等, 终于抢到了! 跟我一起分享我的幸运吧 ~',
     ];
     this.state = {
       name: '',
@@ -91,6 +91,7 @@ class CommentPage extends Component {
           <p className="awardee-name"><b>{name}</b> 获奖感言</p>
           <div className="textarea-wrap">
             <textarea
+              onFocus={e => e.target.select()}
               value={desc}
               placeholder="说点什么吧..."
               rows={4}
