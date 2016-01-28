@@ -32,7 +32,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className="page home-page">
-        <img style={{minHeight: '400px'}} className="poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3c6e051086bc13b4fccca045a3efe187.jpg"/>
+        <img style={{minHeight: '400px'}} className="poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/aac7cb3740e64602623eb08f573e1ef6.jpg"/>
         <div className="introduction">
           <img className="introduction-top" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/8ca4d5a71c6b3e72734c6d238b5a88cf.png"/>
           <main className="introduction-text">

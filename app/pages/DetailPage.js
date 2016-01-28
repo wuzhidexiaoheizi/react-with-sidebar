@@ -4,6 +4,8 @@ import {bindActionCreators} from 'redux';
 import StatusBar from '../components/StatusBar';
 import Winners from '../components/Winners';
 import CountDown from '../components/CountDown';
+import Slider from '../components/Slider';
+
 import {statusDescs, positiveNumber, getStatus, formatTime} from '../helper';
 import * as Actions from '../actions';
 
@@ -34,12 +36,12 @@ class DetailPage extends Component {
     const {
       td,
       title,
-      shop_id,
-      start_at,
-      end_at,
       price,
       status,
+      end_at,
+      shop_id,
       winners,
+      start_at,
       shop_name,
       ori_price,
       completes,
@@ -53,7 +55,8 @@ class DetailPage extends Component {
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
         <div className="page detail-page">
           <div className="detail-top">
-            <img className="detail-imgs" src={image_urls && image_urls[0]}/>
+            <Slider images={image_urls}/>
+            {/* <img className="detail-imgs" src={image_urls && image_urls[0]}/> */}
 
             <div className="info-top">
               <div className="start-end-wrap">
