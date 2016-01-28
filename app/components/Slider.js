@@ -144,7 +144,6 @@ export default class Slider extends Component {
   }
 }
 
-
 Slider.defaultProps = {
   images: [],
-}
+};
