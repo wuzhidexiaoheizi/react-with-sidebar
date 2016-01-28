@@ -70,7 +70,7 @@ class DetailPage extends Component {
                 <div className="cell logo">{+price}元购</div>
                 <div className="cell">
                   <div><s>￥{ori_price}</s></div>
-                  <div>{completes ? `出售${completes}` : null}</div>
+                  <div>{completes >= 0 && `出售${completes}`}</div>
                 </div>
                 <div className="cell right">
                   <div className="yellow">{statusDescs(status, true)}</div>

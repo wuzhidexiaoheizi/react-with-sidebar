@@ -6,9 +6,16 @@ import Star from '../components/Star';
 class CommentPage extends Component {
   constructor(props) {
     super(props);
+    const defaultDesc = [
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+    ];
     this.state = {
       name: '',
-      desc: '',
+      desc: defaultDesc[Math.ceil(Math.random() * 5) - 1],
       good: 0,
       delivery: 0,
       customer_service: 0,
@@ -73,7 +80,7 @@ class CommentPage extends Component {
 
   render() {
     const {params: {order_id}} = this.props;
-    const {name, avatar} = this.state;
+    const {name, avatar, desc} = this.state;
     return (
       <div className="page comment-page">
         <div className="comment-top">
@@ -83,7 +90,12 @@ class CommentPage extends Component {
         <div className="comment-text">
           <p className="awardee-name"><b>{name}</b> 获奖感言</p>
           <div className="textarea-wrap">
-            <textarea placeholder="说点什么吧..." rows={4} className="award-comment" onChange={e => this.setState({desc: e.target.value})}/>
+            <textarea
+              value={desc}
+              placeholder="说点什么吧..."
+              rows={4}
+              className="award-comment"
+              onChange={e => this.setState({desc: e.target.value})}/>
           </div>
         </div>
 
