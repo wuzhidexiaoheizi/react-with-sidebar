@@ -1,101 +1,64 @@
+.share-page
 .comment-page
-  .share-pic
+  .comment-top
     position relative
-
-    .share-avatar img
+    .background
       width 100%
-      height auto
-
-    .awardee-avatar
-      position absolute
-      width 130px
-      height 130px
+      display block
+    .avatar
       border-radius 50%
-      background-color rgba(255, 255, 255, 0.85)
-      top 11%
+      display block
+      width 32%
+      top 13%
+      padding 3px
+      // box-shadow 0 0 30px 15px #FFF
+      background-color rgba(255, 255, 255, 0.5)
       left 50%
-      margin-left -65px
-      padding 5px
-      overflow hidden
-
-      .awardee-pic
-        width 100%
-        height 100%
-        border-radius 50%
-
-    .share-content
+      margin-left -16%
       position absolute
-      height 34%
-      bottom 6%
-      left 20px
-      right 20px
-      
-      .awardee-name
-        padding 8px 0
-        margin 0
-        text-align center
-        font-size 16px
-        color #FFF
-
-      .award-testimonials
+      overflow hidden
+  .comment-text
+    position relative
+    text-align center
+    margin-top -30%
+    .textarea-wrap
+      background-color #E80016
+      padding 1rem
+      position relative
+      &:after
+        content ''
+        display block
         position absolute
-        left 0
-        right 0
-        top 35px
-        bottom 0
-        background #FFF
-        border-radius 5px
-        box-shadow 0 0 8px #999
-        -webkit-box-shadow 0 0 8px #999
-
-        &:before
-          content ""
-          position absolute
-          top -6px
-          left 50%
-          margin-left -4px
-          border-width 0 8px 8px 8px
-          border-color #FFF transparent
-          border-style solid
-
-        .award-comment
-          height 100%
-          width 100%
-          word-break break-word
-          font-size 16px
-          color #FF2B2B
-          position relative
-          resize none
-          border none
-          border-radius 5px
-          outline none
-
-          &:focus
-            border none
-            padding: 5px
-
+        border 10px solid transparent
+        border-bottom-color #FFF
+        top -7px
+        left 50%
+        margin-left -10px
+    .awardee-name
+      font-size 2rem
+      color #FFF
+      margin 0.5rem
+    .award-comment
+      text-align justify
+      word-break break-all
+      background-color #FFF
+      font-size 1.4rem
+      outline none
+      border-radius 1rem
+      resize none
+      border none
+      padding 1rem
+      width 100%
+      color #EC0C33 
 
   .comment-scores
-    margin 15px 20px 0 20px
-
-    .score-item
-      margin-bottom 10px
-
-      &:after
-        content ""
-        display table
-        clear both
-
-      .score-field
-        float right
-
-  .comment-immediately
-    margin 20px
-    text-align right
-
-    .comment-btn
-      display inline-block
-      padding 8px 12px
-      color #FFF
-      background #FF2B2B
-      border-radius 5px
+    padding 1rem
+  .comment-btn
+    background-color #27ae60
+    color #FFF
+    padding 0.8rem 1.2rem
+    border-radius 0.5rem
+    float right
+    display block
+    &:hover
+      background-color #2ecc71

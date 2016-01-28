@@ -1,36 +1,29 @@
-import fetch from 'isomorphic-fetch';
+// import fetch from 'isomorphic-fetch';
+// const _fetch = (url, method = 'get') => {
+//   return fetch(url, {
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json'
+//     },
+//     credentials: 'same-origin',
+//     method,
+//   });
+// };
 
-const _fetch = (url, method = 'get') => {
-  return fetch(url, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    credentials: 'same-origin',
-    method,
-  });
-};
-
-const checkLogup = res => {
-  if (res.status == 401) {
-    throw new Error(401);
-  }
-  return res;
-};
+import {_fetch} from '../helper';
 
 export function fetchList() {
   return (dispatch, getState) => {
     if (getState().list.listFetched) return;
     setTimeout(() => {
       _fetch(`${__API__}/${__ONE_MONEY_ID__}/items?u=${Date.now()}`)
-        .then(res => res.json())
-        .then(json => {
-          dispatch({
-            type: 'FETCH_LIST_DONE',
-            items: json.items,
-            td: json.td || 0,
-          });
+      .then(json => {
+        dispatch({
+          type: 'FETCH_LIST_DONE',
+          items: json.items,
+          td: json.td || 0,
         });
+      });
     }, 300);
   };
 }
@@ -44,35 +37,31 @@ export function updateItemStatus(id, status) {
 export function fetchWinners(id) {
   return dispatch => {
     _fetch(`${__API__}/${__ONE_MONEY_ID__}/status/${id}?winners=${__WINNERS_NUM__}`)
-      .then(res => res.json())
-      .then(json => {
-        delete json.status;
-        dispatch({type: 'UPDATE_ITEM_DONE', item: json, id, tag: 'fetchWinners'});
-      });
+    .then(json => {
+      delete json.status;
+      dispatch({type: 'UPDATE_ITEM_DONE', item: json, id, tag: 'fetchWinners'});
+    });
   };
 }
 
 export function fetchCallback(id) {
   return dispatch => {
     _fetch(`${__API__}/${__ONE_MONEY_ID__}/callback/${id}_&${Date.now()}`)
-      .then(checkLogup)
-      .then(res => res.json())
-      .then(json => {
-        dispatch({type: 'FETCH_CALLBACK_DONE', item: json, id, tag: 'fetchCallback'});
-      }).catch(err => {
-        console.log('callback error:', err);
-        if (err.message == 401) return dispatch({type: 'NOT_SIGN_UP'});
-      });
+    .then(json => {
+      dispatch({type: 'FETCH_CALLBACK_DONE', item: json, id, tag: 'fetchCallback'});
+    }).catch(err => {
+      console.log('callback error:', err);
+      if (err.message == 401) return dispatch({type: 'NOT_SIGN_UP'});
+    });
   };
 }
 
 export function fetchDetail(id) {
   return dispatch => {
     _fetch(`${__API__}/${__ONE_MONEY_ID__}/items/${id}?u=${Date.now()}`)
-      .then(res => res.json())
-      .then(json => {
-        dispatch({type: 'UPDATE_ITEM_DONE', item: json, id, tag: 'fetchDetail'});
-      });
+    .then(json => {
+      dispatch({type: 'UPDATE_ITEM_DONE', item: json, id, tag: 'fetchDetail'});
+    });
     dispatch(fetchWinners(id));
     dispatch(fetchCallback(id));
   };
@@ -81,7 +70,6 @@ export function fetchDetail(id) {
 export function fetchGrab(id) {
   return dispatch => {
     _fetch(`${__API__}/${__ONE_MONEY_ID__}/grab/${id}`, 'put')
-    .then(res => res.json())
     .then(json => {
       if (json.status == 'success') {
         json.status = 'pending';

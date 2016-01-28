@@ -30,13 +30,29 @@ export default function(state = initalState, action) {
     };
   }
 
+  case 'SUBMIT_COMMENT_FAILED': {
+    return {
+      show: true,
+      title: '评论失败',
+      message: action.message,
+    };
+  }
+
   case 'NOT_SIGN_UP': {
     return {
       show: true,
       title: '未登陆',
-      message: '如果您不登陆的话, <br/>就无法参加活动.',
-      url: __SIGNUP_URL__ + '?callback=' + encodeURIComponent(`${location.origin + location.pathname}#/list`) + '&goto_one_money=true',
+      message: '请登陆之后, <br/>再进行操作.',
+      url: __SIGNUP_URL__ + '?callback=' + encodeURIComponent(`${location.origin + location.pathname}${action.pathHash || '#/list'}`) + '&goto_one_money=true',
       btn: '使用微信登陆',
+    };
+  }
+
+  case 'UNKNOW_ERROR': {
+    return {
+      show: true,
+      title: '未知错误',
+      message: action.message,
     };
   }
 

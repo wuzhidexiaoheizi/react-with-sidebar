@@ -1,5 +1,25 @@
 import React from 'react';
 import Loading from 'halogen/PulseLoader';
+import fetch from 'isomorphic-fetch';
+
+export function _fetch(url, method = 'get', body) {
+  return fetch(url, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'same-origin',
+    method,
+    body,
+  })
+  .then(res => {
+    if (res.status == 401) {
+      throw new Error(401);
+    }
+    return res;
+  })
+  .then(res => res.json());
+}
 
 export function parseData(obj) {
   const shouldDateParseArray = ['start_at', 'end_at', 'suspend_at'];
