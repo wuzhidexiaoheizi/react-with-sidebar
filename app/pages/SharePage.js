@@ -55,7 +55,7 @@ class SharePage extends Component {
   }
 
   render() {
-    const {desc, image_urls, pmo_item_id, user_nickname, user_avatar, thumbers_count, thumbers} = this.state;
+    const {desc, image_urls, pmo_item_id, user_nickname, user_avatar, thumbers_count, thumbers, order_id, user_id} = this.state;
     return (
       <div className="page share-page">
         {/* <Nav /> */}

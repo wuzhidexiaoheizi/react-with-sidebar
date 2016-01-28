@@ -72,6 +72,7 @@ class CommentPage extends Component {
   }
 
   render() {
+    const {params: {order_id}} = this.props;
     const {name, avatar} = this.state;
     return (
       <div className="page comment-page">
@@ -91,6 +92,7 @@ class CommentPage extends Component {
           <Star name="delivery" starClick={this.handleClickStar.bind(this)} num={5} caption="服务评价"/>
           <Star name="customer_service" starClick={this.handleClickStar.bind(this)} num={5} caption="快递评价"/>
           <span className="comment-btn" onClick={this.handleSubmit.bind(this)}>确认</span>
+          <a className="comment-btn orange" href={`/orders/${order_id}`}>查看订单</a>
         </div>
       </div>
     );
