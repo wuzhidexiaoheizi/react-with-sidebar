@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {formatTime} from '../helper';
+import {_fetch} from '../helper';
 
 
 class HomePage extends Component {
@@ -25,8 +26,17 @@ class HomePage extends Component {
   }
 
   _handleSignup() {
-    const url = `${location.origin + location.pathname}#/list`;
-    location.href = __SIGNUP_URL__ + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
+    const {history} = this.props;
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/signup`)
+    .then(json => {
+      console.log(json);
+      history.pushState(null, '/list');
+    }).catch(err => {
+      if (err.message == 401) {
+        const url = `${location.origin + location.pathname}#/list`;
+        location.href = __SIGNUP_URL__ + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
+      }
+    });
   }
 
   render() {
