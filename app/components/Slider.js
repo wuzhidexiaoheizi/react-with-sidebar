@@ -40,11 +40,9 @@ export default class extends Component {
   }
 
   handleOnTouchStart(e) {
-    e.preventDefault();
     const {slider} = this.refs;
     slider.style.transition = null;
     slider.style.webkitTransition = null;
-
     this.touchStartX = e.touches[0].pageX;
   }
 

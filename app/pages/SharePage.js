@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {_fetch} from '../helper';
+// import Nav from '../components/Nav';
 // import Slider from '../components/Slider';
 // import Star from '../components/Star';
 
@@ -54,9 +55,10 @@ class SharePage extends Component {
   }
 
   render() {
-    const {desc, image_urls, id, user_nickname, user_avatar, thumbers_count, thumbers} = this.state;
+    const {desc, image_urls, pmo_item_id, user_nickname, user_avatar, thumbers_count, thumbers} = this.state;
     return (
       <div className="page share-page">
+        {/* <Nav /> */}
         <div className="comment-top">
           <img className="background" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop_category/image/b1ec8fd9fc5b559e2e96f89c61d6f900.jpg"/>
           <img className="avatar" src={user_avatar}/>
@@ -83,7 +85,7 @@ class SharePage extends Component {
                 <img className="sales-pic" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/73be4db79919ba98fc1f9992d5d8c4d8.jpg" />
               </div> */}
             </div>
-            <Link to={`/detail/${id}`} className="product-link">
+            <Link to={`/detail/${pmo_item_id}`} className="product-link">
               点击查看商品详情
             </Link>
           </div>

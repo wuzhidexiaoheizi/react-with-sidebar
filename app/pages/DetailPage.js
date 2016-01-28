@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import StatusBar from '../components/StatusBar';
 import Winners from '../components/Winners';
 import CountDown from '../components/CountDown';
+import Nav from '../components/Nav';
 import Slider from '../components/Slider';
 
 import {statusDescs, positiveNumber, getStatus, formatTime} from '../helper';
@@ -53,6 +54,7 @@ class DetailPage extends Component {
 
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
+        <Nav />
         <div className="page detail-page">
           <div className="detail-top">
             <Slider images={image_urls}/>
