@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {formatTime} from '../helper';
-// import {_fetch} from '../helper';
+import {_fetch} from '../helper';
 
 
 class HomePage extends Component {

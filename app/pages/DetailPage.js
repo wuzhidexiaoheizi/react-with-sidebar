@@ -5,7 +5,7 @@ import StatusBar from '../components/StatusBar';
 import Winners from '../components/Winners';
 import CountDown from '../components/CountDown';
 import Nav from '../components/Nav';
-import Slider from '../components/Slider';
+// import Slider from '../components/Slider';
 
 import {statusDescs, positiveNumber, getStatus, formatTime} from '../helper';
 import * as Actions from '../actions';

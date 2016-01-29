@@ -3,6 +3,7 @@ import {_fetch} from '../helper';
 export function fetchList() {
   return (dispatch, getState) => {
     if (getState().list.listFetched) return;
+
     setTimeout(() => {
       _fetch(`${__API__}/${__ONE_MONEY_ID__}/items?u=${Date.now()}`)
       .then(json => {
@@ -70,7 +71,7 @@ export function fetchGrab(id) {
     .catch(err => {
       console.log('callback error:', err);
       if (err.message == 401) {
-       return dispatch({type: 'NOT_SIGN_UP'});
+        return dispatch({type: 'NOT_SIGN_UP'});
       }
     });
   };
