@@ -1,6 +1,8 @@
 var webpack = require('webpack');
 var path = require('path');
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 
 var config = {
   __ENV__:            JSON.stringify('DEV'),
@@ -43,11 +45,14 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.css$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css']},
+      {test: /\.css$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'postcss']},
       {test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel'},
-      {test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'stylus']},
+      {test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'postcss', 'stylus']},
       {test: /\.json$/, include: path.resolve(__dirname, 'app'), loaders: ['json']},
     ]
+  },
+  postcss: function () {
+    return [autoprefixer, precss];
   },
   plugins: [
     new webpack.DefinePlugin(config),
