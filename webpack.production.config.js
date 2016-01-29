@@ -2,6 +2,8 @@ var webpack = require('webpack');
 var path = require('path');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 
 var config = {
   __ENV__           : JSON.stringify('PRODUCTION'),
@@ -24,11 +26,14 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.css$/, include: path.resolve(__dirname, 'app'), loader: 'style-loader!css-loader'},
+      {test: /\.css$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'postcss']},
       {test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel-loader'},
-      {test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'stylus']},
+      {test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'postcss', 'stylus']},
       {test: /\.json$/, include: path.resolve(__dirname, 'app'), loaders: ['json']},
     ]
+  },
+  postcss: function () {
+    return [autoprefixer, precss];
   },
   plugins: [
     new webpack.DefinePlugin(config),
