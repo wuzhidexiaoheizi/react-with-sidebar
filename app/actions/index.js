@@ -1,15 +1,3 @@
-// import fetch from 'isomorphic-fetch';
-// const _fetch = (url, method = 'get') => {
-//   return fetch(url, {
-//     headers: {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json'
-//     },
-//     credentials: 'same-origin',
-//     method,
-//   });
-// };
-
 import {_fetch} from '../helper';
 
 export function fetchList() {
@@ -81,7 +69,9 @@ export function fetchGrab(id) {
     })
     .catch(err => {
       console.log('callback error:', err);
-      if (err.message == 401) return dispatch({type: 'NOT_SIGN_UP'});
+      if (err.message == 401) {
+       return dispatch({type: 'NOT_SIGN_UP'});
+      }
     });
   };
 }

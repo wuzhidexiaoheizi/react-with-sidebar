@@ -13,7 +13,7 @@ export function _fetch(url, method = 'get', body) {
     body,
   })
   .then(res => {
-    if (res.status == 401) {
+    if (res.status == 401 || res.status == 404) {
       throw new Error(401);
     }
     return res;

@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {formatTime} from '../helper';
-import {_fetch} from '../helper';
+// import {_fetch} from '../helper';
 
 
 class HomePage extends Component {
@@ -27,7 +27,7 @@ class HomePage extends Component {
 
   _handleSignup() {
     const {history} = this.props;
-    _fetch(`${__API__}/${__ONE_MONEY_ID__}/signup`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/signup`, 'put')
     .then(json => {
       console.log(json);
       history.pushState(null, '/list');

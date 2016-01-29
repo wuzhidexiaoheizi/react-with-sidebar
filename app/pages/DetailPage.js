@@ -57,8 +57,8 @@ class DetailPage extends Component {
         <Nav />
         <div className="page detail-page">
           <div className="detail-top">
-            <Slider images={image_urls}/>
-            {/* <img className="detail-imgs" src={image_urls && image_urls[0]}/> */}
+            {/* <Slider images={image_urls}/> */}
+            { <img className="detail-imgs" src={image_urls && image_urls[0]}/> }
 
             <div className="info-top">
               <div className="start-end-wrap">
@@ -89,7 +89,7 @@ class DetailPage extends Component {
                 </div>
                 <div className="cell min">
                   <div>参与人数</div>
-                  <div>{participant_count}</div>
+                  <div>{participant_count + completes}</div>
                 </div>
               </div>
             </div>
