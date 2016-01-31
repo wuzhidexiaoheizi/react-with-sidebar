@@ -45,7 +45,7 @@ class HomePage extends Component {
         <img style={{minHeight: '400px'}} className="poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/aac7cb3740e64602623eb08f573e1ef6.jpg"/>
         <div className="introduction">
           <img className="introduction-top" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/8ca4d5a71c6b3e72734c6d238b5a88cf.png"/>
-          <main className="introduction-text">
+          <div className="introduction-text">
             <b>参与方式:</b>
             <div className="indent">关注我们的"耒阳街上"公众号之后，即可参与我们的线上抢购伊利大礼包活动</div>
 
@@ -59,7 +59,7 @@ class HomePage extends Component {
             <div className="start-end-time">
               {this.state.start_at} 至 {this.state.end_at}
             </div>
-          </main>
+          </div>
           <img
             className="introduction-bottom"
             src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3a4c3db9b8d16578ebd1b94b9cbcbb5b.png"
