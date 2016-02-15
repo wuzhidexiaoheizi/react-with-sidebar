@@ -5,7 +5,7 @@ import StatusBar from '../components/StatusBar';
 import Winners from '../components/Winners';
 import CountDown from '../components/CountDown';
 import Nav from '../components/Nav';
-// import Slider from '../components/Slider';
+import Slider from '../components/Slider';
 
 import {statusDescs, positiveNumber, getStatus, formatTime} from '../helper';
 import * as Actions from '../actions';
@@ -57,8 +57,7 @@ class DetailPage extends Component {
         <Nav />
         <div className="page detail-page">
           <div className="detail-top">
-            {/* <Slider images={image_urls}/> */}
-            { <img className="detail-imgs" src={image_urls && image_urls[0]}/> }
+            { <Slider images={image_urls}/> }
 
             <div className="info-top">
               <div className="start-end-wrap">
