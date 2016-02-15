@@ -18,6 +18,8 @@ import './style/main.styl';
 import FastClick from 'fastclick';
 FastClick.attach(document.body);
 
+document.getElementById('frist-view').remove();
+
 // import DevTools from './pages/DevTools';
 
 // History-Router

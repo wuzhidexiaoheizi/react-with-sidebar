@@ -104,7 +104,6 @@ class DetailPage extends Component {
         </div>
         <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
       </div>
-
     );
   }
 }

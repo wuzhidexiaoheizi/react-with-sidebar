@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var autoprefixer = require('autoprefixer');
 var precss = require('precss');
 
@@ -26,16 +27,25 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.css$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'postcss']},
-      {test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel-loader'},
-      {test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'postcss', 'stylus']},
-      {test: /\.json$/, include: path.resolve(__dirname, 'app'), loaders: ['json']},
+      {
+        test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'),
+        exclude: /node_modules/, loader: 'babel-loader'
+      },
+      {
+        test: /\.styl$/, include: path.resolve(__dirname, 'app'),
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader!stylus-loader")
+      },
+      {
+        test: /\.json$/, include: path.resolve(__dirname, 'app'),
+        loaders: ['json']
+      },
     ]
   },
   postcss: function () {
     return [autoprefixer, precss];
   },
   plugins: [
+    new ExtractTextPlugin("[name].css"),
     new webpack.DefinePlugin(config),
     new webpack.optimize.DedupePlugin(),
     new UglifyJsPlugin({
