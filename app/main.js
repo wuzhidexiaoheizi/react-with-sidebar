@@ -18,8 +18,6 @@ import './style/main.styl';
 import FastClick from 'fastclick';
 FastClick.attach(document.body);
 
-document.getElementById('frist-view').remove();
-
 // import DevTools from './pages/DevTools';
 
 // History-Router
@@ -73,6 +71,9 @@ class App extends Component {
   }
 }
 
+const TARGET = document.getElementById('app');
+TARGET.className = TARGET.className.replace(/pre-view/, '');
+
 ReactDOM.render(
   <Provider store={store}>
     <Router>
@@ -85,5 +86,5 @@ ReactDOM.render(
       </Route>
     </Router>
   </Provider>,
-  document.body.appendChild(document.createElement('div'))
+  TARGET
 );

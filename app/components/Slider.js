@@ -8,7 +8,7 @@ import React, {Component} from 'react';
 const wrapperStyle = {
   overflow: 'hidden',
   position: 'relative',
-}
+};
 
 const navStyle = {
   position: 'absolute',
@@ -16,7 +16,7 @@ const navStyle = {
   textAlign: 'center',
   zIndex: '3',
   width: '100%',
-}
+};
 
 const navDotStyle = {
   display: 'inline-block',
@@ -27,19 +27,19 @@ const navDotStyle = {
   margin: '3px',
   transition: 'all .5s',
   WebkitTransition: 'all .5s',
-}
+};
 
 const rowStyle = {
   fontSize: 0,
   letterSpacing: '-3px',
   whiteSpace: 'nowrap',
   willChange: 'transform',
-}
+};
 
 const imgStyle = {
   display: 'inline-block',
   width: '100%',
-}
+};
 
 const EDGE_WIDTH = 50;
 
@@ -54,9 +54,9 @@ export default class Slider extends Component {
   }
 
   onTouchStart(e) {
-    e.preventDefault()
+    e.preventDefault();
     this.containerWidth = this.refs.container.offsetWidth;
-    this.rowWidth = (this.props.images.length-1) * this.containerWidth;
+    this.rowWidth = (this.props.images.length - 1) * this.containerWidth;
     this.refs.row.style.transition = '';
     this.refs.row.style.webkitTransition = '';
     this.startX = e.touches[0].pageX;
@@ -73,10 +73,9 @@ export default class Slider extends Component {
 
     this.refs.row.style.transform = `translateX(${this.translateX}px)`;
     this.refs.row.style.webkitTransform = `translateX(${this.translateX}px)`;
-
   }
 
-  onTouchEnd(e) {
+  onTouchEnd() {
     this.index = (this.translateX / this.containerWidth).toFixed(0);
 
     this.setState({
@@ -86,7 +85,7 @@ export default class Slider extends Component {
 
     this.refs.row.style.transition = 'all .5s';
     this.refs.row.style.webkitTransition = 'all .5s';
-  
+
     this.refs.row.style.transform = `translateX(${this.preTranslateX}px)`;
     this.refs.row.style.webkitTransform = `translateX(${this.preTranslateX}px)`;
   }
@@ -104,7 +103,7 @@ export default class Slider extends Component {
         onTouchEnd={this.onTouchEnd.bind(this)}
       >
         <div style={navStyle}>
-          {images.map((_,index) =>
+          {images.map((_, index) =>
             <span
               style={index == this.state.index ? Object.assign({}, navDotStyle, {backgroundColor: '#FFF'}) : navDotStyle}/>
 
@@ -114,7 +113,7 @@ export default class Slider extends Component {
           className="slider-row"
           ref="row"
           style={rowStyle}>
-          {images.map((url,index) =>
+          {images.map((url, index) =>
             <img key={`slider-image-${index}`} src={url} style={imgStyle}/>
           )}
         </div>
