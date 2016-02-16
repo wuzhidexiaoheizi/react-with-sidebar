@@ -62,7 +62,7 @@ class HomePage extends Component {
           </div>
           <img
             className="introduction-bottom"
-            src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3a4c3db9b8d16578ebd1b94b9cbcbb5b.png"
+            src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/0ff106aaf464042b20800d946232813d.jpg"
             onClick={this._handleSignup.bind(this)}
           />
         </div>
@@ -78,3 +78,4 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(HomePage);
+
