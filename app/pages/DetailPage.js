@@ -18,7 +18,6 @@ class DetailPage extends Component {
   componentDidMount() {
     const {params: {id}, dispatch} = this.props;
     dispatch(Actions.fetchDetail(id));
-
     this.interval = setInterval(() => {
       const item = this.props.items.find(i => i.id == id) || {};
       const _status = getStatus(item);
@@ -57,8 +56,7 @@ class DetailPage extends Component {
         <Nav />
         <div className="page detail-page">
           <div className="detail-top">
-            { <Slider images={image_urls}/> }
-
+            <Slider images={image_urls} auto />
             <div className="info-top">
               <div className="start-end-wrap">
                 <img className="wings" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/ad6e3e53e50da45b695fa77107fadeb7.png"/>
@@ -101,6 +99,8 @@ class DetailPage extends Component {
             <img className="avatar" src={shop_avatar_url}/>
             <span>{shop_name}</span>
           </a>
+          {__DR_CODE__ && <img className="dr-img" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/6b4bfbba51112dffcf9915d82cd098d7.jpg" alt="dr"/>}
+          {__DR_CODE__ && <div className="dr-text">长按二维码关注更多优惠!</div>}
         </div>
         <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
       </div>

@@ -5,12 +5,13 @@ var autoprefixer = require('autoprefixer');
 var precss = require('precss');
 
 var config = {
-  __ENV__:            JSON.stringify('DEV'),
-  __ONE_MONEY_ID__:   JSON.stringify(1),
-  __WINNERS_NUM__:    JSON.stringify(50),
-  __API__:            JSON.stringify('/api/promotions/one_money'),
-  __SIGNUP_URL__:     JSON.stringify('http://192.168.0.171:8080/users/sign_in'),
+  __ENV__           : JSON.stringify('DEV'),
+  __ONE_MONEY_ID__  : JSON.stringify(1),
+  __WINNERS_NUM__   : JSON.stringify(50),
+  __API__           : JSON.stringify('/api/promotions/one_money'),
+  __SIGNUP_URL__    : JSON.stringify('http://192.168.0.171:8080/users/sign_in'),
   __DEFAULT_AVATAR__: JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
+  __DR_CODE__       : JSON.stringify(true),
 };
 
 module.exports = {

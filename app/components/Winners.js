@@ -11,7 +11,7 @@ export default class Winner extends Component {
         <div style={{color: '#666'}}>幸运用户</div>
         {this.props.winners.map((winner, index) => {
           return (
-            <div key={index} className="winner">
+            <div key={`winner-${index}`} className="winner">
               <img className="avatar" src={winner.avatar_url || __DEFAULT_AVATAR__} alt={winner.title}/>
             </div>
           );
