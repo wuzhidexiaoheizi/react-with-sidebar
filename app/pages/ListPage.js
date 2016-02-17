@@ -57,7 +57,7 @@ class ListPage extends Component {
   render() {
     const {list: {listFetched}} = this.props;
     return (
-      <div>
+      <div style={{position: 'absolute', width: '100%', height: '100%'}}>
         {__DR_CODE__ && <DRCode showText={this.state.showDRText}/>}
         <div className="page list-page" onScroll={this.onScroll.bind(this)}>
           <img className="list-poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/7452918bdf9cb79debb88a5b7a59179a.jpg"/>

@@ -42,7 +42,7 @@ class HomePage extends Component {
   render() {
     return (
       <div className="page home-page">
-        <img style={{minHeight: '400px'}} className="poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/aac7cb3740e64602623eb08f573e1ef6.jpg"/>
+        <img style={{minHeight: '400px'}} className="poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/7031586e074b8481b20d7100ff956a79.jpg"/>
         <div className="introduction">
           <img className="introduction-top" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/8ca4d5a71c6b3e72734c6d238b5a88cf.png"/>
           <div className="introduction-text">
@@ -62,7 +62,7 @@ class HomePage extends Component {
           </div>
           <img
             className="introduction-bottom"
-            src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/0ff106aaf464042b20800d946232813d.jpg"
+            src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3a4c3db9b8d16578ebd1b94b9cbcbb5b.png"
             onClick={this._handleSignup.bind(this)}
           />
         </div>
