@@ -12,6 +12,8 @@ var config = {
   __SIGNUP_URL__    : JSON.stringify('http://192.168.0.171:8080/users/sign_in'),
   __DEFAULT_AVATAR__: JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
   __DR_CODE__       : JSON.stringify(true),
+  __HOME_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/bce4aa071456342d64e7a4d5da3cb45d.jpg'),
+  __LIST_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/ac32369464ed4b3017013080d2c6c78b.jpg')
 };
 
 module.exports = {

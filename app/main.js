@@ -71,9 +71,6 @@ class App extends Component {
   }
 }
 
-const TARGET = document.getElementById('app');
-TARGET.className = TARGET.className.replace(/pre-view/, '');
-
 ReactDOM.render(
   <Provider store={store}>
     <Router>
@@ -86,5 +83,5 @@ ReactDOM.render(
       </Route>
     </Router>
   </Provider>,
-  TARGET
+  document.getElementById('app')
 );

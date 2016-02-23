@@ -25,6 +25,7 @@ export default class extends Component {
   priceLogo() {
     const {price} = this.props;
     if (price == 1) return <img className="price-logo" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/a329beccdfd82a9ef1cf20c0f4e7bbb4.jpg"/>;
+    if (price == 3) return <img className="price-logo" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/71f425ddfda4f14ed54edec3d6edb0f5.png"/>;
     if (price == 5) return <img className="price-logo" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/543d1f60de9220e69d15b1260e66b4cf.jpg"/>;
     if (price == 10) return <img className="price-logo" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/427038b84edf7ff904fa572ad61f2048.jpg"/>;
     return null;

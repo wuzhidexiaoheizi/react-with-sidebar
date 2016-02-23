@@ -10,6 +10,9 @@ export default props => {
   case 1:
     priceTitleImgUrl = 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/481aaafb7b83a363fcfa6ccc06dba553.png';
     break;
+  case 3:
+    priceTitleImgUrl = 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/10f338b176d6657565bcee852827b040.png';
+    break;
   case 5:
     priceTitleImgUrl = 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/041c2e92da98b77da4c12da56a24973d.png';
     break;

@@ -21,3 +21,19 @@
       margin-bottom 0.6rem
     .start-end-time
       text-align center
+
+#down-arrow
+  position absolute
+  right 10px
+  bottom 50px
+  width 60px
+  animation arrow .8s infinite
+  z-index 9
+    
+@keyframes arrow
+  0%
+    transform translateY(0)
+  30%
+    transform translateY(30px)
+  100%
+    transform translateY(0)

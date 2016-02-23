@@ -60,11 +60,11 @@ class ListPage extends Component {
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
         {__DR_CODE__ && <DRCode showText={this.state.showDRText}/>}
         <div className="page list-page" onScroll={this.onScroll.bind(this)}>
-          <img className="list-poster" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/7452918bdf9cb79debb88a5b7a59179a.jpg"/>
+          <img className="list-poster" src={__LIST_IMG__}/>
           {!listFetched && <div style={{textAlign: 'center'}}><Loading color="#FFF" size="9px" margin="4px"/></div>}
           <ul className="list">
-            {this.sortByPrice([1, 5, 10])}
-            {this.otherPrice([1, 5, 10])}
+            {this.sortByPrice([1, 3, 5, 10])}
+            {this.otherPrice([1, 3, 5, 10])}
           </ul>
         </div>
       </div>
