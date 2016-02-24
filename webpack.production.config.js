@@ -1,4 +1,6 @@
+// 1qaz@WSXwanliu
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 var path = require('path');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -25,8 +27,8 @@ module.exports = {
   ],
   output: {
     path: __dirname + '/build',
-    publicPath: '/',
-    filename: './bundle.js',
+    publicPath: './',
+    filename: 'bundle_[hash].js',
   },
   module: {
     loaders: [
@@ -48,7 +50,7 @@ module.exports = {
     return [autoprefixer, precss];
   },
   plugins: [
-    new ExtractTextPlugin("[name].css"),
+    new ExtractTextPlugin("[name]_[hash].css"),
     new webpack.DefinePlugin(config),
     new webpack.optimize.DedupePlugin(),
     new UglifyJsPlugin({
@@ -56,8 +58,12 @@ module.exports = {
         warnings: false
       }
     }),
-    new CopyWebpackPlugin([
-      { from: './app/index.html', to: 'index.html' },
-    ])
+    new HtmlWebpackPlugin({
+      template: './app/index.html', // Load a custom template
+      inject: 'body' // Inject all scripts into the body
+      })
+    // new CopyWebpackPlugin([
+    //   { from: './app/index.html', to: 'index.html' },
+    // ])
   ]
 };

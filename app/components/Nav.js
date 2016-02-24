@@ -5,7 +5,7 @@ export default class extends Component {
   render() {
     return (
       <nav className="top-nav">
-        <Link to="/list">{'＜活动列表'}</Link>
+        <Link className="back" to="/list">{'活动列表'}</Link>
       </nav>
     );
   }

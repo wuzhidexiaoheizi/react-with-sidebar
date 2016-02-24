@@ -57,8 +57,10 @@ class DetailPage extends Component {
         <Nav />
         <div className="page detail-page">
           <div className="detail-top">
-            {Number(fare) == 0 && <img className="mailing-fee" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/038bffe812178917d1768b9b3d6481ce.png"/>}
-            <Slider images={image_urls} auto />
+            <div className="image-box">
+              {Number(fare) == 0 && <img className="mailing-fee" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/038bffe812178917d1768b9b3d6481ce.png"/>}
+              <Slider images={image_urls} auto />
+            </div>
             <div className="info-top">
               <div className="start-end-wrap">
                 <img className="wings" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/ad6e3e53e50da45b695fa77107fadeb7.png"/>
@@ -92,7 +94,7 @@ class DetailPage extends Component {
                 </div>
               </div>
             </div>
-
+            {Number(fare) == 0 && <div className="mailing-fee-text"><span>该商品免运费</span></div>}
           </div>
 
           {winners && winners.length > 0 ? <Winners winners={winners}/> : null}

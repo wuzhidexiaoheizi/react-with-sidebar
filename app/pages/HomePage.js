@@ -39,7 +39,7 @@ class HomePage extends Component {
     });
   }
 
-  downArrow(e) {
+  onScroll(e) {
     if (e.target.scrollTop > 200) {
       this.setState({showArrow: false});
     } else {
@@ -47,11 +47,16 @@ class HomePage extends Component {
     }
   }
 
+  downBtnClick() {
+    const {homePage} = this.refs;
+    homePage.scrollTop = homePage.scrollHeight - homePage.offsetHeight - 10;
+  }
+
   render() {
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
-        {this.state.showArrow && <img id="down-arrow" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/17f5c4fb9babb034ac10439036473b85.png"/>}
-        <div className="page home-page" onScroll={this.downArrow.bind(this)}>
+        {this.state.showArrow && <img id="down-arrow" onClick={this.downBtnClick.bind(this)} src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/17f5c4fb9babb034ac10439036473b85.png"/>}
+        <div className="page home-page" ref="homePage" onScroll={this.onScroll.bind(this)}>
           <img style={{minHeight: '400px'}} className="poster" src={__HOME_IMG__}/>
           <div className="introduction">
             <img className="introduction-top" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/8ca4d5a71c6b3e72734c6d238b5a88cf.png"/>
