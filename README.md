@@ -5,7 +5,7 @@
 ```bash
 $ npm install
 ```
-  - 运行开发环境
+  - 开发模式
 ```bash
 $ npm start
 ```
