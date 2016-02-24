@@ -37,3 +37,15 @@ var config = {
 |__DR_CODE__      |是否显示二维码        |
 |__HOME_IMG__     |首页第*期图片地址     |
 |__LIST_IMG__     |列表页面第*期图片地址 |
+
+
+### ...
+ - webpack
+   - html-webpack-plugin
+   - extract-text-webpack-plugin
+   - copy-webpack-plugin
+ - react
+   - redux
+   - react-router
+ - postcss
+   - autoprefixer
