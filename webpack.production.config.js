@@ -61,7 +61,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './app/index.html', // Load a custom template
       inject: 'body' // Inject all scripts into the body
-      })
+    })
     // new CopyWebpackPlugin([
     //   { from: './app/index.html', to: 'index.html' },
     // ])

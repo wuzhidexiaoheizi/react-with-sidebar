@@ -3,6 +3,7 @@ var path = require('path');
 var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 var autoprefixer = require('autoprefixer');
 var precss = require('precss');
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var config = {
   __ENV__           : JSON.stringify('DEV'),
@@ -58,6 +59,10 @@ module.exports = {
     return [autoprefixer, precss];
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: './app/index.html', // Load a custom template
+      inject: 'body' // Inject all scripts into the body
+    }),
     new webpack.DefinePlugin(config),
     new webpack.HotModuleReplacementPlugin(),
     new OpenBrowserPlugin({ url: 'http://localhost:8080/one_money/index.html' })
