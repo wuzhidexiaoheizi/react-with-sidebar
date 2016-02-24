@@ -41,11 +41,37 @@ var config = {
 
 ### ...
  - webpack
+   - webpack-dev-server   
    - html-webpack-plugin
    - extract-text-webpack-plugin
    - copy-webpack-plugin
+   - css-loader
+   - json-loader
+   - style-loader
+   - stylus-loader
+   - babel-loader
+     - babel-polyfill
+     - preset-react
+     - babel-preset-es2015
+     - preset-stage-0
+     - postcss-loader
+     - autoprefixer
+ - history
+ - precss
+ - fastclick
+ - isomorphic-fetch
+   - whatwg-fetch
  - react
+   - uinz-slider
+   - react-addons-update
    - redux
+     - redux-thunk
+     - redux-devtools
+     - redux-devtools-dock-monitor
+     - redux-logger
    - react-router
- - postcss
-   - autoprefixer
+ - eslint
+   - eslint-config-airbnb
+   - eslint-plugin-react
+
+
