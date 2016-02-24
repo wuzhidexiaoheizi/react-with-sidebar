@@ -32,12 +32,13 @@ export default class extends Component {
   }
 
   render() {
-    const {title, cover_urls, price, ori_price, id, status} = this.props;
+    const {title, cover_urls, price, ori_price, id, status, fare} = this.props;
     return (
       <li className="item">
         <Link to={`/detail/${id}`}>
           <div className="left">
             {this.priceLogo()}
+            {Number(fare) == 0 && <img className="mailing-fee" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/038bffe812178917d1768b9b3d6481ce.png"/>}
             <img className="avatar" src={cover_urls[0]}/>
           </div>
           <div className="right">
