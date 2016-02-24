@@ -10,7 +10,7 @@ var config = {
   __ONE_MONEY_ID__  : JSON.stringify(1),
   __WINNERS_NUM__   : JSON.stringify(50),
   __API__           : JSON.stringify('/api/promotions/one_money'),
-  __SIGNUP_URL__    : JSON.stringify('http://192.168.0.171:8080/users/sign_in'),
+  __SIGNUP_URL__    : JSON.stringify('http://0.0.0.0:8080/users/sign_in'),
   __DEFAULT_AVATAR__: JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
   __DR_CODE__       : JSON.stringify(true),
   __HOME_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/bce4aa071456342d64e7a4d5da3cb45d.jpg'),
@@ -39,7 +39,7 @@ module.exports = {
   },
   entry: [
     'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://0.0.0.0:8080',
     path.resolve(__dirname, 'app/main.js')
   ],
   output: {
@@ -65,6 +65,6 @@ module.exports = {
     }),
     new webpack.DefinePlugin(config),
     new webpack.HotModuleReplacementPlugin(),
-    new OpenBrowserPlugin({ url: 'http://localhost:8080/one_money/index.html' })
+    new OpenBrowserPlugin({ url: 'http://0.0.0.0:8080/one_money/index.html' })
   ]
 };

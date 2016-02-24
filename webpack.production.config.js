@@ -7,7 +7,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var autoprefixer = require('autoprefixer');
 var precss = require('precss');
-
+var CleanWebpackPlugin = require('clean-webpack-plugin')
 var config = {
   __ENV__           : JSON.stringify('PRODUCTION'),
   __ONE_MONEY_ID__  : JSON.stringify(26),
@@ -61,6 +61,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './app/index.html', // Load a custom template
       inject: 'body' // Inject all scripts into the body
+    }),
+    new CleanWebpackPlugin(['build'], {
+      verbose: true, 
+      dry: false
     })
     // new CopyWebpackPlugin([
     //   { from: './app/index.html', to: 'index.html' },
