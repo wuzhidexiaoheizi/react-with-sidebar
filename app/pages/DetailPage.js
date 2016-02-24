@@ -35,6 +35,7 @@ class DetailPage extends Component {
     const item = this.props.items.find(i => i.id == id) || {};
     const {
       td,
+      fare,
       title,
       price,
       status,
@@ -56,6 +57,7 @@ class DetailPage extends Component {
         <Nav />
         <div className="page detail-page">
           <div className="detail-top">
+            {Number(fare) == 0 && <img className="mailing-fee" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/038bffe812178917d1768b9b3d6481ce.png"/>}
             <Slider images={image_urls} auto />
             <div className="info-top">
               <div className="start-end-wrap">
