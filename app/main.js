@@ -80,6 +80,7 @@ ReactDOM.render(
         <Route path="detail/:id" component={DetailPage}/>
         <Route path="/comment/:pmo_grab_id/:order_id" component={CommentPage} />
         <Route path="/share/:evaluation_id" component={SharePage} />
+        <Route path="*" component={HomePage} />
       </Route>
     </Router>
   </Provider>,
