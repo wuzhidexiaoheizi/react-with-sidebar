@@ -12,7 +12,7 @@ var config = {
   __ONE_MONEY_ID__  : JSON.stringify(28), // 活动ID
   __DR_CODE__       : JSON.stringify(true), // 是否显示二维码
   __HOME_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/2d7a24f6172fc89513bd49ce2fb6072c.jpg'), // 首页图片
-  __LIST_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/96b33c5747e2cf405278d18331fc032b.jpg')  // 列表图片
+  __LIST_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/96b33c5747e2cf405278d18331fc032b.jpg'),  // 列表图片
   __DEFAULT_AVATAR__: JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
   __SIGNUP_URL__    : JSON.stringify('http://m.wanliu.biz/authorize/weixin'),
   __API__           : JSON.stringify('/api/promotions/one_money'),

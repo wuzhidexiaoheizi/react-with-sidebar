@@ -25,6 +25,14 @@ class HomePage extends Component {
     });
   }
 
+  onScroll(e) {
+    if (e.target.scrollTop > 200) {
+      this.setState({showArrow: false});
+    } else {
+      this.setState({showArrow: true});
+    }
+  }
+
   _handleSignup() {
     const {history} = this.props;
     _fetch(`${__API__}/${__ONE_MONEY_ID__}/signup`, 'put')
@@ -39,13 +47,6 @@ class HomePage extends Component {
     });
   }
 
-  onScroll(e) {
-    if (e.target.scrollTop > 200) {
-      this.setState({showArrow: false});
-    } else {
-      this.setState({showArrow: true});
-    }
-  }
 
   downBtnClick() {
     const {homePage} = this.refs;
