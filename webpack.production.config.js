@@ -10,14 +10,14 @@ var precss = require('precss');
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var config = {
   __ENV__           : JSON.stringify('PRODUCTION'),
-  __ONE_MONEY_ID__  : JSON.stringify(27),
+  __ONE_MONEY_ID__  : JSON.stringify(28),
   __WINNERS_NUM__   : JSON.stringify(50),
   __API__           : JSON.stringify('/api/promotions/one_money'),
   __SIGNUP_URL__    : JSON.stringify('http://m.wanliu.biz/authorize/weixin'),
   __DEFAULT_AVATAR__: JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
   __DR_CODE__       : JSON.stringify(true),
-  __HOME_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/bce4aa071456342d64e7a4d5da3cb45d.jpg'),
-  __LIST_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/ac32369464ed4b3017013080d2c6c78b.jpg')
+  __HOME_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/2d7a24f6172fc89513bd49ce2fb6072c.jpg'),
+  __LIST_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/96b33c5747e2cf405278d18331fc032b.jpg')
 };
 
 module.exports = {
@@ -63,7 +63,7 @@ module.exports = {
       inject: 'body' // Inject all scripts into the body
     }),
     new CleanWebpackPlugin(['build'], {
-      verbose: true, 
+      verbose: true,
       dry: false
     })
     // new CopyWebpackPlugin([
