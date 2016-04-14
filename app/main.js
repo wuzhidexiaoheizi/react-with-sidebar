@@ -23,7 +23,6 @@ FastClick.attach(document.body);
 // History-Router
 // const history = createBrowserHistory();
 // import createBrowserHistory from 'history/lib/createBrowserHistory';
-
 const store = configureStore();
 class App extends Component {
   constructor(props) {
