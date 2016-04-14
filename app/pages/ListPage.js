@@ -58,7 +58,7 @@ class ListPage extends Component {
     const {list: {listFetched}} = this.props;
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
-        {__DR_CODE__ && <DRCode showText={this.state.showDRText}/>}
+        {__QR_CODE__ && <DRCode showText={this.state.showDRText}/>}
         <div className="page list-page" onScroll={this.onScroll.bind(this)}>
           <img className="list-poster" src={__LIST_IMG__}/>
           {!listFetched && <div style={{textAlign: 'center'}}><Loading color="#FFF" size="9px" margin="4px"/></div>}

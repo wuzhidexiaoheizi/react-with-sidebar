@@ -103,8 +103,8 @@ class DetailPage extends Component {
             <img className="avatar" src={shop_avatar_url}/>
             <span>{shop_name}</span>
           </a>
-          {__DR_CODE__ && <img className="dr-img" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/6b4bfbba51112dffcf9915d82cd098d7.jpg" alt="dr"/>}
-          {__DR_CODE__ && <div className="dr-text">长按二维码关注更多优惠!</div>}
+          {__QR_CODE__ && <img className="dr-img" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/6b4bfbba51112dffcf9915d82cd098d7.jpg" alt="dr"/>}
+          {__QR_CODE__ && <div className="dr-text">长按二维码关注更多优惠!</div>}
         </div>
         <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
       </div>

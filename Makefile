@@ -1,7 +1,7 @@
-TARGET := release/${DATE}
+TARGET := release/${NAME}
 TMP := /tmp/deploy/OneMoney
 export ONE_MONEY=$(ONE_MONEY_ID)
-export DRCODE=$(DR_CODE)
+export QRCODE=$(QR_CODE)
 export HOMEIMG=$(HOME_IMG)
 export LISTIMG=$(LIST_IMG)
 export DEFAULTAVATAR=$(DEFAULT_AVATAR)
@@ -19,9 +19,10 @@ deploy: cleanprepare build
 	aws deploy create-deployment --application-name OneMoney --s3-location bucket=wanliu,key=OneMoney/deploy.zip,bundleType=zip --deployment-group-name test
 
 release: build 
-	@mkdir -p release/${DATE}
+	#mkdir $(TARGET)
+	@mkdir -p $(TARGET)
 	$(eval FILES:=$(wildcard build/*))
-	# staring copy files to release/${DATE}
+	# staring copy files to $(TARGET)
 	@cp $(FILES) $(TARGET)
 
 

@@ -12,7 +12,7 @@
     "__API__" : true,
     "__SIGNUP_URL__": true,
     "__DEFAULT_AVATAR__": true,
-    "__DR_CODE__": true,
+    "__QR_CODE__": true,
     "__HOME_IMG__": true,
     "__LIST_IMG__": true
   },
