@@ -7,14 +7,14 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var config = {
   __ENV__           : JSON.stringify('DEV'),
-  __ONE_MONEY_ID__  : JSON.stringify(1),
-  __WINNERS_NUM__   : JSON.stringify(50),
-  __API__           : JSON.stringify('/api/promotions/one_money'),
-  __SIGNUP_URL__    : JSON.stringify('http://0.0.0.0:8080/users/sign_in'),
-  __DEFAULT_AVATAR__: JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
-  __QR_CODE__       : JSON.stringify(true),
-  __HOME_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/bce4aa071456342d64e7a4d5da3cb45d.jpg'),
-  __LIST_IMG__      : JSON.stringify('http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/ac32369464ed4b3017013080d2c6c78b.jpg')
+  __ONE_MONEY_ID__  : JSON.stringify(process.env.ONE_MONEY || 1), // 活动ID
+  __QR_CODE__       : JSON.stringify(process.env.QRCODE || true), // 是否显示二维码
+  __HOME_IMG__      : JSON.stringify(process.env.HOMEIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/2d7a24f6172fc89513bd49ce2fb6072c.jpg'), // 首页图片
+  __LIST_IMG__      : JSON.stringify(process.env.LISTIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/96b33c5747e2cf405278d18331fc032b.jpg'),  // 列表图片
+  __DEFAULT_AVATAR__: JSON.stringify(process.env.DEFAULTAVATAR || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
+  __SIGNUP_URL__    : JSON.stringify(process.env.SIGNURL || 'http://0.0.0.0:8080/users/sign_in'),
+  __API__           : JSON.stringify(process.env.APIURL || '/api/promotions/one_money'),
+  __WINNERS_NUM__   : JSON.stringify(process.env.WINNERS || 50),
 };
 
 module.exports = {
