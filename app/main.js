@@ -12,6 +12,7 @@ import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import SharePage from './pages/SharePage';
 import CommentPage from './pages/CommentPage';
+import SpreadPage from './pages/SpreadPage';
 import './style/main.styl';
 
 import {fetchFromSeed} from './actions/seed';
@@ -96,6 +97,7 @@ ReactDOM.render(
         <Route path="detail/:id" component={DetailPage}/>
         <Route path="/comment/:pmo_grab_id/:order_id" component={CommentPage} />
         <Route path="/share/:evaluation_id" component={SharePage} />
+        <Route path="/spread" component={SpreadPage} />
         <Route path="*" component={HomePage} />
       </Route>
     </Router>

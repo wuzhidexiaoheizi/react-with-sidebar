@@ -1,0 +1,34 @@
+@import 'color.styl'
+
+.spread-page
+  .qrcode-container
+    width 200px
+    margin 0 auto
+
+  .spread-status
+    padding 15px
+
+    .list-group
+      margin 10px 0
+
+    .welfare-item
+      float left
+      width 100px
+      margin-right 10px
+
+      .welfare-board
+        width 100px
+        height 80px
+
+      .welfare-desc
+        line-height 30px
+        text-align center
+
+      &.used .welfare-board
+        background $red
+
+      &.active .welfare-board
+        background $green
+
+      &.pending .welfare-board
+        background $gray

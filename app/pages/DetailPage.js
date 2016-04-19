@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import StatusBar from '../components/StatusBar';
+import SpreadBar from '../components/SpreadBar';
 import Winners from '../components/Winners';
 import CountDown from '../components/CountDown';
 import Nav from '../components/Nav';
@@ -17,24 +18,34 @@ class DetailPage extends Component {
   }
 
   componentDidMount() {
-    const {params: {id}, dispatch, currentUser} = this.props;
+    const {params: {id}, dispatch} = this.props;
     dispatch(Actions.fetchDetail(id));
 
-    if (currentUser) {
-      dispatch(fetchSeeds(currentUser.id));
-    } else {
-      dispatch(fetchCurrentSeeds());
-    }
+    this._fetchSeeds();
 
     this.interval = setInterval(() => {
       const item = this.props.items.find(i => i.id == id) || {};
       const _status = getStatus(item);
       if (_status != item.status) dispatch(Actions.updateItemStatus(id, _status));
     }, 1000);
+
+    this.pullInterval = setInterval(() => {
+      this._fetchSeeds();
+    }, 4000);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
+  }
+
+  _fetchSeeds() {
+    const { dispatch, currentUser } = this.props;
+
+    if (currentUser) {
+      dispatch(fetchSeeds(currentUser.id));
+    } else {
+      dispatch(fetchCurrentSeeds());
+    }
   }
 
   render() {
@@ -59,14 +70,6 @@ class DetailPage extends Component {
       shop_avatar_url,
       participant_count,
     } = item;
-
-
-    let seedLabel;
-    if (seeds.length ) {
-      seedLabel = (<div >还想再抢</div>);
-    } else {
-      seedLabel = null;
-    }
 
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
@@ -122,15 +125,13 @@ class DetailPage extends Component {
           {__QR_CODE__ && <img className="dr-img" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100193/6b4bfbba51112dffcf9915d82cd098d7.jpg" alt="dr"/>}
           {__QR_CODE__ && <div className="dr-text">长按二维码关注更多优惠!</div>}
         </div>
-        <div >
-        <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
-        {seedLabel}
+        <div className="action-bars">
+          <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
+          {seeds.length > 0 ? <SpreadBar id={id} seeds={seeds} history={this.props.history} {...boundActionCreators}/> : null}
         </div>
       </div>
     );
   }
-
-
 }
 
 DetailPage.propTypes = {
