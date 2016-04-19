@@ -14,6 +14,9 @@ import SharePage from './pages/SharePage';
 import CommentPage from './pages/CommentPage';
 import './style/main.styl';
 
+import {fetchFromSeed} from './actions/seed';
+import {fetchCurrentUser} from './actions/user';
+
 // FastClick
 import FastClick from 'fastclick';
 FastClick.attach(document.body);
@@ -37,6 +40,7 @@ class App extends Component {
     const nextPathname = nextProps.location.pathname;
     let transitionName = 'right';
 
+    console.log('context', this.this);
     if (currntPathname == '/' || nextPathname.includes('/detail')) transitionName = 'left';
     this.setState({transitionName});
   }
@@ -70,9 +74,22 @@ class App extends Component {
   }
 }
 
+function changeRouteHandle() {
+  const {query} = this.state.location;
+  const state = store.getState();
+  if (query.fromSeed) {
+    store.dispatch(fetchFromSeed(query.fromSeed));
+  }
+
+  const {currentUser} = state.user;
+  if (!currentUser || currentUser.id < 0) {
+    store.dispatch(fetchCurrentUser());
+  }
+}
+
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <Router onUpdate={changeRouteHandle} >
       <Route path="/" component={App}>
         <IndexRoute component={HomePage}/>
         <Route path="/list" component={ListPage}/>

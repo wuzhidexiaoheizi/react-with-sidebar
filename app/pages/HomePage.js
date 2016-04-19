@@ -35,9 +35,9 @@ class HomePage extends Component {
 
   _handleSignup() {
     const {history} = this.props;
+
     _fetch(`${__API__}/${__ONE_MONEY_ID__}/signup`, 'put')
-    .then(json => {
-      console.log(json);
+    .then(() => {
       history.pushState(null, '/list');
     }).catch(err => {
       if (err.message == 401) {
