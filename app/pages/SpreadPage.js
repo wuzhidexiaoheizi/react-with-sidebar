@@ -50,9 +50,10 @@ class SpreadPage extends Component {
     const { seeds, currentUser, location } = this.props;
     const { from_id } = location.query;
     const path = `${origin}${pathname}`;
+    const callback_url = encodeURIComponent(path);
 
     if (currentUser && currentUser.id != from_id) {
-      location.href = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${path}`;
+      location.href = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${callback_url}`;
     }
 
     const activeSeeds = seeds.filter(seed => seed.status == 'active');
@@ -60,10 +61,9 @@ class SpreadPage extends Component {
     let url = `${path}`;
 
     if (currentUser && currentUser.id) {
-      url = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${currentUser.id}?callback=${path}`;
+      url = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${currentUser.id}?callback=${callback_url}`;
     }
 
-    const qrcode = (<QRCode value={url} size="150" />);
     const total = seeds.length;
     const purchase_count = activeSeeds.length;
 
@@ -88,7 +88,7 @@ class SpreadPage extends Component {
               </ul>
             </div>
             <div className="qrcode-container">
-              {qrcode}
+              <QRCode value={url} size="150" />
             </div>
             <WelfareGroup seeds={seeds} />
           </div>
