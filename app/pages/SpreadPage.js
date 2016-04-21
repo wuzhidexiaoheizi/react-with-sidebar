@@ -49,11 +49,11 @@ class SpreadPage extends Component {
 
     const { seeds, currentUser, location } = this.props;
     const { from_id } = location.query;
-    const path = `${origin}${pathname}`;
+    const path = `${origin}${pathname}#/`;
     const callback_url = encodeURIComponent(path);
 
     if (currentUser && currentUser.id != from_id) {
-      location.href = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${callback_url}`;
+      location.href = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${callback_url}&to=fragment`;
     }
 
     const activeSeeds = seeds.filter(seed => seed.status == 'active');
@@ -61,7 +61,7 @@ class SpreadPage extends Component {
     let url = `${path}`;
 
     if (currentUser && currentUser.id) {
-      url = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${currentUser.id}?callback=${callback_url}`;
+      url = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${currentUser.id}?callback=${callback_url}&to=fragment`;
     }
 
     const total = seeds.length;
