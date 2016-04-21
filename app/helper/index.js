@@ -101,7 +101,7 @@ export function statusDescs(status, flag) {
 export function getStatus(item) {
   const {td, status, grabs, end_at, start_at, total_amount} = item;
   const now = Date.now() + td;
-  
+
   if (grabs && grabs.length) {
     const pending = grabs.find(grab => grab.status == 'pending');
     const created = grabs.find(grab => grab.status == 'created');
