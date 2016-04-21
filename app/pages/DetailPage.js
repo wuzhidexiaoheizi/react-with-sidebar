@@ -36,6 +36,7 @@ class DetailPage extends Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+    clearInterval(this.pullInterval);
   }
 
   _fetchSeeds() {
@@ -49,7 +50,7 @@ class DetailPage extends Component {
   }
 
   render() {
-    const {params: {id}, dispatch, seeds} = this.props;
+    const {params: {id}, dispatch, seeds, currentUser } = this.props;
     const boundActionCreators = bindActionCreators(Actions, dispatch);
     const item = this.props.items.find(i => i.id == id) || {};
     const {
@@ -70,6 +71,13 @@ class DetailPage extends Component {
       shop_avatar_url,
       participant_count,
     } = item;
+
+    let seedState = null;
+    const validSeed = seeds.find(seed => seed.status == 'pending');
+
+    if (validSeed && status == 'created') {
+      seedState = (<SpreadBar item_id={id} seeds={seeds} history={this.props.history} user={currentUser} {...boundActionCreators}/>);
+    }
 
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
@@ -127,7 +135,7 @@ class DetailPage extends Component {
         </div>
         <div className="action-bars">
           <StatusBar id={id} className="btn" {...item} {...boundActionCreators}/>
-          {seeds.length > 0 ? <SpreadBar id={id} seeds={seeds} history={this.props.history} {...boundActionCreators}/> : null}
+          {seedState}
         </div>
       </div>
     );

@@ -56,9 +56,11 @@ export function fetchDetail(id) {
   };
 }
 
-export function fetchGrab(id) {
+export function fetchGrab(id, seed_id) {
   return dispatch => {
-    _fetch(`${__API__}/${__ONE_MONEY_ID__}/grab/${id}`, 'put')
+    const query = !!seed_id ? `?seed=${seed_id}` : '';
+
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/grab/${id}${query}`, 'put')
     .then(json => {
       if (json.status == 'success') {
         json.status = 'pending';

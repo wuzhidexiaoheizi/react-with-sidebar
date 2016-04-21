@@ -56,6 +56,7 @@ class App extends Component {
           <li><Link to="/detail/1" activeClassName="active">detail</Link></li>
           <li><Link to="/comment/1" activeClassName="active">comment</Link></li>
           <li><Link to="/share/1" activeClassName="active">share</Link></li>
+          <li><Link to="/spread" activeClassName="active">spread</Link></li>
         </ul>
       );
     }

@@ -27,7 +27,21 @@ export default function(state = initialState, action) {
   }
 
   case 'FETCH_CALLBACK_DONE': {
-    if (action.item.grabs && action.item.grabs.length) action.item.status = action.item.grabs[0].status;
+    const grabs = action.item.grabs;
+
+    if (grabs && grabs.length) {
+      const pending = grabs.find(grab => grab.status == 'pending');
+      const created = grabs.find(grab => grab.status == 'created');
+
+      if (pending) {
+        action.item.status = 'pending';
+      } else if (created) {
+        action.item.status = 'created';
+      } else {
+        action.item.status = grabs[0].status;
+      }
+    }
+
     if (action.item.status == 'success') delete action.item.status;
 
     const index = state.items.findIndex(item => item.id == action.id);

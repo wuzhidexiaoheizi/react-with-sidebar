@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 
 export default class extends Component {
   handleClick() {
-    const { fetchGrab, id, seeds, history } = this.props;
+    const { fetchGrab, item_id, seeds, history, user } = this.props;
     const activeSeed = seeds.find(seed => seed.status == 'active');
 
     if (activeSeed) {
-      fetchGrab(id, activeSeed.id);
+      fetchGrab(item_id, activeSeed.seed_id);
     } else {
-      history.pushState(null, '/spread');
+      history.pushState(null, `/spread?item_id=${item_id}&from_id=${user.id}`);
     }
   }
 
