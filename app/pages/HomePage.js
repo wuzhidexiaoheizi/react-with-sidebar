@@ -34,9 +34,12 @@ class HomePage extends Component {
   }
 
   _handleSignup() {
-    const {history} = this.props;
+    const { history, location } = this.props;
+    const { query } = location;
+    const fromSeed = query.fromSeed;
+    const q = !!fromSeed ? `?from_seed=${fromSeed}` : '';
 
-    _fetch(`${__API__}/${__ONE_MONEY_ID__}/signup`, 'put')
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/signup${q}`, 'put')
     .then(() => {
       history.pushState(null, '/list');
     }).catch(err => {

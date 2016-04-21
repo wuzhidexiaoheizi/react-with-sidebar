@@ -49,7 +49,7 @@ class SpreadPage extends Component {
 
     const { seeds, currentUser, location } = this.props;
     const { from_id } = location.query;
-    const path = `${origin}${pathname}`;
+    const path = `${origin}${pathname}#/`;
     const callback_url = encodeURIComponent(path);
 
     if (currentUser && currentUser.id != from_id) {
