@@ -52,7 +52,7 @@ class SpreadPage extends Component {
     const path = `${origin}${pathname}`;
 
     if (currentUser && currentUser.id != from_id) {
-      location.href = `${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${path}`;
+      location.href = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${path}`;
     }
 
     const activeSeeds = seeds.filter(seed => seed.status == 'active');
@@ -60,7 +60,7 @@ class SpreadPage extends Component {
     let url = `${path}`;
 
     if (currentUser && currentUser.id) {
-      url = `${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${currentUser.id}?callback=${path}`;
+      url = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${currentUser.id}?callback=${path}`;
     }
 
     const qrcode = (<QRCode value={url} size="150" />);
