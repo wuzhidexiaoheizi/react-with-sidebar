@@ -101,7 +101,17 @@ export function statusDescs(status, flag) {
 export function getStatus(item) {
   const {td, status, grabs, end_at, start_at, total_amount} = item;
   const now = Date.now() + td;
-  if (grabs && grabs.length) return grabs[0].status;
+
+  if (grabs && grabs.length) {
+    const pending = grabs.find(grab => grab.status == 'pending');
+    const created = grabs.find(grab => grab.status == 'created');
+
+    if (pending) return 'pending';
+    if (created) return 'created';
+
+    return grabs[0].status;
+  }
+
   if (total_amount < 1) return 'suspend';
   if (status == 'waiting' || status == 'wait' || status == 'started' || status == 'timing') {
     if (now < start_at) {

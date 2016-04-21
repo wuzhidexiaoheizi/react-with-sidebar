@@ -12,6 +12,7 @@ import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import SharePage from './pages/SharePage';
 import CommentPage from './pages/CommentPage';
+import SpreadPage from './pages/SpreadPage';
 import './style/main.styl';
 
 import {fetchFromSeed} from './actions/seed';
@@ -55,6 +56,7 @@ class App extends Component {
           <li><Link to="/detail/1" activeClassName="active">detail</Link></li>
           <li><Link to="/comment/1" activeClassName="active">comment</Link></li>
           <li><Link to="/share/1" activeClassName="active">share</Link></li>
+          <li><Link to="/spread" activeClassName="active">spread</Link></li>
         </ul>
       );
     }
@@ -96,6 +98,7 @@ ReactDOM.render(
         <Route path="detail/:id" component={DetailPage}/>
         <Route path="/comment/:pmo_grab_id/:order_id" component={CommentPage} />
         <Route path="/share/:evaluation_id" component={SharePage} />
+        <Route path="/spread" component={SpreadPage} />
         <Route path="*" component={HomePage} />
       </Route>
     </Router>
