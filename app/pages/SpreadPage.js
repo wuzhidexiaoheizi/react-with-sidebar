@@ -47,18 +47,20 @@ class SpreadPage extends Component {
     const origin = window.location.origin;
     const pathname = window.location.pathname;
 
-    const { seeds, currentUser, history, location } = this.props;
-    const { from_id, item_id } = location.query;
+    const { seeds, currentUser, location } = this.props;
+    const { from_id } = location.query;
+    const path = `${origin}${pathname}`;
 
     if (currentUser && currentUser.id != from_id) {
-      history.pushState(null, '/');
+      location.href = `${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${path}`;
     }
 
     const activeSeeds = seeds.filter(seed => seed.status == 'active');
-    let url = `${origin}${pathname}#/spread?item_id=${item_id}`;
 
-    if (currentUser) {
-      url = `${url}&from_id=${currentUser.id}`;
+    let url = `${path}`;
+
+    if (currentUser && currentUser.id) {
+      url = `${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${currentUser.id}?callback=${path}`;
     }
 
     const qrcode = (<QRCode value={url} size="150" />);
