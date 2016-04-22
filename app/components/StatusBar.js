@@ -10,7 +10,7 @@ export default class extends Component {
       fetchGrab(id);
     } else if (status == 'pending') {
       console.log('去领取奖励!');
-      location.href = grabs[0].callback_url;
+      window.location.href = grabs[0].callback_url;
     } else {
       console.log('不能抢...');
     }
