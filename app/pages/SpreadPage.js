@@ -33,11 +33,11 @@ class SpreadPage extends Component {
 
     if (!activeSeed) return;
 
-    const { history } = this.props;
+    const { history, location } = this.props;
     const query = location.query;
 
     if (query && query.item_id) {
-      history.pushState(null, `/item/${query.item_id}`);
+      history.pushState(null, `/detail/${query.item_id}`);
     } else {
       history.pushState(null, '/list');
     }
