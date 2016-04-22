@@ -34,6 +34,7 @@ class HomePage extends Component {
   }
 
   _handleSignup() {
+    const origin = window.location.origin;
     const { history, location } = this.props;
     const { query } = location;
     const fromSeed = query.fromSeed;
@@ -43,9 +44,9 @@ class HomePage extends Component {
     .then(() => {
       history.pushState(null, '/list');
     }).catch(err => {
-      if (err.message == 401) {
-        const url = `${location.origin + location.pathname}#/list`;
-        location.href = __SIGNUP_URL__ + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
+      if (+err.message == 401) {
+        const url = `${origin + location.pathname}#/list`;
+        window.location.href = __SIGNUP_URL__ + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
       }
     });
   }

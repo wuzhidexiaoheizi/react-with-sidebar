@@ -53,7 +53,7 @@ class SpreadPage extends Component {
     const callback_url = encodeURIComponent(path);
 
     if (currentUser && currentUser.id != from_id) {
-      location.href = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${callback_url}&to=fragment`;
+      window.location.href = `${origin}${__API__}/${__ONE_MONEY_ID__}/retrieve_seed/${from_id}?callback=${callback_url}&to=fragment`;
     }
 
     const activeSeeds = seeds.filter(seed => seed.status == 'active');
