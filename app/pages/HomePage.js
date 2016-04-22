@@ -58,7 +58,7 @@ class HomePage extends Component {
       history.pushState(null, '/list');
     }).catch(err => {
       if (+err.message == 401) {
-        const url = `${origin}${pathname}`;
+        const url = `${origin}${pathname}${q}`;
         window.location.href = __SIGNUP_URL__ + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
       }
     });
