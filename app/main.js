@@ -81,6 +81,8 @@ function changeRouteHandle() {
   const state = store.getState();
   if (query.fromSeed) {
     store.dispatch(fetchFromSeed(query.fromSeed));
+    localStorage.setItem('from_seed_id', query.fromSeed);
+    localStorage.setItem('from_seed_expire_time', Date.now() + 15 * 60 * 1000);
   }
 
   const {currentUser} = state.user;

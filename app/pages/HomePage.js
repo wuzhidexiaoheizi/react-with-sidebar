@@ -38,7 +38,15 @@ class HomePage extends Component {
     const pathname = window.location.pathname;
     const { history, location } = this.props;
     const { query } = location;
-    const fromSeed = query.fromSeed;
+    let fromSeed = query.fromSeed;
+
+    if (!fromSeed) {
+      fromSeed = JSON.parse(localStorage.getItem('from_seed_id'));
+      const expire_time = JSON.parse(localStorage.getItem('from_seed_expire_time'));
+
+      fromSeed = expire_time >= Date.now() ? fromSeed : null;
+    }
+
     const q = !!fromSeed ? `?from_seed=${fromSeed}` : '';
 
     _fetch(`${__API__}/${__ONE_MONEY_ID__}/signup${q}`, 'put')
@@ -46,7 +54,7 @@ class HomePage extends Component {
       history.pushState(null, '/list');
     }).catch(err => {
       if (+err.message == 401) {
-        const url = `${origin}${pathname}${q}`;
+        const url = `${origin}${pathname}`;
         window.location.href = __SIGNUP_URL__ + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
       }
     });
