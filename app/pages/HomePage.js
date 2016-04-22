@@ -42,8 +42,8 @@ class HomePage extends Component {
 
     if (!fromSeed) {
       try {
-        fromSeed = JSON.parse(localStorage.getItem('from_seed_id'));
-        const expire_time = JSON.parse(localStorage.getItem('from_seed_expire_time'));
+        fromSeed = localStorage.getItem('from_seed_id');
+        const expire_time = +localStorage.getItem('from_seed_expire_time');
         fromSeed = expire_time >= Date.now() ? fromSeed : null;
       } catch (e) {
         console.log('error info', e);
