@@ -29,6 +29,19 @@ class ListPage extends Component {
     }
   }
 
+  slideDown() {
+    const link = this.refs['share-link'];
+    const page = this.refs['list-page'];
+    const { offsetHeight } = link;
+
+    page.style.top = offsetHeight + 'px';
+  }
+
+  slideUp() {
+    const page = this.refs['list-page'];
+    page.style.top = '0';
+  }
+
   sortByPrice(priceArr) {
     const {list: {items}, dispatch} = this.props;
     const boundActionCreators = bindActionCreators(Actions, dispatch);
@@ -56,10 +69,18 @@ class ListPage extends Component {
 
   render() {
     const {list: {listFetched}} = this.props;
+
     return (
-      <div style={{position: 'absolute', width: '100%', height: '100%'}}>
+      <div className="page-container">
         {__QR_CODE__ && <DRCode showText={this.state.showDRText}/>}
-        <div className="page list-page" onScroll={this.onScroll.bind(this)}>
+        <a className="share-link" ref="share-link" href={__INTRODUCTION_LINK__}>
+          <img className="share-pic" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop_category/image/0c549461633e696a8841886a888b6a93.jpg"
+            onLoad={this.slideDown.bind(this)}/>
+        </a>
+        <span className="close-btn" onClick={this.slideUp.bind(this)}>
+          <img src="http://wanliu-piano.b0.upaiyun.com/uploads/shop_category/image/c2216f3de316b5622d077cd145afe6f8.png" />
+        </span>
+        <div className="page list-page" onScroll={this.onScroll.bind(this)} ref="list-page">
           <img className="list-poster" src={__LIST_IMG__}/>
           {!listFetched && <div style={{textAlign: 'center'}}><Loading color="#FFF" size="9px" margin="4px"/></div>}
           <ul className="list">
