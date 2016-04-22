@@ -41,10 +41,14 @@ class HomePage extends Component {
     let fromSeed = query.fromSeed;
 
     if (!fromSeed) {
-      fromSeed = JSON.parse(localStorage.getItem('from_seed_id'));
-      const expire_time = JSON.parse(localStorage.getItem('from_seed_expire_time'));
-
-      fromSeed = expire_time >= Date.now() ? fromSeed : null;
+      try {
+        fromSeed = JSON.parse(localStorage.getItem('from_seed_id'));
+        const expire_time = JSON.parse(localStorage.getItem('from_seed_expire_time'));
+        fromSeed = expire_time >= Date.now() ? fromSeed : null;
+      } catch (e) {
+        console.log('error info', e);
+        fromSeed = null;
+      }
     }
 
     const q = !!fromSeed ? `?from_seed=${fromSeed}` : '';
