@@ -37,7 +37,9 @@ class ListPage extends Component {
     page.style.top = offsetHeight + 'px';
   }
 
-  slideUp() {
+  slideUp(e) {
+    e.stopPropagation();
+
     const page = this.refs['list-page'];
     page.style.top = '0';
   }
