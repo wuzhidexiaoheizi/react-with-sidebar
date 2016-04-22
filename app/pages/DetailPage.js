@@ -75,7 +75,7 @@ class DetailPage extends Component {
     let seedState = null;
     const validSeed = seeds.filter(seed => seed.status == 'pending' || seed.status == 'active');
 
-    if (validSeed.length && status == 'created') {
+    if (validSeed.length) {
       seedState = (<SpreadBar item_id={id} seeds={seeds} history={this.props.history} user={currentUser} {...boundActionCreators}/>);
     }
 
