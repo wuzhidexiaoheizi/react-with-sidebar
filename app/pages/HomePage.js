@@ -35,6 +35,7 @@ class HomePage extends Component {
 
   _handleSignup() {
     const origin = window.location.origin;
+    const pathname = window.location.pathname;
     const { history, location } = this.props;
     const { query } = location;
     const fromSeed = query.fromSeed;
@@ -45,7 +46,7 @@ class HomePage extends Component {
       history.pushState(null, '/list');
     }).catch(err => {
       if (+err.message == 401) {
-        const url = `${origin + location.pathname}#/list`;
+        const url = `${origin}${pathname}#/list`;
         window.location.href = __SIGNUP_URL__ + '?callback=' + encodeURIComponent(url) + '&goto_one_money=true';
       }
     });
