@@ -1,13 +1,39 @@
 @import 'color.styl'
 
-.list-page
-  background-color #E00024
-  padding-bottom 100px
-  
-    
-  .list-poster
-    width 100%
+.page-container
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  overflow auto
+
+  .share-link
     display block
+    position absolute
+    top 0
+    background #690019
+    padding-bottom 20px
+    overflow hidden
+
+    .share-pic
+      width 100%
+
+  .close-btn
+    position absolute
+    top 10px
+    right 10px
+    z-index 10
+
+  .list-page
+    background-color #E00024
+    padding-bottom 100px
+    transition top 1.5s ease-in-out 0s
+    -webkit-transition top 1.5s ease-in-out 0s
+    
+    .list-poster
+      width 100%
+      display block
     
   ul.list
     padding 10px

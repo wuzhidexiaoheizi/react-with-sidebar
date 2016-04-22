@@ -9,15 +9,16 @@ var autoprefixer = require('autoprefixer');
 var precss = require('precss');
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var config = {
-  __ONE_MONEY_ID__  : JSON.stringify(process.env.ONE_MONEY || 28), // 活动ID
-  __QR_CODE__       : JSON.stringify(process.env.QRCODE || true), // 是否显示二维码
-  __HOME_IMG__      : JSON.stringify(process.env.HOMEIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/2d7a24f6172fc89513bd49ce2fb6072c.jpg'), // 首页图片
-  __LIST_IMG__      : JSON.stringify(process.env.LISTIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/96b33c5747e2cf405278d18331fc032b.jpg'),  // 列表图片
-  __DEFAULT_AVATAR__: JSON.stringify(process.env.DEFAULTAVATAR || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
-  __SIGNUP_URL__    : JSON.stringify(process.env.SIGNURL || 'http://m.wanliu.biz/authorize/weixin'),
-  __API__           : JSON.stringify(process.env.APIURL || '/api/promotions/one_money'),
-  __ENV__           : JSON.stringify('PRODUCTION'),
-  __WINNERS_NUM__   : JSON.stringify(process.env.WINNERS || 50),
+  __ONE_MONEY_ID__      : JSON.stringify(process.env.ONE_MONEY || 28), // 活动ID
+  __QR_CODE__           : JSON.stringify(process.env.QRCODE || true), // 是否显示二维码
+  __HOME_IMG__          : JSON.stringify(process.env.HOMEIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/2d7a24f6172fc89513bd49ce2fb6072c.jpg'), // 首页图片
+  __LIST_IMG__          : JSON.stringify(process.env.LISTIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/96b33c5747e2cf405278d18331fc032b.jpg'),  // 列表图片
+  __DEFAULT_AVATAR__    : JSON.stringify(process.env.DEFAULTAVATAR || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
+  __SIGNUP_URL__        : JSON.stringify(process.env.SIGNURL || 'http://m.wanliu.biz/authorize/weixin'),
+  __API__               : JSON.stringify(process.env.APIURL || '/api/promotions/one_money'),
+  __ENV__               : JSON.stringify('PRODUCTION'),
+  __WINNERS_NUM__       : JSON.stringify(process.env.WINNERS || 50),
+  __INTRODUCTION_LINK__ : JSON.stringify(process.env.INTRODUCTIONLINK || 'https://wap.koudaitong.com/v2/showcase/mpnews?alias=5nr3d4tc&spm=m1461292357652104565180197.scan.1449810565'),
 };
 
 module.exports = {

@@ -14,7 +14,8 @@
     "__DEFAULT_AVATAR__": true,
     "__QR_CODE__": true,
     "__HOME_IMG__": true,
-    "__LIST_IMG__": true
+    "__LIST_IMG__": true,
+    "__INTRODUCTION_LINK__": true
   },
   "plugins": [
     "react",
