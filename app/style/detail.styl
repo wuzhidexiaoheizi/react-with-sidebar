@@ -136,13 +136,22 @@
   .winner-wrap
     padding 5px
     border-bottom 1px solid #DDD
-    &:after
+
+    .winner-list:after
       content ''
-      display block
+      display table
       clear both
+
     .winner
       float left
       padding 3px
+
+    .seed-count
+      margin 0 3px
+      color $red
+      font-size 16px
+      font-weight 700
+
   .avatar
     border 1px solid #EEE
     width 40px

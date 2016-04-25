@@ -5,7 +5,7 @@ export function fetchList() {
     if (getState().list.listFetched) return;
 
     setTimeout(() => {
-      _fetch(`${__API__}/${__ONE_MONEY_ID__}/items?u=${Date.now()}`)
+      _fetch(`${__API__}/${__ONE_MONEY_ID__}/items?u=${Date.now()}&stat=true&used=true`)
       .then(json => {
         dispatch({
           type: 'FETCH_LIST_DONE',
@@ -25,7 +25,7 @@ export function updateItemStatus(id, status) {
 
 export function fetchWinners(id) {
   return dispatch => {
-    _fetch(`${__API__}/${__ONE_MONEY_ID__}/status/${id}?winners=${__WINNERS_NUM__}`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/status/${id}?winners=${__WINNERS_NUM__}&used=true`)
     .then(json => {
       delete json.status;
       dispatch({type: 'UPDATE_ITEM_DONE', item: json, id, tag: 'fetchWinners'});

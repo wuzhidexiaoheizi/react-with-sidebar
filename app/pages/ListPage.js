@@ -30,6 +30,16 @@ class ListPage extends Component {
   }
 
   slideDown() {
+    const timestamp = `${__TIMESTAMP__}`;
+    let data = JSON.parse(localStorage.getItem(timestamp));
+
+    if (!data) {
+      data = { 'introductionDisabled': false };
+      localStorage.setItem(timestamp, JSON.stringify(data));
+    }
+
+    if (data.introductionDisabled) return;
+
     const link = this.refs['share-link'];
     const page = this.refs['list-page'];
     const { offsetHeight } = link;
@@ -42,6 +52,11 @@ class ListPage extends Component {
 
     const page = this.refs['list-page'];
     page.style.top = '0';
+
+    const timestamp = `${__TIMESTAMP__}`;
+    const data = JSON.parse(localStorage.getItem(timestamp));
+    data.introductionDisabled = true;
+    localStorage.setItem(timestamp, JSON.stringify(data));
   }
 
   sortByPrice(priceArr) {
@@ -75,20 +90,22 @@ class ListPage extends Component {
     return (
       <div className="page-container">
         {__QR_CODE__ && <DRCode showText={this.state.showDRText}/>}
-        <a className="share-link" ref="share-link" href={__INTRODUCTION_LINK__}>
-          <img className="share-pic" src="http://wanliu-piano.b0.upaiyun.com/uploads/shop_category/image/0c549461633e696a8841886a888b6a93.jpg"
-            onLoad={this.slideDown.bind(this)}/>
-        </a>
         <span className="close-btn" onClick={this.slideUp.bind(this)}>
           <img src="http://wanliu-piano.b0.upaiyun.com/uploads/shop_category/image/c2216f3de316b5622d077cd145afe6f8.png" />
         </span>
-        <div className="page list-page" onScroll={this.onScroll.bind(this)} ref="list-page">
-          <img className="list-poster" src={__LIST_IMG__}/>
-          {!listFetched && <div style={{textAlign: 'center'}}><Loading color="#FFF" size="9px" margin="4px"/></div>}
-          <ul className="list">
-            {this.sortByPrice([1, 3, 5, 10])}
-            {this.otherPrice([1, 3, 5, 10])}
-          </ul>
+        <div className="list-page-container" onScroll={this.onScroll.bind(this)}>
+          <a className="share-link" ref="share-link" href={__INTRODUCTION_LINK__}>
+            <img className="share-pic" src={__INTRODUCTION_POSTER__}
+              onLoad={this.slideDown.bind(this)}/>
+          </a>
+          <div className="list-page" ref="list-page">
+            <img className="list-poster" src={__LIST_IMG__}/>
+            {!listFetched && <div style={{textAlign: 'center'}}><Loading color="#FFF" size="9px" margin="4px"/></div>}
+            <ul className="list">
+              {this.sortByPrice([1, 3, 5, 10])}
+              {this.otherPrice([1, 3, 5, 10])}
+            </ul>
+          </div>
         </div>
       </div>
     );
