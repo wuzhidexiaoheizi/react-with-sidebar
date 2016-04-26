@@ -90,10 +90,10 @@ class ListPage extends Component {
     return (
       <div className="page-container">
         {__QR_CODE__ && <DRCode showText={this.state.showDRText}/>}
-        <span className="close-btn" onClick={this.slideUp.bind(this)}>
-          <img src="http://wanliu-piano.b0.upaiyun.com/uploads/shop_category/image/c2216f3de316b5622d077cd145afe6f8.png" />
-        </span>
         <div className="list-page-container" onScroll={this.onScroll.bind(this)}>
+          <span className="close-btn" onClick={this.slideUp.bind(this)}>
+            <img src="http://wanliu-piano.b0.upaiyun.com/uploads/shop_category/image/a85ffb6fdda0f6a165b2a0be83247f25.png" />
+          </span>
           <a className="share-link" ref="share-link" href={__INTRODUCTION_LINK__}>
             <img className="share-pic" src={__INTRODUCTION_POSTER__}
               onLoad={this.slideDown.bind(this)}/>
