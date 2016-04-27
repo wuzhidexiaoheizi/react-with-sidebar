@@ -7,7 +7,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 var config = {
   __ENV__                 : JSON.stringify('DEV'),
-  __ONE_MONEY_ID__        : JSON.stringify(process.env.ONE_MONEY || 1), // 活动ID
+  __ONE_MONEY_ID__        : JSON.stringify(process.env.ONE_MONEY || 3), // 活动ID
   __QR_CODE__             : JSON.stringify(process.env.QRCODE || true), // 是否显示二维码
   __HOME_IMG__            : JSON.stringify(process.env.HOMEIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/2d7a24f6172fc89513bd49ce2fb6072c.jpg'), // 首页图片
   __LIST_IMG__            : JSON.stringify(process.env.LISTIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/96b33c5747e2cf405278d18331fc032b.jpg'),  // 列表图片

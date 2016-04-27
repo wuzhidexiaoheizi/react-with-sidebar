@@ -4,6 +4,9 @@ import {connect} from 'react-redux';
 import {formatTime} from '../helper';
 import {_fetch} from '../helper';
 
+const INVITED_IMG = 'http://wanliu-piano.b0.upaiyun.com/uploads/shop_category/image/978027f6309a96cb1463165fadd301ac.png';
+const SIGNUP_IMG = 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3a4c3db9b8d16578ebd1b94b9cbcbb5b.png';
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -71,6 +74,24 @@ class HomePage extends Component {
   }
 
   render() {
+    const { fromSeed } = this.props.seed;
+    let fragment;
+
+    if (fromSeed) {
+      const { owner_avatar_url } = fromSeed;
+
+      fragment = (
+        <div className="img-locator">
+          <div className="share-person">
+            <img src={owner_avatar_url} />
+          </div>
+          <img className="introduction-bottom" src={INVITED_IMG} />
+        </div>
+      );
+    } else {
+      fragment = (<img className="introduction-bottom" src={SIGNUP_IMG} />);
+    }
+
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
         {this.state.showArrow && <img id="down-arrow" onClick={this.downBtnClick.bind(this)} src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/17f5c4fb9babb034ac10439036473b85.png"/>}
@@ -93,11 +114,9 @@ class HomePage extends Component {
                 {this.state.start_at} 至 {this.state.end_at}
               </div>
             </div>
-            <img
-              className="introduction-bottom"
-              src="http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/100159/3a4c3db9b8d16578ebd1b94b9cbcbb5b.png"
-              onClick={this._handleSignup.bind(this)}
-            />
+            <div className="signup-container" onClick={this._handleSignup.bind(this)}>
+              {fragment}
+            </div>
           </div>
         </div>
       </div>
@@ -107,7 +126,8 @@ class HomePage extends Component {
 
 function mapStateToProps(state) {
   return {
-    home: state.home
+    home: state.home,
+    seed: state.seed
   };
 }
 

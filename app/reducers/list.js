@@ -72,6 +72,26 @@ export default function(state = initialState, action) {
     });
   }
 
+  case 'UPDATE_SEED_COUNT': {
+    const {seed_count, own_seed_count} = action.item;
+    const index = state.items.findIndex(item => item.id == action.id);
+
+    if (index > -1) {
+      return update(state, {
+        items: {
+          [index]: {$merge: {
+            seed_count,
+            own_seed_count
+          }}
+        }
+      });
+    }
+
+    return update(state, {
+      items: {$push: [action.item] }
+    });
+  }
+
   case 'FETCH_GRAB_SUCCESS': {
     const index = state.items.findIndex(item => item.id == action.id);
     return update(state, {

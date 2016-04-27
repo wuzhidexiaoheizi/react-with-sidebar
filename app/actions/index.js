@@ -25,7 +25,7 @@ export function updateItemStatus(id, status) {
 
 export function fetchWinners(id) {
   return dispatch => {
-    _fetch(`${__API__}/${__ONE_MONEY_ID__}/status/${id}?winners=${__WINNERS_NUM__}&used=true`)
+    _fetch(`${__API__}/${__ONE_MONEY_ID__}/status/${id}?winners=${__WINNERS_NUM__}`)
     .then(json => {
       delete json.status;
       dispatch({type: 'UPDATE_ITEM_DONE', item: json, id, tag: 'fetchWinners'});
