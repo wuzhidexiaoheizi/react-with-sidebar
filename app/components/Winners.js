@@ -6,7 +6,7 @@ export default class Winner extends Component {
   }
 
   render() {
-    const { winners, seed_count } = this.props;
+    const { winners, seed_count, own_seed_count } = this.props.item;
 
     return (
       <div className="winner-wrap">
@@ -21,7 +21,8 @@ export default class Winner extends Component {
           })}
         </div>
         <div className="share-summary">
-          通过分享此活动给好友已产生<span className="seed-count">{seed_count}</span>次额外的抢购机会
+          以上幸运用户通过分享此活动给好友获得了<span className="seed-count">{seed_count}</span>次额外的抢购机会,
+          您获得了<span className="seed-count">{own_seed_count}</span>次额外的抢购机会
         </div>
       </div>
     );

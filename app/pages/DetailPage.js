@@ -10,7 +10,7 @@ import Slider from 'uinz-slider';
 
 import {statusDescs, positiveNumber, getStatus, formatTime} from '../helper';
 import * as Actions from '../actions';
-import {fetchSeeds, fetchCurrentSeeds} from '../actions/seed';
+import {fetchSeeds, fetchCurrentSeeds, fetchSeedsCount} from '../actions/seed';
 
 class DetailPage extends Component {
   constructor(props) {
@@ -22,6 +22,7 @@ class DetailPage extends Component {
     dispatch(Actions.fetchDetail(id));
 
     this._fetchSeeds();
+    dispatch(fetchSeedsCount(id));
 
     this.interval = setInterval(() => {
       const item = this.props.items.find(i => i.id == id) || {};
@@ -31,6 +32,7 @@ class DetailPage extends Component {
 
     this.pullInterval = setInterval(() => {
       this._fetchSeeds();
+      dispatch(fetchSeedsCount(id));
     }, 4000);
   }
 
@@ -66,7 +68,6 @@ class DetailPage extends Component {
       shop_name,
       ori_price,
       completes,
-      seed_count,
       image_urls,
       total_amount,
       shop_avatar_url,
@@ -125,7 +126,7 @@ class DetailPage extends Component {
             {Number(fare) == 0 && <div className="mailing-fee-text"><span>该商品免运费</span></div>}
           </div>
 
-          {winners && winners.length > 0 ? <Winners winners={winners} seed_count={seed_count} /> : null}
+          {winners && winners.length > 0 ? <Winners item={item} /> : null}
           <a className="shop" href={`/goshop/${shop_id}`}>
             <img className="avatar" src={shop_avatar_url}/>
             <span>{shop_name}</span>

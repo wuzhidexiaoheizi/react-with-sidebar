@@ -61,3 +61,14 @@ export function fetchSeed(seed_id) {
       });
   };
 }
+
+export function fetchSeedsCount(id) {
+  return dispatch => {
+    const url = `${__API__}/${__ONE_MONEY_ID__}/status/${id}?used=true`;
+
+    return _fetch(url)
+      .then(json => {
+        dispatch({ type: 'UPDATE_SEED_COUNT', item: json, id});
+      });
+  };
+}
