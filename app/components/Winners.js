@@ -21,7 +21,7 @@ export default class Winner extends Component {
           })}
         </div>
         <div className="share-summary">
-          本产品被分享了<span className="seed-count">{seed_count}</span>次
+          本次活动已被分享<span className="seed-count">{seed_count}</span>次
         </div>
       </div>
     );
