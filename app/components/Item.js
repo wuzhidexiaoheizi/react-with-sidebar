@@ -33,6 +33,12 @@ export default class extends Component {
 
   render() {
     const {title, cover_urls, price, ori_price, id, status, fare} = this.props;
+    let moreDesc = null;
+
+    if (status == 'no-executies' || status == 'lack-multi-item') {
+      moreDesc = (<div className="notice">分享可再抢购</div>);
+    }
+
     return (
       <li className="item">
         <Link to={`/detail/${id}`}>
@@ -43,9 +49,12 @@ export default class extends Component {
           </div>
           <div className="right">
             <h3 className="title">{title}</h3>
-              <span className="price">￥{price}</span>
-              <span className="ori_price">原价:<s>{ori_price}</s></span>
-            <StatusBar status={status}/>
+            <span className="price">￥{price}</span>
+            <span className="ori_price">原价:<s>{ori_price}</s></span>
+            <div className="item-status">
+              <StatusBar status={status}/>
+              { moreDesc }
+            </div>
           </div>
         </Link>
       </li>

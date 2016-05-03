@@ -91,8 +91,8 @@ export function statusDescs(status, flag) {
   case 'created': return '已经领取奖励';
   case 'insufficient': return '已售罄';
   case 'total_amount_zero': return '已售罄';
-  case 'no-executies': return '不能再抢此商品了';
-  case 'lack-multi-item': return '已经抢过其他商品了';
+  case 'no-executies': return '没有机会';
+  case 'lack-multi-item': return '没有机会';
   case 'state-invalid': return '活动未开始/已结束';
   default: return <Loading color="#FFF" size="11px" margin="4px"/>;
   }

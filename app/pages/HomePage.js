@@ -104,7 +104,7 @@ class HomePage extends Component {
               <div className="indent">关注我们的"耒阳街上"公众号之后，即可参与我们的线上抢购伊利大礼包活动</div>
 
               <b>抢购规则:</b>
-              <div className="indent">每位关注的用户（仅限耒阳市区）只能在一次活动中抢购一件的商品，抢购的价格为一元，抢完即刻恢复正常售价</div>
+              <div className="indent">每位关注的用户（仅限耒阳市区）只能在一次活动中抢购一件的商品，抢购低至一元，抢完即刻恢复正常售价。抢购成功后请尽快确认订单。未确认的订单15分钟内将自动回收。确认订单后您还可以通过分享给好友获得额外的抢购机会。</div>
 
               <b>商品发放:</b>
               <div className="indent">活动结束，我们将逐步发货至您填写的地址，邮费方式需货到付款</div>
@@ -113,6 +113,7 @@ class HomePage extends Component {
               <div className="start-end-time">
                 {this.state.start_at} 至 {this.state.end_at}
               </div>
+
             </div>
             <div className="signup-container" onClick={this._handleSignup.bind(this)}>
               {fragment}
