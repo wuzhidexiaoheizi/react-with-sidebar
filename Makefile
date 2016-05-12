@@ -1,5 +1,13 @@
 TARGET := release/${NAME}
 TMP := /tmp/deploy/OneMoney
+LOG :=$(TMP)-$(shell date +'%s')
+PROFILE=
+S3_STORAGE=s3://wxapps
+
+ifdef profile
+	PROFILE:=--profile $(profile)
+endif
+
 export ONE_MONEY=$(ONE_MONEY_ID)
 export QRCODE=$(QR_CODE)
 export HOMEIMG=$(HOME_IMG)
@@ -9,24 +17,7 @@ export SIGNURL=$(SIGN_URL)
 export APIURL=$(API_URL)
 export WINNERS=$(WINNERS_NUM)
 
-build: 
-	npm run deploy
-
-deploy: cleanprepare build
-	@mkdir -p $(TMP)
-	@tar -c --exclude .git --exclude node_modules --exclude release --exclude build . | tar -x -C $(TMP)
-	aws deploy push --application-name OneMoney --description "This is OneMoney deployment" --s3-location s3://wanliu/OneMoney/deploy.zip --source $(TMP)
-	aws deploy create-deployment --application-name OneMoney --s3-location bucket=wanliu,key=OneMoney/deploy.zip,bundleType=zip --deployment-group-name test
-
-release: build 
-	#mkdir $(TARGET)
-	@mkdir -p $(TARGET)
-	$(eval FILES:=$(wildcard build/*))
-	# staring copy files to $(TARGET)
-	@cp $(FILES) $(TARGET)
-
-
-.PHONY: clean
+.PHONY: clean build
 clean: cleanbuild cleanrelease cleanprepare
 
 cleanprepare: 
@@ -35,5 +26,26 @@ cleanprepare:
 cleanrelease: $(TARGET)
 	@rm -rf $?
 
-cleanbuild: build
-	@rm -rf $<
+cleanbuild: 
+	@rm -f build/*
+
+build: 
+	npm run deploy
+
+release: build
+	#mkdir $(TARGET)
+	@mkdir -p $(TARGET)
+	$(eval FILES:=$(wildcard build/*))
+	# staring copy files to $(TARGET)
+	@cp $(FILES) $(TARGET)
+
+deploy: cleanprepare build
+	@mkdir -p $(TMP)
+	@echo 'package to $(LOG).tar.gz'
+	@tar  --exclude .git --exclude node_modules --exclude release --exclude build -czf $(LOG).tar.gz .
+	aws s3 cp $(LOG).tar.gz $(S3_STORAGE) $(PROFILE)
+	# aws deploy push --application-name OneMoney --description "This is OneMoney deployment" --s3-location s3://wanliu/OneMoney/deploy.zip --source $(TMP)
+	# aws deploy create-deployment --application-name OneMoney --s3-location bucket=wanliu,key=OneMoney/deploy.zip,bundleType=zip --deployment-group-name test
+
+
+
