@@ -18,13 +18,11 @@ export APIURL=$(API_URL)
 export WINNERS=$(WINNERS_NUM)
 
 .PHONY: clean build
-clean: cleanbuild cleanrelease cleanprepare
-
+clean: cleanbuild cleanprepare
+	@echo 'clean all'
+	
 cleanprepare: 
 	@rm -rf $(TMP)
-
-cleanrelease: $(TARGET)
-	@rm -rf $?
 
 cleanbuild: 
 	@rm -f build/*
