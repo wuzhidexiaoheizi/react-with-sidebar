@@ -37,7 +37,7 @@ release: build
 	# staring copy files to $(TARGET)
 	@cp $(FILES) $(TARGET)
 
-deploy: cleanprepare build
+deploy: cleanprepare
 	@mkdir -p $(TMP)
 	@echo 'package to $(LOG).tar.gz'
 	@tar  --exclude .git --exclude node_modules --exclude release --exclude build -czf $(LOG).tar.gz .
