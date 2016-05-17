@@ -2574,11 +2574,6 @@
       "version": "1.0.8",
       "from": "fs-write-stream-atomic@1.0.8"
     },
-    "fsevents": {
-      "version": "1.0.11",
-      "from": "fsevents@>=1.0.0 <2.0.0",
-      "resolved": "http://registry.npmjs.org/fsevents/-/fsevents-1.0.11.tgz"
-    },
     "fstream": {
       "version": "1.0.8",
       "from": "fstream@^1.0.2",
@@ -2638,11 +2633,6 @@
       "version": "4.0.1",
       "from": "get-stdin@>=4.0.1 <5.0.0",
       "resolved": "https://registry.npmjs.org/get-stdin/-/get-stdin-4.0.1.tgz"
-    },
-    "git-validate": {
-      "version": "2.1.4",
-      "from": "git-validate@>=2.0.0 <3.0.0",
-      "resolved": "http://registry.npm.taobao.org/git-validate/download/git-validate-2.1.4.tgz"
     },
     "glob": {
       "version": "5.0.15",
