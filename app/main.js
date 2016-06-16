@@ -3,31 +3,21 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
 import TransitionGroup from 'react-addons-css-transition-group';
-import configureStore from './store/configureStore';
+// import configureStore from './store/configureStore';
 import 'babel-polyfill';
 
-import HomePage from './pages/HomePage';
-import Alert from './components/Alert';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
-import SharePage from './pages/SharePage';
-import CommentPage from './pages/CommentPage';
-import SpreadPage from './pages/SpreadPage';
+import PartyPage from './pages/PartyPage';
+import ReviewPage from './pages/ReviewPage';
 import './style/main.styl';
-
-import {fetchFromSeed} from './actions/seed';
-import {fetchCurrentUser} from './actions/user';
 
 // FastClick
 import FastClick from 'fastclick';
 FastClick.attach(document.body);
 
-// import DevTools from './pages/DevTools';
+// const store = configureStore();
 
-// History-Router
-// const history = createBrowserHistory();
-// import createBrowserHistory from 'history/lib/createBrowserHistory';
-const store = configureStore();
 class App extends Component {
   constructor(props) {
     super(props);
@@ -49,14 +39,11 @@ class App extends Component {
   devNav() {
     if (__ENV__ == 'DEV') {
       return (
-        <ul className="nav">
-          {/* <DevTools /> */}
-          <li><IndexLink to="/" activeClassName="active">/</IndexLink></li>
-          <li><Link to="/list" activeClassName="active">list</Link></li>
-          <li><Link to="/detail/1" activeClassName="active">detail</Link></li>
-          <li><Link to="/comment/1" activeClassName="active">comment</Link></li>
-          <li><Link to="/share/1" activeClassName="active">share</Link></li>
-          <li><Link to="/spread" activeClassName="active">spread</Link></li>
+        <ul className="development-nav">
+          <li><IndexLink to="/list" activeClassName="active">/</IndexLink></li>
+          <li><Link to="/detail" activeClassName="active">detail</Link></li>
+          <li><Link to="/review" activeClassName="active">review</Link></li>
+          <li><Link to="/party" activeClassName="active">party</Link></li>
         </ul>
       );
     }
@@ -64,10 +51,10 @@ class App extends Component {
 
   render() {
     const {pathname} = this.props.location;
+
     return (
       <div>
         {this.devNav()}
-        <Alert history={this.props.history}/>
         <TransitionGroup transitionName={this.state.transitionName} component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
           {cloneElement(this.props.children || <div/>, { key: pathname })}
         </TransitionGroup>
@@ -77,33 +64,19 @@ class App extends Component {
 }
 
 function changeRouteHandle() {
-  const {query} = this.state.location;
-  const state = store.getState();
-  if (query.fromSeed) {
-    store.dispatch(fetchFromSeed(query.fromSeed));
-    localStorage.setItem('from_seed_id', query.fromSeed);
-    localStorage.setItem('from_seed_expire_time', Date.now() + 15 * 60 * 1000);
-  }
-
-  const {currentUser} = state.user;
-  if (!currentUser || currentUser.id < 0) {
-    store.dispatch(fetchCurrentUser());
-  }
+  
 }
 
 ReactDOM.render(
-  <Provider store={store}>
     <Router onUpdate={changeRouteHandle} >
       <Route path="/" component={App}>
-        <IndexRoute component={HomePage}/>
+        <IndexRoute component={ListPage}/>
         <Route path="/list" component={ListPage}/>
-        <Route path="detail/:id" component={DetailPage}/>
-        <Route path="/comment/:pmo_grab_id/:order_id" component={CommentPage} />
-        <Route path="/share/:evaluation_id" component={SharePage} />
-        <Route path="/spread" component={SpreadPage} />
-        <Route path="*" component={HomePage} />
+        <Route path="/detail" component={DetailPage}/>
+        <Route path="/review" component={ReviewPage}/>
+        <Route path="/party" component={PartyPage}/>
+        <Route path="*" component={ListPage} />
       </Route>
-    </Router>
-  </Provider>,
+    </Router>,
   document.getElementById('app')
 );

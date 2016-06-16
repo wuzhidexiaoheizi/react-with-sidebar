@@ -1,10 +1,13 @@
 .left-enter
   transform translateX(100%)
+  
 .left-enter.left-enter-active
   transform translateX(0%)
   transition all 500ms
+  
 .left-leave
   transform translateX(0%)
+  
 .left-leave.left-leave-active
   transform translateX(-100%)
   transition all 500ms
@@ -12,11 +15,14 @@
 
 .right-enter
   transform translateX(-100%)
+  
 .right-enter.right-enter-active
   transform translateX(0%)
   transition all 500ms
+  
 .right-leave
   transform translateX(0%)
+  
 .right-leave.right-leave-active
   transform translateX(100%)
   transition all 500ms
@@ -24,11 +30,14 @@
 
 .fade-enter
   opacity 0.01
+  
 .fade-enter.fade-enter-active
   opacity 1
   transition all 500ms
+  
 .fade-leave
   opacity 1
+  
 .fade-leave.fade-leave-active
   opacity 0.01
   transition all 500ms
@@ -37,15 +46,17 @@
 .item-enter
   opacity 0
   transform translateX(100%)
+  
 .item-enter.item-enter-active
   opacity 1
   transform translateX(0)
   transition all 500ms
+  
 .item-leave
   opacity 1
   transform translateX(0)
+  
 .item-leave.item-leave-active
   opacity 0
   transform translateX(-100%)
   transition all 500ms
-  
