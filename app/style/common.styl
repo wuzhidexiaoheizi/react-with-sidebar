@@ -4,9 +4,6 @@
   left 0
   right 0
   z-index 10
-  list-style none
-  margin 0
-  padding 0
 
   &:after
     content ''
@@ -24,4 +21,90 @@
       
       &.active
         background-color rgba(0,0,0,.6)
+        
+ul
+  list-style none
+  margin 0
+  padding 0
   
+.align-center
+  text-align center
+  
+.align-right
+  text-align right
+  
+.media
+  width 100%
+  
+.text-ellipsis
+  white-space nowrap
+  overflow hidden
+  text-overflow ellipsis
+  
+.two-line-ellipsis
+  display -webkit-box
+  overflow hidden
+  text-overflow ellipsis
+  -webkit-line-clamp 2
+  -webkit-box-orient vertical
+  word-break break-all
+  
+.page-container
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  overflow hidden
+  
+.item-detail-info
+  background $red
+  
+  .media-left
+    width 60%
+    padding 10px
+    color #fff
+    
+    .sales-price
+      font-size 3rem
+      color $orange
+      float left
+      font-weight 700
+      margin-right 8px
+      font-family "Comic Sans MS", cursive, sans-serif
+    
+    .saled-count, .cashback
+      display inline-block
+      padding 3px
+      line-height 1
+      border-radius 3px 
+      background #C7002A
+      
+  .media-body
+    text-align right
+    padding 10px
+
+    .favor-count
+      display inline-block
+      background-color #f7d92c
+      color #F12729
+      padding 8px 10px
+      border-radius 5px
+      font-size 16px
+      
+.item-brief
+    padding 8px 0
+    border-bottom 1px solid $borderColor
+    
+    p 
+      margin 0 
+    
+    .media-left
+      width 60%
+      border-right 1px solid $borderColor
+      padding 10px
+      
+    .media-right
+      width 20%
+      border-left 1px solid $borderColor
+      padding 10px

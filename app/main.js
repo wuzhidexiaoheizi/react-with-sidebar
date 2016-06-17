@@ -1,6 +1,6 @@
 import React, {Component, cloneElement} from 'react';
 import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
+// import {Provider} from 'react-redux';
 import {Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
 import TransitionGroup from 'react-addons-css-transition-group';
 // import configureStore from './store/configureStore';
@@ -10,6 +10,7 @@ import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import PartyPage from './pages/PartyPage';
 import ReviewPage from './pages/ReviewPage';
+import GuidePage from './pages/GuidePage';
 import './style/main.styl';
 
 // FastClick
@@ -27,12 +28,15 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const currntPathname = this.props.location.pathname;
-    const nextPathname = nextProps.location.pathname;
-    let transitionName = 'right';
+    const paths = ['/list', '/detail', '/party', '/review', '/guide'];
 
-    console.log('context', this.this);
-    if (currntPathname == '/' || nextPathname.includes('/detail')) transitionName = 'left';
+    const currentPathname = this.props.location.pathname;
+    const nextPathname = nextProps.location.pathname;
+    const currentPathIndex = paths.indexOf(currentPathname);
+    const nextPathIndex = paths.indexOf(nextPathname);
+
+    const transitionName = currentPathIndex > nextPathIndex ? 'right' : 'left';
+
     this.setState({transitionName});
   }
 
@@ -42,8 +46,9 @@ class App extends Component {
         <ul className="development-nav">
           <li><IndexLink to="/list" activeClassName="active">/</IndexLink></li>
           <li><Link to="/detail" activeClassName="active">detail</Link></li>
-          <li><Link to="/review" activeClassName="active">review</Link></li>
           <li><Link to="/party" activeClassName="active">party</Link></li>
+          <li><Link to="/review" activeClassName="active">review</Link></li>
+          <li><Link to="/guide" activeClassName="active">guide</Link></li>
         </ul>
       );
     }
@@ -75,6 +80,7 @@ ReactDOM.render(
         <Route path="/detail" component={DetailPage}/>
         <Route path="/review" component={ReviewPage}/>
         <Route path="/party" component={PartyPage}/>
+        <Route path="/guide" component={GuidePage}/>
         <Route path="*" component={ListPage} />
       </Route>
     </Router>,
