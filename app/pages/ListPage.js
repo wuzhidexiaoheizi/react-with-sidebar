@@ -24,7 +24,11 @@ class ListPage extends Component {
   render() {
     return (
       <div className="page-container list-container">
-        {__QR_CODE__ && <DRCode showText={this.state.showDRText}/>}
+        <div className="container">
+          <div className="row">
+            {__QR_CODE__ && <DRCode showText={this.state.showDRText}/>}
+          </div>
+        </div>
 
         <div className="list-page-container" onScroll={this.onScroll.bind(this)}>
           <div className="list-page" ref="list-page">
