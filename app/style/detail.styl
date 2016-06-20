@@ -1,31 +1,54 @@
 .detail-container
-  .content-wrap
-    position relative
-    height 100%
-    overflow hidden
+  .detail-actions .buy-now
+    height 50px
+    line-height 50px
+    background $red
+    color #fff
+    letter-spacing 5px
+    text-align center
+    font-size 2rem
+    font-weight 700
     
-    .detail-content
-      position relative
-      padding-bottom 60px
-      overflow auto
-      height 100%
-    
-  .detail-actions
-    position absolute
-    bottom 0
-    width 100%
-    
-    .buy-now
-      height 50px
-      line-height 50px
+  .detail-header
+    .item-detail-info
       background $red
-      color #fff
-      letter-spacing 5px
-      text-align center
-      font-size 2rem
-      font-weight 700
+      
+      .media-left
+        width 60%
+        padding 10px
+        color #fff
+        font-family $enFontFamily
+        
+        .sales-price
+          font-size 3rem
+          color $orange
+          float left
+          font-weight 700
+          margin-right 8px
+        
+        .saled-count, .cashback
+          display inline-block
+          padding 3px
+          line-height 1
+          border-radius 3px 
+          background #C7002A
+      
+      .media-body
+        text-align right
+        padding 10px 10px 10px 0
+
+        .favor-count
+          display inline-block
+          background-color #f7d92c
+          color #F12729
+          padding 8px 10px
+          border-radius 5px
+          font-size 1.2rem
         
   .detail-body
+    .winner-summary
+      margin-bottom 4px
+
     .winner-container
       padding 8px
       border-bottom 1px solid #ccc

@@ -46,23 +46,8 @@ class ListPage extends Component {
                             <span className="price">&#165;138元</span>
                             <span className="ori_price">原价:<s>&#165;199元</s></span>
                           </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="cake-item">
-                    <Link to="/detail" className="link">
-                      <div className="row">
-                        <div className="col-xs-5">
-                          <img className="item-pic" src="https://img.alicdn.com/imgextra/i4/TB1q68qKXXXXXa5XVXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg" />
-                        </div>
-                        <div className="col-xs-7">
-                          <div className="item-title">
-                            父亲节预定北京广州深圳上海重庆水果生日蛋糕店同城速递全国配送
-                          </div>
-                          <div className="item-price">
-                            <span className="price">&#165;138元</span>
-                            <span className="ori_price">原价:<s>&#165;199元</s></span>
+                          <div className="donee-count">
+                            获得30次返现红心
                           </div>
                         </div>
                       </div>
@@ -81,6 +66,30 @@ class ListPage extends Component {
                           <div className="item-price">
                             <span className="price">&#165;138元</span>
                             <span className="ori_price">原价:<s>&#165;199元</s></span>
+                          </div>
+                          <div className="donee-count">
+                            获得30次返现红心
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </li>
+                  <li className="cake-item">
+                    <Link to="/detail" className="link">
+                      <div className="row">
+                        <div className="col-xs-5">
+                          <img className="item-pic" src="https://img.alicdn.com/imgextra/i4/TB1q68qKXXXXXa5XVXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg" />
+                        </div>
+                        <div className="col-xs-7">
+                          <div className="item-title">
+                            父亲节预定北京广州深圳上海重庆水果生日蛋糕店同城速递全国配送
+                          </div>
+                          <div className="item-price">
+                            <span className="price">&#165;138元</span>
+                            <span className="ori_price">原价:<s>&#165;199元</s></span>
+                          </div>
+                          <div className="donee-count">
+                            获得30次返现红心
                           </div>
                         </div>
                       </div>

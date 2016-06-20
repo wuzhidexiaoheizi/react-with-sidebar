@@ -786,21 +786,7 @@ pre code {
   margin-left: auto;
   padding-left: 8px;
   padding-right: 8px;
-}
-@media (min-width: 768px) {
-  .container {
-    width: 736px;
-  }
-}
-@media (min-width: 992px) {
-  .container {
-    width: 956px;
-  }
-}
-@media (min-width: 1200px) {
-  .container {
-    width: 1156px;
-  }
+  max-width: 640px;
 }
 .container-fluid {
   margin-right: auto;

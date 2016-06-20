@@ -13,8 +13,8 @@ export default class PartyPage extends Component {
 
     return (
       <div className="page-container review-container">
-        <div className="review-nano">
-          <div className="review-content">
+        <div className="container-nano">
+          <div className="container-content">
             <div className="container">
               <div className="row">
                 <div className="review-header">
@@ -24,15 +24,14 @@ export default class PartyPage extends Component {
                   <div className="item-detail-info">
                     <div className="media">
                       <div className="media-left media-middle">
-                        <div className="sales-price">138元</div>
-                        <div className="price-amount">
-                          <div className="origin-price"><s>&#165;199元</s></div>
+                        <span className="sales-price">106元</span>
+                        <span className="price-amount">
                           <span className="cashback">已返现金&#165;32元</span>
-                        </div>
+                        </span>
                       </div>
                       <div className="media-body media-middle">
                         <div className="favor-count">
-                          获得30个
+                          赠30个返现红心
                         </div>
                       </div>
                     </div>
@@ -45,12 +44,12 @@ export default class PartyPage extends Component {
                         </div>
                       </div>
                       <div className="media-body media-middle">
-                        <p className="align-center">库存</p>
-                        <p className="align-center">50</p>
+                        <p className="align-center">售价</p>
+                        <p className="align-center">&#165;138.00</p>
                       </div>
                       <div className="media-right media-middle">
-                        <p className="align-center">已参与</p>
-                        <p className="align-center">15</p>
+                        <p className="align-center">原价</p>
+                        <p className="align-center"><s>&#165;199.00</s></p>
                       </div>
                     </div>
                   </div>
@@ -115,7 +114,7 @@ export default class PartyPage extends Component {
             </div>
           </div>
         </div>
-        <div className="review-footer">
+        <div className="page-footer review-footer">
           <div className="container">
             <div className="row">
               <Link to="/party">

@@ -13,10 +13,10 @@ class DetailPage extends Component {
 
     return (
       <div className="page-container detail-container">
-        <div className="content-wrap">
-          <div className="detail-content">
+        <div className="container-nano">
+          <div className="container-content">
             <div className="container">
-              <div class="row">
+              <div className="row">
                 <div className="detail-header">
                   <div className="detail-posters">
                     <Slider images={images} auto />
@@ -32,7 +32,7 @@ class DetailPage extends Component {
                       </div>
                       <div className="media-body media-middle">
                         <div className="favor-count">
-                          获得30个
+                          赠30个返现红心
                         </div>
                       </div>
                     </div>
@@ -97,7 +97,7 @@ class DetailPage extends Component {
             </div>
           </div>
         </div>
-        <div className="detail-actions">
+        <div className="page-footer detail-actions">
           <div className="container">
             <div className="row">
               <Link to="/party">

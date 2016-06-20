@@ -8,8 +8,8 @@ export default class PartyPage extends Component {
   render() {
     return (
       <div className="page-container party-container">
-        <div className="party-nano">
-          <div className="party-content">
+        <div className="container-nano">
+          <div className="container-content">
             <div className="container">
               <div className="row">
                 <div className="party-header">
@@ -100,11 +100,11 @@ export default class PartyPage extends Component {
               </div>
             </div>
           </div>
-          <div className="party-footer">
+          <div className="page-footer party-footer">
             <div className="container">
               <div className="row">
                 <div className="give-bless">
-                  赠送祝福
+                  我要送祝福
                 </div>
               </div>
             </div>

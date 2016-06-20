@@ -56,42 +56,7 @@ ul
   top 0
   bottom 0
   overflow hidden
-  
-.item-detail-info
-  background $red
-  
-  .media-left
-    width 60%
-    padding 10px
-    color #fff
-    
-    .sales-price
-      font-size 3rem
-      color $orange
-      float left
-      font-weight 700
-      margin-right 8px
-      font-family "Comic Sans MS", cursive, sans-serif
-    
-    .saled-count, .cashback
-      display inline-block
-      padding 3px
-      line-height 1
-      border-radius 3px 
-      background #C7002A
-      
-  .media-body
-    text-align right
-    padding 10px
-
-    .favor-count
-      display inline-block
-      background-color #f7d92c
-      color #F12729
-      padding 8px 10px
-      border-radius 5px
-      font-size 16px
-      
+       
 .item-brief
     padding 8px 0
     border-bottom 1px solid $borderColor
@@ -108,3 +73,29 @@ ul
       width 20%
       border-left 1px solid $borderColor
       padding 10px
+      
+.container-nano
+  position relative
+  height 100%
+  overflow hidden
+  
+  .container-content
+    position relative
+    padding-bottom 60px
+    overflow auto
+    height 100%
+    background $containerBgColor
+    
+    > .container
+      background $contentBgColor
+      
+.page-footer
+  position absolute
+  bottom 0
+  left 0
+  width 100%
+  height 50px
+  background $containerBgColor
+  
+  .container
+    background $contentBgColor

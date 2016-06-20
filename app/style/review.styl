@@ -1,23 +1,12 @@
 .review-container
-  .review-nano
-    position relative
-    height 100%
-    overflow hidden
-    
-    .review-content
-      position relative
-      height 100%
-      padding-bottom 80px
-      overflow auto
+  .container-nano .container-content
+    padding-bottom 80px
       
-  .review-footer
-    position absolute
+  .page-footer.review-footer
     background #fff
-    bottom 0
-    left 0
-    width 100%
-    padding 10px
-    border-top 1px solid $borderColor
+    height auto
+    padding 8px
+    border 1px solid $borderColor
     
     .goto-party
       border 1px solid $darkBorderColor
@@ -28,9 +17,44 @@
       font-size 2rem
       color #333
       
+  .item-detail-info
+    background $red
+    
+    .media-left
+      width 60%
+      padding 10px
+      color #fff
+      font-family $enFontFamily
+      
+      .sales-price
+        font-size 2.4rem
+        color $orange
+        font-weight 700
+        margin-right 8px
+        vertical-align middle
+      
+      .cashback
+        display inline-block
+        padding 0 5px
+        line-height 2.4rem
+        border-radius 5px 
+        background #C7002A
+        
+    .media-body
+      text-align right
+      padding 10px 10px 10px 0
+
+      .favor-count
+        display inline-block
+        background-color #f7d92c
+        color #F12729
+        padding 8px 10px
+        border-radius 5px
+        font-size 1.2rem
+      
   .review-body
     .review-summary
-      padding 10px
+      padding 10px 10px 0 10px
       
     .review-list
       .review-list-header
