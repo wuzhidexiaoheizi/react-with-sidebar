@@ -28,7 +28,7 @@ module.exports = {
         target: 'http://localhost:3000',
         secure: false,
         bypass: function(req, res, proxyOptions) {
-          if (req.url.indexOf('/birthday-cake/list') > -1) {
+          if (req.url.indexOf('/one_money/index.html') > -1) {
             return './index.html';
           }
         },
@@ -45,12 +45,17 @@ module.exports = {
     publicPath: '/one_money',
     filename: './bundle.js'
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.styl']
+  },
   module: {
     loaders: [
-      {test: /\.css$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'postcss']},
+      {test: /\.css$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loaders: ['style', 'css', 'postcss']},
       {test: /\.js[x]?$/, include: path.resolve(__dirname, 'app'), exclude: /node_modules/, loader: 'babel'},
       {test: /\.styl$/, include: path.resolve(__dirname, 'app'), loaders: ['style', 'css', 'postcss', 'stylus']},
       {test: /\.json$/, include: path.resolve(__dirname, 'app'), loaders: ['json']},
+      {test: /\.png$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/png' },
+      {test: /\.jpg$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/jpg' }
     ]
   },
   postcss: function () {

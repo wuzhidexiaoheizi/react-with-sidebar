@@ -1,9 +1,9 @@
 import React, {Component, cloneElement} from 'react';
 import ReactDOM from 'react-dom';
-// import {Provider} from 'react-redux';
+import {Provider} from 'react-redux';
 import {Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
 import TransitionGroup from 'react-addons-css-transition-group';
-// import configureStore from './store/configureStore';
+import configureStore from './store/configureStore';
 import 'babel-polyfill';
 
 import ListPage from './pages/ListPage';
@@ -11,13 +11,14 @@ import DetailPage from './pages/DetailPage';
 import PartyPage from './pages/PartyPage';
 import ReviewPage from './pages/ReviewPage';
 import GuidePage from './pages/GuidePage';
+// import Alert from './components/Alert';
 import './style/main.styl';
 
 // FastClick
 import FastClick from 'fastclick';
 FastClick.attach(document.body);
 
-// const store = configureStore();
+const store = configureStore();
 
 class App extends Component {
   constructor(props) {
@@ -30,22 +31,27 @@ class App extends Component {
   componentWillReceiveProps(nextProps) {
     const paths = ['/list', '/detail', '/party', '/review', '/guide'];
 
-    const currentPathname = this.props.location.pathname;
-    const nextPathname = nextProps.location.pathname;
+    const currentPathname = this.slicePathname(this.props.location.pathname);
+    const nextPathname = this.slicePathname(nextProps.location.pathname);
     const currentPathIndex = paths.indexOf(currentPathname);
     const nextPathIndex = paths.indexOf(nextPathname);
-
     const transitionName = currentPathIndex > nextPathIndex ? 'right' : 'left';
 
     this.setState({transitionName});
+  }
+
+  slicePathname(pathname) {
+    const index = pathname.indexOf('/detail');
+
+    return index > -1 ? pathname.slice(index, index + 7) : pathname;
   }
 
   devNav() {
     if (__ENV__ == 'DEV') {
       return (
         <ul className="development-nav">
-          <li><IndexLink to="/list" activeClassName="active">/</IndexLink></li>
-          <li><Link to="/detail" activeClassName="active">detail</Link></li>
+          <li><IndexLink to="/list" activeClassName="active">list</IndexLink></li>
+          <li><Link to="/detail/1" activeClassName="active">detail</Link></li>
           <li><Link to="/party" activeClassName="active">party</Link></li>
           <li><Link to="/review" activeClassName="active">review</Link></li>
           <li><Link to="/guide" activeClassName="active">guide</Link></li>
@@ -69,20 +75,22 @@ class App extends Component {
 }
 
 function changeRouteHandle() {
-  
+
 }
 
 ReactDOM.render(
+  <Provider store={store}>
     <Router onUpdate={changeRouteHandle} >
       <Route path="/" component={App}>
         <IndexRoute component={ListPage}/>
         <Route path="/list" component={ListPage}/>
-        <Route path="/detail" component={DetailPage}/>
+        <Route path="detail/:id" component={DetailPage}/>
         <Route path="/review" component={ReviewPage}/>
         <Route path="/party" component={PartyPage}/>
         <Route path="/guide" component={GuidePage}/>
         <Route path="*" component={ListPage} />
       </Route>
-    </Router>,
+    </Router>
+  </Provider>,
   document.getElementById('app')
 );

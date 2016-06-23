@@ -1,0 +1,150 @@
+.donee-modal
+  position fixed
+  right 0
+  left 0
+  top 0
+  bottom 0
+  
+  .donee-overlayer
+    position absolute
+    right 0
+    left 0
+    top 0
+    bottom 0
+    background rgba(0, 0, 0, 0.85)
+    z-index 9
+    
+  .donee-container
+    position relative
+    width 100%
+    height 100%
+    overflow auto
+    
+    .container
+      background none
+    
+  .donee-content
+    width 90%
+    margin 50px auto
+    padding 10px
+    border-radius 5px
+    background $orange
+    position relative
+    z-index 10
+    
+    .birthday-field
+      position relative
+      padding-right 80px
+      margin-bottom 8px
+      
+      .date-label
+        position absolute
+        right 60px
+        top 0
+        line-height 32px
+      
+  .donee-card
+    background #fff
+    border-radius 5px
+    padding 30px 15px
+    
+    .donee-header
+      text-align center
+      padding-bottom 10px
+      
+    .donee-body
+      .paragraph
+        margin 0 0 8px 0
+        line-height 2
+        position relative
+        
+        &.salutation
+          padding-right 80px
+          
+          .salutation-label
+            position absolute
+            right 5px
+            top 0
+            
+        &.sentence
+          margin 0
+        
+      input
+        border-width 0 0 1px 0
+        outline none
+        box-shadow none
+        border-color $darkBorderColor
+        border-radius 0
+        width 100%
+        padding 0 3px
+        
+        &.donee-name
+          padding 0 10px
+          
+      .Select-control
+        border-radius 0
+        border-width 0 0 1px 0
+        height 32px
+        
+      .Select-input
+        height 30px
+        text-align center
+        
+      .Select-placeholder
+        display none
+        
+      .bless-sentence
+        padding-left 28px
+        
+      .is-focused:not(.is-open) > .Select-control
+        border-color $darkBorderColor
+        box-shadow none
+        
+    .contact
+      padding-left 75px
+      position relative
+      
+      .contact-label
+        position absolute
+        top 0
+        left 0
+       
+    .input-container
+      position relative 
+      
+      .err-tip
+        position absolute
+        right 2px
+        top 0
+        line-height 28px
+        color $red
+        
+        img
+          width 18px
+          vertical-align text-bottom
+          margin-left 2px
+
+  .donee-footer
+    padding 15px 0
+    
+    .btn-next
+      background $red
+      color: #fff;
+      width: 100%;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 10px;
+        
+@media (min-width: 640px)
+  .donee-modal .donee-content
+    width 90%
+    
+@media (max-width: 576px)
+  .donee-modal .donee-content .birthday-field
+    padding-right 20px
+    
+    .date-label
+      right 5px
+    
+
+

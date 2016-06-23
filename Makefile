@@ -1,5 +1,5 @@
 TARGET := release/${NAME}
-TMP := /tmp/deploy/OneMoney
+TMP := /tmp/deploy/BirthdayCake
 LOG :=$(TMP)-$(shell date +'%s')
 PROFILE=
 S3_STORAGE=s3://wxtest
@@ -12,8 +12,6 @@ ifdef online
 	S3_STORAGE:=s3://wxapps
 endif
 
-
-export ONE_MONEY=$(ONE_MONEY_ID)
 export QRCODE=$(QR_CODE)
 export HOMEIMG=$(HOME_IMG)
 export LISTIMG=$(LIST_IMG)

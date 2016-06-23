@@ -1,4 +1,4 @@
 ---
-target: /usr/src/app/OneMoney
+target: /usr/src/app/BirthdayCake
 script: scripts/install.sh
 owner: ec2-user

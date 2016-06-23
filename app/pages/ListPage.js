@@ -1,14 +1,22 @@
 import React, {Component} from 'react';
 import DRCode from '../components/DRCode';
 import {Link} from 'react-router';
+import { fetchCakeList } from '../actions/cakeList';
+import {connect} from 'react-redux';
+import Loading from 'halogen/ScaleLoader';
 
 class ListPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      showDRText: false
+      showDRText: false,
     };
+  }
+
+  componentDidMount() {
+    const {dispatch} = this.props;
+    dispatch(fetchCakeList());
   }
 
   onScroll(e) {
@@ -22,6 +30,8 @@ class ListPage extends Component {
   }
 
   render() {
+    const { cakeList: { listFetching, cakeItems } } = this.props;
+
     return (
       <div className="page-container list-container">
         <div className="container">
@@ -36,69 +46,31 @@ class ListPage extends Component {
               <div className="row">
                 <img className="list-poster" src={__LIST_IMG__}/>
                 <ul className="cake-list">
-                  <li className="cake-item">
-                    <Link to="/detail" className="link">
-                      <div className="row">
-                        <div className="col-xs-5">
-                          <img className="item-pic" src="https://img.alicdn.com/imgextra/i4/TB1q68qKXXXXXa5XVXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg" />
-                        </div>
-                        <div className="col-xs-7">
-                          <div className="item-title">
-                            父亲节预定北京广州深圳上海重庆水果生日蛋糕店同城速递全国配送
+                  {cakeItems.map(cakeItem =>
+                    <li className="cake-item" key={cakeItem.id}>
+                      <Link to={`/detail/${cakeItem.id}`} className="link">
+                        <div className="row">
+                          <div className="col-xs-5">
+                            <img className="item-pic" src={cakeItem.cover_url} />
                           </div>
-                          <div className="item-price">
-                            <span className="price">&#165;138元</span>
-                            <span className="ori_price">原价:<s>&#165;199元</s></span>
-                          </div>
-                          <div className="donee-count">
-                            获得30次返现红心
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="cake-item">
-                    <Link to="/detail" className="link">
-                      <div className="row">
-                        <div className="col-xs-5">
-                          <img className="item-pic" src="https://img.alicdn.com/imgextra/i4/TB1q68qKXXXXXa5XVXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg" />
-                        </div>
-                        <div className="col-xs-7">
-                          <div className="item-title">
-                            父亲节预定北京广州深圳上海重庆水果生日蛋糕店同城速递全国配送
-                          </div>
-                          <div className="item-price">
-                            <span className="price">&#165;138元</span>
-                            <span className="ori_price">原价:<s>&#165;199元</s></span>
-                          </div>
-                          <div className="donee-count">
-                            获得30次返现红心
+                          <div className="col-xs-7">
+                            <div className="item-title">
+                              {cakeItem.title}
+                            </div>
+                            <div className="item-price">
+                              <span className="price">&#165;{cakeItem.income_price}元</span>
+                              <span className="ori_price">原价:<s>&#165;{cakeItem.public_price}元</s></span>
+                            </div>
+                            <div className="donee-count">
+                              获得30次返现红心
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li className="cake-item">
-                    <Link to="/detail" className="link">
-                      <div className="row">
-                        <div className="col-xs-5">
-                          <img className="item-pic" src="https://img.alicdn.com/imgextra/i4/TB1q68qKXXXXXa5XVXXXXXXXXXX_!!0-item_pic.jpg_430x430q90.jpg" />
-                        </div>
-                        <div className="col-xs-7">
-                          <div className="item-title">
-                            父亲节预定北京广州深圳上海重庆水果生日蛋糕店同城速递全国配送
-                          </div>
-                          <div className="item-price">
-                            <span className="price">&#165;138元</span>
-                            <span className="ori_price">原价:<s>&#165;199元</s></span>
-                          </div>
-                          <div className="donee-count">
-                            获得30次返现红心
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
+                      </Link>
+                    </li>
+                  )}
+
+                  {listFetching && <div style={{textAlign: 'center'}}><Loading color="#FFF" size="9px" margin="4px"/></div>}
                 </ul>
               </div>
             </div>
@@ -109,4 +81,10 @@ class ListPage extends Component {
   }
 }
 
-export default ListPage;
+function mapStateToProps(state) {
+  return {
+    cakeList: state.cakeList
+  };
+}
+
+export default connect(mapStateToProps)(ListPage);
