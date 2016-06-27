@@ -25,7 +25,7 @@ module.exports = {
     port: 8080,
     proxy: {
       '*': {
-        target: 'http://localhost:3000',
+        target: 'http://192.168.0.161:3000',
         secure: false,
         bypass: function(req, res, proxyOptions) {
           if (req.url.indexOf('/one_money/index.html') > -1) {

@@ -4,6 +4,7 @@ import blessImage from '../images/bless.jpg';
 import errPNG from '../images/err.png';
 import fetch from 'isomorphic-fetch';
 import Constants from '../constants';
+import { serializeParams } from '../helper';
 
 export default class BlessCard extends Component {
   constructor(props) {
@@ -109,7 +110,7 @@ export default class BlessCard extends Component {
 
     const { DOMAIN, CAKE_ORDER_URL } = Constants;
     const url = `${DOMAIN}${CAKE_ORDER_URL}`;
-    const queryParams = this.serializeParams(params);
+    const queryParams = serializeParams(params);
 
     fetch(url, {
       method: 'POST',
@@ -120,23 +121,6 @@ export default class BlessCard extends Component {
     });
   }
 
-  serializeParams(obj, prefix) {
-    const str = [];
-
-    for (const key of Object.keys(obj)) {
-      const v = obj[key];
-      const k = prefix ? prefix + '[' + key + ']' : key;
-
-      if (Object.prototype.toString.call(v) == '[object Object]') {
-        str.push(this.serializeParams(v, k));
-      } else {
-        str.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
-      }
-    }
-
-    return str.join('&');
-  }
-
   close() {
     const { onClose } = this.props;
 
@@ -144,9 +128,6 @@ export default class BlessCard extends Component {
   }
 
   render() {
-    // const shouldUpdateEarliest = false;
-    // const shouldUpdateLatest = true;
-
     return (
       <div className="donee-modal">
         <div className="donee-overlayer" onClick={this.close.bind(this)}></div>
@@ -219,7 +200,8 @@ export default class BlessCard extends Component {
                   </div>
                 </div>
                 <div className="donee-footer">
-                  <button className="btn btn-next" disabled={this.state.disabled}
+                  <button className="btn btn-cancel" onClick={this.close.bind(this)}>取消</button>
+                  <button className="btn btn-confirm" disabled={this.state.disabled}
                     onClick={this.confirmOrder.bind(this)}>下一步</button>
                 </div>
               </div>

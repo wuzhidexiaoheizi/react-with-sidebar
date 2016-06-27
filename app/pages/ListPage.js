@@ -1,9 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import DRCode from '../components/DRCode';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import { fetchCakeList } from '../actions/cakeList';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Loading from 'halogen/ScaleLoader';
+import Constants from '../constants';
+import lovePNG from '../images/love.png';
 
 class ListPage extends Component {
   constructor(props) {
@@ -11,12 +13,15 @@ class ListPage extends Component {
 
     this.state = {
       showDRText: false,
+      cakePer: 10,
+      cakePage: 1,
     };
   }
 
   componentDidMount() {
-    const {dispatch} = this.props;
-    dispatch(fetchCakeList());
+    const { dispatch } = this.props;
+    const { cakePage, cakePer } = this.state;
+    dispatch(fetchCakeList(cakePage, cakePer));
   }
 
   onScroll(e) {
@@ -24,9 +29,19 @@ class ListPage extends Component {
 
     if (scrollTop + offsetHeight == scrollHeight) {
       this.setState({showDRText: true});
+      this.loadNextPage();
     } else {
       this.setState({showDRText: false});
     }
+  }
+
+  loadNextPage() {
+    const { cakeList: { listFetching, loadedPage }, dispatch } = this.props;
+    const { cakePer } = this.state;
+
+    if (listFetching) return;
+
+    dispatch(fetchCakeList(loadedPage + 1, cakePer));
   }
 
   render() {
@@ -44,7 +59,7 @@ class ListPage extends Component {
           <div className="list-page" ref="list-page">
             <div className="container">
               <div className="row">
-                <img className="list-poster" src={__LIST_IMG__}/>
+                <img className="list-poster" src={Constants.HEADER_IMG} />
                 <ul className="cake-list">
                   {cakeItems.map(cakeItem =>
                     <li className="cake-item" key={cakeItem.id}>
@@ -62,7 +77,7 @@ class ListPage extends Component {
                               <span className="ori_price">原价:<s>&#165;{cakeItem.public_price}元</s></span>
                             </div>
                             <div className="donee-count">
-                              获得30次返现红心
+                              获得30个返现<img src={lovePNG} />
                             </div>
                           </div>
                         </div>

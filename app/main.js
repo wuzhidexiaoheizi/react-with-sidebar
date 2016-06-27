@@ -41,9 +41,19 @@ class App extends Component {
   }
 
   slicePathname(pathname) {
-    const index = pathname.indexOf('/detail');
+    let index = pathname.indexOf('/detail');
 
-    return index > -1 ? pathname.slice(index, index + 7) : pathname;
+    if (index > -1) return '/detail';
+
+    index = pathname.indexOf('/party');
+
+    if (index > -1) return '/party';
+
+    index = pathname.indexOf('/review');
+
+    if (index > -1) return '/review';
+
+    return pathname;
   }
 
   devNav() {
@@ -52,8 +62,8 @@ class App extends Component {
         <ul className="development-nav">
           <li><IndexLink to="/list" activeClassName="active">list</IndexLink></li>
           <li><Link to="/detail/1" activeClassName="active">detail</Link></li>
-          <li><Link to="/party" activeClassName="active">party</Link></li>
-          <li><Link to="/review" activeClassName="active">review</Link></li>
+          <li><Link to="/party/1" activeClassName="active">party</Link></li>
+          <li><Link to="/review/1" activeClassName="active">review</Link></li>
           <li><Link to="/guide" activeClassName="active">guide</Link></li>
         </ul>
       );
@@ -85,8 +95,8 @@ ReactDOM.render(
         <IndexRoute component={ListPage}/>
         <Route path="/list" component={ListPage}/>
         <Route path="detail/:id" component={DetailPage}/>
-        <Route path="/review" component={ReviewPage}/>
-        <Route path="/party" component={PartyPage}/>
+        <Route path="review/:id" component={ReviewPage}/>
+        <Route path="party/:id" component={PartyPage}/>
         <Route path="/guide" component={GuidePage}/>
         <Route path="*" component={ListPage} />
       </Route>

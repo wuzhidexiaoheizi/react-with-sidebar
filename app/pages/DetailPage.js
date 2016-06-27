@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Slider from 'uinz-slider';
+import Slider from '../components/Slider';
 import BlessCard from '../components/BlessCard';
 import { connect } from 'react-redux';
 import { fethcCakeItem } from '../actions/cakeList';
@@ -48,7 +48,9 @@ class DetailPage extends Component {
 
     if (typeof saled_count == 'undefined') saled_count = 0;
     const inventory = +current_stock - +saled_count;
-    const images = [ cover_url ];
+
+    console.log('cover_url', cover_url);
+    const images = cover_url ? [ cover_url ] : [];
     const buyerCount = buyers ? buyers.length : 0;
     const shop = shop_id ? shops.find(s => s.id == shop_id) : {};
 
@@ -60,7 +62,7 @@ class DetailPage extends Component {
               <div className="row">
                 <div className="detail-header">
                   <div className="detail-posters">
-                    { images.length > 0 && <Slider images={images} auto /> }
+                    <Slider images={images} auto />
                   </div>
                   <div className="item-detail-info">
                     <div className="media">

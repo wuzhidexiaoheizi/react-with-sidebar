@@ -1,7 +1,7 @@
 import update from 'react-addons-update';
 
 const initialState = {
-  listFetching: true,
+  listFetching: false,
   cakeItems: [],
   loadedPage: 0,
   totalPage: 0
@@ -13,7 +13,7 @@ export default function(state = initialState, action) {
   case 'FETCH_PAGE_DATA_DONE': {
     const { cakes, page, total_page } = action.result;
 
-    if (page > state.loadedPage) {
+    if (page > state.loadedPage && cakes.length > 0) {
       return update(state, {
         loadedPage: { $set: page },
         totalPage: { $set: total_page },
@@ -22,10 +22,12 @@ export default function(state = initialState, action) {
       });
     }
 
-    return state;
+    return update(state, {
+      listFetching: { $set: false }
+    });
   }
 
-  case 'FETCH_PAGE_DATA_START': {
+  case 'FETCH_CAKE_PAGE_DATA_START': {
     return update(state, {
       listFetching: { $set: true }
     });

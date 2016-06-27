@@ -27,11 +27,18 @@ export function setShop(shop) {
 }
 
 export function fetchCakeList(page = 1, per = 10) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const state = getState();
+    const { cakeList: { loadedPage, listFetching } } = state;
+
+    if (listFetching || page < loadedPage) return false;
+
+    dispatch({ type: 'FETCH_CAKE_PAGE_DATA_START' });
+
     const { DOMAIN, API_PROMOTION_PREFIX, CAKE_URL } = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${CAKE_URL}?page=${page}&per=${per}`;
 
-    return _fetch(url)
+    return _fetch(url, 'get')
       .then(json => {
         dispatch(setCakeItems(json));
       });
