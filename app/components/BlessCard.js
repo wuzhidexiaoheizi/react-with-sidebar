@@ -94,7 +94,7 @@ export default class BlessCard extends Component {
 
     const { cakeId } = this.props;
     const { doneeName, bless, address, contact, birthday } = this.state;
-    const href = encodeURIComponent(window.location.href);
+    const callback = encodeURIComponent(`${window.location.href}#showCard`);
     const params = {
       order: {
         cake_id: cakeId,
@@ -106,8 +106,8 @@ export default class BlessCard extends Component {
           birth_day: birthday
         }
       },
-      goto_onemoney: true,
-      callback_url: href
+      goto_one_money: true,
+      callback
     };
 
     const { DOMAIN, CAKE_ORDER_URL } = Constants;

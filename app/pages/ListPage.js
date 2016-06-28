@@ -50,7 +50,7 @@ class ListPage extends Component {
       <div className="page-container list-container">
         <div className="container">
           <div className="row">
-            {__QR_CODE__ && <DRCode showText={this.state.showDRText}/>}
+            {Constants.QRCODE && <DRCode showText={this.state.showDRText}/>}
 
             {listFetching && <div className="loading-container"><Loading color="#FF280B" size="9px" margin="4px"/></div>}
           </div>

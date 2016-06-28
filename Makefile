@@ -12,14 +12,6 @@ ifdef online
 	S3_STORAGE:=s3://wxapps
 endif
 
-export QRCODE=$(QR_CODE)
-export HOMEIMG=$(HOME_IMG)
-export LISTIMG=$(LIST_IMG)
-export DEFAULTAVATAR=$(DEFAULT_AVATAR)
-export SIGNURL=$(SIGN_URL)
-export APIURL=$(API_URL)
-export WINNERS=$(WINNERS_NUM)
-
 .PHONY: clean build release
 clean: cleanbuild cleanprepare
 	@echo 'clean all'

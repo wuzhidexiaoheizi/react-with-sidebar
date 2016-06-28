@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { formatDate, extractPresentAvatar } from '../helper';
+import Constants from '../constants';
 
 export default class BlessItem extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class BlessItem extends Component {
     } = bless;
 
     const dateStr = formatDate(created_at, 'yyyy年MM月dd日 HH:mm');
-    const url = avatar_url || __DEFAULT_AVATAR__;
+    const url = avatar_url || Constants.DEFAULT_AVATAR;
     const imageUrl = extractPresentAvatar(name);
 
     return (
