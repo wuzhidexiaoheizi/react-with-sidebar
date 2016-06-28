@@ -230,6 +230,6 @@ export function extractPresentAvatar(presentName) {
 }
 
 export function getTipImage(type) {
-  return TIP_IMG_MAP[type ? type.toLowerCase : 'error']
+  return TIP_IMG_MAP[type ? type.toLowerCase() : 'error']
     || TIP_IMG_MAP.error;
 }

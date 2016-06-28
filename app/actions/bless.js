@@ -1,9 +1,9 @@
 import { _fetch, serializeParams } from '../helper';
 import Constants from '../constants';
 
-export function setBlessPageData(json) {
+export function setBlessPageData(partyId, json) {
   return dispatch => {
-    dispatch({ type: 'FETCH_BLESS_PAGE_DATA_DONE', result: json });
+    dispatch({ type: 'FETCH_BLESS_PAGE_DATA_DONE', partyId, result: json });
   };
 }
 
@@ -28,12 +28,12 @@ export function fetchBlessList(partyId, latest_id, limit = 10) {
 
     return _fetch(url, 'get')
       .then(json => {
-        dispatch(setBlessPageData(json));
+        dispatch(setBlessPageData(partyId, json));
       });
   };
 }
 
-export function sendBless(partyId, params, sucCallback, errCallback) {
+export function sendBless(partyId, params = {}, sucCallback, errCallback) {
   return dispatch => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, BLESS_URL} = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}${BLESS_URL}`;

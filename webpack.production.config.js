@@ -9,13 +9,7 @@ var autoprefixer = require('autoprefixer');
 var precss = require('precss');
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 var config = {
-  __QR_CODE__             : JSON.stringify(process.env.QRCODE || true), // 是否显示二维码
-  __HOME_IMG__            : JSON.stringify(process.env.HOMEIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/2d7a24f6172fc89513bd49ce2fb6072c.jpg'), // 首页图片
-  __LIST_IMG__            : JSON.stringify(process.env.LISTIMG || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/96b33c5747e2cf405278d18331fc032b.jpg'),  // 列表图片
-  __DEFAULT_AVATAR__      : JSON.stringify(process.env.DEFAULTAVATAR || 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/1/default_avatar.gif!avatar'),
-  __SIGNUP_URL__          : JSON.stringify(process.env.SIGNURL || 'http://m.wanliu.biz/authorize/weixin'),
   __ENV__                 : JSON.stringify('PRODUCTION'),
-  __TIMESTAMP__           : JSON.stringify(process.env.TICK || new Date().getTime())
 };
 
 module.exports = {
@@ -42,6 +36,8 @@ module.exports = {
         test: /\.json$/, include: path.resolve(__dirname, 'app'),
         loaders: ['json']
       },
+      {test: /\.png$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/png' },
+      {test: /\.jpg$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/jpg' },
     ]
   },
   postcss: function () {

@@ -1,4 +1,4 @@
 ---
 target: /usr/src/app/BirthdayCake
-script: scripts/install.sh
+script: echo success
 owner: ec2-user
