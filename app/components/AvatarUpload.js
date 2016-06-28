@@ -41,8 +41,13 @@ export default class AvatarUpload extends Component {
 
   getWeixinConfig() {
     const { WEIXIN_API_SIGNATURE_URL } = Constants;
+    let href = window.location.href;
+    const index = href.indexOf('#');
+    if (index > -1) href = href.slice(0, index);
+    const query = `?url=${encodeURIComponent(href)}`;
+    const url = `${WEIXIN_API_SIGNATURE_URL}${query}`;
 
-    _fetch(WEIXIN_API_SIGNATURE_URL)
+    _fetch(url)
       .then(json => {
         localStorage.setItem(WEIXIN_CONFIG, json);
         localStorage.setItem(WEIXIN_CONFIG_EXPIRE, Date.now() + 7200);
