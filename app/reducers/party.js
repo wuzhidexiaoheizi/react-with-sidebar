@@ -21,6 +21,16 @@ export default function(state = initialState, action) {
     });
   }
 
+  case 'UPDATE_PARTY_AVATAR': {
+    return update(state, {
+      party: {
+        person_avatar: {
+          url: { $set: action.url }
+        }
+      }
+    });
+  }
+
   default: return state;
   }
 }

@@ -21,7 +21,7 @@ export default class DismissTip extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextState.error != this.state.error || nextState.message != this.state.message
+    return nextState.type != this.state.type || nextState.message != this.state.message
       || nextState.showTip != this.state.showTip;
   }
 
