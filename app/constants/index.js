@@ -1,5 +1,5 @@
 export default {
-  'DOMAIN': 'http://0.0.0.0:8080',
+  'DOMAIN': 'http://test.wanliu.biz',
   'API_PROMOTION_PREFIX': '/api/promotions',
   'CAKE_URL': '/cakes',
   'SALE_COUNT_URL': '/saled_count',
@@ -8,6 +8,7 @@ export default {
   'CAKE_ORDER_URL': '/orders/buy_now_confirm',
   'PARTY_URL': '/birthday_parties',
   'BLESS_URL': '/blesses',
+  'USER_SIGNIN_URL': '/users/sign_in',
   'VIRTUAL_PRESENT_URL': '/virtual_presents',
   'DONEE_DEFAULT_AVATAR': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/c641b432732c432709730ad06d191dd9.jpg',
   'PARTY_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/82b00396a089c4ab0705bf71d99e2754.png',

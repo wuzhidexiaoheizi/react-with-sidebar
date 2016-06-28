@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import DateSelect from './DateSelect';
 import blessImage from '../images/bless.jpg';
 import errPNG from '../images/err.png';
-import fetch from 'isomorphic-fetch';
 import Constants from '../constants';
 import { serializeParams } from '../helper';
 
@@ -95,6 +94,7 @@ export default class BlessCard extends Component {
 
     const { cakeId } = this.props;
     const { doneeName, bless, address, contact, birthday } = this.state;
+    const href = encodeURIComponent(window.location.href);
     const params = {
       order: {
         cake_id: cakeId,
@@ -105,20 +105,18 @@ export default class BlessCard extends Component {
           birthday_person: doneeName,
           birth_day: birthday
         }
-      }
+      },
+      goto_onemoney: true,
+      callback_url: href
     };
 
     const { DOMAIN, CAKE_ORDER_URL } = Constants;
     const url = `${DOMAIN}${CAKE_ORDER_URL}`;
-    const queryParams = serializeParams(params);
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: queryParams
-    });
+    const query = serializeParams(params);
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `${url}?${query}`;
+    form.submit();
   }
 
   close() {

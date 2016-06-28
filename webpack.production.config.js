@@ -42,6 +42,8 @@ module.exports = {
         test: /\.json$/, include: path.resolve(__dirname, 'app'),
         loaders: ['json']
       },
+      {test: /\.png$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/png' },
+      {test: /\.jpg$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/jpg' },
     ]
   },
   postcss: function () {

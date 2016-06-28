@@ -20,6 +20,10 @@ class DetailPage extends Component {
     dispatch(fethcCakeItem(id));
   }
 
+  componentWillReceiveProps() {
+    if (window.location.href.indexOf('showCard') > -1) this.setState({ showBlessCard: true });
+  }
+
   showBlessCard() {
     this.setState({ showBlessCard: true });
   }

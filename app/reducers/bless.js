@@ -5,13 +5,26 @@ const initialState = {
   blesses: [],
   total: 0,
   earliestId: '',
+  partyId: ''
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
 
   case 'FETCH_BLESS_PAGE_DATA_DONE': {
-    const { blesses, total } = action.result;
+    const { result: {blesses, total}, partyId } = action;
+
+    if (partyId != state.partyId) {
+      const { length } = blesses;
+
+      return update(state, {
+        blesses: { $set: blesses },
+        listFetching: { $set: false },
+        total: { $set: total },
+        earliestId: { $set: length > 0 ? blesses[length - 1].id : ''},
+        partyId: { $set: partyId },
+      });
+    }
 
     if (blesses.length > 0) {
       return update(state, {
@@ -24,6 +37,7 @@ export default function(state = initialState, action) {
 
     return update(state, {
       listFetching: { $set: false },
+      partyId: { $set: partyId },
     });
   }
 

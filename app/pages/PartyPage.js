@@ -31,6 +31,14 @@ class PartyPage extends Component {
     dispatch(fetchBlessList(id, '', blessPer));
   }
 
+  componentWillReceiveProps() {
+    if (window.location.href.indexOf('#showDistribute') > -1) {
+      const blessDistribute = this.refs.blessDistribute;
+
+      if (blessDistribute) blessDistribute.show();
+    }
+  }
+
   openPhaseModal() {
     this.setState({ showPhaseModal: true });
   }
