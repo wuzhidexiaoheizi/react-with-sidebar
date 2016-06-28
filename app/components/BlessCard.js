@@ -174,18 +174,6 @@ export default class BlessCard extends Component {
                         </span> }
                       </div>
                     </div>
-                    { /*
-                      <div className="paragraph">
-                        我们将在<DateSelect at_latest={this.state.at_latest} shouldUpdateEarliest={shouldUpdateEarliest}
-                        shouldUpdateLatest={shouldUpdateLatest} onChanged={this.atEarliestChanged.bind(this)}/>
-                        <input type="text" value={this.state.deadlineHour} className="deadline"
-                          onChange={this.changeDeadlineHour.bind(this)}/>
-                        时之前送到耒阳市
-                        <div><input type="text" className="address" value={this.state.address}
-                          onChange={this.changeAddress.bind(this)} />
-                        </div>
-                      </div>
-                    */ }
                     <div className="paragraph">请耐心等候，谢谢！</div>
                     <div>祝：</div>
                     <div className="bless-sentence paragraph input-container">
