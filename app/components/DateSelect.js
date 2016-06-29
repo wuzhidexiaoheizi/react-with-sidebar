@@ -263,7 +263,8 @@ export default class DateSelect extends Component {
     const { year, month, day } = this.state;
     const date = new Date(year, month - 1, day);
 
-    if ((at_latest && shouldUpdateEarliest) || (at_earliest && shouldUpdateLatest)) {
+    if ((at_latest && shouldUpdateEarliest) || (at_earliest && shouldUpdateLatest)
+      || (!shouldUpdateEarliest) && !shouldUpdateLatest) {
       this.dateChanged(date);
     }
   }

@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux';
 import * as PartyActions from '../actions/party';
 import * as PresentActions from '../actions/virtualPresent';
 import * as BlessActions from '../actions/bless';
+import GiftGroup from '../components/GiftGroup';
 import BlessGroup from '../components/BlessGroup';
 import Loading from 'halogen/ScaleLoader';
 import AvatarUpload from '../components/AvatarUpload';
@@ -132,10 +133,8 @@ class PartyPage extends Component {
                   </div>
                 </div>
                 <div className="party-body">
-                  <div className="bless-container">
-                    <div className="bless-props"></div>
-                    <BlessGroup blesses={blesses} />
-                  </div>
+                  <GiftGroup blesses={blesses} />
+                  <BlessGroup blesses={blesses} />
                 </div>
               </div>
             </div>
