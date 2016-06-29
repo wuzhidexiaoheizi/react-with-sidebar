@@ -1,5 +1,5 @@
 export default {
-  'DOMAIN': 'http://192.168.0.161:8080',
+  'DOMAIN': __ENV__ == 'PRODUCTION' ? 'http://test.wanliu.biz' : 'http://0.0.0.0:8080',
   'QRCODE': true,
   'WEIXIN_APP_ID': 'wx3fe5b90f6015df42',
   'WEIXIN_APP_SECRET': '56964b892658e93bfec2a6e9c2e90599',

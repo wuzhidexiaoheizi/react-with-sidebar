@@ -99,31 +99,31 @@
       .is-focused:not(.is-open) > .Select-control
         border-color $darkBorderColor
         box-shadow none
-        
-    .contact
-      padding-left 75px
-      position relative
-      
-      .contact-label
-        position absolute
-        top 0
-        left 0
-       
-    .input-container
-      position relative 
-      
-      .err-tip
-        position absolute
-        right 2px
-        top 0
-        line-height 28px
-        color $red
-        
-        img
-          width 18px
-          vertical-align text-bottom
-          margin-left 2px
 
+  .input-container
+    position relative 
+    
+    .err-tip
+      position absolute
+      right 2px
+      top 0
+      line-height 28px
+      color $red
+      
+      img
+        width 18px
+        vertical-align text-bottom
+        margin-left 2px
+        
+  .contact
+    padding-left 75px
+    position relative
+    
+    .contact-label
+      position absolute
+      top 0
+      left 0
+      
   .donee-footer
     padding 15px 0
     
@@ -154,6 +154,9 @@
     
     .date-label
       right 5px
+      
+  .donee-modal .contact .input-container .err-tip
+    position static
     
 
 

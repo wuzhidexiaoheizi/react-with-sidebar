@@ -89,21 +89,36 @@
 
   .party-body
     padding 0 10px 10px
+    
+  .gift-group
+    padding 10px
+    margin 0 -10px 10px
+    border-width 1px 0
+    border-style solid
+    border-color $red
+    background #F5E7E7
+    
+    .gift-item
+      display inline-block
+      padding 5px
       
-  .bless-container
-    background $red
+      .gift-avatar
+        width 40px
+      
+  .bless-list
     padding 10px
     border-radius 5px
+    background $red
+  
+  .bless-summary
+    color #fff
+    padding-bottom 10px
     
-    .bless-summary
-      color #fff
-      padding-bottom 10px
+    .bless-review
+      border-right 1px solid #999
       
-      .bless-review
-        border-right 1px solid #999
-        
-        &:last-child
-          border-right none
+      &:last-child
+        border-right none
       
 @media (max-width: 320px)
   .party-container .birthday-bless .sentence
