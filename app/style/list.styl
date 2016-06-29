@@ -1,0 +1,126 @@
+.list-container
+  font-size 2.5rem
+
+  .list-page-container
+    position relative
+    height 100%
+    overflow auto
+    background $containerBgColor
+    
+  .list-page
+    padding-bottom 110px
+    position relative
+    z-index 3
+    
+    > .container
+      background-image url(../images/bg.jpg)
+      background-repeat repeat
+    
+    .list-poster
+      width 100%
+      display block
+
+  .dr-container
+    position absolute
+    width 100%
+    bottom 10px
+    z-index 12
+    line-height 100px
+    padding-right 110px
+    text-align center
+    max-width 640px
+    
+    .dr-text
+      color #333
+      font-size 2rem
+      font-weight 900
+    
+    .dr-img
+      width 100px
+      display block
+      position absolute
+      bottom 0
+      right 8px
+      border 1px solid #DDD
+   
+  .loading-container
+    position absolute
+    bottom 20px
+    text-align center
+    line-height 50px
+    width 100%
+    z-index 13
+
+  .cake-list
+    padding 10px
+
+  .cake-item
+    border-width 1px
+    border-style solid
+    border-color $borderColor
+    margin-bottom 10px
+    background #fff
+    
+    &:last-child
+      margin-bottom 0
+    
+    .link
+      display block
+      color #333
+      padding 8px
+      
+      .item-pic
+        width 100%
+        overflow hidden
+        box-shadow 0 0 1px #ddd
+      
+      .item-title
+        display -webkit-box
+        overflow hidden
+        text-overflow ellipsis
+        -webkit-line-clamp 2
+        -webkit-box-orient vertical
+        
+  .item-price
+    padding 8px 0
+    font-family $enFontFamily
+    
+    .price
+      color $red
+      font-weight 900
+      font-size 3rem
+      margin-right 1rem
+          
+  .donee-count
+    padding 6px 0
+    text-align center
+    background $orange
+    color $red
+    border 1px solid #E4D166
+    border-radius 5px
+    
+    img
+      font-size 2.5rem
+
+@media (max-width: 420px)
+  .list-container
+    font-size 1.5rem
+
+    .item-price .price
+      font-size 2rem
+
+    img
+      width 1.5rem 
+       
+@media (max-width: 368px)
+  .list-container
+    font-size 1.2rem
+    
+    .item-price .price
+      font-size 1.5rem
+    
+    img
+      width 1.2rem
+
+
+    

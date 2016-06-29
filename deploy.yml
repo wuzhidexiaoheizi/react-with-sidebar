@@ -1,0 +1,4 @@
+---
+target: /usr/src/app/BirthdayCake
+script: echo success
+owner: ec2-user

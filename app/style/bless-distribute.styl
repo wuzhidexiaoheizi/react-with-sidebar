@@ -1,0 +1,114 @@
+.bless-distribute-modal
+  position fixed
+  right 0
+  left 0
+  top 0
+  bottom 0
+  z-index 11
+  display none
+  
+  &.shown
+    display block
+
+  .distribute-overlayer
+    position absolute
+    right 0
+    left 0
+    top 0
+    bottom 0
+    background rgba(0, 0, 0, 0.65)
+    z-index 9
+    
+  .distribute-container
+    position relative
+    width 100%
+    height 100%
+    overflow auto
+    
+    .container
+      background none
+      
+  .distribute-content
+    width 80%
+    margin 50px auto
+    position relative
+    z-index 10
+    border 5px solid $redBorderColor
+    padding 20px
+    border-radius 5px
+    background $grayBgColor
+    
+    .distribute-header
+      .header-label
+        margin-bottom 15px
+
+      .present-group
+        .present-item
+          float left
+          width 33.3333333%
+          border-right 1px solid $borderColor
+          border-bottom 1px solid $borderColor
+          background #fff
+          
+          .present-image
+            border-bottom 1px solid $borderColor
+          
+            img
+              width 100%
+              overflow hidden
+            
+          .present-fee
+            line-height 30px
+            text-align center
+          
+          &:nth-child(3n)
+            border-right 1px solid transparent
+            
+          &.active
+            .present-image
+              background-image url(http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/a23a13858b1ba9bf9a2bedd46253a219.jpg)
+              background-size 100%
+              
+            .present-fee
+              background #FDC606
+              color $red
+ 
+    .distribute-body
+      .body-label
+        padding 15px 0
+        
+    .distribute-footer
+      padding 15px 0
+      text-align center
+      
+      .btn-cancel, .btn-confirm
+        width 50%
+        padding 10px 0
+        color #fff
+        font-size 16px
+        font-weight 700
+        
+      .btn-cancel
+        border-top-right-radius 0
+        border-bottom-right-radius 0
+        background $orange
+        
+      .btn-confirm
+        border-top-left-radius 0
+        border-bottom-left-radius 0
+        background $red
+         
+  .message-textarea
+    height 150px
+    resize none
+        
+@media (max-width: 320px)
+  .bless-distribute-modal .distribute-content
+    width 90%
+
+  .bless-distribute-modal .message-textarea
+    height 100px
+   
+@media (max-width: 576px)
+  .bless-distribute-modal .message-textarea
+    height 120px

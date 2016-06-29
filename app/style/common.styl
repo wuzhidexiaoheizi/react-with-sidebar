@@ -1,0 +1,112 @@
+.development-nav
+  position fixed
+  top 0
+  left 0
+  right 0
+  z-index 10
+
+  &:after
+    content ''
+    display table
+    clear both
+  
+  li
+    float left
+    
+    a
+      display block
+      padding 10px 20px
+      background-color rgba(0,0,0,.3)
+      color #FFF
+      
+      &.active
+        background-color rgba(0,0,0,.6)
+        
+ul
+  list-style none
+  margin 0
+  padding 0
+  
+.align-center
+  text-align center
+  
+.align-right
+  text-align right
+  
+.media
+  width 100%
+  
+.text-ellipsis
+  white-space nowrap
+  overflow hidden
+  text-overflow ellipsis
+  
+.two-line-ellipsis
+  display -webkit-box
+  overflow hidden
+  text-overflow ellipsis
+  -webkit-line-clamp 2
+  -webkit-box-orient vertical
+  word-break break-all
+  
+.page-container
+  position absolute
+  left 0
+  right 0
+  top 0
+  bottom 0
+  overflow hidden
+       
+.item-brief
+    padding 8px 0
+    border-bottom 1px solid $borderColor
+    
+    p 
+      margin 0 
+    
+    .media-left
+      width 60%
+      border-right 1px solid $borderColor
+      padding 10px
+      
+    .media-right
+      width 20%
+      border-left 1px solid $borderColor
+      padding 10px
+      
+.container-nano
+  position relative
+  height 100%
+  overflow hidden
+  
+  .container-content
+    position relative
+    padding-bottom 60px
+    overflow auto
+    height 100%
+    background $containerBgColor
+    
+    > .container
+      background $contentBgColor
+      
+.page-footer
+  position absolute
+  bottom 0
+  left 0
+  width 100%
+  height 50px
+  background $containerBgColor
+  
+  .container
+    background $contentBgColor
+    
+  .loading-container
+    position absolute
+    background rgba(255, 255, 255, 0.8)
+    left 0
+    right 0
+    top 0
+    bottom 0
+    line-height 50px
+    text-align center
+    color $red

@@ -1,0 +1,80 @@
+.bless-phase-modal
+  position fixed
+  right 0
+  left 0
+  top 0
+  bottom 0
+  z-index 11
+
+  .phase-overlayer
+    position absolute
+    right 0
+    left 0
+    top 0
+    bottom 0
+    background rgba(0, 0, 0, 0.85)
+    z-index 9
+    
+  .bless-container
+    position relative
+    width 100%
+    height 100%
+    overflow auto
+    
+    .container
+      background none
+      
+  .bless-content
+    width 80%
+    margin 50px auto
+    position relative
+    z-index 10
+    background $orange
+    padding 10px
+    border-radius 5px
+    
+    .bless-panel
+      background #fff
+      border-radius 5px
+    
+    .bless-header
+      padding 10px 15px
+      border-bottom 1px solid $borderColor
+      
+    .bless-body
+      padding 10px 15px
+      
+    .bless-footer
+      border-top 1px solid $borderColor
+      padding 10px 15px
+      
+      .btn-cancel, .btn-confirm
+        display inline-block
+        width 50%
+        padding 10px 0
+        text-align center
+        color #fff
+        font-weight 700
+        
+      .btn-cancel
+        border-top-right-radius 0
+        border-bottom-right-radius 0
+        background $orange
+        
+      .btn-confirm
+        border-top-left-radius 0
+        border-bottom-left-radius 0
+        background $red
+        
+  .bless-textarea
+    height 200px
+    resize none
+        
+@media (max-width: 320px)
+  .bless-phase-modal .bless-textarea
+    height 120px
+   
+@media (max-width: 576px)
+  .bless-phase-modal .bless-textarea
+    height 150px
+      
