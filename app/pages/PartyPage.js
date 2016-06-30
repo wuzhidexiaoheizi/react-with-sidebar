@@ -15,6 +15,7 @@ import GiftGroup from '../components/GiftGroup';
 import BlessGroup from '../components/BlessGroup';
 import Loading from 'halogen/ScaleLoader';
 import AvatarUpload from '../components/AvatarUpload';
+import BulletScreen from '../components/BulletScreen';
 
 class PartyPage extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class PartyPage extends Component {
     this.state = {
       showPhaseModal: false,
       blessPer: 10,
+      showBullets: true,
     };
   }
 
@@ -35,11 +37,18 @@ class PartyPage extends Component {
     dispatch(fetchBlessList(id, '', blessPer));
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nexrProps) {
     if (window.location.href.indexOf('#showDistribute') > -1) {
       const blessDistribute = this.refs.blessDistribute;
 
       if (blessDistribute) blessDistribute.show();
+    }
+
+    const { bless: { blesses } } = nexrProps;
+    const { bulletScreen } = this.refs;
+
+    if (blesses.length && (blesses != this.props.bless.blesses)) {
+      if (bulletScreen) bulletScreen.resetBullets(blesses);
     }
   }
 
@@ -69,6 +78,14 @@ class PartyPage extends Component {
     if (scrollTop + offsetHeight == scrollHeight) {
       this.loadNextPageBlesses();
     }
+  }
+
+  hideBullet() {
+    this.setState({ showBullets: false });
+  }
+
+  showBullet() {
+    this.setState({ showBullets: true });
   }
 
   loadNextPageBlesses() {
@@ -103,11 +120,11 @@ class PartyPage extends Component {
     } = party;
 
     const avatar = person_avatar && person_avatar.url ? person_avatar.url : DONEE_DEFAULT_AVATAR;
-
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
     const blessActionCreators = bindActionCreators(BlessActions, dispatch);
+    const trackCount = 5;
 
     return (
       <div className="page-container party-container">
@@ -159,6 +176,8 @@ class PartyPage extends Component {
         <BlessDistribute onClose={this.closePresentModal.bind(this)}
           partyId={id} presents={presents} {...presentActionCreators}
           {...blessActionCreators} ref="blessDistribute" />
+
+        { this.state.showBullets && <BulletScreen trackCount={trackCount} ref="bulletScreen"/>}
       </div>
     );
   }

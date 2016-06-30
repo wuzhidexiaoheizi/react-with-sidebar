@@ -6,10 +6,6 @@ export default class GiftGroup extends Component {
     super(props);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.blesses != this.props.blesses;
-  }
-
   render() {
     const { blesses } = this.props;
 
