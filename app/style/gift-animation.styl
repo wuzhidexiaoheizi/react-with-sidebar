@@ -1,0 +1,59 @@
+.anim-container
+  position fixed
+  top 0
+  left 0
+  width 100%
+  height 100%
+  z-index 9999
+  background rgba(0,0,0,0.3)
+  
+  &.shown
+    display block
+  
+  .anim-close
+    position absolute
+    left 42%
+    bottom 10%
+    width 60px
+    height 60px
+    border 1px solid #eee
+    border-radius 50%
+    background:rgba(0,0,0,0.1)
+    font-size 18px
+    color:#fff
+
+  .anim
+    position absolute
+    top 0
+    bottom 0
+    left 0 
+    right 0
+    margin auto
+    width 200px
+    height 200px
+  
+  .heart
+    background url('../images/spirit_redheart.png') 0 0 no-repeat
+    animation heart 1.7s steps(14) 
+    animation-fill-mode forwards 
+  
+  @keyframes heart
+    0%
+      background-position -5px -5px
+    25%
+      background-position -5px -2805px
+    65%
+      background-position -5px -5px
+    100%
+      background-position -5px -2805px
+  
+  .flower
+    background url('../images/sprite_flower.png') 0 0 no-repeat
+    animation flower 3.5s steps(18) 
+    animation-fill-mode forwards 
+  
+  @keyframes flower 
+   0%
+     background-position 0 0
+   100%
+     background-position 0 -3600px

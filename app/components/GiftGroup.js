@@ -16,7 +16,7 @@ export default class GiftGroup extends Component {
             <div className="gift-desc">已收到的礼物（点击可播放动画）</div>
             <div className="gift-list">
               { blesses.map(bless =>
-                <GiftItem key={bless.id} bless={bless} />
+                <GiftItem key={bless.id} bless={bless} onShowAnimation={ this.props.onShowAnimation } />
               ) }
             </div>
           </div>
