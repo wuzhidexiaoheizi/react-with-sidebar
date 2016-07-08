@@ -47,6 +47,11 @@ class PartyPage extends Component {
       if (blessDistribute) blessDistribute.show();
     }
 
+    if (!this.hasShowAnimated) {
+      this.hasShowAnimated = true;
+      this.lookupInAnimates();
+    }
+
     const { bless: { blesses } } = nexrProps;
     const { bulletScreen } = this.refs;
 
@@ -109,6 +114,20 @@ class PartyPage extends Component {
     const { params: {id}, dispatch } = this.props;
 
     dispatch(fetchBlessList(id, earliestId, blessPer));
+  }
+
+  lookupInAnimates() {
+    const animates = ['heart', 'flower', 'car', 'teddy_bear', 'music_box', 'motor'];
+
+    for (let i = 0; i < animates.length; i++) {
+      this.lookupAnimate(animates[i]);
+    }
+  }
+
+  lookupAnimate(animateName) {
+    if (window.location.href.indexOf('#' + animateName) > -1) {
+      return this.setState({ showAnimation: true, animation_name: animateName });
+    }
   }
 
   render() {

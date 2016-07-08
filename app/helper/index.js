@@ -233,3 +233,17 @@ export function getTipImage(type) {
   return TIP_IMG_MAP[type ? type.toLowerCase() : 'error']
     || TIP_IMG_MAP.error;
 }
+
+export function checkUserHasLogged(loggedCallback, unloggedCallback) {
+  const { DOMAIN, API_USER_URL } = Constants;
+  const url = `${DOMAIN}${API_USER_URL}`;
+
+  _fetch(url)
+    .then((user) => {
+      if (user.id > 0) {
+        loggedCallback();
+      } else {
+        unloggedCallback();
+      }
+    });
+}

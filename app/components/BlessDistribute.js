@@ -32,6 +32,18 @@ export default class BlessDistribute extends Component {
   }
 
   sendBless() {
+    const { checkUserHasLogged, DOMAIN, USER_SIGNIN_URL } = Constants;
+    let callback = window.location.href;
+
+    if (callback.indexOf('#showDistribute') == -1) {
+      callback = `${callback}#showDistribute`;
+    }
+    checkUserHasLogged(this.distributeBless.bind(this), () => {
+      window.location.href = `${DOMAIN}${USER_SIGNIN_URL}?callback=${callback}&goto_one_money=true`;
+    });
+  }
+
+  distributeBless() {
     const { partyId, sendBless } = this.props;
     const { message, virtual_present_id } = this.state;
     const callback = encodeURIComponent(`${window.location.href}#showDistribute`);
