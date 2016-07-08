@@ -4,7 +4,7 @@ import BlessCard from '../components/BlessCard';
 import { connect } from 'react-redux';
 import { fethcCakeItem } from '../actions/cakeList';
 import lovePNG from '../images/love.png';
-import Constants from '../constant';
+import Constants from '../constants';
 
 class DetailPage extends Component {
   constructor(props) {

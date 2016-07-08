@@ -130,6 +130,19 @@ class PartyPage extends Component {
     }
   }
 
+  giveBless() {
+    const { checkUserHasLogged, DOMAIN, USER_SIGNIN_URL } = Constants;
+    let callback = window.location.href;
+
+    if (callback.indexOf('#showDistribute') == -1) {
+      callback = `${callback}#showDistribute`;
+    }
+
+    checkUserHasLogged(this.openPresentModal.bind(this), () => {
+      window.location.href = `${DOMAIN}${USER_SIGNIN_URL}?callback=${callback}&goto_one_money=true`;
+    });
+  }
+
   render() {
     const { PARTY_HEADER_IMG, DONEE_DEFAULT_AVATAR } = Constants;
     const {
@@ -190,7 +203,7 @@ class PartyPage extends Component {
           <div className="page-footer party-footer">
             <div className="container">
               <div className="row">
-                <div className="give-bless" onClick={this.openPresentModal.bind(this)}>
+                <div className="give-bless" onClick={this.giveBless.bind(this)}>
                   我要送祝福
                 </div>
               </div>

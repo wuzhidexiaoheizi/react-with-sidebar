@@ -32,22 +32,8 @@ export default class BlessDistribute extends Component {
   }
 
   sendBless() {
-    const { checkUserHasLogged, DOMAIN, USER_SIGNIN_URL } = Constants;
-    let callback = window.location.href;
-
-    if (callback.indexOf('#showDistribute') == -1) {
-      callback = `${callback}#showDistribute`;
-    }
-
-    checkUserHasLogged(this.distributeBless.bind(this), () => {
-      window.location.href = `${DOMAIN}${USER_SIGNIN_URL}?callback=${callback}&goto_one_money=true`;
-    });
-  }
-
-  distributeBless() {
     const { partyId, sendBless } = this.props;
     const { message, virtual_present_id } = this.state;
-    const callback = encodeURIComponent(`${window.location.href}#showDistribute`);
 
     if (message.length == 0) return this.setState({ showMessageErr: true });
     if (virtual_present_id == 0) return this.setState({ showPresentErr: true});
@@ -57,9 +43,7 @@ export default class BlessDistribute extends Component {
         birthday_party_id: partyId,
         message,
         virtual_present_id
-      },
-      goto_one_money: true,
-      callback
+      }
     };
 
     sendBless(partyId, params, this.blessSendSuccess.bind(this), this.showResponseError.bind(this));
@@ -88,11 +72,6 @@ export default class BlessDistribute extends Component {
       showMessageErr: false,
       disabled: false,
     });
-  }
-
-  blessSendSuccess(callbackUrl) {
-    this.hide();
-    window.location.href = callbackUrl;
   }
 
   render() {
