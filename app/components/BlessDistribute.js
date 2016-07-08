@@ -38,6 +38,7 @@ export default class BlessDistribute extends Component {
     if (callback.indexOf('#showDistribute') == -1) {
       callback = `${callback}#showDistribute`;
     }
+
     checkUserHasLogged(this.distributeBless.bind(this), () => {
       window.location.href = `${DOMAIN}${USER_SIGNIN_URL}?callback=${callback}&goto_one_money=true`;
     });

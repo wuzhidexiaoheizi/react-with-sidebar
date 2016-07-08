@@ -4,6 +4,7 @@ import BlessCard from '../components/BlessCard';
 import { connect } from 'react-redux';
 import { fethcCakeItem } from '../actions/cakeList';
 import lovePNG from '../images/love.png';
+import Constants from '../constant';
 
 class DetailPage extends Component {
   constructor(props) {
@@ -21,7 +22,20 @@ class DetailPage extends Component {
   }
 
   componentWillReceiveProps() {
-    if (window.location.href.indexOf('showCard') > -1) this.setState({ showBlessCard: true });
+    if (window.location.href.indexOf('#showBlessCard') > -1) this.setState({ showBlessCard: true });
+  }
+
+  snapUp() {
+    const { checkUserHasLogged, DOMAIN, USER_SIGNIN_URL } = Constants;
+    let callback = window.location.href;
+
+    if (callback.indexOf('#showBlessCard') == -1) {
+      callback = `${callback}#showBlessCard`;
+    }
+
+    checkUserHasLogged(this.showBlessCard.bind(this), () => {
+      window.location.href = `${DOMAIN}${USER_SIGNIN_URL}?callback=${callback}&goto_one_money=true`;
+    });
   }
 
   showBlessCard() {
@@ -52,8 +66,6 @@ class DetailPage extends Component {
 
     if (typeof saled_count == 'undefined') saled_count = 0;
     const inventory = +current_stock - +saled_count;
-
-    console.log('cover_url', cover_url);
     const images = cover_url ? [ cover_url ] : [];
     const buyerCount = buyers ? buyers.length : 0;
     const shop = shop_id ? shops.find(s => s.id == shop_id) : {};
@@ -137,7 +149,7 @@ class DetailPage extends Component {
         <div className="page-footer detail-actions">
           <div className="container">
             <div className="row">
-              <div className="buy-now" onClick={this.showBlessCard.bind(this)}>
+              <div className="buy-now" onClick={this.snapUp.bind(this)}>
                 立即抢购
               </div>
               { this.state.showBlessCard && <BlessCard cakeId={id} onClose={this.hideBlessCard.bind(this)}/> }
