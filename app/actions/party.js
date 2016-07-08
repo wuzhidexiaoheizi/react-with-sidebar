@@ -21,6 +21,12 @@ export function updateAvatar(url) {
   };
 }
 
+export function updateMediaId(mediaId) {
+  return dispatch => {
+    dispatch({ type: 'UPDATE_AVATAR_MEDIA_ID', avatarMediaId: mediaId });
+  };
+}
+
 export function fetchParty(partyId, loadCake) {
   return (dispatch, getState) => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL } = Constants;
@@ -110,7 +116,7 @@ export function updateAvatarMediaId(partyId, mediaId) {
 
     _fetch(url, 'post', body)
       .done(() => {
-        return dispatch(updateAvatar(mediaId));
+        return dispatch(updateMediaId(mediaId));
       });
   };
 }

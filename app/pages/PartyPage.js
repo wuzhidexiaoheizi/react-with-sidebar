@@ -169,6 +169,7 @@ class PartyPage extends Component {
       birth_day,
       message,
       person_avatar,
+      avatar_media_id,
     } = party;
 
     const { isCurrentUser } = this.state;
@@ -189,7 +190,7 @@ class PartyPage extends Component {
                 <div className="party-header">
                   <img className="party-poster" src={PARTY_HEADER_IMG}/>
                   <AvatarUpload avatar_url={avatar} partyId={partyId} isCurrentUser={isCurrentUser}
-                    {...partyActionCreators} />
+                    avatarMediaId={avatar_media_id} {...partyActionCreators} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
                     <div className="birthday">
                       <div className="sentence text-ellipsis">

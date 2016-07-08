@@ -117,8 +117,8 @@ export default class AvatarUpload extends Component {
 
   render() {
     const { DONEE_DEFAULT_AVATAR } = Constants;
-    const { avatar_url, isCurrentUser } = this.props;
-    const avatar_image = avatar_url || DONEE_DEFAULT_AVATAR;
+    const { avatar_url, isCurrentUser, avatarMediaId } = this.props;
+    const avatar_image = avatarMediaId || avatar_url || DONEE_DEFAULT_AVATAR;
     let fragment = null;
 
     if (isCurrentUser) {
