@@ -9,7 +9,7 @@ export default class DismissTip extends Component {
     super(props);
 
     this.state = {
-      posY: '45%',
+      posY: '50%',
       type: '',
       message: '',
       showTip: false
@@ -20,16 +20,13 @@ export default class DismissTip extends Component {
     this.adjustPosition();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextState.type != this.state.type || nextState.message != this.state.message
-      || nextState.showTip != this.state.showTip;
-  }
-
   resetTypeAndMessage(type, message) {
     this.setState({
       type,
       message,
       showTip: true
+    }, () => {
+      this.adjustPosition();
     });
 
     setTimeout(() => {

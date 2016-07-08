@@ -23,6 +23,7 @@ export function updateAvatar(url) {
 
 export function updateMediaId(mediaId) {
   return dispatch => {
+    alert('updateMediaId');
     dispatch({ type: 'UPDATE_AVATAR_MEDIA_ID', avatarMediaId: mediaId });
   };
 }
