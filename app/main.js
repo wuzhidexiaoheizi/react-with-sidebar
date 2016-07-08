@@ -15,8 +15,8 @@ import GuidePage from './pages/GuidePage';
 import './style/main.styl';
 
 // FastClick
-import FastClick from 'fastclick';
-FastClick.attach(document.body);
+// import FastClick from 'fastclick';
+// FastClick.attach(document.body);
 
 const store = configureStore();
 

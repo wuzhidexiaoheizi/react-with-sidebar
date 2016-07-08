@@ -271,6 +271,7 @@ export default class DateSelect extends Component {
 
   render() {
     const clearable = false;
+    const autoBlur = true;
 
     return (
       <div className="date-select">
@@ -279,7 +280,9 @@ export default class DateSelect extends Component {
             value={this.state.year}
             options={this.state.yearOptions}
             onChange={this.pickYear.bind(this)}
-            clearable={clearable} />
+            clearable={clearable}
+            autoBlur={autoBlur}
+          />
           <span className="date-label">年</span>
         </div>
         <div className="birthday-field">
@@ -287,7 +290,9 @@ export default class DateSelect extends Component {
             value={this.state.month}
             options={this.state.monthOptions}
             onChange={this.pickMonth.bind(this)}
-            clearable={clearable}/>
+            clearable={clearable}
+            autoBlur={autoBlur}
+          />
           <span className="date-label">月</span>
         </div>
         <div className="birthday-field">
@@ -295,7 +300,9 @@ export default class DateSelect extends Component {
             value={this.state.day}
             options={this.state.dayOptions}
             onChange={this.pickDay.bind(this)}
-            clearable={clearable} />
+            clearable={clearable}
+            autoBlur={autoBlur}
+          />
           <span className="date-label">日</span>
         </div>
       </div>
