@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fethcCakeItem } from '../actions/cakeList';
 import lovePNG from '../images/love.png';
 import Constants from '../constants';
+import { checkUserHasLogged } from '../helper';
 
 class DetailPage extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class DetailPage extends Component {
   }
 
   snapUp() {
-    const { checkUserHasLogged, DOMAIN, USER_SIGNIN_URL } = Constants;
+    const { DOMAIN, USER_SIGNIN_URL } = Constants;
     let callback = window.location.href;
 
     if (callback.indexOf('#showBlessCard') == -1) {

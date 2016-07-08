@@ -6,7 +6,7 @@ import { fetchParty } from '../actions/party';
 import { fetchBlessList } from '../actions/bless';
 import { fetchCurrentUser } from '../actions/user';
 import { connect } from 'react-redux';
-import { formatDate } from '../helper';
+import { formatDate, checkUserHasLogged } from '../helper';
 import { bindActionCreators } from 'redux';
 import * as PartyActions from '../actions/party';
 import * as PresentActions from '../actions/virtualPresent';
@@ -131,7 +131,7 @@ class PartyPage extends Component {
   }
 
   giveBless() {
-    const { checkUserHasLogged, DOMAIN, USER_SIGNIN_URL } = Constants;
+    const { DOMAIN, USER_SIGNIN_URL } = Constants;
     let callback = window.location.href;
 
     if (callback.indexOf('#showDistribute') == -1) {
