@@ -74,6 +74,10 @@ export default class BlessDistribute extends Component {
     });
   }
 
+  blessSendSuccess(callbackUrl) {
+    window.location.href = callbackUrl;
+  }
+
   render() {
     const { presents } = this.props;
     const { isShow } = this.state;

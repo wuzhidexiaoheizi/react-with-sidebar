@@ -34,19 +34,23 @@ export function fetchBlessList(partyId, latest_id, limit = 10) {
 }
 
 export function sendBless(partyId, params = {}, sucCallback, errCallback) {
-  return () => {
+  return dispatch => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, BLESS_URL} = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}${BLESS_URL}`;
     const body = JSON.stringify(params);
 
     return _fetch(url, 'post', body)
       .then(json => {
-        const { errors, wx_pay_url } = json;
+        const { errors, wx_pay_url, paid } = json;
 
         if ( errors ) {
           if (typeof errCallback == 'function') errCallback(errors);
         } else {
-          if (typeof sucCallback == 'function') sucCallback(wx_pay_url);
+          if (paid) {
+            dispatch(insertBless(json));
+          } else if (typeof sucCallback == 'function') {
+            sucCallback(wx_pay_url);
+          }
         }
       });
   };
