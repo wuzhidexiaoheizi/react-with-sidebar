@@ -14,8 +14,8 @@ export default class GiftItem extends Component {
   }
 
   render() {
-    const { bless: { type } } = this.props;
-    const imageAvatar = extractPresentAvatar(type);
+    const { bless: { virtual_present: { name } } } = this.props;
+    const imageAvatar = extractPresentAvatar(name);
 
     return (
       <div className="gift-item" onClick={ this.handleGiftClick.bind(this) }>

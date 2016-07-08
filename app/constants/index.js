@@ -13,6 +13,7 @@ export default {
   'CAKE_ORDER_URL': '/orders/buy_now_confirm',
   'PARTY_URL': '/birthday_parties',
   'BLESS_URL': '/blesses',
+  'UPDATE_AVATAR_URL': 'update_avatar_media_id',
   'USER_SIGNIN_URL': __ENV__ == 'PRODUCTION' ? '/authorize/weixin' : '/users/sign_in',
   'VIRTUAL_PRESENT_URL': '/virtual_presents',
   'PARTY_AVATAR_UPLOAD_URL': '/upload_avatar',

@@ -9,10 +9,6 @@ const WEIXIN_CONFIG_EXPIRE = 'wexin_config_expire';
 export default class AvatarUpload extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      couldUpload: false
-    };
   }
 
   componentDidMount() {
@@ -27,12 +23,6 @@ export default class AvatarUpload extends Component {
     } else {
       this.initWeixinConfig(config);
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { currentUser, createUserId } = nextProps;
-
-    this.setState({ couldUpload: currentUser && currentUser.id == createUserId });
   }
 
   onSubmit(e) {
@@ -68,7 +58,7 @@ export default class AvatarUpload extends Component {
 
     if (window.wx) {
       window.wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId, // 必填，公众号的唯一标识
         timestamp, // 必填，生成签名的时间戳
         nonceStr, // 必填，生成签名的随机串
@@ -79,13 +69,24 @@ export default class AvatarUpload extends Component {
   }
 
   handlUpload() {
+    const { partyId, updateAvatarMediaId } = this.props;
+
     window.wx.chooseImage({
       count: 9, // 默认9
       sizeType: [ 'original', 'compressed' ], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: [ 'album', 'camera' ], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
         const localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-        console.log(localIds);
+        const localId = localIds[0];
+
+        window.wx.uploadImage({
+          localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+          isShowProgressTips: 1, // 默认为1，显示进度提示
+          success: (response) => {
+            const serverId = response.serverId; // 返回图片的服务器端ID
+            updateAvatarMediaId(partyId, serverId);
+          }
+        });
       }
     });
   }
@@ -116,12 +117,11 @@ export default class AvatarUpload extends Component {
 
   render() {
     const { DONEE_DEFAULT_AVATAR } = Constants;
-    const { avatar_url } = this.props;
-    const { couldUpload } = this.state;
+    const { avatar_url, isCurrentUser } = this.props;
     const avatar_image = avatar_url || DONEE_DEFAULT_AVATAR;
     let fragment = null;
 
-    if (couldUpload) {
+    if (isCurrentUser) {
       if (this.isWeixin()) {
         fragment = (<div className="image-area" onClick={this.handlUpload.bind(this)}></div>);
       } else {

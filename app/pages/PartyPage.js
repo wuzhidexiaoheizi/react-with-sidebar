@@ -17,6 +17,7 @@ import Loading from 'halogen/ScaleLoader';
 import AvatarUpload from '../components/AvatarUpload';
 import BulletScreen from '../components/BulletScreen';
 import GiftAnimation from '../components/GiftAnimation';
+import { Link } from 'react-router';
 
 class PartyPage extends Component {
   constructor(props) {
@@ -52,6 +53,11 @@ class PartyPage extends Component {
       this.lookupInAnimates();
     }
 
+    const { party: { party }, user: { currentUser } } = this.props;
+    const { user_id } = party;
+
+    this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
+
     const { bless: { blesses } } = nexrProps;
     const { bulletScreen } = this.refs;
 
@@ -61,7 +67,11 @@ class PartyPage extends Component {
   }
 
   openPhaseModal() {
-    this.setState({ showPhaseModal: true });
+    const { isCurrentUser } = this.state;
+
+    if (isCurrentUser) {
+      this.setState({ showPhaseModal: true });
+    }
   }
 
   openPresentModal() {
@@ -149,7 +159,6 @@ class PartyPage extends Component {
       party: { party },
       virtualPresent: { presents },
       bless: { blesses, listFetching },
-      user: { currentUser },
       dispatch,
       params,
     } = this.props;
@@ -160,8 +169,9 @@ class PartyPage extends Component {
       birth_day,
       message,
       person_avatar,
-      user_id,
     } = party;
+
+    const { isCurrentUser } = this.state;
 
     const avatar = person_avatar && person_avatar.url ? person_avatar.url : DONEE_DEFAULT_AVATAR;
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
@@ -178,8 +188,8 @@ class PartyPage extends Component {
               <div className="row">
                 <div className="party-header">
                   <img className="party-poster" src={PARTY_HEADER_IMG}/>
-                  <AvatarUpload avatar_url={avatar} partyId={partyId} currentUser={currentUser}
-                    createUserId={user_id} {...partyActionCreators} />
+                  <AvatarUpload avatar_url={avatar} partyId={partyId} isCurrentUser={isCurrentUser}
+                    {...partyActionCreators} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
                     <div className="birthday">
                       <div className="sentence text-ellipsis">
@@ -203,8 +213,15 @@ class PartyPage extends Component {
           <div className="page-footer party-footer">
             <div className="container">
               <div className="row">
-                <div className="give-bless" onClick={this.giveBless.bind(this)}>
-                  我要送祝福
+                <div className="party-actions">
+                  <div className="give-bless" onClick={this.giveBless.bind(this)}>
+                    我要送祝福
+                  </div>
+                  { isCurrentUser &&
+                    <Link to={`/review/${partyId}`} className="goto-review">
+                      查看详情
+                    </Link>
+                  }
                 </div>
               </div>
             </div>

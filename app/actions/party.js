@@ -94,18 +94,23 @@ export function uploadPartyAvatar(partyId, body, sucCallback, errCallback) {
         return dispatch(updateAvatar(url));
       }
     });
+  };
+}
 
-    // return _fetch(path, 'POST', body)
-    //   .then((json) => {
-    //     const { errors, url } = json;
+export function updateAvatarMediaId(partyId, mediaId) {
+  return dispatch => {
+    const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, UPDATE_AVATAR_URL } = Constants;
+    const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}/${UPDATE_AVATAR_URL}`;
+    const params = {
+      birthday_party: {
+        avatar_media_id: mediaId
+      }
+    };
+    const body = JSON.stringify(params);
 
-    //     if (errors) {
-    //       if (typeof errCallback == 'function') errCallback(errors);
-    //     } else {
-    //       if (typeof sucCallback == 'function') sucCallback();
-
-    //       return dispatch(updateAvatar(url));
-    //     }
-    //   });
+    _fetch(url, 'post', body)
+      .done(() => {
+        return dispatch(updateAvatar(mediaId));
+      });
   };
 }
