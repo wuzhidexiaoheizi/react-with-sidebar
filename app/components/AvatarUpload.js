@@ -13,7 +13,7 @@ export default class AvatarUpload extends Component {
   componentDidMount() {
     if (!this.isWeixin()) return;
 
-    const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG));
+    const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG) || '{}');
     const isExpire = config && config.expired_at ? config.expired_at < Date.now() : true;
 
     if (isExpire) {
@@ -21,10 +21,6 @@ export default class AvatarUpload extends Component {
     } else {
       this.initWeixinConfig(config);
     }
-  }
-
-  onSubmit(e) {
-    e.preventDefault();
   }
 
   getWeixinConfig() {
@@ -53,7 +49,7 @@ export default class AvatarUpload extends Component {
 
     if (window.wx) {
       window.wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId, // 必填，公众号的唯一标识
         timestamp, // 必填，生成签名的时间戳
         nonceStr, // 必填，生成签名的随机串
@@ -112,8 +108,8 @@ export default class AvatarUpload extends Component {
 
   render() {
     const { DONEE_DEFAULT_AVATAR } = Constants;
-    const { avatar_url, isCurrentUser, avatarMediaId } = this.props;
-    const avatar_image = avatarMediaId || avatar_url || DONEE_DEFAULT_AVATAR;
+    const { avatar_url, isCurrentUser } = this.props;
+    const avatar_image = avatar_url || DONEE_DEFAULT_AVATAR;
     let fragment = null;
 
     if (isCurrentUser) {
