@@ -25,9 +25,9 @@ class PartyPage extends Component {
     this.state = {
       showPhaseModal: false,
       blessPer: 10,
-      showBullets: true,
-      showAnimation:false,
-      animation_name:''
+      showBullets: false,
+      showAnimation: false,
+      animation_name: ''
     };
   }
 
@@ -87,17 +87,17 @@ class PartyPage extends Component {
     this.setState({ showBullets: false });
   }
 
-  hideAnimation(){
-    this.setState({ showAnimation:false });
+  hideAnimation() {
+    this.setState({ showAnimation: false });
   }
 
   showBullet() {
     this.setState({ showBullets: true });
   }
 
-  showAnimation(anim_name){
-    console.log(anim_name); 
-    this.setState({ showAnimation:true,animation_name:anim_name });
+  showAnimation(anim_name) {
+    console.log(anim_name);
+    this.setState({ showAnimation: true, animation_name: anim_name });
   }
 
   loadNextPageBlesses() {
@@ -190,7 +190,7 @@ class PartyPage extends Component {
           {...blessActionCreators} ref="blessDistribute" />
 
         { this.state.showBullets && <BulletScreen trackCount={trackCount} ref="bulletScreen"/>}
-      
+
         { this.state.showAnimation && <GiftAnimation anim_name={ this.state.animation_name } onCloseAnimation={this.hideAnimation.bind(this)} />}
       </div>
     );

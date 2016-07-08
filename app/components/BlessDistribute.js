@@ -49,7 +49,7 @@ export default class BlessDistribute extends Component {
       callback
     };
 
-    sendBless(partyId, params, this.hide.bind(this), this.showResponseError.bind(this));
+    sendBless(partyId, params, this.blessSendSuccess.bind(this), this.showResponseError.bind(this));
   }
 
   show() {
@@ -75,6 +75,11 @@ export default class BlessDistribute extends Component {
       showMessageErr: false,
       disabled: false,
     });
+  }
+
+  blessSendSuccess(callbackUrl) {
+    this.hide();
+    window.location.href = callbackUrl;
   }
 
   render() {
