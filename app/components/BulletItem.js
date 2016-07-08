@@ -28,9 +28,8 @@ export default class BulletItem extends Component {
 
   fly() {
     const { bulletItem } = this.refs;
-    const { bulletIndex } = this.props;
     const destPos = -bulletItem.clientWidth;
-    const displayTime = 3 + bulletIndex;
+    const displayTime = (this.srcPos - destPos) / this.speed;
     bulletItem.style.transition = `left ${displayTime}s linear 0s`;
     bulletItem.style.left = `${destPos}px`;
     this.flyTimeout = setTimeout(this.bulletFlyFinish.bind(this), displayTime * 1000);
@@ -51,9 +50,15 @@ export default class BulletItem extends Component {
   initPos() {
     const { bulletItem } = this.refs;
     const width = bulletItem.parentNode.clientWidth;
-    const { bulletIndex } = this.props;
-    const left = bulletIndex * 120 + width;
+    const { bulletIndex, bulletLengthes } = this.props;
+    let offset = 0;
 
+    for (let i = bulletIndex; i < bulletLengthes.length; i++) {
+      offset += bulletLengthes[i];
+    }
+
+    const left = offset + width;
+    this.srcPos = left;
     bulletItem.style.left = `${left}px`;
   }
 

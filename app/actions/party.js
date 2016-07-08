@@ -103,7 +103,7 @@ export function uploadPartyAvatar(partyId, body, sucCallback, errCallback) {
   };
 }
 
-export function updateAvatarMediaId(partyId, mediaId) {
+export function updateAvatarMediaId(partyId, mediaId, localId) {
   return dispatch => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, UPDATE_AVATAR_URL } = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}/${UPDATE_AVATAR_URL}`;
@@ -116,7 +116,7 @@ export function updateAvatarMediaId(partyId, mediaId) {
 
     _fetch(url, 'post', body)
       .done(() => {
-        return dispatch(updateMediaId(mediaId));
+        return dispatch(updateMediaId(localId));
       });
   };
 }

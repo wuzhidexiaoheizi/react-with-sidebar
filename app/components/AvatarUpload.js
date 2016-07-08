@@ -4,7 +4,6 @@ import { _fetch } from '../helper';
 import DismissTip from '../components/DismissTip';
 
 const WEIXIN_CONFIG = 'wexin_config';
-const WEIXIN_CONFIG_EXPIRE = 'wexin_config_expire';
 
 export default class AvatarUpload extends Component {
   constructor(props) {
@@ -14,9 +13,8 @@ export default class AvatarUpload extends Component {
   componentDidMount() {
     if (!this.isWeixin()) return;
 
-    const config = localStorage.getItem(WEIXIN_CONFIG);
-    const expireTime = localStorage.getItem(WEIXIN_CONFIG_EXPIRE);
-    const isExpire = config && expireTime ? expireTime < Date.now() : true;
+    const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG));
+    const isExpire = config && config.expired_at ? config.expired_at < Date.now() : true;
 
     if (isExpire) {
       this.getWeixinConfig();
@@ -32,15 +30,12 @@ export default class AvatarUpload extends Component {
   getWeixinConfig() {
     const { DOMAIN, WEIXIN_API_SIGNATURE_URL } = Constants;
     const href = window.location.href;
-    // const index = href.indexOf('#');
-    // if (index > -1) href = href.slice(0, index);
     const query = `?url=${encodeURIComponent(href)}`;
     const url = `${DOMAIN}${WEIXIN_API_SIGNATURE_URL}${query}`;
 
     _fetch(url)
       .then(json => {
-        localStorage.setItem(WEIXIN_CONFIG, json);
-        localStorage.setItem(WEIXIN_CONFIG_EXPIRE, Date.now() + 7200);
+        localStorage.setItem(WEIXIN_CONFIG, JSON.stringify(json));
 
         this.initWeixinConfig(json);
       });
@@ -58,7 +53,7 @@ export default class AvatarUpload extends Component {
 
     if (window.wx) {
       window.wx.config({
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId, // 必填，公众号的唯一标识
         timestamp, // 必填，生成签名的时间戳
         nonceStr, // 必填，生成签名的随机串
@@ -84,7 +79,7 @@ export default class AvatarUpload extends Component {
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: (response) => {
             const serverId = response.serverId; // 返回图片的服务器端ID
-            updateAvatarMediaId(partyId, serverId);
+            updateAvatarMediaId(partyId, serverId, localId);
           }
         });
       }
