@@ -5,10 +5,10 @@ export default class GiftItem extends Component {
   constructor(props) {
     super(props);
   }
-  
-  handleGiftClick(){
+
+  handleGiftClick() {
     const { onShowAnimation } = this.props;
-    const { bless:{ virtual_present: name }} = this.props;
+    const { bless: { virtual_present: name }} = this.props;
     const anim_name = name.name;
     if (typeof onShowAnimation == 'function') onShowAnimation(anim_name);
   }
