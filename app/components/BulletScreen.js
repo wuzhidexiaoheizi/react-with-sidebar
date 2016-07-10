@@ -4,6 +4,10 @@ import BulletTrack from './BulletTrack';
 export default class BulletScreen extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isShow: true
+    };
   }
 
   resetBullets(bullets) {
@@ -51,16 +55,24 @@ export default class BulletScreen extends Component {
     return array.slice(0, size).concat([null]).concat(this.split(array.slice(size), cols - 1));
   }
 
+  toggleShow() {
+    const { isShow } = this.state;
+
+    this.setState({ isShow: !isShow });
+  }
+
   render() {
     const { trackCount } = this.props;
     const trackArray = [];
+    const { isShow } = this.state;
+    const klass = isShow ? 'shown' : 'hide';
 
     for (let i = 0; i < trackCount; i++) {
       trackArray.push(i);
     }
 
     return (
-      <div className="bullet-screen">
+      <div className={`bullet-screen ${klass}`}>
         <div className="screen-content">
           <div className="track-list">
             { trackArray.map((i) =>

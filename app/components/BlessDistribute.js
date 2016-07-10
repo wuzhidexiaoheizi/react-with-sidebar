@@ -34,7 +34,6 @@ export default class BlessDistribute extends Component {
   sendBless() {
     const { partyId, sendBless } = this.props;
     const { message, virtual_present_id } = this.state;
-    const callback = encodeURIComponent(`${window.location.href}#showDistribute`);
 
     if (message.length == 0) return this.setState({ showMessageErr: true });
     if (virtual_present_id == 0) return this.setState({ showPresentErr: true});
@@ -44,9 +43,7 @@ export default class BlessDistribute extends Component {
         birthday_party_id: partyId,
         message,
         virtual_present_id
-      },
-      goto_one_money: true,
-      callback
+      }
     };
 
     sendBless(partyId, params, this.blessSendSuccess.bind(this), this.showResponseError.bind(this));
@@ -78,7 +75,6 @@ export default class BlessDistribute extends Component {
   }
 
   blessSendSuccess(callbackUrl) {
-    this.hide();
     window.location.href = callbackUrl;
   }
 

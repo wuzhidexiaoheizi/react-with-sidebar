@@ -4,7 +4,14 @@
   left 0
   right 0
   z-index 19
+  bottom 100px
   
+  &.shown
+    display block
+    
+  &.hide
+    display none 
+    
   .screen-content
     position relative
     top 0
@@ -12,17 +19,44 @@
     margin 0 auto
     height 100%
     width 100%
+    overflow hidden
     
-    .bullet-track
-      position relative
-      height 26px
-      line-height 26px
-      overflow hidden
-      background rgba(0, 0, 0, 0.25)
-      color #fff
+//     .bullet-track
+//       position relative
+//       height 26px
+//       line-height 26px
+//       overflow hidden
+//       background rgba(0, 0, 0, 0.25)
+//       color #fff
 
-    .bullet-item
-      white-space nowrap
+//     .bullet-item
+//       white-space nowrap
+//       position absolute
+//       top 0
+//       overflow hidden
+      
+.bullet-toggle
+  position absolute
+  top 95px
+  left 0
+  right 0
+  z-index 19
+  
+  .button-container
+    position relative
+    top 0
+    max-width 640px
+    margin 0 auto
+    height 100%
+    width 100%
+    
+    .bullet-button
       position absolute
-      top 0
-      overflow hidden
+      bottom 0
+      right 10%
+      height 24px
+      line-height 24px
+      padding 0 8px
+      border-radius 8px
+      background rgba(0, 0, 0, 0.3)
+      color #fff
