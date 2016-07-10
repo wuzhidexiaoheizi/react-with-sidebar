@@ -12,11 +12,10 @@ export default class BlessGroup extends Component {
 
   render() {
     const {blesses} = this.props;
-    const keyPrefix = `review-${Date.now()}`;
 
     return (
       <div className="review-list-content">
-        { blesses.map(bless => <ReviewItem key={`${keyPrefix}-${bless.id}`} bless={bless} />) }
+        { blesses.map(bless => <ReviewItem key={bless.id} bless={bless} />) }
       </div>
     );
   }
