@@ -13,7 +13,7 @@ export default React.createClass({
 
   componentDidMount() {
     const {
-      config: { color, fontSize, speed, alpha, lineSpacing, trackCount },
+      config: { color, fontSize, speed, alpha, lineSpacing, trackCount, loop },
     } = this.props;
 
     const screenNode = findDOMNode(this.refs.bulletContainer);
@@ -29,7 +29,7 @@ export default React.createClass({
       alpha,
       lineSpacing,
       trackCount,
-      loop: true,
+      loop,
     });
 
     // 赋值

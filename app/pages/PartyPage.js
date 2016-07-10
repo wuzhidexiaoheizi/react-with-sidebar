@@ -15,7 +15,6 @@ import GiftGroup from '../components/GiftGroup';
 import BlessGroup from '../components/BlessGroup';
 import Loading from 'halogen/ScaleLoader';
 import AvatarUpload from '../components/AvatarUpload';
-// import BulletScreen from '../components/BulletScreen';
 import BulletCurtain from '../components/BulletCurtain';
 import GiftAnimation from '../components/GiftAnimation';
 import { Link } from 'react-router';
@@ -57,24 +56,6 @@ class PartyPage extends Component {
     const { user_id } = party;
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
-
-    // const { bless: { blesses } } = nextProps;
-    // const { bulletScreen } = this.refs;
-
-    // if (blesses.length && (blesses != this.props.bless.blesses)) {
-    //   const array = [];
-    //   const messages = ['什么状况什么状况什么状况', '这是什么这是什么这是什么', '弹幕啊弹幕啊弹幕啊',
-    //     '铺天盖地铺天盖地铺天盖地', '调皮了调皮了调皮了'];
-
-    //   for (let i = 0; i < 30; i++) {
-    //     array.push({
-    //       id: i,
-    //       message: messages[Math.floor(Math.random() * messages.length)]
-    //     });
-    //   }
-
-    //   if (bulletScreen) bulletScreen.resetBullets(array);
-    // }
   }
 
   openPhaseModal() {
@@ -194,6 +175,7 @@ class PartyPage extends Component {
       speed: 20,
       lineSpacing: 4,
       trackCount: 5,
+      loop: true,
     };
 
     return (
