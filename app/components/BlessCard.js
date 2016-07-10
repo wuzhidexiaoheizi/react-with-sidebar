@@ -20,6 +20,7 @@ export default class BlessCard extends Component {
       showAddressErr: false,
       showContactErr: false,
       showBlessErr: false,
+      at_earliest: new Date(),
     };
   }
 
@@ -94,7 +95,6 @@ export default class BlessCard extends Component {
 
     const { cakeId } = this.props;
     const { doneeName, bless, address, contact, birthday } = this.state;
-    const callback = encodeURIComponent(`${window.location.href}#showCard`);
     const params = {
       order: {
         cake_id: cakeId,
@@ -105,9 +105,7 @@ export default class BlessCard extends Component {
           birthday_person: doneeName,
           birth_day: birthday
         }
-      },
-      goto_one_money: true,
-      callback
+      }
     };
 
     const { DOMAIN, CAKE_ORDER_URL } = Constants;
@@ -126,6 +124,8 @@ export default class BlessCard extends Component {
   }
 
   render() {
+    const { at_earliest } = this.state;
+
     return (
       <div className="donee-modal">
         <div className="donee-overlayer" onClick={this.close.bind(this)}></div>
@@ -149,7 +149,7 @@ export default class BlessCard extends Component {
                       <span className="salutation-label">(先生/女士)</span>
                     </div>
                     <div className="paragraph">
-                      <DateSelect onChanged={this.atLatestChanged.bind(this)} />
+                      <DateSelect onChanged={this.atLatestChanged.bind(this)} at_earliest={at_earliest} />
                     </div>
                     <div className="paragraph sentence">
                       是您的生日。愿所有的快乐，幸福，好运围绕在你的身边！我们将在您生日当天前将生日蛋糕送至&nbsp;耒阳市

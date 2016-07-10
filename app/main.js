@@ -17,6 +17,7 @@ import './style/main.styl';
 // FastClick
 // import FastClick from 'fastclick';
 // FastClick.attach(document.body);
+import 'react-fastclick';
 
 const store = configureStore();
 

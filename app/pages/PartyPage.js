@@ -241,9 +241,6 @@ class PartyPage extends Component {
           </div>
         </div>
 
-        {/*
-        { <BulletScreen trackCount={trackCount} ref="bulletScreen" />}
-        */}
         { <BulletCurtain config={config} ref="bulletScreen" bullets={blesses}
           textFieldName="message"/>}
 
