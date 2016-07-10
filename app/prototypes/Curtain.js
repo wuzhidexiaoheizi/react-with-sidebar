@@ -26,7 +26,7 @@ function Curtain(container, currentComponent, config) {
   this.width = width;
   this.height = height;
   this.trackCount = trackCount;
-  this.color = color; // 颜色
+  this.color = color || '#fff'; // 颜色
   this.fontSize = window.parseInt(fontSize) || 14; // 字体大小
   this.speed = speed || 10;  // 移动速度
   this.lineSpacing = lineSpacing || 5; // 行高
@@ -152,6 +152,7 @@ Curtain.prototype = {
     node.style.left = `${x}px`;
     node.style.top = `${y}px`;
     node.style.whiteSpace = 'nowrap';
+    node.style.color = this.color;
     node.innerText = text;
 
     this.container.appendChild(node);
