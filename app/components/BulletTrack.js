@@ -11,6 +11,12 @@ export default class BulletTrack extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { bullets, bulletLengthes } = nextState;
+
+    return bullets != this.state.bullets || bulletLengthes != this.state.bulletLengthes;
+  }
+
   componentDidUpdate() {
     this.flyBullets();
   }
@@ -24,6 +30,8 @@ export default class BulletTrack extends Component {
   }
 
   setBullets(bullets) {
+    console.log('bullets:', bullets);
+
     const bulletLengthes = bullets.map((bullet) => {
       const { message } = bullet;
       return message.length * 14 + 15;

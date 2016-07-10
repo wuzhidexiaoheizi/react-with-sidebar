@@ -15,7 +15,8 @@ import GiftGroup from '../components/GiftGroup';
 import BlessGroup from '../components/BlessGroup';
 import Loading from 'halogen/ScaleLoader';
 import AvatarUpload from '../components/AvatarUpload';
-import BulletScreen from '../components/BulletScreen';
+// import BulletScreen from '../components/BulletScreen';
+import BulletCurtain from '../components/BulletCurtain';
 import GiftAnimation from '../components/GiftAnimation';
 import { Link } from 'react-router';
 
@@ -26,7 +27,6 @@ class PartyPage extends Component {
     this.state = {
       showPhaseModal: false,
       blessPer: 10,
-      showBullets: false,
       showAnimation: false,
       animation_name: ''
     };
@@ -41,7 +41,7 @@ class PartyPage extends Component {
     dispatch(fetchBlessList(id, '', blessPer));
   }
 
-  componentWillReceiveProps(nexrProps) {
+  componentWillReceiveProps(/** nextProps */) {
     if (window.location.href.indexOf('#showDistribute') > -1) {
       const blessDistribute = this.refs.blessDistribute;
 
@@ -58,12 +58,23 @@ class PartyPage extends Component {
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
 
-    const { bless: { blesses } } = nexrProps;
-    const { bulletScreen } = this.refs;
+    // const { bless: { blesses } } = nextProps;
+    // const { bulletScreen } = this.refs;
 
-    if (blesses.length && (blesses != this.props.bless.blesses)) {
-      if (bulletScreen) bulletScreen.resetBullets(blesses);
-    }
+    // if (blesses.length && (blesses != this.props.bless.blesses)) {
+    //   const array = [];
+    //   const messages = ['什么状况什么状况什么状况', '这是什么这是什么这是什么', '弹幕啊弹幕啊弹幕啊',
+    //     '铺天盖地铺天盖地铺天盖地', '调皮了调皮了调皮了'];
+
+    //   for (let i = 0; i < 30; i++) {
+    //     array.push({
+    //       id: i,
+    //       message: messages[Math.floor(Math.random() * messages.length)]
+    //     });
+    //   }
+
+    //   if (bulletScreen) bulletScreen.resetBullets(array);
+    // }
   }
 
   openPhaseModal() {
@@ -98,20 +109,17 @@ class PartyPage extends Component {
     }
   }
 
-  hideBullet() {
-    this.setState({ showBullets: false });
-  }
-
   hideAnimation() {
     this.setState({ showAnimation: false });
   }
 
-  showBullet() {
-    this.setState({ showBullets: true });
+  toggleBullet() {
+    const { bulletScreen } = this.refs;
+
+    bulletScreen.toggleShow();
   }
 
   showAnimation(anim_name) {
-    console.log(anim_name);
     this.setState({ showAnimation: true, animation_name: anim_name });
   }
 
@@ -179,7 +187,14 @@ class PartyPage extends Component {
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
     const blessActionCreators = bindActionCreators(BlessActions, dispatch);
-    const trackCount = 5;
+
+    const config = {
+      color: '#fff',
+      fontSize: '14px',
+      speed: 20,
+      lineSpacing: 4,
+      trackCount: 5,
+    };
 
     return (
       <div className="page-container party-container">
@@ -238,8 +253,17 @@ class PartyPage extends Component {
         <BlessDistribute onClose={this.closePresentModal.bind(this)}
           partyId={id} presents={presents} {...presentActionCreators}
           {...blessActionCreators} ref="blessDistribute" />
+        <div className="bullet-toggle">
+          <div className="button-container">
+            <div className="bullet-button" onClick={this.toggleBullet.bind(this)}>弹幕</div>
+          </div>
+        </div>
 
-        { this.state.showBullets && <BulletScreen trackCount={trackCount} ref="bulletScreen"/>}
+        {/*
+        { <BulletScreen trackCount={trackCount} ref="bulletScreen" />}
+        */}
+        { <BulletCurtain config={config} ref="bulletScreen" bullets={blesses}
+          textFieldName="message"/>}
 
         { this.state.showAnimation && <GiftAnimation anim_name={ this.state.animation_name } onCloseAnimation={this.hideAnimation.bind(this)} />}
       </div>
