@@ -21,7 +21,7 @@ if (!window.requestAnimationFrame) {
   })();
 }
 
-function Curtain(container, currentComponent, config) {
+function Curtain(container, config) {
   const { width, height, trackCount, color, fontSize, lineSpacing, speed, loop } = config;
   this.width = width;
   this.height = height;
@@ -29,7 +29,7 @@ function Curtain(container, currentComponent, config) {
   this.color = color || '#fff'; // 颜色
   this.fontSize = window.parseInt(fontSize) || 14; // 字体大小
   this.speed = speed || 10;  // 移动速度
-  this.lineSpacing = lineSpacing || 5; // 行高
+  this.lineSpacing = lineSpacing || 5; // 行距
   this.playFlag = false;
   this.children = [];
   this.container = container;
@@ -38,7 +38,6 @@ function Curtain(container, currentComponent, config) {
   this.loop = loop;
   this.myReq = null;
 
-  this.currentComponent = currentComponent; // 当前ReactComponent的引用
   this.init();
 }
 
@@ -153,6 +152,7 @@ Curtain.prototype = {
     node.style.top = `${y}px`;
     node.style.whiteSpace = 'nowrap';
     node.style.color = this.color;
+    node.style.fontSize = `${this.fontSize}px`;
     node.innerText = text;
 
     this.container.appendChild(node);

@@ -20,7 +20,7 @@ export default React.createClass({
     const width = screenNode.clientWidth;
     const height = screenNode.clientHeight;
 
-    this.curtainInstance = new Curtain(screenNode, this, {
+    this.curtainInstance = new Curtain(screenNode, {
       width,
       height,
       color,
@@ -46,8 +46,8 @@ export default React.createClass({
   },
 
   componentWillUnmount() {
+    console.log('BulletCurtain unmount');
     this.curtainInstance.clear();
-    this.curtainInstance = null;
   },
 
   curtainInstance: null,
