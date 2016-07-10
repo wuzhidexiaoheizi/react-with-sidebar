@@ -46,8 +46,8 @@ export default React.createClass({
   },
 
   componentWillUnmount() {
-    console.log('BulletCurtain unmount');
     this.curtainInstance.clear();
+    this.curtainInstance = null;
   },
 
   curtainInstance: null,
