@@ -13,7 +13,7 @@ export default class ReviewPage extends Component {
     super(props);
 
     this.state = {
-      blessPer: 1,
+      blessPer: 10,
       earliestId: '',
     };
   }
@@ -43,6 +43,13 @@ export default class ReviewPage extends Component {
     if (scrollTop + offsetHeight == scrollHeight) {
       this.loadNextPageBlesses();
     }
+  }
+
+  drawRedEnvelope() {
+    const { party: { party} } = this.props;
+    const { withdraw_url } = party;
+
+    if (withdraw_url) window.location.href = withdraw_url;
   }
 
   render() {

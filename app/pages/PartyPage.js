@@ -27,17 +27,18 @@ class PartyPage extends Component {
       showPhaseModal: false,
       blessPer: 10,
       showAnimation: false,
-      animation_name: ''
+      animation_name: '',
+      earliestId: '',
     };
   }
 
   componentDidMount() {
     const { params: {id}, dispatch } = this.props;
-    const { blessPer } = this.state;
+    const { blessPer, earliestId } = this.state;
 
     dispatch(fetchCurrentUser());
     dispatch(fetchParty(id));
-    dispatch(fetchBlessList(id, '', blessPer));
+    dispatch(fetchBlessList(id, earliestId, blessPer));
   }
 
   componentWillReceiveProps(/** nextProps */) {
