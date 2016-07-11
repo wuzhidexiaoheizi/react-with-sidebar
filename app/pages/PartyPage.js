@@ -175,7 +175,7 @@ class PartyPage extends Component {
       fontSize: '18px',
       fontWeight: '700',
       speed: 20,
-      lineSpacing: 4,
+      lineSpacing: 0,
       trackCount: 5,
       loop: true,
     };
