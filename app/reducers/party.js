@@ -24,9 +24,7 @@ export default function(state = initialState, action) {
   case 'UPDATE_PARTY_AVATAR': {
     return update(state, {
       party: {
-        person_avatar: {
-          url: { $set: action.url }
-        }
+        person_avatar: { $set: action.url }
       }
     });
   }

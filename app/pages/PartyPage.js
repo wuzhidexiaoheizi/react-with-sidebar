@@ -164,7 +164,7 @@ class PartyPage extends Component {
 
     const { isCurrentUser } = this.state;
 
-    const avatar = person_avatar && person_avatar.url ? person_avatar.url : DONEE_DEFAULT_AVATAR;
+    const avatar = person_avatar || DONEE_DEFAULT_AVATAR;
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
