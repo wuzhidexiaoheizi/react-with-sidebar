@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Constants from '../constants';
 import Confirm from './Confirm';
+import { formatCurrency } from '../helper';
 
 export default class Envelope extends Component {
   constructor(props) {
@@ -38,6 +39,7 @@ export default class Envelope extends Component {
     const bgImage = hasDrawEnvelope ? ENVELOPE_LG_GRAY_IMG : ENVELOPE_LG_LIGHT_IMG;
     const title = '领取红包提示';
     const message = '领取红包后，将不能再获得后续好友送出的祝福产生的返现。现在确认领取吗？';
+    const currency = formatCurrency(withdrawable);
 
     return (
       <div className="envelope-modal">
@@ -52,7 +54,7 @@ export default class Envelope extends Component {
                 </div>
                 <div className="envelope-amount">
                   <div className="amount">
-                    <span className="currency">￥</span>{withdrawable}.00
+                    <span className="currency">￥</span>{currency}
                   </div>
                   { !hasDrawEnvelope && <div className="envelope-desc">当前返现金额</div> }
                 </div>

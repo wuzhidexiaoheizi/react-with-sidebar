@@ -247,3 +247,12 @@ export function checkUserHasLogged(loggedCallback, unloggedCallback) {
       }
     });
 }
+
+export function formatCurrency(amount) {
+  if (isNaN(amount)) return amount;
+
+  const currency = String(amount);
+  const index = currency.indexOf('.');
+
+  return index > -1 ? +amount.toFixed(2) : `${currency}.00`;
+}
