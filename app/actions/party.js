@@ -21,6 +21,12 @@ export function updateAvatar(url) {
   };
 }
 
+export function updateParty(party) {
+  return dispatch => {
+    dispatch({ type: 'UPDATE_PARTY', party });
+  };
+}
+
 export function fetchParty(partyId, loadCake) {
   return (dispatch, getState) => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL } = Constants;
@@ -97,8 +103,8 @@ export function uploadPartyAvatar(partyId, body, sucCallback, errCallback) {
   };
 }
 
-export function updateAvatarMediaId(partyId, mediaId, sucCallback) {
-  return () => {
+export function updateAvatarMediaId(partyId, mediaId) {
+  return dispatch => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, UPDATE_AVATAR_URL } = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}/${UPDATE_AVATAR_URL}`;
     const params = {
@@ -109,8 +115,8 @@ export function updateAvatarMediaId(partyId, mediaId, sucCallback) {
     const body = JSON.stringify(params);
 
     _fetch(url, 'post', body)
-      .then(() => {
-        if (typeof sucCallback == 'function') sucCallback();
+      .then((json) => {
+        return dispatch(updateParty(json));
       });
   };
 }

@@ -78,10 +78,7 @@ export default class AvatarUpload extends Component {
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: (response) => {
             const serverId = response.serverId; // 返回图片的服务器端ID
-            updateAvatarMediaId(partyId, serverId, () => {
-              const { avatarImage } = this.refs;
-              avatarImage.src = localId;
-            });
+            updateAvatarMediaId(partyId, serverId);
           }
         });
       }
