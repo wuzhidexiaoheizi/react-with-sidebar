@@ -171,7 +171,8 @@ class PartyPage extends Component {
 
     const config = {
       color: '#fff',
-      fontSize: '14px',
+      fontSize: '18px',
+      fontWeight: '700',
       speed: 20,
       lineSpacing: 4,
       trackCount: 5,

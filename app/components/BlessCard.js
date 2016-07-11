@@ -4,10 +4,14 @@ import blessImage from '../images/bless.jpg';
 import errPNG from '../images/err.png';
 import Constants from '../constants';
 import { serializeParams } from '../helper';
+import { getLunarDate } from '../helper/lunar';
 
 export default class BlessCard extends Component {
   constructor(props) {
     super(props);
+
+    const at_earliest = new Date();
+    const lunarDate = getLunarDate(at_earliest);
 
     this.state = {
       doneeName: '',
@@ -20,7 +24,8 @@ export default class BlessCard extends Component {
       showAddressErr: false,
       showContactErr: false,
       showBlessErr: false,
-      at_earliest: new Date(),
+      at_earliest,
+      lunarDate,
     };
   }
 
@@ -44,7 +49,7 @@ export default class BlessCard extends Component {
   }
 
   atLatestChanged(date) {
-    this.setState({ birthday: date });
+    this.setState({ birthday: date, lunarDate: getLunarDate(date) });
   }
 
   atEarliestChanged(date) {
@@ -124,7 +129,9 @@ export default class BlessCard extends Component {
   }
 
   render() {
-    const { at_earliest } = this.state;
+    const { at_earliest, lunarDate } = this.state;
+    const { year, month, day } = lunarDate;
+    const lunarStr = `${year}年${month}月${day}`;
 
     return (
       <div className="donee-modal">
@@ -152,7 +159,7 @@ export default class BlessCard extends Component {
                       <DateSelect onChanged={this.atLatestChanged.bind(this)} at_earliest={at_earliest} />
                     </div>
                     <div className="paragraph sentence">
-                      是您的生日。愿所有的快乐，幸福，好运围绕在你的身边！我们将在您生日当天前将生日蛋糕送至&nbsp;耒阳市
+                      （{lunarStr}）是您的生日。愿所有的快乐，幸福，好运围绕在你的身边！我们将在您生日当天前将生日蛋糕送至&nbsp;耒阳市
                     </div>
                     <div className="paragraph">
                       <div className="input-container">
