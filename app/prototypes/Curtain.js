@@ -137,7 +137,7 @@ Curtain.prototype = {
       }
     });
 
-    if (!this.renderChildren.length) {
+    if (!this.loop && !this.renderChildren.length) {
       this.stop();
     }
 
