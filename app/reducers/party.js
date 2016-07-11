@@ -29,12 +29,6 @@ export default function(state = initialState, action) {
     });
   }
 
-  case 'UPDATE_PARTY': {
-    return update(state, {
-      party: { $merge: action.party }
-    });
-  }
-
   default: return state;
   }
 }

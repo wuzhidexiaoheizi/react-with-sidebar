@@ -144,7 +144,7 @@ class PartyPage extends Component {
   }
 
   render() {
-    const { PARTY_HEADER_IMG, DONEE_DEFAULT_AVATAR } = Constants;
+    const { PARTY_HEADER_IMG } = Constants;
     const {
       party: { party },
       virtualPresent: { presents },
@@ -163,8 +163,6 @@ class PartyPage extends Component {
     } = party;
 
     const { isCurrentUser } = this.state;
-
-    const avatar = person_avatar || DONEE_DEFAULT_AVATAR;
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
@@ -188,7 +186,7 @@ class PartyPage extends Component {
               <div className="row">
                 <div className="party-header">
                   <img className="party-poster" src={PARTY_HEADER_IMG}/>
-                  <AvatarUpload avatarUrl={avatar} partyId={partyId} isCurrentUser={isCurrentUser}
+                  <AvatarUpload avatarUrl={person_avatar} partyId={partyId} isCurrentUser={isCurrentUser}
                     avatarMediaId={avatar_media_id} {...partyActionCreators} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
                     <div className="birthday">

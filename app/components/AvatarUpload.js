@@ -111,7 +111,9 @@ export default class AvatarUpload extends Component {
 
   render() {
     const { avatarUrl, isCurrentUser } = this.props;
+    const { DONEE_DEFAULT_AVATAR } = Constants;
     let fragment = null;
+    const avatarImage = avatarUrl || DONEE_DEFAULT_AVATAR;
 
     if (isCurrentUser) {
       if (this.isWeixin()) {
@@ -126,7 +128,7 @@ export default class AvatarUpload extends Component {
 
     return (
       <div className="avatar-container" ref="avatarContainer">
-        <img ref="avatarImage" src={avatarUrl} />
+        <img src={avatarImage} />
         { fragment }
 
         <DismissTip ref="uploadTip" />
