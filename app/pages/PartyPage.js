@@ -188,7 +188,7 @@ class PartyPage extends Component {
               <div className="row">
                 <div className="party-header">
                   <img className="party-poster" src={PARTY_HEADER_IMG}/>
-                  <AvatarUpload avatar_url={avatar} partyId={partyId} isCurrentUser={isCurrentUser}
+                  <AvatarUpload avatarUrl={avatar} partyId={partyId} isCurrentUser={isCurrentUser}
                     avatarMediaId={avatar_media_id} {...partyActionCreators} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
                     <div className="birthday">
@@ -207,6 +207,13 @@ class PartyPage extends Component {
                   <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
                   <BlessGroup blesses={blesses} />
                 </div>
+                <div className="bullet-toggle">
+                  <div className="button-container">
+                    <div className="bullet-button" onClick={this.toggleBullet.bind(this)}>弹幕</div>
+                  </div>
+                </div>
+                { <BulletCurtain config={config} ref="bulletScreen" bullets={blesses}
+                    textFieldName="message"/>}
               </div>
             </div>
           </div>
@@ -237,14 +244,6 @@ class PartyPage extends Component {
         <BlessDistribute onClose={this.closePresentModal.bind(this)}
           partyId={id} presents={presents} {...presentActionCreators}
           {...blessActionCreators} ref="blessDistribute" />
-        <div className="bullet-toggle">
-          <div className="button-container">
-            <div className="bullet-button" onClick={this.toggleBullet.bind(this)}>弹幕</div>
-          </div>
-        </div>
-
-        { <BulletCurtain config={config} ref="bulletScreen" bullets={blesses}
-          textFieldName="message"/>}
 
         { this.state.showAnimation && <GiftAnimation anim_name={ this.state.animation_name } onCloseAnimation={this.hideAnimation.bind(this)} />}
       </div>

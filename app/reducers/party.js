@@ -31,14 +31,6 @@ export default function(state = initialState, action) {
     });
   }
 
-  case 'UPDATE_AVATAR_MEDIA_ID': {
-    return update(state, {
-      party: {
-        avatar_media_id: { $set: action.avatarMediaId }
-      }
-    });
-  }
-
   default: return state;
   }
 }
