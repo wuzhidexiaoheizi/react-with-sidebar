@@ -19,11 +19,8 @@ import BulletCurtain from '../components/BulletCurtain';
 import GiftAnimation from '../components/GiftAnimation';
 import MusicPlayer from '../components/MusicPlayer';
 import { Link } from 'react-router';
-<<<<<<< HEAD
 import audio from '../audios/1.mp3';
-=======
 import BlessDispatcher from '../components/BlessDispatcher';
->>>>>>> a842037fe0927ca8d9204c0323a8f4009d9bfaac
 
 class PartyPage extends Component {
   constructor(props) {
@@ -33,14 +30,11 @@ class PartyPage extends Component {
       showPhaseModal: false,
       blessPer: 10,
       showAnimation: false,
-<<<<<<< HEAD
       animation_name: '',
       rotate_status:true
-=======
       animationName: '',
       earliestId: '',
       doneeName: '',
->>>>>>> a842037fe0927ca8d9204c0323a8f4009d9bfaac
     };
   }
 
