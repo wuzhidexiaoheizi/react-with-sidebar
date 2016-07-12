@@ -103,7 +103,7 @@ Curtain.prototype = {
 
     this.allocationDataTimer = setTimeout(() => {
       this.allocationDataForMatrix();
-    }, 1000);
+    }, 2000);
   },
 
   // 为每一行分配将要渲染的弹幕

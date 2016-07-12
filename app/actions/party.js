@@ -21,12 +21,6 @@ export function updateAvatar(url) {
   };
 }
 
-export function updateMediaId(mediaId) {
-  return dispatch => {
-    dispatch({ type: 'UPDATE_AVATAR_MEDIA_ID', avatarMediaId: mediaId });
-  };
-}
-
 export function fetchParty(partyId, loadCake) {
   return (dispatch, getState) => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL } = Constants;
@@ -103,7 +97,7 @@ export function uploadPartyAvatar(partyId, body, sucCallback, errCallback) {
   };
 }
 
-export function updateAvatarMediaId(partyId, mediaId, localId) {
+export function updateAvatarMediaId(partyId, mediaId, sucCallback, errCallback) {
   return dispatch => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, UPDATE_AVATAR_URL } = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}/${UPDATE_AVATAR_URL}`;
@@ -115,8 +109,16 @@ export function updateAvatarMediaId(partyId, mediaId, localId) {
     const body = JSON.stringify(params);
 
     _fetch(url, 'post', body)
-      .done(() => {
-        return dispatch(updateMediaId(localId));
+      .then((json) => {
+        const { errors, person_avatar } = json;
+
+        if (errors) {
+          if (typeof errCallback == 'function') errCallback(errors);
+        } else {
+          if (typeof sucCallback == 'function') sucCallback(person_avatar);
+
+          return dispatch(updateAvatar(person_avatar));
+        }
       });
   };
 }

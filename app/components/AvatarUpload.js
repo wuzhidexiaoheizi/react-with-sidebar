@@ -11,6 +11,9 @@ export default class AvatarUpload extends Component {
   }
 
   componentDidMount() {
+    const { avatarContainer } = this.refs;
+    avatarContainer.style.height = avatarContainer.clientWidth + 'px';
+
     if (!this.isWeixin()) return;
 
     const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG) || '{}');
@@ -61,6 +64,8 @@ export default class AvatarUpload extends Component {
 
   handlUpload() {
     const { partyId, updateAvatarMediaId } = this.props;
+    const sucCallback = this.showUploadSuccessTip.bind(this);
+    const errCallback = this.showUploadErrorTip.bind(this);
 
     window.wx.chooseImage({
       count: 9, // 默认9
@@ -75,7 +80,7 @@ export default class AvatarUpload extends Component {
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: (response) => {
             const serverId = response.serverId; // 返回图片的服务器端ID
-            updateAvatarMediaId(partyId, serverId, localId);
+            updateAvatarMediaId(partyId, serverId, sucCallback, errCallback);
           }
         });
       }
@@ -107,10 +112,10 @@ export default class AvatarUpload extends Component {
   }
 
   render() {
+    const { avatarUrl, isCurrentUser } = this.props;
     const { DONEE_DEFAULT_AVATAR } = Constants;
-    const { avatar_url, isCurrentUser } = this.props;
-    const avatar_image = avatar_url || DONEE_DEFAULT_AVATAR;
     let fragment = null;
+    const avatarImage = avatarUrl || DONEE_DEFAULT_AVATAR;
 
     if (isCurrentUser) {
       if (this.isWeixin()) {
@@ -124,8 +129,8 @@ export default class AvatarUpload extends Component {
     }
 
     return (
-      <div className="avatar-container">
-        <img src={avatar_image} />
+      <div className="avatar-container" ref="avatarContainer">
+        <img src={avatarImage} />
         { fragment }
 
         <DismissTip ref="uploadTip" />

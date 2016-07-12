@@ -121,7 +121,7 @@ export default class Slider extends Component {
       this.intervel = null;
     }
 
-    window.addEventListener('resize', this._onResize, false);
+    window.removeEventListener('resize', this._onResize, false);
 
     if ("ontouchstart" in window) {
       container.removeEventListener('touchstart', this._onMoveStart, false);

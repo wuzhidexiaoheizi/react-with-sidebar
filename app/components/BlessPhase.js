@@ -5,7 +5,9 @@ export default class BlessPhase extends Component {
     super(props);
 
     this.state = {
-      bless: ''
+      bless: '',
+      hasChanged: false,
+      showError: false,
     };
   }
 
@@ -21,16 +23,27 @@ export default class BlessPhase extends Component {
     const { bless } = this.state;
     const { partyId, updatePartyMessage } = this.props;
 
+    if (!bless.length) {
+      this.setState({ showError: true });
+      return;
+    }
+
     updatePartyMessage(partyId, bless, this.onCancel.bind(this));
   }
 
   blessChanged(e) {
-    this.setState({ bless: e.target.value });
+    const bless = e.target.value;
+    this.setState({ bless, hasChanged: true, showError: !bless.length });
   }
 
   render() {
     const { message } = this.props;
-    const bless = this.state.bless || message;
+    const { hasChanged, showError } = this.state;
+    let { bless } = this.state;
+
+    if (!bless.length && !hasChanged) {
+      bless = message;
+    }
 
     return (
       <div className="bless-phase-modal">
@@ -42,6 +55,7 @@ export default class BlessPhase extends Component {
                 <div className="bless-panel">
                   <div className="bless-header">
                     设置生日趴标题
+                    { showError && <div className="error-tip">请输入生日趴标题</div> }
                   </div>
                   <div className="bless-body">
                     <textarea className="form-control bless-textarea" value={bless}

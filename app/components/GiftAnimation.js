@@ -5,21 +5,70 @@ export default class GiftAnimation extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    const { autoDismiss } = this.props;
+
+    if (autoDismiss) {
+      this.animationEnd = this.autoDismissInAnimationDone.bind(this);
+      this.attachAnimationEndEvent();
+    }
+  }
+
+  componentWillUnmount() {
+    const { autoDismiss } = this.props;
+
+    if (autoDismiss) {
+      this.detachAnimationEndEvent();
+    }
+  }
+
+  attachAnimationEndEvent() {
+    const { animationElement } = this.refs;
+
+    animationElement.addEventListener('webkitAnimationEnd', this.animationEnd, false);
+    animationElement.addEventListener('oAnimationEnd', this.animationEnd, false);
+    animationElement.addEventListener('animationend', this.animationEnd, false);
+  }
+
+  detachAnimationEndEvent() {
+    const { animationElement } = this.refs;
+
+    animationElement.removeEventListener('webkitAnimationEnd', this.animationEnd, false);
+    animationElement.removeEventListener('oAnimationEnd', this.animationEnd, false);
+    animationElement.removeEventListener('animationend', this.animationEnd, false);
+  }
+
+  autoDismissInAnimationDone() {
+    this.closeAnimation();
+
+    const { animationCallback } = this.props;
+
+    if (typeof animationCallback == 'function') animationCallback();
+  }
+
   closeAnimation() {
     const { onCloseAnimation } = this.props;
     if (typeof onCloseAnimation == 'function') onCloseAnimation();
   }
 
   render() {
-    const { anim_name } = this.props;
+    const { doneeName, animationName, autoDismiss } = this.props;
 
     return (
       <div className="anim-container">
+<<<<<<< HEAD
         <div className={`anim ${anim_name}`}>
           <div className="anim-item1"></div>
           <div className="anim-item2"></div>
+=======
+        <div className="donee-name">
+          <div className="name">{doneeName}</div>
+          赠送
         </div>
-        <button className="anim-close" onClick={ this.closeAnimation.bind(this) }>X</button>
+        <div className={`anim ${animationName}`} ref="animationElement">
+>>>>>>> a842037fe0927ca8d9204c0323a8f4009d9bfaac
+        </div>
+        { !autoDismiss && <button className="anim-close" onClick={ this.closeAnimation.bind(this) }>X</button> }
       </div>
     );
   }

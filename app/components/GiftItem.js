@@ -8,9 +8,8 @@ export default class GiftItem extends Component {
 
   handleGiftClick() {
     const { onShowAnimation } = this.props;
-    const { bless: { virtual_present: name }} = this.props;
-    const anim_name = name.name;
-    if (typeof onShowAnimation == 'function') onShowAnimation(anim_name);
+    const { bless: { virtual_present: { name }, sender: { login } } } = this.props;
+    if (typeof onShowAnimation == 'function') onShowAnimation(login, name);
   }
 
   render() {
