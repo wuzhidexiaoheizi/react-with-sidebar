@@ -31,10 +31,10 @@ class PartyPage extends Component {
       blessPer: 10,
       showAnimation: false,
       animation_name: '',
-      rotate_status:true
+      rotate_status:true,
       animationName: '',
       earliestId: '',
-      doneeName: '',
+      doneeName: ''
     };
   }
 
