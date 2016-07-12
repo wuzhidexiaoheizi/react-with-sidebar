@@ -22,12 +22,13 @@ if (!window.requestAnimationFrame) {
 }
 
 function Curtain(container, config) {
-  const { width, height, trackCount, color, fontSize, lineSpacing, speed, loop } = config;
+  const { width, height, trackCount, color, fontSize, lineSpacing, speed, loop, fontWeight } = config;
   this.width = width;
   this.height = height;
   this.trackCount = trackCount;
   this.color = color || '#fff'; // 颜色
   this.fontSize = window.parseInt(fontSize) || 14; // 字体大小
+  this.fontWeight = fontWeight || '500';
   this.speed = speed || 10;  // 移动速度
   this.lineSpacing = lineSpacing || 5; // 行距
   this.playFlag = false;
@@ -136,7 +137,7 @@ Curtain.prototype = {
       }
     });
 
-    if (!this.renderChildren.length) {
+    if (!this.loop && !this.renderChildren.length) {
       this.stop();
     }
 
@@ -153,6 +154,7 @@ Curtain.prototype = {
     node.style.whiteSpace = 'nowrap';
     node.style.color = this.color;
     node.style.fontSize = `${this.fontSize}px`;
+    node.style.fontWeight = this.fontWeight;
     node.innerText = text;
 
     this.container.appendChild(node);

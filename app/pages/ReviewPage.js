@@ -7,14 +7,17 @@ import { fetchBlessList } from '../actions/bless';
 import lovePNG from '../images/love.png';
 import ReviewGroup from '../components/ReviewGroup';
 import Loading from 'halogen/ScaleLoader';
+import Constants from '../constants';
+import Envelope from '../components/Envelope';
 
 export default class ReviewPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      blessPer: 1,
+      blessPer: 10,
       earliestId: '',
+      showEnvelope: false,
     };
   }
 
@@ -24,6 +27,19 @@ export default class ReviewPage extends Component {
 
     dispatch(fetchBlessList(id, earliestId, blessPer));
     dispatch(fetchParty(id, true));
+  }
+
+  onScrollStart() {
+    const { envelope } = this.refs;
+    envelope.style.right = '-50px';
+    envelope.style.opacity = 0.6;
+  }
+
+  onScrollEnd() {
+    const { envelope } = this.refs;
+    envelope.style.right = 0;
+    envelope.style.opacity = 1.0;
+    this.scrollIsStart = false;
   }
 
   loadNextPageBlesses() {
@@ -43,6 +59,25 @@ export default class ReviewPage extends Component {
     if (scrollTop + offsetHeight == scrollHeight) {
       this.loadNextPageBlesses();
     }
+
+    if (!this.scrollIsStart) {
+      this.scrollIsStart = true;
+      this.onScrollStart();
+    }
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    this.timer = setTimeout(this.onScrollEnd.bind(this), 500);
+  }
+
+  showEnvelope() {
+    this.setState({ showEnvelope: true });
+  }
+
+  hideEnvelope() {
+    this.setState({ showEnvelope: false });
   }
 
   render() {
@@ -56,6 +91,8 @@ export default class ReviewPage extends Component {
     const {
       cake_id,
       withdrawable,
+      withdrew,
+      withdraw_url,
     } = party;
     const cakeItem = cakeItems.find(item => item.id == cake_id) || {};
     const {
@@ -67,6 +104,7 @@ export default class ReviewPage extends Component {
     } = cakeItem;
     const price = +income_price - +withdrawable;
     const images = cover_url ? [ cover_url ] : [];
+    const { ENVELOPE_SM_IMG } = Constants;
 
     return (
       <div className="page-container review-container">
@@ -124,6 +162,9 @@ export default class ReviewPage extends Component {
                     <ReviewGroup blesses={blesses} />
                   </div>
                 </div>
+                <div className="envelope-entrance" ref="envelope" onClick={this.showEnvelope.bind(this)}>
+                  <img src={ENVELOPE_SM_IMG} />
+                </div>
               </div>
             </div>
           </div>
@@ -140,6 +181,8 @@ export default class ReviewPage extends Component {
             <div className="loading-container"><Loading color="#FF280B" size="9px" /></div>
           }
         </div>
+        { this.state.showEnvelope && <Envelope withdrew={withdrew} withdrawable={withdrawable}
+          cakeImage={cover_url} withdrawUrl={withdraw_url} onClose={this.hideEnvelope.bind(this)} /> }
       </div>
     );
   }
