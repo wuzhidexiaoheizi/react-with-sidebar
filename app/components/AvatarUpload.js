@@ -130,7 +130,7 @@ export default class AvatarUpload extends Component {
 
     return (
       <div className="avatar-container" ref="avatarContainer">
-        <img src={avatarImage} ref="avatarImage"/>
+        <img src={avatarImage} />
         { fragment }
 
         <DismissTip ref="uploadTip" />
