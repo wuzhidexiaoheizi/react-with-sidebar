@@ -1,0 +1,26 @@
+icon-width = 40px
+icon-height = 40px
+.player-container
+  position absolute
+  z-index 9999
+  top 50px
+  width icon-width 
+  height icon-height
+  
+  .music-player
+    width icon-width 
+    height icon-height
+    background url('../images/music.png') 0 0 no-repeat
+    background-size icon-width  icon-height
+  
+  .rotate
+    animation rotation 3s linear infinite
+    
+  @keyframes rotation
+    0%
+      transform rotate(0deg)
+    100%
+      transform rotate(360deg)
+  
+   
+  

@@ -35,7 +35,7 @@
   
   .heart
     background url('../images/spirit_redheart.png') 0 0 no-repeat
-    animation heart 1.7s steps(14) 
+    animation heart 1.9s steps(14) 
     animation-fill-mode forwards 
   
   @keyframes heart
@@ -58,3 +58,33 @@
      background-position 0 0
    100%
      background-position 0 -3600px
+     
+  .music_box
+    .anim-item1 
+      width 240px
+      height 240px
+      background url('../images/sprite_train.png') 0 0 no-repeat
+      animation train 1.3s steps(8) infinite
+      animation-fill-mode forwards 
+      z-index 9999
+    .anim-item2
+      position absolute
+      top 0
+      width 340px
+      height 340px
+      background url('../images/sprite_music_bg.png') 0 0 no-repeat
+      animation music-bg 3.5s steps(17) infinite
+      animation-fill-mode forwards  
+      z-index -1
+      
+  @keyframes train
+   0%
+     background-position -20px 0
+   100%
+     background-position -20px -1920px
+
+  @keyframes music-bg
+   0%
+     background-position 0 0
+   100%
+     background-position 0 -4080px

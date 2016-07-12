@@ -17,7 +17,9 @@ import Loading from 'halogen/ScaleLoader';
 import AvatarUpload from '../components/AvatarUpload';
 import BulletCurtain from '../components/BulletCurtain';
 import GiftAnimation from '../components/GiftAnimation';
+import MusicPlayer from '../components/MusicPlayer';
 import { Link } from 'react-router';
+import audio from '../audios/1.mp3';
 
 class PartyPage extends Component {
   constructor(props) {
@@ -27,7 +29,8 @@ class PartyPage extends Component {
       showPhaseModal: false,
       blessPer: 10,
       showAnimation: false,
-      animation_name: ''
+      animation_name: '',
+      rotate_status:true
     };
   }
 
@@ -142,6 +145,10 @@ class PartyPage extends Component {
     });
   }
 
+  shouldPlayerRotation(){
+    this.state.rotate_status ? this.setState({ rotate_status:false }) : this.setState({ rotate_status :true });
+  }
+
   render() {
     const { PARTY_HEADER_IMG, DONEE_DEFAULT_AVATAR } = Constants;
     const {
@@ -180,6 +187,7 @@ class PartyPage extends Component {
 
     return (
       <div className="page-container party-container">
+
         <div className="container-nano">
           <div className="container-content" onScroll={this.handleScroll.bind(this)}>
             <div className="container">
@@ -202,6 +210,7 @@ class PartyPage extends Component {
                   </div>
                 </div>
                 <div className="party-body">
+                  <MusicPlayer resource={audio} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
                   <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
                   <BlessGroup blesses={blesses} />
                 </div>
@@ -227,6 +236,7 @@ class PartyPage extends Component {
               <div className="loading-container"><Loading color="#FF280B" size="9px" /></div>
             }
           </div>
+
         </div>
 
         { this.state.showPhaseModal && <BlessPhase onClose={this.closePhaseModal.bind(this)}
