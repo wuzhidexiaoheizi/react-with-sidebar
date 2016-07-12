@@ -98,7 +98,7 @@ export function uploadPartyAvatar(partyId, body, sucCallback, errCallback) {
 }
 
 export function updateAvatarMediaId(partyId, mediaId, sucCallback, errCallback) {
-  return dispatch => {
+  return () => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, UPDATE_AVATAR_URL } = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}/${UPDATE_AVATAR_URL}`;
     const params = {

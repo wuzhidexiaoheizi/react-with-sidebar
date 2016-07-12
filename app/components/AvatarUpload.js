@@ -64,7 +64,7 @@ export default class AvatarUpload extends Component {
 
   handlUpload() {
     const { partyId, updateAvatarMediaId } = this.props;
-    const sucCallback = this.showWeixinUploadSuccessTip.bind(this);
+    const sucCallback = this.showUploadSuccessTip.bind(this);
     const errCallback = this.showUploadErrorTip.bind(this);
 
     window.wx.chooseImage({
@@ -103,13 +103,6 @@ export default class AvatarUpload extends Component {
     const { uploadTip } = this.refs;
 
     uploadTip.resetTypeAndMessage('success', '头像上传成功！');
-  }
-
-  showWeixinUploadSuccessTip(url) {
-    const { uploadTip, avatarImage } = this.refs;
-
-    uploadTip.resetTypeAndMessage('success', '头像上传成功！');
-    avatarImage.src = url;
   }
 
   showUploadErrorTip(errors) {
