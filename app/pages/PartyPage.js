@@ -31,6 +31,7 @@ class PartyPage extends Component {
       animationName: '',
       earliestId: '',
       doneeName: '',
+      showAnimationCloseBtn: false,
     };
   }
 
@@ -140,6 +141,19 @@ class PartyPage extends Component {
     });
   }
 
+  skipAnimations() {
+    const { blessDispatcher } = this.refs;
+    blessDispatcher.skipAnimations();
+  }
+
+  displayAnimateCloseBtn() {
+    this.setState({ showAnimationCloseBtn: true });
+  }
+
+  hideAnimateCloseBtn() {
+    this.setState({ showAnimationCloseBtn: false });
+  }
+
   loadNextPageBlesses() {
     const { bless: { listFetching, earliestId } } = this.props;
 
@@ -205,6 +219,7 @@ class PartyPage extends Component {
       autoDismiss,
       animationCallback,
       doneeName,
+      showAnimationCloseBtn,
     } = this.state;
 
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
@@ -297,7 +312,17 @@ class PartyPage extends Component {
 
         <BlessDispatcher playAnimation={this.showAnimationWithCallback.bind(this)}
           animationNameField={animationNameField} animationFlagField={animationFlagField}
-          doneeField={doneeField} expireTime={expireTime} ref="blessDispatcher"/>
+          doneeField={doneeField} expireTime={expireTime} ref="blessDispatcher"
+          showCloseBtn={this.displayAnimateCloseBtn.bind(this)}
+          hideCloseBtn={this.hideAnimateCloseBtn.bind(this)} />
+
+        { showAnimationCloseBtn &&
+          <div className="animation-toggle">
+            <div className="toggle-container">
+              <div className="toggle-btn" onClick={this.skipAnimations.bind(this)}>跳过动画</div>
+            </div>
+          </div>
+        }
       </div>
     );
   }
