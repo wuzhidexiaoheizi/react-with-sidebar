@@ -26,6 +26,11 @@ export default class AvatarUpload extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { avatarUrl, isCurrentUser } = nextProps;
+    return avatarUrl != this.props.avatarUrl || isCurrentUser != this.props.isCurrentUser;
+  }
+
   getWeixinConfig() {
     const { DOMAIN, WEIXIN_API_SIGNATURE_URL } = Constants;
     const href = window.location.href;
@@ -64,6 +69,8 @@ export default class AvatarUpload extends Component {
 
   handlUpload() {
     const { partyId, updateAvatarMediaId } = this.props;
+    const sucCallback = this.showUploadSuccessTip.bind(this);
+    const errCallback = this.showUploadErrorTip.bind(this);
 
     window.wx.chooseImage({
       count: 9, // 默认9
@@ -78,7 +85,7 @@ export default class AvatarUpload extends Component {
           isShowProgressTips: 1, // 默认为1，显示进度提示
           success: (response) => {
             const serverId = response.serverId; // 返回图片的服务器端ID
-            updateAvatarMediaId(partyId, serverId);
+            updateAvatarMediaId(partyId, serverId, sucCallback, errCallback);
           }
         });
       }
