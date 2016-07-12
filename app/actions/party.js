@@ -115,7 +115,7 @@ export function updateAvatarMediaId(partyId, mediaId, sucCallback, errCallback) 
         if (errors) {
           if (typeof errCallback == 'function') errCallback(errors);
         } else {
-          if (typeof sucCallback == 'function') sucCallback();
+          if (typeof sucCallback == 'function') sucCallback(person_avatar);
 
           return dispatch(updateAvatar(person_avatar));
         }
