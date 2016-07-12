@@ -5,7 +5,7 @@
   width 100%
   height 100%
   z-index 9999
-  background rgba(0,0,0,0.3)
+  background rgba(0,0,0,0.5)
   
   &.shown
     display block
@@ -19,9 +19,22 @@
     height 60px
     border 1px solid #eee
     border-radius 50%
-    background:rgba(0,0,0,0.1)
+    background rgba(0,0,0,0.1)
     font-size 18px
-    color:#fff
+    color #fff
+    
+  .donee-name
+    position absolute
+    top 15%
+    left 0
+    right 0
+    text-align center
+    font-size 36px
+    font-weight 700
+    color #fff
+    
+    .name
+      font-size 42px
 
   .anim
     position absolute
@@ -36,7 +49,7 @@
   .heart
     background url(http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/fa2fbd0d1d1b6a3dc6afe0f5a7bad564.png) 0 0 no-repeat
     animation heart 1.7s steps(14) 
-    animation-fill-mode forwards 
+    animation-fill-mode forwards
   
   @keyframes heart
     0%
@@ -51,7 +64,7 @@
   .flower
     background url(http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/f6f4b746bb5650d9dfbb9faaf4b31232.png) 0 0 no-repeat
     animation flower 3.5s steps(18) 
-    animation-fill-mode forwards 
+    animation-fill-mode forwards
   
   @keyframes flower 
    0%

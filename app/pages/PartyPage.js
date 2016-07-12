@@ -18,6 +18,7 @@ import AvatarUpload from '../components/AvatarUpload';
 import BulletCurtain from '../components/BulletCurtain';
 import GiftAnimation from '../components/GiftAnimation';
 import { Link } from 'react-router';
+import BlessDispatcher from '../components/BlessDispatcher';
 
 class PartyPage extends Component {
   constructor(props) {
@@ -27,8 +28,9 @@ class PartyPage extends Component {
       showPhaseModal: false,
       blessPer: 10,
       showAnimation: false,
-      animation_name: '',
+      animationName: '',
       earliestId: '',
+      doneeName: '',
     };
   }
 
@@ -41,7 +43,7 @@ class PartyPage extends Component {
     dispatch(fetchBlessList(id, earliestId, blessPer));
   }
 
-  componentWillReceiveProps(/** nextProps */) {
+  componentWillReceiveProps(nextProps) {
     if (window.location.href.indexOf('#showDistribute') > -1) {
       const blessDistribute = this.refs.blessDistribute;
 
@@ -57,6 +59,24 @@ class PartyPage extends Component {
     const { user_id } = party;
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
+
+    const { blessDispatcher } = this.refs;
+    const { bless: { blesses } } = nextProps;
+    const lastBlesses = this.props.bless.blesses;
+
+    if (blesses != lastBlesses) {
+      if (lastBlesses.length == 0) {
+        blessDispatcher.insertAnimations(blesses);
+      } else {
+        const lastBless = lastBlesses[lastBlesses.length - 1];
+        const index = blesses.indexOf(lastBless);
+
+        if (index > -1) {
+          const newBlesses = blesses.slice(index, blesses.length - 1);
+          blessDispatcher.insertAnimations(newBlesses);
+        }
+      }
+    }
   }
 
   openPhaseModal() {
@@ -101,8 +121,23 @@ class PartyPage extends Component {
     bulletScreen.toggleShow();
   }
 
-  showAnimation(anim_name) {
-    this.setState({ showAnimation: true, animation_name: anim_name });
+  showAnimation(doneeName, animationName) {
+    this.setState({
+      showAnimation: true,
+      autoDismiss: false,
+      doneeName,
+      animationName,
+    });
+  }
+
+  showAnimationWithCallback(doneeName, animationName, animationCallback) {
+    this.setState({
+      showAnimation: true,
+      autoDismiss: true,
+      doneeName,
+      animationName,
+      animationCallback,
+    });
   }
 
   loadNextPageBlesses() {
@@ -126,7 +161,7 @@ class PartyPage extends Component {
 
   lookupAnimate(animateName) {
     if (window.location.href.indexOf('#' + animateName) > -1) {
-      return this.setState({ showAnimation: true, animation_name: animateName });
+      return this.setState({ showAnimation: true, animateName });
     }
   }
 
@@ -144,7 +179,7 @@ class PartyPage extends Component {
   }
 
   render() {
-    const { PARTY_HEADER_IMG, DONEE_DEFAULT_AVATAR } = Constants;
+    const { PARTY_HEADER_IMG } = Constants;
     const {
       party: { party },
       virtualPresent: { presents },
@@ -162,9 +197,16 @@ class PartyPage extends Component {
       avatar_media_id,
     } = party;
 
-    const { isCurrentUser } = this.state;
+    const {
+      isCurrentUser,
+      showPhaseModal,
+      showAnimation,
+      animationName,
+      autoDismiss,
+      animationCallback,
+      doneeName,
+    } = this.state;
 
-    const avatar = person_avatar && person_avatar.url ? person_avatar.url : DONEE_DEFAULT_AVATAR;
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
@@ -180,6 +222,11 @@ class PartyPage extends Component {
       loop: true,
     };
 
+    const doneeField = 'sender:login';
+    const animationNameField = 'virtual_present:name';
+    const animationFlagField = 'id';
+    const expireTime = Date.parse(birth_day) + 7 * 24 * 60 * 60 * 1000;
+
     return (
       <div className="page-container party-container">
         <div className="container-nano">
@@ -188,7 +235,7 @@ class PartyPage extends Component {
               <div className="row">
                 <div className="party-header">
                   <img className="party-poster" src={PARTY_HEADER_IMG}/>
-                  <AvatarUpload avatar_url={avatar} partyId={partyId} isCurrentUser={isCurrentUser}
+                  <AvatarUpload avatarUrl={person_avatar} partyId={partyId} isCurrentUser={isCurrentUser}
                     avatarMediaId={avatar_media_id} {...partyActionCreators} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
                     <div className="birthday">
@@ -207,6 +254,13 @@ class PartyPage extends Component {
                   <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
                   <BlessGroup blesses={blesses} />
                 </div>
+                <div className="bullet-toggle">
+                  <div className="button-container">
+                    <div className="bullet-button" onClick={this.toggleBullet.bind(this)}>弹幕</div>
+                  </div>
+                </div>
+                { <BulletCurtain config={config} ref="bulletScreen" bullets={blesses}
+                    textFieldName="message"/>}
               </div>
             </div>
           </div>
@@ -231,22 +285,19 @@ class PartyPage extends Component {
           </div>
         </div>
 
-        { this.state.showPhaseModal && <BlessPhase onClose={this.closePhaseModal.bind(this)}
+        { showPhaseModal && <BlessPhase onClose={this.closePhaseModal.bind(this)}
           partyId={id} message={message} {...partyActionCreators} /> }
 
         <BlessDistribute onClose={this.closePresentModal.bind(this)}
           partyId={id} presents={presents} {...presentActionCreators}
           {...blessActionCreators} ref="blessDistribute" />
-        <div className="bullet-toggle">
-          <div className="button-container">
-            <div className="bullet-button" onClick={this.toggleBullet.bind(this)}>弹幕</div>
-          </div>
-        </div>
 
-        { <BulletCurtain config={config} ref="bulletScreen" bullets={blesses}
-          textFieldName="message"/>}
+        { showAnimation && <GiftAnimation animationName={ animationName } onCloseAnimation={this.hideAnimation.bind(this)}
+          autoDismiss={autoDismiss} animationCallback={animationCallback} doneeName={doneeName}/>}
 
-        { this.state.showAnimation && <GiftAnimation anim_name={ this.state.animation_name } onCloseAnimation={this.hideAnimation.bind(this)} />}
+        <BlessDispatcher playAnimation={this.showAnimationWithCallback.bind(this)}
+          animationNameField={animationNameField} animationFlagField={animationFlagField}
+          doneeField={doneeField} expireTime={expireTime} ref="blessDispatcher"/>
       </div>
     );
   }
