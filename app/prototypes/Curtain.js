@@ -37,6 +37,9 @@ function Curtain(container, config) {
   this.renderChildren = []; // 确认要被渲染的数组
   this.loop = loop;
   this.myReq = null;
+  this.time = Date.now();
+  this.fps = 45;
+  this.fpsInterval = 1000 / this.fps;
 
   this.init();
 }
@@ -119,25 +122,31 @@ Curtain.prototype = {
 
     item.y = lineN * this.fontSize + (lineN * this.lineSpacing); // 行数
 
-    item.speed = (Math.random() + this.speed) / 9; // 速度
+    item.speed = this.speed; // 速度
 
     matrix.push(item);
   },
 
   render() {
-    this.container.innerHTML = '';
-    // 画每一帧之前首先清除画布上面的所有内容
-    this.renderChildren.forEach((item) => {
-      item.x = item.x - item.speed;
-      this.draw(item.text, item.x, item.y);
+    const now = Date.now();
+    const diff = now - this.time;
 
-      if (item.x < -(item.text.length * this.fontSize)) {
-        item.isDelete = true;
+    if (diff > this.fpsInterval) {
+      this.time = now;
+
+      this.container.innerHTML = '';
+      this.renderChildren.forEach((item) => {
+        item.x = item.x - item.speed;
+        this.draw(item.text, item.x, item.y);
+
+        if (item.x < -(item.text.length * this.fontSize)) {
+          item.isDelete = true;
+        }
+      });
+
+      if (!this.loop && !this.renderChildren.length) {
+        this.stop();
       }
-    });
-
-    if (!this.loop && !this.renderChildren.length) {
-      this.stop();
     }
 
     if (this.playFlag) {
