@@ -18,7 +18,6 @@ export default React.createClass({
     const screenNode = this.refs.bulletContainer;
     const width = screenNode.clientWidth;
     const height = trackCount * window.parseInt(fontSize) + ( trackCount - 1) * lineSpacing;
-    console.log('height:', height);
     screenNode.style.height = `${height}px`;
 
     this.curtainInstance = new Curtain(screenNode, {
