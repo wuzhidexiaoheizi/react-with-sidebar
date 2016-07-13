@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import DateSelect from './DateSelect';
-import blessImage from '../images/bless.jpg';
 import errPNG from '../images/err.png';
 import Constants from '../constants';
 import { serializeParams } from '../helper';
@@ -132,6 +131,7 @@ export default class BlessCard extends Component {
     const { at_earliest, lunarDate } = this.state;
     const { year, month, day } = lunarDate;
     const lunarStr = `${year}年${month}月${day}`;
+    const { BLESS_HEADER_IMG } = Constants;
 
     return (
       <div className="donee-modal">
@@ -142,7 +142,7 @@ export default class BlessCard extends Component {
               <div className="donee-content">
                 <div className="donee-card">
                   <div className="donee-header">
-                    <img src={blessImage} />
+                    <img src={BLESS_HEADER_IMG} />
                   </div>
                   <div className="donee-body">
                     <div className="paragraph salutation">

@@ -297,7 +297,7 @@ class PartyPage extends Component {
                 <div className="party-body">
                   <MusicPlayer resource={audio} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
                   <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
-                  <BlessGroup blesses={blesses} />
+                  <BlessGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
                 </div>
                 { showBulletToggle &&
                   <div className="bullet-toggle-container">
