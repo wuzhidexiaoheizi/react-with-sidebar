@@ -7,6 +7,12 @@ export default class BlessItem extends Component {
     super(props);
   }
 
+  handleGiftClick() {
+    const { onShowAnimation } = this.props;
+    const { bless: { virtual_present: { name }, sender: { login } } } = this.props;
+    if (typeof onShowAnimation == 'function') onShowAnimation(login, name);
+  }
+
   render() {
     const { bless } = this.props;
     const {
@@ -31,7 +37,7 @@ export default class BlessItem extends Component {
           </div>
           <div className="bless-date">{ dateStr }</div>
         </div>
-        <div className="bless-gift">
+        <div className="bless-gift" onClick={ this.handleGiftClick.bind(this) }>
           <img src={imageUrl} className="gift-image" />
         </div>
       </div>

@@ -11,13 +11,13 @@ export default class BlessGroup extends Component {
   }
 
   render() {
-    const {blesses} = this.props;
+    const { blesses, onShowAnimation } = this.props;
 
     return (
       <div className="bless-container">
         { blesses.length > 0 &&
           <div className="bless-list">
-            { blesses.map(bless => <BlessItem key={bless.id} bless={bless} />) }
+            { blesses.map(bless => <BlessItem key={bless.id} bless={bless} onShowAnimation={onShowAnimation}/>) }
           </div>
         }
       </div>

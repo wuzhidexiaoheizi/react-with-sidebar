@@ -14,8 +14,6 @@ export default React.createClass({
 
   componentDidMount() {
     this.animationDispatcher = new AnimationDispatcher(this);
-
-    // const { animationBtn } = this.refs;
   },
 
   initDispatcherConfig() {

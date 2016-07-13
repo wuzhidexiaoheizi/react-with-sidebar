@@ -21,6 +21,7 @@ export default {
   'DONEE_DEFAULT_AVATAR': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/c641b432732c432709730ad06d191dd9.jpg',
   'PARTY_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/82b00396a089c4ab0705bf71d99e2754.png',
   'HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/1d1c4f398d4aa83c1a09a05c4ac68ac8.png',
+  'BLESS_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/ca4cd3b9d0f049d5c6bb15fd50c1c176.jpg',
   'PRESENT_HEART_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/e470299fa15eae73df92e47e2fa70d30.png',
   'PRESENT_MUSIC_BOX_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/f88d840c2793ed31d55de87f9f2336aa.png',
   'PRESENT_FLOWER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/533cc2103adf510a449785d3f2a165ea.png',
