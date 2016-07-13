@@ -60,12 +60,12 @@ export default class GiftAnimation extends Component {
           <div className="name">{doneeName}</div>
           赠送
         </div>
-        <div className={`anim ${animationName}`}>
+
+        <div className={`anim ${animationName}`} ref="animationElement">
           <div className="anim-item1"></div>
           <div className="anim-item2"></div>
-        <div className={`anim ${animationName}`} ref="animationElement"></div>
+        </div>
         { !autoDismiss && <button className="anim-close" onClick={ this.closeAnimation.bind(this) }>X</button> }
-      </div>
       </div>
     );
   }

@@ -56,6 +56,7 @@ AnimateDispatcher.prototype = {
     }
 
     this.animations = [];
+    this.paused = true;
   },
 
   playAnimation() {

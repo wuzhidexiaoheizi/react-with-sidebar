@@ -31,11 +31,12 @@ class PartyPage extends Component {
       blessPer: 10,
       showAnimation: false,
       animation_name: '',
-      rotate_status:true,
+      rotate_status: true,
       animationName: '',
       earliestId: '',
       doneeName: '',
       showAnimationCloseBtn: false,
+      showBullet: true,
     };
   }
 
@@ -122,7 +123,9 @@ class PartyPage extends Component {
 
   toggleBullet() {
     const { bulletScreen } = this.refs;
+    const { showBullet } = this.state;
 
+    this.setState({ showBullet: !showBullet });
     bulletScreen.toggleShow();
   }
 
@@ -230,18 +233,20 @@ class PartyPage extends Component {
       animationCallback,
       doneeName,
       showAnimationCloseBtn,
+      showBullet,
     } = this.state;
 
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
     const blessActionCreators = bindActionCreators(BlessActions, dispatch);
+    const klass = showBullet ? '' : 'closed';
 
-    const config = {
+    const bulletConfig = {
       color: '#fff',
       fontSize: '18px',
       fontWeight: '700',
-      speed: 20,
+      speed: 3,
       lineSpacing: 4,
       trackCount: 5,
       loop: true,
@@ -251,6 +256,13 @@ class PartyPage extends Component {
     const animationNameField = 'virtual_present:name';
     const animationFlagField = 'id';
     const expireTime = Date.parse(birth_day) + 7 * 24 * 60 * 60 * 1000;
+
+    const animationConfig = {
+      doneeField,
+      animationNameField,
+      animationFlagField,
+      expireTime
+    };
 
     return (
       <div className="page-container party-container">
@@ -281,12 +293,12 @@ class PartyPage extends Component {
                   <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
                   <BlessGroup blesses={blesses} />
                 </div>
-                <div className="bullet-toggle">
+                <div className={`bullet-toggle ${klass}`} onClick={this.toggleBullet.bind(this)}>
                   <div className="button-container">
-                    <div className="bullet-button" onClick={this.toggleBullet.bind(this)}>弹幕</div>
+                    <div className="bullet-button">弹幕</div>
                   </div>
                 </div>
-                { <BulletCurtain config={config} ref="bulletScreen" bullets={blesses}
+                { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
                     textFieldName="message"/>}
               </div>
             </div>
@@ -324,8 +336,7 @@ class PartyPage extends Component {
           autoDismiss={autoDismiss} animationCallback={animationCallback} doneeName={doneeName}/>}
 
         <BlessDispatcher playAnimation={this.showAnimationWithCallback.bind(this)}
-          animationNameField={animationNameField} animationFlagField={animationFlagField}
-          doneeField={doneeField} expireTime={expireTime} ref="blessDispatcher"
+          config={animationConfig} ref="blessDispatcher"
           showCloseBtn={this.displayAnimateCloseBtn.bind(this)}
           hideCloseBtn={this.hideAnimateCloseBtn.bind(this)} />
 

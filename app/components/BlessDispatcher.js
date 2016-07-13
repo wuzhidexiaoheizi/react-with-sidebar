@@ -19,13 +19,8 @@ export default React.createClass({
   },
 
   initDispatcherConfig() {
-    const { doneeField, animationNameField, animationFlagField, expireTime } = this.props;
-    this.animationDispatcher.initConfig({
-      animationNameField,
-      animationFlagField,
-      expireTime,
-      doneeField,
-    });
+    const { config } = this.props;
+    this.animationDispatcher.initConfig(config);
   },
 
   insertAnimations(newAnimations) {
