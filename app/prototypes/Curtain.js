@@ -93,7 +93,7 @@ Curtain.prototype = {
 
   allocateDataForSingleLine(matrix, lineN, item) {
     delete item.node;
-    item.width = item.text.length;
+    item.width = item.text.length * this.fontSize;
     item.x = this.width + Math.floor(Math.random() * 300 + 100); // 初始X轴位置
     item.y = lineN * this.fontSize + (lineN * this.lineSpacing); // 行数
     item.matrix = matrix;
