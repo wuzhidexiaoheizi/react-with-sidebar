@@ -17,7 +17,9 @@ import Loading from 'halogen/ScaleLoader';
 import AvatarUpload from '../components/AvatarUpload';
 import BulletCurtain from '../components/BulletCurtain';
 import GiftAnimation from '../components/GiftAnimation';
+import MusicPlayer from '../components/MusicPlayer';
 import { Link } from 'react-router';
+import audio from '../audios/1.mp3';
 import BlessDispatcher from '../components/BlessDispatcher';
 
 class PartyPage extends Component {
@@ -28,6 +30,8 @@ class PartyPage extends Component {
       showPhaseModal: false,
       blessPer: 10,
       showAnimation: false,
+      animation_name: '',
+      rotate_status:true,
       animationName: '',
       earliestId: '',
       doneeName: '',
@@ -37,11 +41,11 @@ class PartyPage extends Component {
 
   componentDidMount() {
     const { params: {id}, dispatch } = this.props;
-    const { blessPer, earliestId } = this.state;
+    const { blessPer } = this.state;
 
     dispatch(fetchCurrentUser());
     dispatch(fetchParty(id));
-    dispatch(fetchBlessList(id, earliestId, blessPer));
+    dispatch(fetchBlessList(id, '', blessPer));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -192,6 +196,12 @@ class PartyPage extends Component {
     });
   }
 
+  shouldPlayerRotation() {
+    const { rotate_status } = this.state;
+
+    this.setState({ rotate_status: !rotate_status });
+  }
+
   render() {
     const { PARTY_HEADER_IMG } = Constants;
     const {
@@ -232,7 +242,7 @@ class PartyPage extends Component {
       fontSize: '18px',
       fontWeight: '700',
       speed: 20,
-      lineSpacing: 0,
+      lineSpacing: 4,
       trackCount: 5,
       loop: true,
     };
@@ -244,6 +254,7 @@ class PartyPage extends Component {
 
     return (
       <div className="page-container party-container">
+
         <div className="container-nano">
           <div className="container-content" onScroll={this.handleScroll.bind(this)}>
             <div className="container">
@@ -266,6 +277,7 @@ class PartyPage extends Component {
                   </div>
                 </div>
                 <div className="party-body">
+                  <MusicPlayer resource={audio} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
                   <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
                   <BlessGroup blesses={blesses} />
                 </div>
@@ -298,6 +310,7 @@ class PartyPage extends Component {
               <div className="loading-container"><Loading color="#FF280B" size="9px" /></div>
             }
           </div>
+
         </div>
 
         { showPhaseModal && <BlessPhase onClose={this.closePhaseModal.bind(this)}

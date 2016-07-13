@@ -38,6 +38,7 @@ module.exports = {
       },
       {test: /\.png$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/png' },
       {test: /\.jpg$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/jpg' },
+      {test: /\.mp3$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=audio/mp3' },
     ]
   },
   postcss: function () {
