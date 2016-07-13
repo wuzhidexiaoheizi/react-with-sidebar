@@ -93,7 +93,7 @@ Curtain.prototype = {
 
   allocateDataForSingleLine(matrix, lineN, item) {
     delete item.node;
-    item.width = item.text.length;
+    item.width = item.text.length * this.fontSize;
     item.x = this.width + Math.floor(Math.random() * 300 + 100); // 初始X轴位置
     item.y = lineN * this.fontSize + (lineN * this.lineSpacing); // 行数
     item.matrix = matrix;
@@ -116,6 +116,7 @@ Curtain.prototype = {
         if (item.x < -item.width) {
           this.container.removeChild(node);
           const matrix = item.matrix;
+          item.isDelete = true;
 
           if (matrix) {
             const idx = matrix.indexOf(item);
@@ -148,6 +149,7 @@ Curtain.prototype = {
     delete item.x;
     delete item.y;
     delete item.width;
+    item.isDelete = false;
     this.children.push(item);
 
     this.allocationDataForMatrix();
