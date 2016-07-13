@@ -63,8 +63,7 @@ export default class GiftAnimation extends Component {
           <div className="name">{doneeName}</div>
           赠送
         </div>
-        <div className={`anim ${animationName}`} ref="animationElement">
-        </div>
+        <div className={`anim ${animationName}`} ref="animationElement"></div>
         { !autoDismiss && <button className="anim-close" onClick={ this.closeAnimation.bind(this) }>X</button> }
       </div>
       </div>

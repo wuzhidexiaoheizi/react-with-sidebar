@@ -1,5 +1,6 @@
 import React from 'react';
 import AnimationDispatcher from '../prototypes/AnimationDispatcher';
+import Constants from '../constants';
 
 export default React.createClass({
   displayName: 'BlessDispatcher',
@@ -13,6 +14,8 @@ export default React.createClass({
 
   componentDidMount() {
     this.animationDispatcher = new AnimationDispatcher(this);
+
+    // const { animationBtn } = this.refs;
   },
 
   initDispatcherConfig() {
@@ -30,7 +33,17 @@ export default React.createClass({
 
     this.initDispatcherConfig();
     this.animationDispatcher.addAnimations(newAnimations);
+  },
+
+  playAnimations() {
+    const { showCloseBtn } = this.props;
+
+    if (typeof showCloseBtn == 'function') showCloseBtn();
     this.animationDispatcher.playAnimations();
+  },
+
+  skipAnimations() {
+    this.animationDispatcher.skipAnimations();
   },
 
   stopAnimations() {
@@ -56,16 +69,29 @@ export default React.createClass({
   animationCallback(animationDoneCallback) {
     animationDoneCallback();
     this.updateUnreadCount();
+
+    const animationDone = this.animationDispatcher.animationsIsDone();
+
+    if (animationDone) {
+      const { hideCloseBtn } = this.props;
+
+      if (typeof hideCloseBtn == 'function') hideCloseBtn();
+    }
   },
 
   animationDispatcher: null,
 
   render() {
+    const { UNREAD_GIFT_ICON } = Constants;
+    const { unreadCount } = this.state;
+    const klass = unreadCount > 0 ? 'shown' : '';
+
     return (
-      <div className="bless-dispatcher">
-        <span className="unread-tip">
-          {this.state.unreadCount}个未播放的礼物动画
-        </span>
+      <div className={`bless-dispatcher ${klass}`} ref="animationBtn">
+        <div className="unread-gifts" onClick={this.playAnimations}>
+          <img src={UNREAD_GIFT_ICON} />
+          <div className="unread-desc">新礼物</div>
+        </div>
       </div>
     );
   },
