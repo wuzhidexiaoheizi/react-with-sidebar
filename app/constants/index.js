@@ -1,8 +1,6 @@
 export default {
   'DOMAIN': __ENV__ == 'PRODUCTION' ? 'http://test.wanliu.biz' : 'http://0.0.0.0:8080',
   'QRCODE': true,
-  'WEIXIN_APP_ID': 'wx3fe5b90f6015df42',
-  'WEIXIN_APP_SECRET': '56964b892658e93bfec2a6e9c2e90599',
   'WEIXIN_JS_API_LIST': ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'],
   'API_PROMOTION_PREFIX': '/api/promotions',
   'CAKE_URL': '/cakes',
