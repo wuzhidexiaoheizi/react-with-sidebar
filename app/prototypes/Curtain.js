@@ -22,9 +22,8 @@ if (!window.requestAnimationFrame) {
 }
 
 function Curtain(container, config) {
-  const { width, height, trackCount, color, fontSize, lineSpacing, speed, loop, fontWeight } = config;
+  const { width, trackCount, color, fontSize, lineSpacing, speed, loop, fontWeight } = config;
   this.width = width;
-  this.height = height;
   this.trackCount = trackCount;
   this.color = color || '#fff'; // 颜色
   this.fontSize = window.parseInt(fontSize) || 14; // 字体大小
@@ -155,6 +154,7 @@ Curtain.prototype = {
     node.style.color = this.color;
     node.style.fontSize = `${this.fontSize}px`;
     node.style.fontWeight = this.fontWeight;
+    node.style.lineHeight = 1;
     node.innerText = text;
 
     this.container.appendChild(node);
