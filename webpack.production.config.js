@@ -1,15 +1,15 @@
 
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var path = require('path');
-var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var autoprefixer = require('autoprefixer');
-var precss = require('precss');
-var CleanWebpackPlugin = require('clean-webpack-plugin')
-var config = {
-  __ENV__                 : JSON.stringify('PRODUCTION'),
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const precss = require('precss');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const config = {
+  __ENV__: JSON.stringify('PRODUCTION'),
 };
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.styl$/, include: path.resolve(__dirname, 'app'),
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader!stylus-loader")
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!stylus-loader')
       },
       {
         test: /\.json$/, include: path.resolve(__dirname, 'app'),
@@ -38,14 +38,13 @@ module.exports = {
       },
       {test: /\.png$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/png' },
       {test: /\.jpg$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/jpg' },
-      {test: /\.mp3$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=audio/mp3' },
     ]
   },
-  postcss: function () {
+  postcss: function postcss() {
     return [autoprefixer, precss];
   },
   plugins: [
-    new ExtractTextPlugin("[name]_[hash].css"),
+    new ExtractTextPlugin('[name]_[hash].css'),
     new webpack.DefinePlugin(config),
     new webpack.optimize.DedupePlugin(),
     new UglifyJsPlugin({

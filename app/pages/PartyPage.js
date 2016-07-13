@@ -19,7 +19,6 @@ import BulletCurtain from '../components/BulletCurtain';
 import GiftAnimation from '../components/GiftAnimation';
 import MusicPlayer from '../components/MusicPlayer';
 import { Link } from 'react-router';
-import audio from '../audios/1.mp3';
 import BlessDispatcher from '../components/BlessDispatcher';
 
 class PartyPage extends Component {
@@ -269,6 +268,8 @@ class PartyPage extends Component {
       animationFlagField,
       expireTime
     };
+
+    const audio = 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac';
 
     return (
       <div className="page-container party-container">
