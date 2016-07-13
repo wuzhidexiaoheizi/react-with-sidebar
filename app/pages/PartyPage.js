@@ -37,6 +37,7 @@ class PartyPage extends Component {
       doneeName: '',
       showAnimationCloseBtn: false,
       showBullet: true,
+      showBulletToggle: false,
     };
   }
 
@@ -153,6 +154,10 @@ class PartyPage extends Component {
     blessDispatcher.skipAnimations();
   }
 
+  showBulletToggle() {
+    this.setState({ showBulletToggle: true });
+  }
+
   displayAnimateCloseBtn() {
     this.setState({ showAnimationCloseBtn: true });
   }
@@ -234,6 +239,7 @@ class PartyPage extends Component {
       doneeName,
       showAnimationCloseBtn,
       showBullet,
+      showBulletToggle,
     } = this.state;
 
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
@@ -272,7 +278,7 @@ class PartyPage extends Component {
             <div className="container">
               <div className="row">
                 <div className="party-header">
-                  <img className="party-poster" src={PARTY_HEADER_IMG}/>
+                  <img className="party-poster" src={PARTY_HEADER_IMG} onLoad={this.showBulletToggle.bind(this)} />
                   <AvatarUpload avatarUrl={person_avatar} partyId={partyId} isCurrentUser={isCurrentUser}
                     avatarMediaId={avatar_media_id} {...partyActionCreators} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
@@ -293,11 +299,16 @@ class PartyPage extends Component {
                   <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
                   <BlessGroup blesses={blesses} />
                 </div>
-                <div className={`bullet-toggle ${klass}`} onClick={this.toggleBullet.bind(this)}>
-                  <div className="button-container">
-                    <div className="bullet-button">弹幕</div>
+                { showBulletToggle &&
+                  <div className="bullet-toggle-container">
+                    <div className="toggle-container">
+                      <div className={`bullet-toggle ${klass}`} onClick={this.toggleBullet.bind(this)}>
+                        <div className="toggle-track"></div>
+                        <div className="bullet-button">弹幕</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                }
                 { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
                     textFieldName="message"/>}
               </div>
