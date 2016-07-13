@@ -116,7 +116,6 @@ Curtain.prototype = {
         if (item.x < -item.width) {
           this.container.removeChild(node);
           const matrix = item.matrix;
-          item.isDelete = true;
 
           if (matrix) {
             const idx = matrix.indexOf(item);
@@ -149,7 +148,6 @@ Curtain.prototype = {
     delete item.x;
     delete item.y;
     delete item.width;
-    item.isDelete = false;
     this.children.push(item);
 
     this.allocationDataForMatrix();
