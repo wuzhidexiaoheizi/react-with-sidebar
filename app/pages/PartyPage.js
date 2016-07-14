@@ -20,6 +20,7 @@ import GiftAnimation from '../components/GiftAnimation';
 import MusicPlayer from '../components/MusicPlayer';
 import { Link } from 'react-router';
 import BlessDispatcher from '../components/BlessDispatcher';
+import { checkPresentIsForbidden } from '../actions/virtualPresent';
 
 class PartyPage extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class PartyPage extends Component {
       showAnimationCloseBtn: false,
       showBullet: true,
       showBulletToggle: false,
+      isValidAnimation: false,
     };
   }
 
@@ -130,22 +132,38 @@ class PartyPage extends Component {
   }
 
   showAnimation(doneeName, animationName) {
-    this.setState({
-      showAnimation: true,
-      autoDismiss: false,
-      doneeName,
-      animationName,
+    this.checkIfExist(animationName, (isValidAnimation) => {
+      this.setState({
+        showAnimation: true,
+        autoDismiss: false,
+        isValidAnimation,
+        doneeName,
+        animationName,
+      });
     });
   }
 
   showAnimationWithCallback(doneeName, animationName, animationCallback) {
-    this.setState({
-      showAnimation: true,
-      autoDismiss: true,
-      doneeName,
-      animationName,
-      animationCallback,
+    this.checkIfExist(animationName, (isValidAnimation) => {
+      this.setState({
+        showAnimation: true,
+        autoDismiss: true,
+        isValidAnimation,
+        doneeName,
+        animationName,
+        animationCallback,
+      });
     });
+  }
+
+  checkIfExist(animationName, callback) {
+    const { virtualPresent: { forbidPresentNames }, dispatch } = this.props;
+
+    if (forbidPresentNames.indexOf(animationName) > -1) {
+      callback(false);
+    } else {
+      dispatch(checkPresentIsForbidden(animationName, callback));
+    }
   }
 
   skipAnimations() {
@@ -161,8 +179,8 @@ class PartyPage extends Component {
     this.setState({ showAnimationCloseBtn: true });
   }
 
-  hideAnimateCloseBtn() {
-    this.setState({ showAnimationCloseBtn: false });
+  hideAnimations() {
+    this.setState({ showAnimationCloseBtn: false, showAnimation: false });
   }
 
   loadNextPageBlesses() {
@@ -247,6 +265,7 @@ class PartyPage extends Component {
       showAnimationCloseBtn,
       showBullet,
       showBulletToggle,
+      isValidAnimation,
     } = this.state;
 
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
@@ -353,12 +372,13 @@ class PartyPage extends Component {
           {...blessActionCreators} ref="blessDistribute" />
 
         { showAnimation && <GiftAnimation animationName={ animationName } onCloseAnimation={this.hideAnimation.bind(this)}
-          autoDismiss={autoDismiss} animationCallback={animationCallback} doneeName={doneeName}/>}
+          autoDismiss={autoDismiss} animationCallback={animationCallback} doneeName={doneeName}
+          isValidAnimation={isValidAnimation} />}
 
         <BlessDispatcher playAnimation={this.showAnimationWithCallback.bind(this)}
           config={animationConfig} ref="blessDispatcher"
           showCloseBtn={this.displayAnimateCloseBtn.bind(this)}
-          hideCloseBtn={this.hideAnimateCloseBtn.bind(this)} />
+          hideAnimations={this.hideAnimations.bind(this)} />
 
         { showAnimationCloseBtn &&
           <div className="animation-toggle">

@@ -6,11 +6,15 @@ export default class GiftAnimation extends Component {
   }
 
   componentDidMount() {
-    const { autoDismiss } = this.props;
+    const { autoDismiss, isValidAnimation } = this.props;
 
     if (autoDismiss) {
-      this.animationEnd = this.autoDismissInAnimationDone.bind(this);
-      this.attachAnimationEndEvent();
+      if (isValidAnimation) {
+        this.animationEnd = this.autoDismissInAnimationDone.bind(this);
+        this.attachAnimationEndEvent();
+      } else {
+        setTimeout(this.animationEnd.bind(this), 2000);
+      }
     }
   }
 
@@ -52,7 +56,7 @@ export default class GiftAnimation extends Component {
   }
 
   render() {
-    const { doneeName, animationName, autoDismiss } = this.props;
+    const { doneeName, animationName, autoDismiss, isValidAnimation } = this.props;
 
     return (
       <div className="anim-container">
@@ -64,6 +68,10 @@ export default class GiftAnimation extends Component {
         <div className={`anim ${animationName}`} ref="animationElement">
           <div className="anim-item1"></div>
           <div className="anim-item2"></div>
+          { !isValidAnimation &&
+            <div className="invalid">
+              无效动画
+            </div>}
         </div>
         { !autoDismiss && <button className="anim-close" onClick={ this.closeAnimation.bind(this) }>X</button> }
       </div>
