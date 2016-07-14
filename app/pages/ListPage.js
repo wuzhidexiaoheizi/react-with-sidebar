@@ -45,6 +45,9 @@ class ListPage extends Component {
 
   render() {
     const { cakeList: { listFetching, cakeItems } } = this.props;
+    const { DOMAIN, MINE_LAUCHED_PARTY_URL, MINE_ATTEND_PARTY_URL } = Constants;
+    const launchUrl = `${DOMAIN}${MINE_LAUCHED_PARTY_URL}`;
+    const attendUrl = `${DOMAIN}${MINE_ATTEND_PARTY_URL}`;
 
     return (
       <div className="page-container list-container">
@@ -60,6 +63,12 @@ class ListPage extends Component {
           <div className="list-page" ref="list-page">
             <div className="container">
               <div className="row">
+                <div className="party-entrance">
+                  <div className="entrance-wrap">
+                    <a href={launchUrl} className="own-launch">生日趴</a>
+                    <a href={attendUrl} className="own-attend">参与过</a>
+                  </div>
+                </div>
                 <img className="list-poster" src={Constants.HEADER_IMG} />
                 <CakeGroup cakeItems={cakeItems} />
               </div>
