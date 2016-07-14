@@ -13,7 +13,7 @@ ifdef online
 endif
 
 .PHONY: clean build release
-clean: cleanbuild cleanprepare
+clean: cleanbuild cleanprepare cleanrelease
 	@echo 'clean all'
 	
 cleanprepare: 
@@ -21,6 +21,9 @@ cleanprepare:
 
 cleanbuild: 
 	@rm -f build/*
+
+cleanrelease:
+	@rm -f release/*
 
 build: 
 	npm run deploy
