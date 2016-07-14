@@ -1,12 +1,12 @@
-var webpack = require('webpack');
-var path = require('path');
-var OpenBrowserPlugin = require('open-browser-webpack-plugin');
-var autoprefixer = require('autoprefixer');
-var precss = require('precss');
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack');
+const path = require('path');
+const OpenBrowserPlugin = require('open-browser-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const precss = require('precss');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var config = {
-  __ENV__                 : JSON.stringify('DEV'),
+const config = {
+  __ENV__: JSON.stringify('DEV'),
 };
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
       '*': {
         target: 'http://192.168.0.161:3000',
         secure: false,
-        bypass: function(req, res, proxyOptions) {
+        bypass: function bypass(req) {
           if (req.url.indexOf('/one_money/index.html') > -1) {
             return './index.html';
           }
@@ -52,7 +52,7 @@ module.exports = {
       {test: /\.jpg$/, include: path.resolve(__dirname, 'app'), loader: 'url-loader?mimetype=image/jpg' },
     ]
   },
-  postcss: function () {
+  postcss: function postcss() {
     return [autoprefixer, precss];
   },
   plugins: [

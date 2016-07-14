@@ -1,6 +1,5 @@
 import React from 'react';
 import Curtain from '../prototypes/Curtain';
-import { findDOMNode } from 'react-dom';
 
 export default React.createClass({
   displayName: 'BulletCurtain',
@@ -16,13 +15,13 @@ export default React.createClass({
       config: { color, fontSize, fontWeight, speed, alpha, lineSpacing, trackCount, loop },
     } = this.props;
 
-    const screenNode = findDOMNode(this.refs.bulletContainer);
+    const screenNode = this.refs.bulletContainer;
     const width = screenNode.clientWidth;
-    const height = screenNode.clientHeight;
+    const height = trackCount * window.parseInt(fontSize) + ( trackCount - 1) * lineSpacing;
+    screenNode.style.height = `${height}px`;
 
     this.curtainInstance = new Curtain(screenNode, {
       width,
-      height,
       color,
       fontSize,
       fontWeight,

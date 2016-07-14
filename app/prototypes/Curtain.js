@@ -22,14 +22,12 @@ if (!window.requestAnimationFrame) {
 }
 
 function Curtain(container, config) {
-  const { width, height, trackCount, color, fontSize, lineSpacing, speed, loop, fontWeight } = config;
+  const { width, trackCount, color, fontSize, lineSpacing, speed, loop, fontWeight } = config;
   this.width = width;
-  this.height = height;
   this.trackCount = trackCount;
   this.color = color || '#fff'; // 颜色
   this.fontSize = window.parseInt(fontSize) || 14; // 字体大小
   this.fontWeight = fontWeight || '500';
-  this.speed = speed || 10;  // 移动速度
   this.lineSpacing = lineSpacing || 5; // 行距
   this.playFlag = false;
   this.children = [];
@@ -38,7 +36,10 @@ function Curtain(container, config) {
   this.renderChildren = []; // 确认要被渲染的数组
   this.loop = loop;
   this.myReq = null;
-
+  this.time = Date.now();
+  this.fps = 60;
+  this.fpsInterval = 1000 / this.fps;
+  this.speed = speed || 10;  // 移动速度
   this.init();
 }
 
@@ -61,79 +62,76 @@ Curtain.prototype = {
 
   // 为整个Matrix分配将要渲染的弹幕
   allocationDataForMatrix() {
-    // 获取需要被渲染的行数
-    this.renderMatrix.forEach((matrix, matrixIndex) => {
-      // 根据this.trackCount把每一行放入renderMatrix里面
-      if (!matrix.length) {
-        this.allocateSingleLine(matrix, matrixIndex);
+    let isEnd = false;
+
+    // 分配子弹到弹道
+    while (this.children.length > 0 && !isEnd) {
+      const { matrix, matrixIndex } = this.getIdleMetrixAndIndex();
+      if (matrix == null) { // 如果没有空闲的弹道
+        isEnd = true;
       } else {
-        const lastItem = matrix[matrix.length - 1];
-
-        if (this.width - lastItem.x > (lastItem.text.length * this.fontSize)) {
-          this.allocateSingleLine(matrix, matrixIndex);
-        }
+        const item = this.children.shift();
+        this.allocateDataForSingleLine(matrix, matrixIndex, item);
       }
-    });
-
-    // 把二维数组Matrix里面的内容放到二维数组renderChildren里面，
-    // 用来进行真正的渲染
-    this.renderMatrix.forEach((matrix) => {
-      matrix.forEach((columnData) => {
-        if (!columnData.isRender) {
-          this.renderChildren.push(columnData);
-          columnData.isRender = true;
-        }
-      });
-    });
-
-    // 删除被标记为isDelete的弹幕
-    this.renderChildren.forEach((item, index) => {
-      if (item.isDelete) {
-        this.renderChildren.splice(index, 1);
-
-        if (this.loop) {
-          item.isRender = false;
-          item.isDelete = false;
-          this.children.push(item);
-        }
-      }
-    });
-
-    clearTimeout(this.allocationDataTimer);
-
-    this.allocationDataTimer = setTimeout(() => {
-      this.allocationDataForMatrix();
-    }, 2000);
+    }
   },
 
-  // 为每一行分配将要渲染的弹幕
-  allocateSingleLine(matrix, lineN) {
-    if (!this.children.length) return;
+  getIdleMetrixAndIndex() {
+    for (let i = 0; i < this.renderMatrix.length; i++) {
+      const matrix = this.renderMatrix[i];
 
-    const item = this.children.splice(0, 1)[0];
+      if (!matrix.length) return { matrix, matrixIndex: i };
 
-    this.allocateDataForSingleLine(matrix, lineN, item);
+      const lastItem = matrix[matrix.length - 1];
+      const { x, width } = lastItem;
+
+      if (this.width > (x + width)) return { matrix, matrixIndex: i };
+    }
+
+    return { matrix: null, matrixIndex: -1 };
   },
 
   allocateDataForSingleLine(matrix, lineN, item) {
+    delete item.node;
+    item.width = item.text.length * this.fontSize;
     item.x = this.width + Math.floor(Math.random() * 300 + 100); // 初始X轴位置
-
     item.y = lineN * this.fontSize + (lineN * this.lineSpacing); // 行数
+    item.matrix = matrix;
 
-    item.speed = (Math.random() + this.speed) / 9; // 速度
-
+    // 将弹道的数据添加到已渲染的数据数组中
+    this.renderChildren.push(item);
     matrix.push(item);
   },
 
   render() {
-    this.container.innerHTML = '';
-    // 画每一帧之前首先清除画布上面的所有内容
-    this.renderChildren.forEach((item) => {
-      item.x = item.x - item.speed;
-      this.draw(item.text, item.x, item.y);
+    this.renderChildren.forEach((item, index) => {
+      item.x = item.x - this.speed;
+      let node = item.node;
 
-      if (item.x < -(item.text.length * this.fontSize)) {
-        item.isDelete = true;
+      if (!node) {
+        const { text, x, y } = item;
+        node = this.draw(text, x, y);
+        item.node = node;
+      } else {
+        if (item.x < -item.width) {
+          this.container.removeChild(node);
+          const matrix = item.matrix;
+
+          if (matrix) {
+            const idx = matrix.indexOf(item);
+
+            if (idx > -1) matrix.splice(idx, 1);
+            delete item.matrix;
+          }
+
+          this.renderChildren.splice(index, 1);
+
+          if (this.loop) {
+            this.reAllocateData(item);
+          }
+        } else {
+          node.style.left = item.x + 'px';
+        }
       }
     });
 
@@ -142,8 +140,17 @@ Curtain.prototype = {
     }
 
     if (this.playFlag) {
-      this.myReq = requestAnimationFrame(this.render.bind(this));
+      this.myReq = setTimeout(requestAnimationFrame(this.render.bind(this)), this.fpsInterval);
     }
+  },
+
+  reAllocateData(item) {
+    delete item.x;
+    delete item.y;
+    delete item.width;
+    this.children.push(item);
+
+    this.allocationDataForMatrix();
   },
 
   draw(text, x, y) {
@@ -155,9 +162,12 @@ Curtain.prototype = {
     node.style.color = this.color;
     node.style.fontSize = `${this.fontSize}px`;
     node.style.fontWeight = this.fontWeight;
+    node.style.lineHeight = 1;
     node.innerText = text;
 
     this.container.appendChild(node);
+
+    return node;
   },
 
   play() {
@@ -170,8 +180,8 @@ Curtain.prototype = {
 
   stop() {
     this.playFlag = false;
-    clearTimeout(this.allocationDataTimer);
-    cancelAnimationFrame(this.myReq);
+    clearTimeout(this.myReq);
+    this.myReq = null;
   },
 
   clear() { // 清空所有数据

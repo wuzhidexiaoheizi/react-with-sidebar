@@ -19,7 +19,6 @@ import BulletCurtain from '../components/BulletCurtain';
 import GiftAnimation from '../components/GiftAnimation';
 import MusicPlayer from '../components/MusicPlayer';
 import { Link } from 'react-router';
-import audio from '../audios/1.mp3';
 import BlessDispatcher from '../components/BlessDispatcher';
 
 class PartyPage extends Component {
@@ -31,10 +30,13 @@ class PartyPage extends Component {
       blessPer: 10,
       showAnimation: false,
       animation_name: '',
-      rotate_status:true,
+      rotate_status: true,
       animationName: '',
       earliestId: '',
-      doneeName: ''
+      doneeName: '',
+      showAnimationCloseBtn: false,
+      showBullet: true,
+      showBulletToggle: false,
     };
   }
 
@@ -52,11 +54,6 @@ class PartyPage extends Component {
       const blessDistribute = this.refs.blessDistribute;
 
       if (blessDistribute) blessDistribute.show();
-    }
-
-    if (!this.hasShowAnimated) {
-      this.hasShowAnimated = true;
-      this.lookupInAnimates();
     }
 
     const { party: { party }, user: { currentUser } } = this.props;
@@ -80,6 +77,11 @@ class PartyPage extends Component {
           blessDispatcher.insertAnimations(newBlesses);
         }
       }
+    }
+
+    if (currentUser && !this.hasShowAnimated) {
+      this.hasShowAnimated = true;
+      this.lookupInAnimates();
     }
   }
 
@@ -121,7 +123,9 @@ class PartyPage extends Component {
 
   toggleBullet() {
     const { bulletScreen } = this.refs;
+    const { showBullet } = this.state;
 
+    this.setState({ showBullet: !showBullet });
     bulletScreen.toggleShow();
   }
 
@@ -142,6 +146,23 @@ class PartyPage extends Component {
       animationName,
       animationCallback,
     });
+  }
+
+  skipAnimations() {
+    const { blessDispatcher } = this.refs;
+    blessDispatcher.skipAnimations();
+  }
+
+  showBulletToggle() {
+    this.setState({ showBulletToggle: true });
+  }
+
+  displayAnimateCloseBtn() {
+    this.setState({ showAnimationCloseBtn: true });
+  }
+
+  hideAnimateCloseBtn() {
+    this.setState({ showAnimationCloseBtn: false });
   }
 
   loadNextPageBlesses() {
@@ -165,7 +186,15 @@ class PartyPage extends Component {
 
   lookupAnimate(animateName) {
     if (window.location.href.indexOf('#' + animateName) > -1) {
-      return this.setState({ showAnimation: true, animateName });
+      const { user: { currentUser: { nickname, username } } } = this.props;
+      const doneeName = nickname || username;
+
+      return this.setState({
+        showAnimation: true,
+        autoDismiss: true,
+        animationName: animateName,
+        doneeName,
+      });
     }
   }
 
@@ -182,8 +211,10 @@ class PartyPage extends Component {
     });
   }
 
-  shouldPlayerRotation(){
-    this.state.rotate_status ? this.setState({ rotate_status:false }) : this.setState({ rotate_status :true });
+  shouldPlayerRotation() {
+    const { rotate_status } = this.state;
+
+    this.setState({ rotate_status: !rotate_status });
   }
 
   render() {
@@ -213,17 +244,22 @@ class PartyPage extends Component {
       autoDismiss,
       animationCallback,
       doneeName,
+      showAnimationCloseBtn,
+      showBullet,
+      showBulletToggle,
     } = this.state;
 
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
     const blessActionCreators = bindActionCreators(BlessActions, dispatch);
+    const klass = showBullet ? '' : 'closed';
 
-    const config = {
+    const bulletConfig = {
       color: '#fff',
-      fontSize: '14px',
-      speed: 20,
+      fontSize: '18px',
+      fontWeight: '700',
+      speed: 2,
       lineSpacing: 4,
       trackCount: 5,
       loop: true,
@@ -234,6 +270,15 @@ class PartyPage extends Component {
     const animationFlagField = 'id';
     const expireTime = Date.parse(birth_day) + 7 * 24 * 60 * 60 * 1000;
 
+    const animationConfig = {
+      doneeField,
+      animationNameField,
+      animationFlagField,
+      expireTime
+    };
+
+    const audio = 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac';
+
     return (
       <div className="page-container party-container">
 
@@ -242,7 +287,7 @@ class PartyPage extends Component {
             <div className="container">
               <div className="row">
                 <div className="party-header">
-                  <img className="party-poster" src={PARTY_HEADER_IMG}/>
+                  <img className="party-poster" src={PARTY_HEADER_IMG} onLoad={this.showBulletToggle.bind(this)} />
                   <AvatarUpload avatarUrl={person_avatar} partyId={partyId} isCurrentUser={isCurrentUser}
                     avatarMediaId={avatar_media_id} {...partyActionCreators} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
@@ -261,14 +306,19 @@ class PartyPage extends Component {
                 <div className="party-body">
                   <MusicPlayer resource={audio} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
                   <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
-                  <BlessGroup blesses={blesses} />
+                  <BlessGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
                 </div>
-                <div className="bullet-toggle">
-                  <div className="button-container">
-                    <div className="bullet-button" onClick={this.toggleBullet.bind(this)}>弹幕</div>
+                { showBulletToggle &&
+                  <div className="bullet-toggle-container">
+                    <div className="toggle-container">
+                      <div className={`bullet-toggle ${klass}`} onClick={this.toggleBullet.bind(this)}>
+                        <div className="toggle-track"></div>
+                        <div className="bullet-button">弹幕</div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                { <BulletCurtain config={config} ref="bulletScreen" bullets={blesses}
+                }
+                { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
                     textFieldName="message"/>}
               </div>
             </div>
@@ -306,8 +356,17 @@ class PartyPage extends Component {
           autoDismiss={autoDismiss} animationCallback={animationCallback} doneeName={doneeName}/>}
 
         <BlessDispatcher playAnimation={this.showAnimationWithCallback.bind(this)}
-          animationNameField={animationNameField} animationFlagField={animationFlagField}
-          doneeField={doneeField} expireTime={expireTime} ref="blessDispatcher"/>
+          config={animationConfig} ref="blessDispatcher"
+          showCloseBtn={this.displayAnimateCloseBtn.bind(this)}
+          hideCloseBtn={this.hideAnimateCloseBtn.bind(this)} />
+
+        { showAnimationCloseBtn &&
+          <div className="animation-toggle">
+            <div className="toggle-container">
+              <div className="toggle-btn" onClick={this.skipAnimations.bind(this)}>跳过动画</div>
+            </div>
+          </div>
+        }
       </div>
     );
   }

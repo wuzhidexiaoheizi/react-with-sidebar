@@ -13,10 +13,6 @@ import ReviewPage from './pages/ReviewPage';
 import GuidePage from './pages/GuidePage';
 // import Alert from './components/Alert';
 import './style/main.styl';
-
-// FastClick
-// import FastClick from 'fastclick';
-// FastClick.attach(document.body);
 import 'react-fastclick';
 
 const store = configureStore();
@@ -95,9 +91,9 @@ ReactDOM.render(
       <Route path="/" component={App}>
         <IndexRoute component={ListPage}/>
         <Route path="/list" component={ListPage}/>
-        <Route path="detail/:id" component={DetailPage}/>
-        <Route path="review/:id" component={ReviewPage}/>
-        <Route path="party/:id" component={PartyPage}/>
+        <Route path="/detail/:id(#*)" component={DetailPage}/>
+        <Route path="/review/:id" component={ReviewPage}/>
+        <Route path="/party/:id(#*)" component={PartyPage}/>
         <Route path="/guide" component={GuidePage}/>
         <Route path="*" component={ListPage} />
       </Route>
