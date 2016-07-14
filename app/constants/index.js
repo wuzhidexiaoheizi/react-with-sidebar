@@ -15,6 +15,8 @@ export default {
   'USER_SIGNIN_URL': __ENV__ == 'PRODUCTION' ? '/authorize/weixin' : '/users/sign_in',
   'VIRTUAL_PRESENT_URL': '/virtual_presents',
   'PARTY_AVATAR_UPLOAD_URL': '/upload_avatar',
+  'MINE_LAUCHED_PARTY_URL': '/birthday_parties',
+  'MINE_ATTEND_PARTY_URL': '/birthday_parties/blessed',
   'WEIXIN_ACCESS_TOKEN_URL': 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%APPID%&secret=%APPSECRET%',
   'WEIXIN_API_TICKET_URL': 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%ACCESS_TOKEN%&type=jsapi',
   'WEIXIN_API_SIGNATURE_URL': '/api/weixin_configs',

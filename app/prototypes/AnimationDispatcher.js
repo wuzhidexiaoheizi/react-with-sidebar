@@ -105,7 +105,7 @@ AnimateDispatcher.prototype = {
   },
 
   removePlayedAnimations() {
-    for (let i = 0; i < this.animations.length; i++) {
+    for (let i = this.animations.length - 1; i >= 0; i--) {
       const animation = this.animations[i];
       const animationFlag = this.getFieldValue(animation, this.animationFlagField);
       const key = `bless-${animationFlag}`;

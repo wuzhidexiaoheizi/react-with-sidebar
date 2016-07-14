@@ -56,11 +56,6 @@ class PartyPage extends Component {
       if (blessDistribute) blessDistribute.show();
     }
 
-    if (!this.hasShowAnimated) {
-      this.hasShowAnimated = true;
-      this.lookupInAnimates();
-    }
-
     const { party: { party }, user: { currentUser } } = this.props;
     const { user_id } = party;
 
@@ -82,6 +77,11 @@ class PartyPage extends Component {
           blessDispatcher.insertAnimations(newBlesses);
         }
       }
+    }
+
+    if (currentUser && !this.hasShowAnimated) {
+      this.hasShowAnimated = true;
+      this.lookupInAnimates();
     }
   }
 
@@ -186,7 +186,15 @@ class PartyPage extends Component {
 
   lookupAnimate(animateName) {
     if (window.location.href.indexOf('#' + animateName) > -1) {
-      return this.setState({ showAnimation: true, animateName });
+      const { user: { currentUser: { nickname, username } } } = this.props;
+      const doneeName = nickname || username;
+
+      return this.setState({
+        showAnimation: true,
+        autoDismiss: true,
+        animationName: animateName,
+        doneeName,
+      });
     }
   }
 

@@ -180,7 +180,7 @@ Curtain.prototype = {
 
   stop() {
     this.playFlag = false;
-    cancelAnimationFrame(this.myReq);
+    clearTimeout(this.myReq);
     this.myReq = null;
   },
 

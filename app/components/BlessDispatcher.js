@@ -1,6 +1,7 @@
 import React from 'react';
 import AnimationDispatcher from '../prototypes/AnimationDispatcher';
 import Constants from '../constants';
+import Effect from '../prototypes/Effect';
 
 export default React.createClass({
   displayName: 'BlessDispatcher',
@@ -57,6 +58,17 @@ export default React.createClass({
   updateUnreadCount() {
     const unreadCount = this.animationDispatcher.getUnreadCount();
     this.setState({ unreadCount });
+
+    if (unreadCount > 0) {
+      const { animationBtn } = this.refs;
+      this.effect = new Effect(animationBtn, { bottom: '+5px' },
+        'flip', 100, null, { effectInterval: 2000 });
+    } else {
+      if (this.effect) {
+        this.effect.stop();
+        this.effect = null;
+      }
+    }
   },
 
   animationCallback(animationDoneCallback) {
@@ -73,6 +85,7 @@ export default React.createClass({
   },
 
   animationDispatcher: null,
+  effect: null,
 
   render() {
     const { UNREAD_GIFT_ICON } = Constants;
