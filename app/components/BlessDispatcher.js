@@ -38,6 +38,10 @@ export default React.createClass({
 
   skipAnimations() {
     this.animationDispatcher.skipAnimations();
+
+    const { hideAnimations } = this.props;
+
+    if (typeof hideAnimations == 'function') hideAnimations();
   },
 
   stopAnimations() {
@@ -78,9 +82,9 @@ export default React.createClass({
     const animationDone = this.animationDispatcher.animationsIsDone();
 
     if (animationDone) {
-      const { hideCloseBtn } = this.props;
+      const { hideAnimations } = this.props;
 
-      if (typeof hideCloseBtn == 'function') hideCloseBtn();
+      if (typeof hideAnimations == 'function') hideAnimations();
     }
   },
 
