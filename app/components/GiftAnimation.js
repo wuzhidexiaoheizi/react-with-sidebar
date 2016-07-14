@@ -53,12 +53,9 @@ export default class GiftAnimation extends Component {
 
   render() {
     const { doneeName, animationName, autoDismiss } = this.props;
-
+    
     return (
       <div className="anim-container">
-        <div className={`anim ${animationName}`}>
-          <div className="anim-item1"></div>
-          <div className="anim-item2"></div>
         <div className="donee-name">
           <div className="name">{doneeName}</div>
           赠送
@@ -66,7 +63,6 @@ export default class GiftAnimation extends Component {
         <div className={`anim ${animationName}`} ref="animationElement">
         </div>
         { !autoDismiss && <button className="anim-close" onClick={ this.closeAnimation.bind(this) }>X</button> }
-      </div>
       </div>
     );
   }
