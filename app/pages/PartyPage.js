@@ -81,9 +81,9 @@ class PartyPage extends Component {
       }
     }
 
-    if (currentUser && !this.hasShowAnimated) {
-      this.hasShowAnimated = true;
-      this.lookupInAnimates();
+    if (currentUser && !this.hasShowAnimation) {
+      this.hasShowAnimation = true;
+      this.lookupAnimationName();
     }
   }
 
@@ -194,25 +194,29 @@ class PartyPage extends Component {
     dispatch(fetchBlessList(id, earliestId, blessPer));
   }
 
-  lookupInAnimates() {
-    const animates = ['heart', 'flower', 'car', 'teddy_bear', 'music_box', 'motor'];
+  lookupAnimationName() {
+    const href = window.location.href;
+    const prefix = '#animation:';
+    let index = href.indexOf(prefix);
 
-    for (let i = 0; i < animates.length; i++) {
-      this.lookupAnimate(animates[i]);
-    }
-  }
+    if (index > -1) {
+      const str = href.slice(index + prefix.length);
+      index = str.indexOf('#');
 
-  lookupAnimate(animateName) {
-    if (window.location.href.indexOf('#' + animateName) > -1) {
-      const { user: { currentUser: { nickname, username } } } = this.props;
-      const doneeName = nickname || username;
+      if (index > -1) {
+        const animationName = str.slice(0, index);
+        const { user: { currentUser: { nickname, username } } } = this.props;
+        const doneeName = nickname || username;
 
-      return this.setState({
-        showAnimation: true,
-        autoDismiss: true,
-        animationName: animateName,
-        doneeName,
-      });
+        this.checkIfExist(animationName, () => {
+          this.setState({
+            showAnimation: true,
+            autoDismiss: true,
+            animationName,
+            doneeName,
+          });
+        });
+      }
     }
   }
 

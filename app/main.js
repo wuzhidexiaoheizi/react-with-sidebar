@@ -5,7 +5,7 @@ import {Router, Route, IndexRoute, Link, IndexLink} from 'react-router';
 import TransitionGroup from 'react-addons-css-transition-group';
 import configureStore from './store/configureStore';
 import 'babel-polyfill';
-
+import createBrowserHistory from 'history/lib/createHashHistory';
 import ListPage from './pages/ListPage';
 import DetailPage from './pages/DetailPage';
 import PartyPage from './pages/PartyPage';
@@ -16,6 +16,7 @@ import './style/main.styl';
 import 'react-fastclick';
 
 const store = configureStore();
+const history = createBrowserHistory({ queryKey: false });
 
 class App extends Component {
   constructor(props) {
@@ -81,19 +82,19 @@ class App extends Component {
   }
 }
 
-function changeRouteHandle() {
+// function changeRouteHandle() {
 
-}
+// }
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router onUpdate={changeRouteHandle} >
+    <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={ListPage}/>
         <Route path="/list" component={ListPage}/>
-        <Route path="/detail/:id(#*)" component={DetailPage}/>
+        <Route path="/detail/:id" component={DetailPage}/>
         <Route path="/review/:id" component={ReviewPage}/>
-        <Route path="/party/:id(#*)" component={PartyPage}/>
+        <Route path="/party/:id" component={PartyPage}/>
         <Route path="/guide" component={GuidePage}/>
         <Route path="*" component={ListPage} />
       </Route>
