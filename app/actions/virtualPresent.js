@@ -19,9 +19,27 @@ export function fetchVirtualPresent(page = 1, per = 10) {
     const { DOMAIN, API_PROMOTION_PREFIX, VIRTUAL_PRESENT_URL} = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${VIRTUAL_PRESENT_URL}?page=${page}&per=${per}`;
 
-    return _fetch(url, 'get')
+    return _fetch(url)
       .then(json => {
         return dispatch(setVirtualPresentPageData(json));
+      });
+  };
+}
+
+export function checkPresentIsForbidden(name, callback) {
+  return dispatch => {
+    const { DOMAIN, API_PROMOTION_PREFIX, VIRTUAL_PRESENT_URL, CHECK_PRESENT_EXIST } = Constants;
+    const url = `${DOMAIN}${API_PROMOTION_PREFIX}${VIRTUAL_PRESENT_URL}${CHECK_PRESENT_EXIST}?name=${name}`;
+
+    return _fetch(url)
+      .then(json => {
+        const { isExist } = json;
+
+        if (typeof callback == 'function') callback(isExist);
+
+        if (!isExist) {
+          return dispatch({ type: 'ADD_FORBIDDEN_PRESENT', name });
+        }
       });
   };
 }

@@ -38,6 +38,10 @@ export default React.createClass({
 
   skipAnimations() {
     this.animationDispatcher.skipAnimations();
+
+    const { hideAnimations } = this.props;
+
+    if (typeof hideAnimations == 'function') hideAnimations();
   },
 
   stopAnimations() {
@@ -78,9 +82,9 @@ export default React.createClass({
     const animationDone = this.animationDispatcher.animationsIsDone();
 
     if (animationDone) {
-      const { hideCloseBtn } = this.props;
+      const { hideAnimations } = this.props;
 
-      if (typeof hideCloseBtn == 'function') hideCloseBtn();
+      if (typeof hideAnimations == 'function') hideAnimations();
     }
   },
 
@@ -94,9 +98,11 @@ export default React.createClass({
 
     return (
       <div className={`bless-dispatcher ${klass}`} ref="animationBtn">
-        <div className="unread-gifts" onClick={this.playAnimations}>
-          <img src={UNREAD_GIFT_ICON} />
-          <div className="unread-desc">新礼物</div>
+        <div className="unread-container">
+          <div className="unread-gifts" onClick={this.playAnimations}>
+            <img src={UNREAD_GIFT_ICON} />
+            <div className="unread-desc">新礼物</div>
+          </div>
         </div>
       </div>
     );

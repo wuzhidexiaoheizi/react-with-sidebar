@@ -11,8 +11,10 @@ export default class AvatarUpload extends Component {
   }
 
   componentDidMount() {
-    const { avatarContainer } = this.refs;
-    avatarContainer.style.height = avatarContainer.clientWidth + 'px';
+    this.resizeAvatarContainer();
+
+    this.resizeHanlder = this.resizeAvatarContainer.bind(this);
+    window.addEventListener('resize', this.resizeHanlder, false);
 
     if (!this.isWeixin()) return;
 
@@ -38,6 +40,15 @@ export default class AvatarUpload extends Component {
 
         this.initWeixinConfig(json);
       });
+  }
+
+  componetWillUnmount() {
+    window.removeEventListener('resize', this.resizeHanlder, false);
+  }
+
+  resizeAvatarContainer() {
+    const { avatarContainer } = this.refs;
+    avatarContainer.style.height = avatarContainer.clientWidth + 'px';
   }
 
   isWeixin() {

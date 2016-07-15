@@ -5,6 +5,7 @@ const initialState = {
   presents: [],
   loadedPage: 0,
   totalPage: 0,
+  forbidPresentNames: [],
 };
 
 export default function(state = initialState, action) {
@@ -32,6 +33,17 @@ export default function(state = initialState, action) {
     return update(state, {
       listFetching: { $set: true }
     });
+  }
+
+  case 'ADD_FORBIDDEN_PRESENT': {
+    const { forbidPresentNames } = state;
+    const { name } = action;
+
+    if (forbidPresentNames.indexOf(name) == -1) {
+      return update(state, {
+        forbidPresentNames: { $push: [ name ] }
+      });
+    }
   }
 
   default: return state;

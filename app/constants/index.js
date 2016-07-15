@@ -1,5 +1,5 @@
 export default {
-  'DOMAIN': __ENV__ == 'PRODUCTION' ? 'http://test.wanliu.biz' : 'http://0.0.0.0:8080',
+  'DOMAIN': __ENV__ == 'PRODUCTION' ? 'http://m.wanliu.biz' : 'http://0.0.0.0:8080',
   'QRCODE': true,
   'WEIXIN_JS_API_LIST': ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'],
   'API_PROMOTION_PREFIX': '/api/promotions',
@@ -17,6 +17,7 @@ export default {
   'PARTY_AVATAR_UPLOAD_URL': '/upload_avatar',
   'MINE_LAUCHED_PARTY_URL': '/birthday_parties',
   'MINE_ATTEND_PARTY_URL': '/birthday_parties/blessed',
+  'CHECK_PRESENT_EXIST': '/existPresent',
   'WEIXIN_ACCESS_TOKEN_URL': 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%APPID%&secret=%APPSECRET%',
   'WEIXIN_API_TICKET_URL': 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%ACCESS_TOKEN%&type=jsapi',
   'WEIXIN_API_SIGNATURE_URL': '/api/weixin_configs',
