@@ -81,28 +81,22 @@
      background-position 0 -3600px
      
   .music_box
-    .anim-item1 
-      width 240px
-      height 240px
-      background url(http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png) 0 0 no-repeat
-      animation train 1.3s steps(8) infinite
-      animation-fill-mode forwards 
-      z-index 9999
-    .anim-item2
-      position absolute
-      top 0
-      width 340px
-      height 340px
-      background url(http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/f445147ee3ed5ac7d5b7a2dee9965348.png) 0 0 no-repeat
-      animation music-bg 3.5s steps(17) infinite
-      animation-fill-mode forwards  
-      z-index -1
+    width 240px
+    height 240px
+    background url(http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png) 0 0 no-repeat
+    animation train 3.5s steps(8) 
+    animation-fill-mode forwards 
+    z-index 9999
       
   @keyframes train
    0%
-     background-position -20px 0
+     background-position  0 0
+   25%
+     background-position 0 -1920px
+   65%
+     background-position 0 0
    100%
-     background-position -20px -1920px
+     background-position 0 -1920px
 
   @keyframes music-bg
    0%

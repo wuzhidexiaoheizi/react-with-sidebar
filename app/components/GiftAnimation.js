@@ -67,8 +67,6 @@ export default class GiftAnimation extends Component {
         </div>
 
         <div className={`anim ${animationName}`} ref="animationElement">
-          <div className="anim-item1"></div>
-          <div className="anim-item2"></div>
           { !isValidAnimation &&
             <div className="invalid">
               无效动画
