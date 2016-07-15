@@ -9,11 +9,12 @@ export default class GiftAnimation extends Component {
     const { autoDismiss, isValidAnimation } = this.props;
 
     if (autoDismiss) {
+      this.animationEnd = this.autoDismissInAnimationDone.bind(this);
+
       if (isValidAnimation) {
-        this.animationEnd = this.autoDismissInAnimationDone.bind(this);
         this.attachAnimationEndEvent();
       } else {
-        setTimeout(this.animationEnd.bind(this), 2000);
+        setTimeout(this.animationEnd, 2000);
       }
     }
   }
