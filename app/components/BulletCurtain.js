@@ -41,14 +41,13 @@ export default React.createClass({
   },
 
   componentDidUpdate() {
-    if (this.curtainInstance) {
-      this.curtainInstance.clear();
-      this.assignmentData();
-    }
+    this.curtainInstance.clear();
+    this.assignmentData();
   },
 
   componentWillUnmount() {
-    if (this.curtainInstance) this.curtainInstance.clear();
+    this.curtainInstance.clear();
+    this.curtainInstance = null;
   },
 
   curtainInstance: null,

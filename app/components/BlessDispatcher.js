@@ -98,9 +98,11 @@ export default React.createClass({
 
     return (
       <div className={`bless-dispatcher ${klass}`} ref="animationBtn">
-        <div className="unread-gifts" onClick={this.playAnimations}>
-          <img src={UNREAD_GIFT_ICON} />
-          <div className="unread-desc">新礼物</div>
+        <div className="unread-container">
+          <div className="unread-gifts" onClick={this.playAnimations}>
+            <img src={UNREAD_GIFT_ICON} />
+            <div className="unread-desc">新礼物</div>
+          </div>
         </div>
       </div>
     );
