@@ -40,6 +40,9 @@ function Curtain(container, config) {
   this.fps = 60;
   this.fpsInterval = 1000 / this.fps;
   this.speed = speed || 10;  // 移动速度
+  this.myReq = null;
+  this.timer = null;
+
   this.init();
 }
 
@@ -140,7 +143,8 @@ Curtain.prototype = {
     }
 
     if (this.playFlag) {
-      this.myReq = setTimeout(requestAnimationFrame(this.render.bind(this)), this.fpsInterval);
+      this.myReq = requestAnimationFrame(this.render.bind(this));
+      this.timer = setTimeout(this.myReq, this.fpsInterval);
     }
   },
 
@@ -180,7 +184,8 @@ Curtain.prototype = {
 
   stop() {
     this.playFlag = false;
-    clearTimeout(this.myReq);
+    cancelAnimationFrame(this.myReq);
+    clearTimeout(this.timer);
     this.myReq = null;
   },
 

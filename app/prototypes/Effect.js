@@ -1,4 +1,5 @@
 import Easing from '../utils/Easing';
+import { getInterval } from '../helper';
 
 // 兼容低版本浏览器
 if (!window.requestAnimationFrame) {
@@ -23,19 +24,6 @@ if (!window.requestAnimationFrame) {
   })();
 }
 
-function getInterval(interval) {
-  if (!interval) return null;
-
-  let time = window.parseInt(interval);
-  const step = String(interval);
-
-  if (step.indexOf('ms') == -1 && step.indexOf('s') > -1) {
-    time = window.parseInt(interval) * 1000;
-  }
-
-  return time;
-}
-
 /**
  * [Effect 效果]
  * @param { DOM }    element    [动画元素]
@@ -54,9 +42,10 @@ function Effect(element, effectObj, effectName, effectTime, callback, config = {
   this.effectTime = effectTime;
   this.callback = callback;
   this.fps = 60;
-  this.fpsInterval = 1000 / 60;
+  this.fpsInterval = 1000 / this.fps;
   this.isFlip = effectName == 'flip';
   this.flipCount = 0;
+  this.myReq = null;
 
   this.init();
 }
@@ -138,7 +127,8 @@ Effect.prototype = {
     this.currentTime += this.fpsInterval;
 
     if (this.currentTime < this.effectTime) {
-      this.animationTimer = setTimeout(requestAnimationFrame(this.animate.bind(this)), this.fpsInterval);
+      this.myReq = requestAnimationFrame(this.animate.bind(this));
+      this.animationTimer = setTimeout(this.myReq, this.fpsInterval);
     } else {
       if (this.isFlip && this.flipCount < 4) {
         this.flipCount += 1;
@@ -165,6 +155,7 @@ Effect.prototype = {
   },
 
   stop() {
+    cancelAnimationFrame(this.myReq);
     clearTimeout(this.animationTimer);
 
     Object.keys(this.effectObj).forEach((key) => {
