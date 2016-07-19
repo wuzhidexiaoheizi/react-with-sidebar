@@ -286,6 +286,7 @@ class PartyPage extends Component {
       lineSpacing: 4,
       trackCount: 5,
       loop: true,
+      stopOnHover: true,
     };
 
     const doneeField = 'sender:login';
@@ -342,7 +343,7 @@ class PartyPage extends Component {
                   </div>
                 }
                 { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
-                    textFieldName="message"/>}
+                    textFieldName="message" />}
               </div>
             </div>
           </div>

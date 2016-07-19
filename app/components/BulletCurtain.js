@@ -12,7 +12,7 @@ export default React.createClass({
 
   componentDidMount() {
     const {
-      config: { color, fontSize, fontWeight, speed, alpha, lineSpacing, trackCount, loop },
+      config: { color, fontSize, fontWeight, speed, alpha, lineSpacing, trackCount, loop, stopOnHover },
     } = this.props;
 
     const screenNode = this.refs.bulletContainer;
@@ -34,6 +34,8 @@ export default React.createClass({
 
     // 赋值
     this.assignmentData();
+
+    if (stopOnHover) this.addMouseEvents();
   },
 
   shouldComponentUpdate(nextProps) {
@@ -48,6 +50,33 @@ export default React.createClass({
   componentWillUnmount() {
     this.curtainInstance.clear();
     this.curtainInstance = null;
+
+    const { stopOnHover } = this.props;
+
+    if (stopOnHover) this.removeMouseEvents();
+  },
+
+  addMouseEvents() {
+    const { bulletScreen } = this.refs;
+    this.onMouseEnnter = this.mouseEnterHandler.bind(this);
+    this.onMouseLeave = this.mouseLeaveHandler.bind(this);
+
+    bulletScreen.addEventListener('mouseenter', this.onMouseEnnter, false);
+    bulletScreen.addEventListener('mouseleave', this.onMouseLeave, false);
+  },
+
+  removeMouseEvents() {
+    const { bulletScreen } = this.refs;
+    bulletScreen.removeEventListener('mouseenter', this.onMouseEnnter, false);
+    bulletScreen.removeEventListener('mouseleave', this.onMouseLeave, false);
+  },
+
+  mouseEnterHandler() {
+    if (this.curtainInstance) this.curtainInstance.stop();
+  },
+
+  mouseLeaveHandler() {
+    if (this.curtainInstance) this.curtainInstance.play();
   },
 
   curtainInstance: null,
