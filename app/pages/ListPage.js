@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Loading from 'halogen/ScaleLoader';
 import Constants from '../constants';
 import CakeGroup from '../components/CakeGroup';
+import { Link } from 'react-router';
 
 class ListPage extends Component {
   constructor(props) {
@@ -60,13 +61,14 @@ class ListPage extends Component {
         </div>
 
         <div className="list-page-container" onScroll={this.onScroll.bind(this)}>
-          <div className="list-page" ref="list-page">
+          <div className="list-page">
             <div className="container">
               <div className="row">
                 <div className="party-entrance">
                   <div className="entrance-wrap">
                     <a href={launchUrl} className="own-launch">生日趴</a>
                     <a href={attendUrl} className="own-attend">参与过</a>
+                    <Link to="/rank" className="happiness-rank">幸福榜</Link>
                   </div>
                 </div>
                 <img className="list-poster" src={Constants.HEADER_IMG} />
