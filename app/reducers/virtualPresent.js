@@ -17,7 +17,7 @@ export default function(state = initialState, action) {
 
     if (page > loadedPage) {
       return update(state, {
-        presents: { $push: [...virtual_presents] },
+        presents: { $merge: [...virtual_presents] },
         loadedPage: { $set: page },
         totalPage: { $set: total_page },
         listFetching: { $set: false }
@@ -41,7 +41,7 @@ export default function(state = initialState, action) {
 
     if (forbidPresentNames.indexOf(name) == -1) {
       return update(state, {
-        forbidPresentNames: { $push: [ name ] }
+        forbidPresentNames: { $merge: [ name ] }
       });
     }
   }

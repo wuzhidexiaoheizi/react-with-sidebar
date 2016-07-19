@@ -18,13 +18,14 @@ export default class BlessItem extends Component {
     const {
       message,
       created_at,
-      sender: { avatar_url, login },
+      sender: { avatar_url, nickname, login },
       virtual_present: { name },
     } = bless;
 
     const dateStr = formatDate(created_at, 'yyyy年MM月dd日 HH:mm');
     const url = avatar_url || Constants.DEFAULT_AVATAR;
     const imageUrl = extractPresentAvatar(name);
+    const donorName = nickname || login;
 
     return (
       <div className="bless-item">
@@ -33,7 +34,7 @@ export default class BlessItem extends Component {
         </div>
         <div className="bless-factors">
           <div className="bless-figure text-ellipsis">
-            { login }：<span className="bless-message">{ message }</span>
+            { donorName }：<span className="bless-message">{ message }</span>
           </div>
           <div className="bless-date">{ dateStr }</div>
         </div>

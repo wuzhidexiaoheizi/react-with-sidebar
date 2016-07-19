@@ -5,6 +5,7 @@ import party from './party';
 import bless from './bless';
 import virtualPresent from './virtualPresent';
 import user from './user';
+import rank from './rank';
 
 const rootReducer = combineReducers({
   cakeList,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   bless,
   virtualPresent,
   user,
+  rank,
 });
 
 export default rootReducer;

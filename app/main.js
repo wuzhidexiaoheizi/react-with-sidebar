@@ -11,6 +11,7 @@ import DetailPage from './pages/DetailPage';
 import PartyPage from './pages/PartyPage';
 import ReviewPage from './pages/ReviewPage';
 import GuidePage from './pages/GuidePage';
+import RankPage from './pages/RankPage';
 // import Alert from './components/Alert';
 import './style/main.styl';
 import 'react-fastclick';
@@ -27,7 +28,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const paths = ['/list', '/detail', '/party', '/review', '/guide'];
+    const paths = ['/list', '/detail', '/party', '/review', '/guide', '/rank'];
 
     const currentPathname = this.slicePathname(this.props.location.pathname);
     const nextPathname = this.slicePathname(nextProps.location.pathname);
@@ -63,6 +64,7 @@ class App extends Component {
           <li><Link to="/party/1" activeClassName="active">party</Link></li>
           <li><Link to="/review/1" activeClassName="active">review</Link></li>
           <li><Link to="/guide" activeClassName="active">guide</Link></li>
+          <li><Link to="/rank" activeClassName="active">rank</Link></li>
         </ul>
       );
     }
@@ -96,6 +98,7 @@ ReactDOM.render(
         <Route path="/review/:id" component={ReviewPage}/>
         <Route path="/party/:id" component={PartyPage}/>
         <Route path="/guide" component={GuidePage}/>
+        <Route path="/rank" component={RankPage}/>
         <Route path="*" component={ListPage} />
       </Route>
     </Router>

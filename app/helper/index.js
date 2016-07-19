@@ -256,3 +256,20 @@ export function formatCurrency(amount) {
 
   return index > -1 ? +amount.toFixed(2) : `${currency}.00`;
 }
+
+export function getInterval(interval) {
+  if (!interval) return null;
+
+  const step = String(interval);
+  let time;
+
+  if (step.indexOf('ms') > -1) {
+    time = +step.split('ms')[0];
+  } else if (step.indexOf('s') > -1) {
+    time = +step.split('s')[0] * 1000;
+  } else {
+    time = +step;
+  }
+
+  return time;
+}
