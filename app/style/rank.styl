@@ -71,6 +71,7 @@
       width 75px
       height 75px
       float left
+      box-shadow 0 0 3px $borderColor
       
     .person-name, .cake-title
       margin-left 80px
@@ -78,6 +79,11 @@
       word-break break-all
     
     .party-item
+      border-bottom 1px dashed $borderColor
+      
+      &:last-child
+        border-bottom none
+
       .table-col
         padding 10px
 
