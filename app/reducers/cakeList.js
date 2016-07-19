@@ -17,7 +17,7 @@ export default function(state = initialState, action) {
       return update(state, {
         loadedPage: { $set: page },
         totalPage: { $set: total_page },
-        cakeItems: { $push: [...cakes]},
+        cakeItems: { $merge: [...cakes]},
         listFetching: { $set: false }
       });
     }

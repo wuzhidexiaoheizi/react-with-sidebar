@@ -120,7 +120,7 @@ class DetailPage extends Component {
                     <div className="winner-summary">已有<span className="winner-count">{buyerCount}</span>人成功购买</div>
                     <div className="winner-list">
                       { buyerCount > 0 && buyers.map(buyer =>
-                        <div className="winner" key={buyer.id}>
+                        <div className="winner" key={`winner-${buyer.id}`}>
                           <img src={buyer.avatar_url} title={buyer.login} />
                         </div>
                       ) }
