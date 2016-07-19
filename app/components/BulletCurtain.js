@@ -58,8 +58,8 @@ export default React.createClass({
 
   addMouseEvents() {
     const { bulletScreen } = this.refs;
-    this.onMouseEnnter = this.mouseEnterHandler.bind(this);
-    this.onMouseLeave = this.mouseLeaveHandler.bind(this);
+    this.onMouseEnnter = this.mouseEnterHandler;
+    this.onMouseLeave = this.mouseLeaveHandler;
 
     bulletScreen.addEventListener('mouseenter', this.onMouseEnnter, false);
     bulletScreen.addEventListener('mouseleave', this.onMouseLeave, false);
