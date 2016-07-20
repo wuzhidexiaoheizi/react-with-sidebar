@@ -44,11 +44,17 @@ export default class GiftAnimation extends Component {
   }
 
   autoDismissInAnimationDone() {
-    this.closeAnimation();
+    const { animationFun, bless } = this.props;
+    const { animationElement } = this.refs;
 
-    const { animationCallback } = this.props;
+    if (typeof animationFun == 'function') {
+      animationFun(animationElement, bless, () => {
+        this.closeAnimation();
+        const { animationCallback } = this.props;
 
-    if (typeof animationCallback == 'function') animationCallback();
+        if (typeof animationCallback == 'function') animationCallback();
+      });
+    }
   }
 
   closeAnimation() {
@@ -57,7 +63,15 @@ export default class GiftAnimation extends Component {
   }
 
   render() {
-    const { doneeName, animationName, autoDismiss, isValidAnimation } = this.props;
+    const {
+      animationBlesses,
+      autoDismiss,
+      isValidAnimation,
+    } = this.props;
+
+    const bless = animationBlesses[0];
+    const { virtual_present: { name }, sender: { nickname, login } } = bless;
+    const doneeName = nickname || login;
 
     return (
       <div className="anim-container">
@@ -66,7 +80,7 @@ export default class GiftAnimation extends Component {
           赠送
         </div>
 
-        <div className={`anim ${animationName}`} ref="animationElement">
+        <div className={`anim ${name}`} ref="animationElement">
           { !isValidAnimation &&
             <div className="invalid">
               无效动画

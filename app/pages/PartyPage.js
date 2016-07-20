@@ -11,16 +11,16 @@ import { bindActionCreators } from 'redux';
 import * as PartyActions from '../actions/party';
 import * as PresentActions from '../actions/virtualPresent';
 import * as BlessActions from '../actions/bless';
-import GiftGroup from '../components/GiftGroup';
 import BlessGroup from '../components/BlessGroup';
 import Loading from 'halogen/ScaleLoader';
 import AvatarUpload from '../components/AvatarUpload';
 import BulletCurtain from '../components/BulletCurtain';
-import GiftAnimation from '../components/GiftAnimation';
 import MusicPlayer from '../components/MusicPlayer';
 import { Link } from 'react-router';
 import BlessDispatcher from '../components/BlessDispatcher';
 import { checkPresentIsForbidden } from '../actions/virtualPresent';
+import GiftList from '../prototypes/GiftList';
+import GiftAnimation from '../prototypes/GiftAnimation';
 
 class PartyPage extends Component {
   constructor(props) {
@@ -29,26 +29,25 @@ class PartyPage extends Component {
     this.state = {
       showPhaseModal: false,
       blessPer: 10,
-      showAnimation: false,
-      animation_name: '',
       rotate_status: true,
-      animationName: '',
       earliestId: '',
-      doneeName: '',
       showAnimationCloseBtn: false,
       showBullet: true,
       showBulletToggle: false,
-      isValidAnimation: false,
+      playOnAdded: true,
     };
   }
 
   componentDidMount() {
     const { params: {id}, dispatch } = this.props;
-    const { blessPer } = this.state;
+    const { blessPer, playOnAdded } = this.state;
 
     dispatch(fetchCurrentUser());
     dispatch(fetchParty(id));
     dispatch(fetchBlessList(id, '', blessPer));
+
+    const { giftList } = this.refs;
+    this.giftList = new GiftList(giftList, [], { playOnAdded, showAnimation: this.showAnimation.bind(this) });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,6 +69,7 @@ class PartyPage extends Component {
     if (blesses != lastBlesses) {
       if (lastBlesses.length == 0) {
         blessDispatcher.insertAnimations(blesses);
+        this.giftList.insertNewBlesses(blesses);
       } else {
         const lastBless = lastBlesses[lastBlesses.length - 1];
         const index = blesses.indexOf(lastBless);
@@ -77,6 +77,7 @@ class PartyPage extends Component {
         if (index > -1) {
           const newBlesses = blesses.slice(index, blesses.length - 1);
           blessDispatcher.insertAnimations(newBlesses);
+          this.giftList.insertNewBlesses(newBlesses);
         }
       }
     }
@@ -85,6 +86,10 @@ class PartyPage extends Component {
       this.hasShowAnimation = true;
       this.lookupAnimationName();
     }
+  }
+
+  componentWillUnmount() {
+    if (this.giftList) this.giftList.destroy();
   }
 
   openPhaseModal() {
@@ -119,8 +124,8 @@ class PartyPage extends Component {
     }
   }
 
-  hideAnimation() {
-    this.setState({ showAnimation: false });
+  hideAnimationCloseBtn() {
+    this.setState({ showAnimationCloseBtn: false });
   }
 
   toggleBullet() {
@@ -131,28 +136,36 @@ class PartyPage extends Component {
     bulletScreen.toggleShow();
   }
 
-  showAnimation(doneeName, animationName) {
-    this.checkIfExist(animationName, (isValidAnimation) => {
-      this.setState({
-        showAnimation: true,
+  showAnimation(bless) {
+    const { virtual_present: { name } } = bless;
+    const { animationContainer } = this.refs;
+
+    this.checkIfExist(name, (isValidAnimation) => {
+      /*eslint-disable */
+      new GiftAnimation(animationContainer, {
         autoDismiss: false,
         isValidAnimation,
-        doneeName,
-        animationName,
+        animationBlesses: [ bless ]
       });
+      /*eslint-enable */
     });
   }
 
-  showAnimationWithCallback(doneeName, animationName, animationCallback) {
-    this.checkIfExist(animationName, (isValidAnimation) => {
-      this.setState({
-        showAnimation: true,
+  showAnimationWithCallback(blesses, animationCallback) {
+    const { virtual_present: { name } } = blesses[0];
+    const { animationContainer } = this.refs;
+    const animationFun = this.animateToGiftGroup.bind(this);
+
+    this.checkIfExist(name, (isValidAnimation) => {
+      /*eslint-disable */
+      new GiftAnimation(animationContainer, {
         autoDismiss: true,
+        animationBlesses: blesses,
+        animationFun,
         isValidAnimation,
-        doneeName,
-        animationName,
         animationCallback,
       });
+      /*eslint-enable */
     });
   }
 
@@ -177,10 +190,6 @@ class PartyPage extends Component {
 
   displayAnimateCloseBtn() {
     this.setState({ showAnimationCloseBtn: true });
-  }
-
-  hideAnimations() {
-    this.setState({ showAnimationCloseBtn: false, showAnimation: false });
   }
 
   loadNextPageBlesses() {
@@ -239,6 +248,14 @@ class PartyPage extends Component {
     this.setState({ rotate_status: !rotate_status });
   }
 
+  animateToGiftGroup(element, bless, callback) {
+    this.giftList.animateToList(element, bless, callback);
+  }
+
+  addItemToGiftList(bless) {
+    this.giftList.insertBless(bless);
+  }
+
   render() {
     const { PARTY_HEADER_IMG } = Constants;
     const {
@@ -261,15 +278,10 @@ class PartyPage extends Component {
     const {
       isCurrentUser,
       showPhaseModal,
-      showAnimation,
-      animationName,
-      autoDismiss,
-      animationCallback,
-      doneeName,
       showAnimationCloseBtn,
       showBullet,
       showBulletToggle,
-      isValidAnimation,
+      playOnAdded,
     } = this.state;
 
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
@@ -289,22 +301,21 @@ class PartyPage extends Component {
       stopOnHover: true,
     };
 
-    const doneeField = 'sender:login';
-    const animationNameField = 'virtual_present:name';
     const animationFlagField = 'id';
     const expireTime = Date.parse(birth_day) + 7 * 24 * 60 * 60 * 1000;
+    const addBlessItem = this.addItemToGiftList.bind(this);
 
     const animationConfig = {
-      doneeField,
-      animationNameField,
       animationFlagField,
-      expireTime
+      expireTime,
+      playOnAdded,
+      addBlessItem,
     };
 
     const audio = 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac';
 
     return (
-      <div className="page-container party-container">
+      <div className="page-container party-container" ref="animationContainer">
 
         <div className="container-nano">
           <div className="container-content" onScroll={this.handleScroll.bind(this)}>
@@ -326,24 +337,30 @@ class PartyPage extends Component {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="party-body">
-                  <MusicPlayer resource={audio} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
-                  <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
-                  <BlessGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
-                </div>
-                { showBulletToggle &&
-                  <div className="bullet-toggle-container">
-                    <div className="toggle-container">
-                      <div className={`bullet-toggle ${klass}`} onClick={this.toggleBullet.bind(this)}>
-                        <div className="toggle-track"></div>
-                        <div className="bullet-button">弹幕</div>
+                  { showBulletToggle &&
+                    <div className="bullet-toggle-container">
+                      <div className="toggle-container">
+                        <div className={`bullet-toggle ${klass}`} onClick={this.toggleBullet.bind(this)}>
+                          <div className="toggle-track"></div>
+                          <div className="bullet-button">弹幕</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                }
-                { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
+                  }
+                  <MusicPlayer resource={audio} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
+                  { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
                     textFieldName="message" />}
+                </div>
+                <div className="party-body">
+                  {/* <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />*/}
+                  <div className="gift-group">
+                    <div className="gift-wrap">
+                      <div className="gift-desc">已收到的礼物（点击可播放动画）</div>
+                      <div className="gift-list" ref="giftList"></div>
+                    </div>
+                  </div>
+                  <BlessGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
+                </div>
               </div>
             </div>
           </div>
@@ -376,14 +393,13 @@ class PartyPage extends Component {
           partyId={id} presents={presents} {...presentActionCreators}
           {...blessActionCreators} ref="blessDistribute" />
 
-        { showAnimation && <GiftAnimation animationName={ animationName } onCloseAnimation={this.hideAnimation.bind(this)}
-          autoDismiss={autoDismiss} animationCallback={animationCallback} doneeName={doneeName}
-          isValidAnimation={isValidAnimation} />}
-
-        <BlessDispatcher playAnimation={this.showAnimationWithCallback.bind(this)}
-          config={animationConfig} ref="blessDispatcher"
+        <BlessDispatcher
+          playAnimation={this.showAnimationWithCallback.bind(this)}
+          hideAnimations={this.hideAnimationCloseBtn.bind(this)}
+          config={animationConfig}
+          ref="blessDispatcher"
           showCloseBtn={this.displayAnimateCloseBtn.bind(this)}
-          hideAnimations={this.hideAnimations.bind(this)} />
+        />
 
         { showAnimationCloseBtn &&
           <div className="animation-toggle">
