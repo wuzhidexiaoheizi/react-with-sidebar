@@ -53,13 +53,13 @@
   .party-table-header, .party-table-body
     display table
     width 100%
-    border-bottom 1px solid $borderColor
+    border-bottom 1px solid $darkBorderColor
     
     .table-col
       display table-cell
       text-align center
       vertical-align middle
-      padding 10px 0
+      padding 8px
       
       &.donee, &.cake
         width 30%
@@ -71,7 +71,7 @@
       width 75px
       height 75px
       float left
-      box-shadow 0 0 3px $borderColor
+      box-shadow 0 0 3px $darkBorderColor
       
     .person-name, .cake-title
       margin-left 80px
@@ -79,33 +79,23 @@
       word-break break-all
     
     .party-item
-      border-bottom 1px dashed $borderColor
+      border-bottom 1px dashed $darkBorderColor
       
-      &:last-child
-        border-bottom none
-
-      .table-col
-        padding 10px
-
       .withdraw, .summary
         line-height 75px
+
+  .party-link:last-child .party-item
+      border-bottom none
         
   .empty-list
     line-height 120px
     text-align center
-        
-  // .party-table-header .table-col
-  //   border-right 1px solid $borderColor
-    
-  //   &:last-child
-  //     border-right none
 
 @media (max-width: 630px)
   .rank-page 
-    .party-table-header, .party-table-body
+    .party-table-body
       .table-col
         vertical-align top
-        padding 5px 0
 
       .donee-avatar, .donee-cake
         float none
@@ -114,7 +104,6 @@
         margin-left 0
         margin-top 5px
         
-      .party-item
-        .table-col
-          padding 5px
+      .person-name
+        text-align center
       

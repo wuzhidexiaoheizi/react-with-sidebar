@@ -1,6 +1,7 @@
 function AnimateDispatcher(component, config = {}) {
   this.component = component;
   this.animations = [];
+  this.animationGroup = [];
   this.initConfig(config);
   this.animationsDone = true;
 }
@@ -9,11 +10,10 @@ AnimateDispatcher.prototype = {
   constructor: AnimateDispatcher,
 
   initConfig(config) {
-    const { animationNameField, animationFlagField, expireTime, doneeField } = config;
+    const { animationFlagField, expireTime, addBlessItem } = config;
     this.animationFlagField = animationFlagField;
-    this.animationNameField = animationNameField;
     this.expireTime = expireTime;
-    this.doneeField = doneeField;
+    this.addBlessItem = addBlessItem;
   },
 
   addAnimation(animation) {
@@ -60,17 +60,22 @@ AnimateDispatcher.prototype = {
   },
 
   playAnimation() {
-    if (this.paused || !this.animations.length) {
+    if (this.paused || !this.animationGroup.length) {
       this.animationsDone = true;
+      this.updateUnreadCount();
       return;
     }
 
-    const animation = this.animations.shift();
-    const doneeName = this.getFieldValue(animation, this.doneeField);
-    const animationName = this.getFieldValue(animation, this.animationNameField);
-    this.remarkAsDisplayed(animation);
+    const group = this.animationGroup.shift();
+    this.remarkMultiAnimationAsDisplayed(group);
 
-    if (this.component.showAnimation) this.component.showAnimation(doneeName, animationName, this.animationCallback.bind(this));
+    if (this.component.showAnimation) this.component.showAnimation(group, this.animationCallback.bind(this));
+  },
+
+  remarkMultiAnimationAsDisplayed(group) {
+    group.forEach((animation) => {
+      this.remarkAsDisplayed(animation);
+    });
   },
 
   remarkAsDisplayed(animation) {
@@ -114,6 +119,7 @@ AnimateDispatcher.prototype = {
 
       if (hasPlayed) {
         this.animations.splice(i, 1);
+        if (typeof this.addBlessItem == 'function') this.addBlessItem(animation);
       }
 
       if (expireTime && expireTime < Date.now()) {
@@ -121,11 +127,32 @@ AnimateDispatcher.prototype = {
       }
     }
 
+    this.animationGroup = this.groupAnimations();
+  },
+
+  groupAnimations() {
+    const animationGroup = {};
+    let group;
+
+    this.animations.forEach((animation) => {
+      const { virtual_present: { name } } = animation;
+      group = animationGroup[name];
+
+      if (!group) {
+        group = [];
+        animationGroup[name] = group;
+      }
+
+      group.push(animation);
+    });
+
     this.updateUnreadCount();
+
+    return Object.values(animationGroup);
   },
 
   getUnreadCount() {
-    return this.animations.length;
+    return this.animationGroup.length;
   },
 
   animationsIsDone() {

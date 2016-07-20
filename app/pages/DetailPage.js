@@ -6,6 +6,7 @@ import { fethcCakeItem } from '../actions/cakeList';
 import lovePNG from '../images/love.png';
 import Constants from '../constants';
 import { checkUserHasLogged } from '../helper';
+import BuyerList from '../components/BuyerList';
 
 class DetailPage extends Component {
   constructor(props) {
@@ -116,14 +117,10 @@ class DetailPage extends Component {
                   </div>
                 </div>
                 <div className="detail-body">
-                  <div className="winner-container">
-                    <div className="winner-summary">已有<span className="winner-count">{buyerCount}</span>人成功购买</div>
-                    <div className="winner-list">
-                      { buyerCount > 0 && buyers.map(buyer =>
-                        <div className="winner" key={`winner-${buyer.id}`}>
-                          <img src={buyer.avatar_url} title={buyer.login} />
-                        </div>
-                      ) }
+                  <div className="buyer-container">
+                    <div className="buyer-summary">已有<span className="buyer-count">{buyerCount}</span>人成功购买</div>
+                    <div className="buyer-wrap">
+                      <BuyerList buyers={buyers} />
                     </div>
                   </div>
                   <div className="supplier-container">

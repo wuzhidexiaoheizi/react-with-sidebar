@@ -39,7 +39,7 @@ function Effect(element, effectObj, effectName, effectTime, callback, config = {
   this.element = element;
   this.effectObj = effectObj;
   this.effectName = effectName == 'flip' ? 'easeInOutBack' : effectName;
-  this.effectTime = effectTime;
+  this.effectTime = getInterval(effectTime);
   this.callback = callback;
   this.fps = 60;
   this.fpsInterval = 1000 / this.fps;
@@ -69,7 +69,12 @@ Effect.prototype = {
     this.symbolState = {};
 
     Object.keys(this.effectObj).forEach((key) => {
-      srcVal = window.parseInt(window.getComputedStyle(this.element, null).getPropertyValue(key));
+      if (['left', 'top', 'width', 'height'].indexOf(key) > -1) {
+        srcVal = this.element.getBoundingClientRect()[key];
+      } else {
+        srcVal = window.parseInt(window.getComputedStyle(this.element, null).getPropertyValue(key));
+      }
+
       this.srcState[key] = srcVal;
       val = String(this.effectObj[key]);
       symbol = val[0];
