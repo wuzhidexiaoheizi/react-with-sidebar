@@ -12,6 +12,7 @@ export default {
   'PARTY_URL': '/birthday_parties',
   'BLESS_URL': '/blesses',
   'PARTY_RANK_URL': '/rank',
+  'RECENTLY_PARTIES_URL': '/recently',
   'UPDATE_AVATAR_URL': 'update_avatar_media_id',
   'USER_SIGNIN_URL': __ENV__ == 'PRODUCTION' ? '/authorize/weixin' : '/users/sign_in',
   'VIRTUAL_PRESENT_URL': '/virtual_presents',

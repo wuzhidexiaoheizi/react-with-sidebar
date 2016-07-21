@@ -35,6 +35,7 @@ GiftList.prototype = {
 
   initState() {
     this.containerWidth = this.element.clientWidth;
+    this.offsetLeft = this.element.offsetLeft;
     this.ITEM_SIZE = GiftList.CONSTANTS.ITEM_SIZE;
     this.countInLine = Math.floor(this.containerWidth / this.ITEM_SIZE);
   },
@@ -59,7 +60,8 @@ GiftList.prototype = {
     this.element.appendChild(node);
 
     this.recalculateHeight();
-    this.progress.increment();
+
+    if (name == 'heart') this.progress.increment();
   },
 
   insertNewBlesses(blesses) {
@@ -100,12 +102,12 @@ GiftList.prototype = {
 
     const blessItem = blessItems[length - 1];
     const rect = blessItem.getBoundingClientRect();
-    let { top } = rect;
+    let { left, top } = rect;
     const { right, bottom } = rect;
-    let left = right;
+    left = right;
 
-    if (right + this.ITEM_SIZE > this.containerWidth) {
-      left = this.getContainerRect()[1];
+    if (right - this.offsetLeft > this.containerWidth) {
+      left = this.getContainerRect()[0];
       top = bottom;
     }
 

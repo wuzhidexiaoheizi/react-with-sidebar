@@ -39,15 +39,16 @@ class PartyPage extends Component {
   }
 
   componentDidMount() {
-    const { params: {id}, dispatch } = this.props;
+    const { params: {id}, bless: { blesses }, dispatch } = this.props;
     const { blessPer, playOnAdded } = this.state;
 
     dispatch(fetchCurrentUser());
     dispatch(fetchParty(id, true));
     dispatch(fetchBlessList(id, '', blessPer));
 
-    const { giftList } = this.refs;
-    this.giftList = new GiftList(giftList, [], { playOnAdded, showAnimation: this.showAnimation.bind(this) });
+    const { giftList, blessDispatcher } = this.refs;
+    this.giftList = new GiftList(giftList, blesses, { playOnAdded, showAnimation: this.showAnimation.bind(this) });
+    blessDispatcher.insertAnimations(blesses);
   }
 
   componentWillReceiveProps(nextProps) {

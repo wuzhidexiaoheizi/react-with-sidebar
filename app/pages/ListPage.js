@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import DRCode from '../components/DRCode';
 import { fetchCakeList } from '../actions/cakeList';
+import { fetchRecentlyParties } from '../actions/party';
 import { connect } from 'react-redux';
 import Loading from 'halogen/ScaleLoader';
 import Constants from '../constants';
 import CakeGroup from '../components/CakeGroup';
 import { Link } from 'react-router';
+import RecentPartyList from '../components/RecentPartyList';
 
 class ListPage extends Component {
   constructor(props) {
@@ -22,6 +24,7 @@ class ListPage extends Component {
     const { dispatch } = this.props;
     const { cakePage, cakePer } = this.state;
     dispatch(fetchCakeList(cakePage, cakePer));
+    dispatch(fetchRecentlyParties());
   }
 
   onScroll(e) {
@@ -45,7 +48,10 @@ class ListPage extends Component {
   }
 
   render() {
-    const { cakeList: { listFetching, cakeItems } } = this.props;
+    const {
+      cakeList: { listFetching, cakeItems },
+      party: { recentlyParties },
+    } = this.props;
     const { DOMAIN, MINE_LAUCHED_PARTY_URL, MINE_ATTEND_PARTY_URL } = Constants;
     const launchUrl = `${DOMAIN}${MINE_LAUCHED_PARTY_URL}`;
     const attendUrl = `${DOMAIN}${MINE_ATTEND_PARTY_URL}`;
@@ -72,6 +78,7 @@ class ListPage extends Component {
                   </div>
                 </div>
                 <img className="list-poster" src={Constants.HEADER_IMG} />
+                <RecentPartyList parties={recentlyParties} />
                 <CakeGroup cakeItems={cakeItems} />
               </div>
             </div>
@@ -84,7 +91,8 @@ class ListPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    cakeList: state.cakeList
+    cakeList: state.cakeList,
+    party: state.party,
   };
 }
 

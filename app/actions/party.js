@@ -122,3 +122,17 @@ export function updateAvatarMediaId(partyId, mediaId, sucCallback, errCallback) 
       });
   };
 }
+
+export function fetchRecentlyParties() {
+  return dispatch => {
+    const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, RECENTLY_PARTIES_URL } = Constants;
+    const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}${RECENTLY_PARTIES_URL}`;
+
+    _fetch(url)
+      .then(json => {
+        const { parties } = json;
+
+        return dispatch({ type: 'FETCH_RECENTLY_PARTIES_DONE', parties });
+      });
+  };
+}
