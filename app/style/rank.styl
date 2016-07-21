@@ -45,65 +45,109 @@
     right 0
     z-index 13
     
+  .rank-page-header img
+    width 100%
+    
+  .rank-page-body
+    padding 15px 0
+
   .party-link
     display block
     text-decoration none
     color #333
     
-  .party-table-header, .party-table-body
+  .party-item
     display table
     width 100%
-    border-bottom 1px solid $darkBorderColor
+    padding 0 15px
     
-    .table-col
-      display table-cell
+  .table-col
+    display table-cell
+    vertical-align middle
+    padding 8px
+    
+    &.rank
+      width 46px
       text-align center
-      vertical-align middle
-      padding 8px
+      font-family $enFontFamily
+      font-size 24px
+      font-weight 700
+      color $red
       
-      &.donee, &.cake
-        width 30%
-        
-      &.withdraw, &.summary
-        width 20%
-        
-    .donee-avatar, .donee-cake
-      width 75px
-      height 75px
-      float left
-      box-shadow 0 0 3px $darkBorderColor
+      img
+        width 30px
       
-    .person-name, .cake-title
-      margin-left 80px
-      text-align left
-      word-break break-all
+    &.gnh
+      width 96px
+      
+    &.brief
+      max-width 0
+      
+  .donee-avatar
+    width 50px
+    float left
+    box-shadow 0 0 3px $borderColor
     
-    .party-item
-      border-bottom 1px dashed $darkBorderColor
-      
-      .withdraw, .summary
-        line-height 75px
+  .other
+    margin-left 60px
+    text-align left
+    word-break break-all
+    
+    .amt
+      font-family $enFontFamily
+      color $red
+    
+  .topic
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    
+  .gnh-card
+    border 2px solid $red
+    border-radius 5px
+    
+  .gnh-title
+    background $red
+    text-align center
+    padding 3px
+    color #fff
+    
+  .gnh-value
+    text-align center
+    padding 3px
+    color $red
+    font-family $enFontFamily
+
+  .party-item
+    border-bottom 1px solid $darkBorderColor
 
   .party-link:last-child .party-item
-      border-bottom none
+    border-bottom none
         
   .empty-list
     line-height 120px
     text-align center
 
-@media (max-width: 630px)
-  .rank-page 
-    .party-table-body
-      .table-col
-        vertical-align top
+@media (min-width: 480px)
+  .rank-page
+    font-size 16px
 
-      .donee-avatar, .donee-cake
-        float none
+    .table-col.rank
+      width 75px
+      font-size 36px
         
-      .person-name, .cake-title
-        margin-left 0
-        margin-top 5px
-        
-      .person-name
-        text-align center
+      img
+        width 55px
+          
+    .table-col.gnh
+      width 126px
+          
+    .donee-avatar
+      width 75px
+      
+    .other
+      margin-left 85px
+          
+    .gnh-title, .gnh-value
+      padding 5px  
       

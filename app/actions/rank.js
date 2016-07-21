@@ -2,7 +2,7 @@ import { _fetch, serializeParams } from '../helper';
 import Constants from '../constants';
 import { fethcCakeItem } from './cakeList';
 
-export function fetchRankPageData(page = 1, per = 10) {
+export function fetchRankPageData(page = 1, per = 10, loadCake) {
   return (dispatch, getState) => {
     const state = getState();
     const { bless: { listFetching } } = state;
@@ -19,15 +19,17 @@ export function fetchRankPageData(page = 1, per = 10) {
       .then(json => {
         const { parties } = json;
 
-        parties.forEach((party) => {
-          const { cake_id } = party;
-          const { cakeList: { cakeItems } } = state;
-          const cakeItem = cakeItems.find(item => item.id == cake_id);
+        if (loadCake) {
+          parties.forEach((party) => {
+            const { cake_id } = party;
+            const { cakeList: { cakeItems } } = state;
+            const cakeItem = cakeItems.find(item => item.id == cake_id);
 
-          if (!cakeItem) {
-            dispatch(fethcCakeItem(cake_id));
-          }
-        });
+            if (!cakeItem) {
+              dispatch(fethcCakeItem(cake_id));
+            }
+          });
+        }
 
         return dispatch({ type: 'FETCH_RANK_PAGE_DATA_DONE', parties, page });
       });

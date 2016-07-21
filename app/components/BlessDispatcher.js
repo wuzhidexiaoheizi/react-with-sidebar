@@ -33,10 +33,18 @@ export default React.createClass({
   },
 
   playAnimations() {
-    const { showCloseBtn } = this.props;
-
-    if (typeof showCloseBtn == 'function') showCloseBtn();
+    this.displayCloseBtn();
     this.animationDispatcher.playAnimations();
+  },
+
+  displayAllAnimations() {
+    this.displayCloseBtn();
+    this.animationDispatcher.playAll();
+  },
+
+  displayCloseBtn() {
+    const { showCloseBtn } = this.props;
+    if (typeof showCloseBtn == 'function') showCloseBtn();
   },
 
   skipAnimations() {

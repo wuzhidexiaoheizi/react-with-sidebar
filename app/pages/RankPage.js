@@ -44,7 +44,9 @@ export default class RankPage extends Component {
   }
 
   render() {
-    const { rank: { listFetching, parties }, cakeList: { cakeItems } } = this.props;
+    const { rank: { listFetching, parties } } = this.props;
+    const { RANK_HEADER_IMG } = Constants;
+
     return (
       <div className="page-container rank-page">
         <div className="container">
@@ -57,7 +59,12 @@ export default class RankPage extends Component {
           <div className="rank-container">
             <div className="container">
               <div className="row">
-                <PartyList parties={parties} cakeItems={cakeItems}/>
+                <div className="rank-page-header">
+                  <img src={RANK_HEADER_IMG} />
+                </div>
+                <div className="rank-page-body">
+                  <PartyList parties={parties} />
+                </div>
               </div>
             </div>
           </div>

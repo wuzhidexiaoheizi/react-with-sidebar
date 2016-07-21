@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Constants from '../constants';
-import { formatCurrency } from '../helper';
+import { getRankImage, zeroize } from '../helper';
 import { Link } from 'react-router';
 
 export default class PartyItem extends Component {
@@ -14,35 +14,46 @@ export default class PartyItem extends Component {
         birthday_person,
         person_avatar,
         withdrawable,
-        bless_count,
-        cake_id,
         id,
+        gnh,
       },
-      cakeItems,
+      rankIndex,
     } = this.props;
 
-    const cakeItem = cakeItems.find(item => item.id == cake_id) || {};
     const { DONEE_DEFAULT_AVATAR } = Constants;
     const avatar = person_avatar || DONEE_DEFAULT_AVATAR;
-    const { cover_url, title } = cakeItem;
-    const feedback = formatCurrency(withdrawable);
+    const image = getRankImage(rankIndex);
+
+    let fragment;
+
+    if (image) {
+      // fragment = (<img src={image} />);
+      fragment = '04';
+    } else {
+      fragment = zeroize(rankIndex + 1);
+    }
 
     return (
       <Link to={`/party/${id}`} className="party-link">
         <div className="party-item">
-          <div className="table-col donee">
+          <div className="table-col rank">
+            { fragment }
+          </div>
+          <div className="table-col brief">
             <img src={avatar} className="donee-avatar" />
-            <div className="person-name">{birthday_person}</div>
+            <div className="other">
+              <div className="donee-name text-ellipsis">{birthday_person}</div>
+              <div className="withdraw">
+                获得红包
+                <span className="amt">￥{withdrawable}</span>
+              </div>
+            </div>
           </div>
-          <div className="table-col cake">
-            <img src={cover_url} className="donee-cake" />
-            <div className="cake-title">{title}</div>
-          </div>
-          <div className="table-col withdraw">
-            {feedback}
-          </div>
-          <div className="table-col summary">
-            {bless_count}
+          <div className="table-col gnh">
+            <div className="gnh-card">
+              <div className="gnh-title">幸福指数</div>
+              <div className="gnh-value">{gnh}</div>
+            </div>
           </div>
         </div>
       </Link>

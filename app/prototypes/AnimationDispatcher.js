@@ -1,6 +1,7 @@
 function AnimateDispatcher(component, config = {}) {
   this.component = component;
   this.animations = [];
+  this.allAnimations = [];
   this.animationGroup = [];
   this.initConfig(config);
   this.animationsDone = true;
@@ -18,6 +19,7 @@ AnimateDispatcher.prototype = {
 
   addAnimation(animation) {
     this.animations.push(animation);
+    this.allAnimations.push(animation);
   },
 
   addAnimations(animations) {
@@ -45,17 +47,23 @@ AnimateDispatcher.prototype = {
     this.playAnimation();
   },
 
+  playAll() {
+    this.animationGroup = this.groupAnimations(this.allAnimations);
+    this.playAnimations();
+  },
+
   stopAnimations() {
     this.paused = true;
   },
 
   skipAnimations() {
-    for (let i = 0; i < this.animations.length; i++) {
-      const animation = this.animations[i];
-      this.remarkAsDisplayed(animation);
+    for (let i = 0; i < this.animationGroups.length; i++) {
+      const group = this.animationGroups[i];
+      this.remarkAnimaitionGroupAsDisplayed(group);
     }
 
-    this.animations = [];
+    this.animations.length = 0;
+    this.animationGroups.length = 0;
     this.paused = true;
   },
 
@@ -67,12 +75,12 @@ AnimateDispatcher.prototype = {
     }
 
     const group = this.animationGroup.shift();
-    this.remarkMultiAnimationAsDisplayed(group);
+    this.remarkAnimaitionGroupAsDisplayed(group);
 
     if (this.component.showAnimation) this.component.showAnimation(group, this.animationCallback.bind(this));
   },
 
-  remarkMultiAnimationAsDisplayed(group) {
+  remarkAnimaitionGroupAsDisplayed(group) {
     group.forEach((animation) => {
       this.remarkAsDisplayed(animation);
     });
@@ -81,8 +89,12 @@ AnimateDispatcher.prototype = {
   remarkAsDisplayed(animation) {
     const animationFlag = this.getFieldValue(animation, this.animationFlagField);
     const key = `bless-${animationFlag}`;
-    const val = { hasPlayed: true, expireTime: this.expireTime };
-    localStorage.setItem(key, JSON.stringify(val));
+    let val = localStorage.getItem(key);
+
+    if (!val) {
+      val = { hasPlayed: true, expireTime: this.expireTime };
+      localStorage.setItem(key, JSON.stringify(val));
+    }
   },
 
   animationCallback() {
@@ -127,14 +139,14 @@ AnimateDispatcher.prototype = {
       }
     }
 
-    this.animationGroup = this.groupAnimations();
+    this.animationGroup = this.groupAnimations(this.animations);
   },
 
-  groupAnimations() {
+  groupAnimations(animations) {
     const animationGroup = {};
     let group;
 
-    this.animations.forEach((animation) => {
+    animations.forEach((animation) => {
       const { virtual_present: { name } } = animation;
       group = animationGroup[name];
 

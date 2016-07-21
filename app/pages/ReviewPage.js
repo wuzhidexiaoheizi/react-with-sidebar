@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 import { connect } from 'react-redux';
 import { fetchParty } from '../actions/party';
 import { fetchBlessList } from '../actions/bless';
+import { fetchCurrentUser } from '../actions/user';
 import lovePNG from '../images/love.png';
 import ReviewGroup from '../components/ReviewGroup';
 import Loading from 'halogen/ScaleLoader';
@@ -25,6 +26,7 @@ export default class ReviewPage extends Component {
     const { params: { id }, dispatch } = this.props;
     const { blessPer, earliestId } = this.state;
 
+    dispatch(fetchCurrentUser());
     dispatch(fetchBlessList(id, earliestId, blessPer));
     dispatch(fetchParty(id, true));
   }
@@ -60,6 +62,10 @@ export default class ReviewPage extends Component {
       this.loadNextPageBlesses();
     }
 
+    const { envelope } = this.refs;
+
+    if (!envelope) return;
+
     if (!this.scrollIsStart) {
       this.scrollIsStart = true;
       this.onScrollStart();
@@ -85,6 +91,7 @@ export default class ReviewPage extends Component {
       party: { party },
       cakeList: { cakeItems },
       bless: { total, blesses, listFetching },
+      user: { currentUser },
       params: { id },
     } = this.props;
 
@@ -93,6 +100,7 @@ export default class ReviewPage extends Component {
       withdrawable,
       withdrew,
       withdraw_url,
+      user_id,
     } = party;
     const cakeItem = cakeItems.find(item => item.id == cake_id) || {};
     const {
@@ -105,6 +113,7 @@ export default class ReviewPage extends Component {
     const price = +income_price - +withdrawable;
     const images = cover_url ? [ cover_url ] : [];
     const { ENVELOPE_SM_IMG } = Constants;
+    const shouldShowEntrance = currentUser && currentUser.id == user_id;
 
     return (
       <div className="page-container review-container">
@@ -162,9 +171,11 @@ export default class ReviewPage extends Component {
                     <ReviewGroup blesses={blesses} />
                   </div>
                 </div>
-                <div className="envelope-entrance" ref="envelope" onClick={this.showEnvelope.bind(this)}>
-                  <img src={ENVELOPE_SM_IMG} />
-                </div>
+                { shouldShowEntrance &&
+                  <div className="envelope-entrance" ref="envelope" onClick={this.showEnvelope.bind(this)}>
+                    <img src={ENVELOPE_SM_IMG} />
+                  </div>
+                }
               </div>
             </div>
           </div>
@@ -192,7 +203,8 @@ function mapStateToProps(state) {
   return {
     party: state.party,
     bless: state.bless,
-    cakeList: state.cakeList
+    cakeList: state.cakeList,
+    user: state.user
   };
 }
 

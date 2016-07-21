@@ -43,7 +43,7 @@ class PartyPage extends Component {
     const { blessPer, playOnAdded } = this.state;
 
     dispatch(fetchCurrentUser());
-    dispatch(fetchParty(id));
+    dispatch(fetchParty(id, true));
     dispatch(fetchBlessList(id, '', blessPer));
 
     const { giftList } = this.refs;
@@ -57,10 +57,18 @@ class PartyPage extends Component {
       if (blessDistribute) blessDistribute.show();
     }
 
-    const { party: { party }, user: { currentUser } } = this.props;
-    const { user_id } = party;
+    const { party: { party }, user: { currentUser }, cakeList: { cakeItems } } = nextProps;
+    const { user_id, cake_id } = party;
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
+
+    const cakeItem = cakeItems.find(item => item.id == cake_id);
+
+    if (cakeItem && !this.hasSetTotal) {
+      this.hasSetTotal = true;
+      const { hearts_limit } = cakeItem;
+      this.giftList.updateProgressTotal(hearts_limit);
+    }
 
     const { blessDispatcher } = this.refs;
     const { bless: { blesses } } = nextProps;
@@ -167,6 +175,15 @@ class PartyPage extends Component {
       });
       /*eslint-enable */
     });
+  }
+
+  showAllAnimations() {
+    if (this.giftList) this.giftList.removeAllChildren();
+    const { blessDispatcher } = this.refs;
+
+    setTimeout(() => {
+      blessDispatcher.displayAllAnimations();
+    }, 1);
   }
 
   checkIfExist(animationName, callback) {
@@ -324,7 +341,8 @@ class PartyPage extends Component {
                 <div className="party-header">
                   <img className="party-poster" src={PARTY_HEADER_IMG} onLoad={this.showBulletToggle.bind(this)} />
                   <AvatarUpload avatarUrl={person_avatar} partyId={partyId} isCurrentUser={isCurrentUser}
-                    avatarMediaId={avatar_media_id} {...partyActionCreators} />
+                    avatarMediaId={avatar_media_id} {...partyActionCreators}
+                    showAnimations={this.showAllAnimations.bind(this)} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
                     <div className="birthday">
                       <div className="sentence text-ellipsis">
@@ -355,7 +373,9 @@ class PartyPage extends Component {
                   {/* <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />*/}
                   <div className="gift-group">
                     <div className="gift-wrap">
-                      <div className="gift-desc">已收到的礼物（点击可播放动画）</div>
+                      <div className="gift-desc" onClick={this.showAllAnimations.bind(this)}>
+                        已收到的礼物（点击可播放动画）
+                      </div>
                       <div className="gift-list" ref="giftList"></div>
                     </div>
                   </div>
@@ -419,6 +439,7 @@ function mapStateToProps(state) {
     bless: state.bless,
     virtualPresent: state.virtualPresent,
     user: state.user,
+    cakeList: state.cakeList,
   };
 }
 
