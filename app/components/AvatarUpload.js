@@ -123,6 +123,12 @@ export default class AvatarUpload extends Component {
     uploadTip.resetTypeAndMessage('error', errors);
   }
 
+  showGifts() {
+    const { showAnimations } = this.props;
+
+    if (typeof showAnimations == 'function') showAnimations();
+  }
+
   render() {
     const { avatarUrl, isCurrentUser } = this.props;
     const { DONEE_DEFAULT_AVATAR } = Constants;
@@ -138,6 +144,8 @@ export default class AvatarUpload extends Component {
             onChange={this.handleFileChange.bind(this)} name="file"/>
         );
       }
+    } else {
+      fragment = (<div className="image-area" onClick={this.showGifts.bind(this)}></div>);
     }
 
     return (

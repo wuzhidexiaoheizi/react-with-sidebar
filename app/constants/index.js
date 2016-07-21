@@ -39,4 +39,5 @@ export default {
   'ENVELOPE_LG_LIGHT_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/076a5ff4c1f8e6d6bf959dfbf6ef5646.png',
   'ENVELOPE_LG_GRAY_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/2e307331f7a19c459181ebac83ffa3dc.png',
   'UNREAD_GIFT_ICON': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/a37b5f562024d238875a8b3a6005789e.png!cover',
+  'RANK_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/5908419ebe8e65632954b7203de6b5b6.png',
 };

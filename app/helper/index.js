@@ -3,6 +3,9 @@ import Constants from '../constants';
 import errPNG from '../images/err.png';
 import sucPNG from '../images/suc.png';
 import tipPNG from '../images/tip.png';
+import firstPNG from '../images/xf1.png';
+import secondPNG from '../images/xf2.png';
+import thirdPNG from '../images/xf3.png';
 
 const {
   PRESENT_HEART_IMG,
@@ -26,6 +29,12 @@ const TIP_IMG_MAP = {
   success: sucPNG,
   error: errPNG,
   tip: tipPNG,
+};
+
+const RANK_PNG_MAP = {
+  '0': firstPNG,
+  '1': secondPNG,
+  '2': thirdPNG,
 };
 
 export function _fetch(url, method = 'get', body) {
@@ -272,4 +281,8 @@ export function getInterval(interval) {
   }
 
   return time;
+}
+
+export function getRankImage(index) {
+  return RANK_PNG_MAP[index];
 }

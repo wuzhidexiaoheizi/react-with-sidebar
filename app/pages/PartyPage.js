@@ -341,7 +341,8 @@ class PartyPage extends Component {
                 <div className="party-header">
                   <img className="party-poster" src={PARTY_HEADER_IMG} onLoad={this.showBulletToggle.bind(this)} />
                   <AvatarUpload avatarUrl={person_avatar} partyId={partyId} isCurrentUser={isCurrentUser}
-                    avatarMediaId={avatar_media_id} {...partyActionCreators} />
+                    avatarMediaId={avatar_media_id} {...partyActionCreators}
+                    showAnimations={this.showAllAnimations.bind(this)} />
                   <div className="birthday-bless" onClick={this.openPhaseModal.bind(this)}>
                     <div className="birthday">
                       <div className="sentence text-ellipsis">

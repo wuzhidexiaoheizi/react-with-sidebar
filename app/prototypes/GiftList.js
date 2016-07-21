@@ -95,21 +95,18 @@ GiftList.prototype = {
   getCoordinate() {
     const blessItems = this.element.querySelectorAll('.gift-item');
     const length = blessItems.length;
-    let left;
-    let top;
-    let rect;
 
     if (!length) return this.getContainerRect();
 
     const blessItem = blessItems[length - 1];
-    rect = blessItem.getBoundingClientRect();
-    top = rect.top;
-    left = rect.left;
-    left += this.ITEM_SIZE;
+    const rect = blessItem.getBoundingClientRect();
+    let { top } = rect;
+    const { right, bottom } = rect;
+    let left = right;
 
-    if (left + this.ITEM_SIZE > this.containerWidth) {
-      left = this.getContainerRect().left;
-      top += this.ITEM_SIZE;
+    if (right + this.ITEM_SIZE > this.containerWidth) {
+      left = this.getContainerRect()[1];
+      top = bottom;
     }
 
     return [left, top];
@@ -133,15 +130,12 @@ GiftList.prototype = {
 
     const animationElement = this.getAnimationElement(element, bless);
     const coordinate = this.getCoordinate();
-    let [left, top] = coordinate;
-    const half = this.ITEM_SIZE / 2;
-    left += half;
-    top -= half;
+    const [left, top] = coordinate;
     const effectObj = { left, top };
     effectObj.width = this.ITEM_SIZE;
 
     /*eslint-disable */
-    new Effect(animationElement, effectObj, 'easeInOutBack', '450ms', () => {
+    new Effect(animationElement, effectObj, 'easeInOutBack', '250ms', () => {
       animationElement.parentNode.removeChild(animationElement);
       this.insertBless(bless);
 
@@ -167,7 +161,7 @@ GiftList.prototype = {
     // const body = document.querySelectorAll('body')[0];
     this.overlayer.appendChild(animateElement);
 
-    element.style.display = 'none';
+    // element.style.display = 'none';
 
     return animateElement;
   },
