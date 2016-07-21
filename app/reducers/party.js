@@ -1,7 +1,8 @@
 import update from 'react-addons-update';
 
 const initialState = {
-  party: {}
+  party: {},
+  recentlyParties: [],
 };
 
 export default function(state = initialState, action) {
@@ -26,6 +27,12 @@ export default function(state = initialState, action) {
       party: {
         person_avatar: { $set: action.url }
       }
+    });
+  }
+
+  case 'FETCH_RECENTLY_PARTIES_DONE': {
+    return update(state, {
+      recentlyParties: { $merge: [...action.parties] }
     });
   }
 

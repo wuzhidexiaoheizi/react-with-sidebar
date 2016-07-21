@@ -121,6 +121,92 @@
         font-weight 700
         color #fff
         margin-right 15px
+        
+  .party-link
+    color #333
+
+  .recent-item
+    display table
+    width 100%
+    padding 0 10px
+    
+  .table-col
+    display table-cell
+    padding 8px
+      
+    &.gnh
+      width 96px
+      
+    &.brief
+      max-width 0
+      
+  .progress
+    margin-bottom 0
+    height 12px
+    
+    .progress-bar
+      line-height 12px
+      
+  .donee-avatar
+    width 50px
+    float left
+    box-shadow 0 0 3px $borderColor
+    
+  .other
+    margin-left 60px
+    text-align left
+    word-break break-all
+    
+    .amt
+      font-family $enFontFamily
+      color $red
+    
+  .topic
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+    
+  .gnh-card
+    border 2px solid $red
+    border-radius 5px
+    
+  .gnh-title
+    background $red
+    text-align center
+    padding 3px
+    color #fff
+    
+  .gnh-value
+    text-align center
+    padding 3px
+    color $red
+    font-family $enFontFamily
+
+  .party-item
+    border-bottom 1px solid $darkBorderColor
+
+  .party-link:last-child .party-item
+    border-bottom none
+        
+  .empty-list
+    line-height 120px
+    text-align center
+
+@media (min-width: 480px)
+  .list-page
+    font-size 16px
+          
+    .table-col.gnh
+      width 126px
+          
+    .donee-avatar
+      width 75px
+      
+    .other
+      margin-left 85px
+          
+    .gnh-title, .gnh-value
+      padding 5px  
 
 @media (max-width: 420px)
   .list-container

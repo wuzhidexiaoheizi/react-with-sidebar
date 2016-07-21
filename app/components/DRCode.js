@@ -22,7 +22,7 @@ export default class DRCode extends Component {
   }
 
   getDesc() {
-    const descs = ['关注更多优惠惊喜!', '分享后可再次抢购!'];
+    const descs = ['关注更多优惠惊喜!', '生日趴火热进行中!'];
     const index = Math.floor(Math.random() * 2);
     const desc = descs[index];
 
