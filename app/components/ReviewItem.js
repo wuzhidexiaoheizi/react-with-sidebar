@@ -10,9 +10,10 @@ export default class ReviewItem extends Component {
   render() {
     const { bless } = this.props;
     const {
-      sender: { avatar_url, login },
+      sender: { avatar_url, nickname, login },
       virtual_present: { name },
     } = bless;
+    const doneeName = nickname || login;
 
     const imageAvatar = extractPresentAvatar(name);
     const url = avatar_url || Constants.DEFAULT_AVATAR;
@@ -21,7 +22,7 @@ export default class ReviewItem extends Component {
       <div className="review-item">
         <div className="content-col">
           <img src={url} className="benefactor-avatar" />
-          { login }
+          { doneeName }
         </div>
         <div className="content-col">
           &#165;1.00元

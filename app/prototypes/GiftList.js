@@ -8,6 +8,7 @@ function GiftList(element, blesses = [], config = {}) {
   this.playOnAdded = playOnAdded || false;
   this.showAnimation = showAnimation;
   this.animateContainer = document.querySelectorAll('.container-content')[0];
+  this.overlayer = document.querySelectorAll('.party-container')[0];
   this.containerHeight = 0;
   this.initState();
   this.init();
@@ -31,7 +32,6 @@ GiftList.prototype = {
     this.containerWidth = this.element.clientWidth;
     this.itemSize = GiftList.CONSTANTS.ITEMSIZE;
     this.countInLine = Math.floor(this.containerWidth / this.itemSize);
-    
   },
 
   insertBlesses() {
@@ -58,9 +58,11 @@ GiftList.prototype = {
 
   insertNewBlesses(blesses) {
     this.blesses.push(...blesses);
-    this.recalculateHeight();
 
-    if (this.playOnAdded) return;
+    if (this.playOnAdded) {
+      this.recalculateHeight();
+      return;
+    }
 
     blesses.forEach((bless) => {
       this.insertBless(bless);
@@ -92,18 +94,21 @@ GiftList.prototype = {
 
   scrollToList() {
     const top = this.getContainerRect()[1];
+    const offsetTop = this.element.offsetTop;
     const { clientHeight } = this.animateContainer;
-    this.scrollTop = top - clientHeight + this.containerHeight + this.itemSize;
-    this.animateContainer.scrollTop = this.scrollTop;
+    let y = offsetTop - top;
+
+    if (y == 0) y = (top + this.containerHeight - clientHeight) * 2;
+
+    this.animateContainer.scrollTop = y;
   },
 
   animateToList(element, bless, callback) {
-    if (!this.scrollTop) this.scrollToList();
+    this.scrollToList();
 
     const animationElement = this.getAnimationElement(element, bless);
     const coordinate = this.getCoordinate();
     let [left, top] = coordinate;
-    top += this.scrollTop;
     const half = this.itemSize / 2;
     left += half;
     top -= half;
@@ -125,6 +130,7 @@ GiftList.prototype = {
     const { left, top, width } = rect;
     const { virtual_present: { name } } = bless;
     const animateElement = document.createElement('div');
+
     animateElement.setAttribute('class', 'gift-animation');
     animateElement.style.position = 'absolute';
     animateElement.style.left = `${left}px`;
@@ -134,7 +140,7 @@ GiftList.prototype = {
     const src = extractPresentImage(name);
     animateElement.innerHTML = `<img src="${src}" class="animation-img" />`;
     // const body = document.querySelectorAll('body')[0];
-    this.animateContainer.appendChild(animateElement);
+    this.overlayer.appendChild(animateElement);
 
     element.style.display = 'none';
 
@@ -211,6 +217,10 @@ GiftList.prototype = {
     const className = node.getAttribute('class');
 
     return className.indexOf(targetName) > -1;
+  },
+
+  removeAllChildren() {
+    this.element.innerHTML = '';
   },
 };
 

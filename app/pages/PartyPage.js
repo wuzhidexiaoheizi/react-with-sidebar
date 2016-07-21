@@ -169,6 +169,15 @@ class PartyPage extends Component {
     });
   }
 
+  showAllAnimations() {
+    if (this.giftList) this.giftList.removeAllChildren();
+    const { blessDispatcher } = this.refs;
+
+    setTimeout(() => {
+      blessDispatcher.displayAllAnimations();
+    }, 1);
+  }
+
   checkIfExist(animationName, callback) {
     const { virtualPresent: { forbidPresentNames }, dispatch } = this.props;
 
@@ -355,7 +364,9 @@ class PartyPage extends Component {
                   {/* <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />*/}
                   <div className="gift-group">
                     <div className="gift-wrap">
-                      <div className="gift-desc">已收到的礼物（点击可播放动画）</div>
+                      <div className="gift-desc" onClick={this.showAllAnimations.bind(this)}>
+                        已收到的礼物（点击可播放动画）
+                      </div>
                       <div className="gift-list" ref="giftList"></div>
                     </div>
                   </div>
