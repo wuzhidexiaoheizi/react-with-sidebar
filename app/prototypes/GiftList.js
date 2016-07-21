@@ -102,12 +102,12 @@ GiftList.prototype = {
     const blessItem = blessItems[length - 1];
     const rect = blessItem.getBoundingClientRect();
     let { left, top } = rect;
-    const { right } = rect;
+    const { right, bottom } = rect;
     left = right;
 
     if (right > this.containerWidth) {
       left = this.getContainerRect()[0];
-      top += this.ITEM_SIZE;
+      top = bottom;
     }
 
     return [left, top];
