@@ -58,7 +58,7 @@ GiftAnimations.prototype = {
   updateDoneeName(bless) {
     const { sender: { nickname, login } } = bless;
     const doneeName = nickname || login;
-    this.element.querySelectorAll('.name').innerText = doneeName;
+    this.element.querySelectorAll('.name')[0].innerText = doneeName;
   },
 
   attachEvents() {
