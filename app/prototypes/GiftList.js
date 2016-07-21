@@ -1,12 +1,14 @@
 import { extractPresentAvatar, extractPresentImage } from '../helper';
 import Effect from './Effect';
+import GiftProgress from './GiftProgress';
 
 function GiftList(element, blesses = [], config = {}) {
-  const { playOnAdded, showAnimation } = config;
+  const { playOnAdded, showAnimation, total } = config;
   this.element = element;
   this.blesses = blesses;
   this.playOnAdded = playOnAdded || false;
   this.showAnimation = showAnimation;
+  this.total = total || 0;
   this.animateContainer = document.querySelectorAll('.container-content')[0];
   this.overlayer = document.querySelectorAll('.party-container')[0];
   this.containerHeight = 0;
@@ -16,7 +18,9 @@ function GiftList(element, blesses = [], config = {}) {
 
 GiftList.prototype = {
   init() {
-    if (!this.playOnAdded) {
+    if (this.playOnAdded) {
+      this.initProgressBar();
+    } else {
       this.insertBlesses();
     }
 
@@ -24,20 +28,21 @@ GiftList.prototype = {
   },
 
   destroy() {
-    this.blesses = [];
+    this.blesses.length = 0;
+    this.progress.destroy();
     this.detachEvents();
   },
 
   initState() {
     this.containerWidth = this.element.clientWidth;
-    this.itemSize = GiftList.CONSTANTS.ITEMSIZE;
-    this.countInLine = Math.floor(this.containerWidth / this.itemSize);
+    this.ITEM_SIZE = GiftList.CONSTANTS.ITEM_SIZE;
+    this.countInLine = Math.floor(this.containerWidth / this.ITEM_SIZE);
   },
 
   insertBlesses() {
     const { length } = this.blesses;
 
-    if (length == 0) return;
+    this.initProgressBar(length);
 
     this.blesses.forEach((bless) => {
       this.insertBless(bless);
@@ -54,6 +59,7 @@ GiftList.prototype = {
     this.element.appendChild(node);
 
     this.recalculateHeight();
+    this.progress.increment();
   },
 
   insertNewBlesses(blesses) {
@@ -69,6 +75,23 @@ GiftList.prototype = {
     });
   },
 
+  updateProgressTotal(total) {
+    this.progress.updateTotal(total);
+  },
+
+  initProgressBar(initCount) {
+    const containment = this.getProgressContainer();
+    this.progress = new GiftProgress(containment, this.total, { initCount });
+  },
+
+  getProgressContainer() {
+    const element = document.createElement('div');
+    element.setAttribute('class', 'progress-container');
+    this.element.parentNode.appendChild(element);
+
+    return element;
+  },
+
   getCoordinate() {
     const blessItems = this.element.querySelectorAll('.gift-item');
     const length = blessItems.length;
@@ -82,11 +105,11 @@ GiftList.prototype = {
     rect = blessItem.getBoundingClientRect();
     top = rect.top;
     left = rect.left;
-    left += this.itemSize;
+    left += this.ITEM_SIZE;
 
-    if (left + this.itemSize > this.containerWidth) {
+    if (left + this.ITEM_SIZE > this.containerWidth) {
       left = this.getContainerRect().left;
-      top += this.itemSize;
+      top += this.ITEM_SIZE;
     }
 
     return [left, top];
@@ -97,8 +120,10 @@ GiftList.prototype = {
     const offsetTop = this.element.offsetTop;
     const { clientHeight } = this.animateContainer;
     let y = offsetTop - top;
+    const progress = this.element.nextSibling;
+    const height = progress.clientHeight;
 
-    if (y == 0) y = (top + this.containerHeight - clientHeight) * 2;
+    if (y == 0) y = (top + this.containerHeight + height - clientHeight) * 2;
 
     this.animateContainer.scrollTop = y;
   },
@@ -109,11 +134,11 @@ GiftList.prototype = {
     const animationElement = this.getAnimationElement(element, bless);
     const coordinate = this.getCoordinate();
     let [left, top] = coordinate;
-    const half = this.itemSize / 2;
+    const half = this.ITEM_SIZE / 2;
     left += half;
     top -= half;
     const effectObj = { left, top };
-    effectObj.width = this.itemSize;
+    effectObj.width = this.ITEM_SIZE;
 
     /*eslint-disable */
     new Effect(animationElement, effectObj, 'easeInOutBack', '450ms', () => {
@@ -157,7 +182,7 @@ GiftList.prototype = {
   recalculateHeight() {
     const { length } = this.blesses;
     const lines = Math.ceil(length / this.countInLine);
-    const height = GiftList.CONSTANTS.ITEMSIZE * lines;
+    const height = GiftList.CONSTANTS.ITEM_SIZE * lines;
     this.containerHeight = height;
 
     this.element.style.height = `${height}px`;
@@ -221,11 +246,12 @@ GiftList.prototype = {
 
   removeAllChildren() {
     this.element.innerHTML = '';
+    this.progress.clearProgress();
   },
 };
 
 GiftList.CONSTANTS = {
-  ITEMSIZE: 50,
+  ITEM_SIZE: 50,
 };
 
 export default GiftList;

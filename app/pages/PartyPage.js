@@ -43,7 +43,7 @@ class PartyPage extends Component {
     const { blessPer, playOnAdded } = this.state;
 
     dispatch(fetchCurrentUser());
-    dispatch(fetchParty(id));
+    dispatch(fetchParty(id, true));
     dispatch(fetchBlessList(id, '', blessPer));
 
     const { giftList } = this.refs;
@@ -57,10 +57,18 @@ class PartyPage extends Component {
       if (blessDistribute) blessDistribute.show();
     }
 
-    const { party: { party }, user: { currentUser } } = this.props;
-    const { user_id } = party;
+    const { party: { party }, user: { currentUser }, cakeList: { cakeItems } } = nextProps;
+    const { user_id, cake_id } = party;
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
+
+    const cakeItem = cakeItems.find(item => item.id == cake_id);
+
+    if (cakeItem && !this.hasSetTotal) {
+      this.hasSetTotal = true;
+      const { hearts_limit } = cakeItem;
+      this.giftList.updateProgressTotal(hearts_limit);
+    }
 
     const { blessDispatcher } = this.refs;
     const { bless: { blesses } } = nextProps;
@@ -430,6 +438,7 @@ function mapStateToProps(state) {
     bless: state.bless,
     virtualPresent: state.virtualPresent,
     user: state.user,
+    cakeList: state.cakeList,
   };
 }
 
