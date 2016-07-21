@@ -35,6 +35,7 @@ GiftList.prototype = {
 
   initState() {
     this.containerWidth = this.element.clientWidth;
+    this.offsetLeft = this.element.offsetLeft;
     this.ITEM_SIZE = GiftList.CONSTANTS.ITEM_SIZE;
     this.countInLine = Math.floor(this.containerWidth / this.ITEM_SIZE);
   },
@@ -105,7 +106,7 @@ GiftList.prototype = {
     const { right, bottom } = rect;
     left = right;
 
-    if (right > this.containerWidth) {
+    if (right - this.offsetLeft > this.containerWidth) {
       left = this.getContainerRect()[0];
       top = bottom;
     }
