@@ -11,10 +11,12 @@ AnimateDispatcher.prototype = {
   constructor: AnimateDispatcher,
 
   initConfig(config) {
-    const { animationFlagField, expireTime, addBlessItem } = config;
+    const { animationFlagField, expireTime, addBlessItem, showPageFooter, hidePageFooter } = config;
     this.animationFlagField = animationFlagField;
     this.expireTime = expireTime;
     this.addBlessItem = addBlessItem;
+    this.showPageFooter = showPageFooter;
+    this.hidePageFooter = hidePageFooter;
   },
 
   addAnimation(animation) {
@@ -44,12 +46,18 @@ AnimateDispatcher.prototype = {
   playAnimations() {
     this.paused = false;
     this.animationsDone = false;
+
+    if (!this.animationGroup.length) return;
+    if (typeof this.hidePageFooter == 'function') this.hidePageFooter();
     this.playAnimation();
   },
 
   playAll() {
     this.animationGroup = this.groupAnimations(this.allAnimations);
-    this.playAnimations();
+
+    if (!this.animationGroup.length) return;
+    if (typeof this.hidePageFooter == 'function') this.hidePageFooter();
+    this.playAnimation();
   },
 
   stopAnimations() {
@@ -65,12 +73,15 @@ AnimateDispatcher.prototype = {
     this.animations.length = 0;
     this.animationGroups.length = 0;
     this.paused = true;
+    if (typeof this.showPageFooter == 'function') this.showPageFooter();
   },
 
   playAnimation() {
     if (this.paused || !this.animationGroup.length) {
       this.animationsDone = true;
       this.updateUnreadCount();
+
+      if (typeof this.showPageFooter == 'function') this.showPageFooter();
       return;
     }
 

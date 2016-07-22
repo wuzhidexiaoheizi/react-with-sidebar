@@ -260,7 +260,6 @@ class PartyPage extends Component {
     const { virtual_present: { name } } = blesses[0];
     const { animationContainer } = this.refs;
     const animationFun = this.animateToGiftGroup.bind(this);
-    const hidePageFooter = this.hidePageFooter.bind(this);
 
     this.checkIfExist(name, (isValidAnimation) => {
       /*eslint-disable */
@@ -270,7 +269,6 @@ class PartyPage extends Component {
         animationFun,
         isValidAnimation,
         animationCallback,
-        hidePageFooter,
       });
       /*eslint-enable */
     });
@@ -420,12 +418,16 @@ class PartyPage extends Component {
     const animationFlagField = 'id';
     const expireTime = Date.parse(birth_day) + 7 * 24 * 60 * 60 * 1000;
     const addBlessItem = this.addItemToGiftList.bind(this);
+    const showPageFooter = this.showPageFooter.bind(this);
+    const hidePageFooter = this.hidePageFooter.bind(this);
 
     const animationConfig = {
       animationFlagField,
       expireTime,
       playOnAdded,
       addBlessItem,
+      showPageFooter,
+      hidePageFooter,
     };
 
     const audio = 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac';
@@ -516,7 +518,6 @@ class PartyPage extends Component {
           config={animationConfig}
           ref="blessDispatcher"
           showCloseBtn={this.displayAnimateCloseBtn.bind(this)}
-          showPageFooter={this.showPageFooter.bind(this)}
         />
 
         { showAnimationCloseBtn &&

@@ -33,17 +33,18 @@ export default React.createClass({
   },
 
   playAnimations() {
-    this.displayCloseBtn();
+    this.beforePlayAnimations();
     this.animationDispatcher.playAnimations();
   },
 
   displayAllAnimations() {
-    this.displayCloseBtn();
+    this.beforePlayAnimations();
     this.animationDispatcher.playAll();
   },
 
-  displayCloseBtn() {
+  beforePlayAnimations() {
     const { showCloseBtn } = this.props;
+
     if (typeof showCloseBtn == 'function') showCloseBtn();
   },
 
@@ -94,8 +95,13 @@ export default React.createClass({
     animationDoneCallback();
     this.updateUnreadCount();
 
-    const { showPageFooter } = this.props;
-    if (typeof showPageFooter == 'function') showPageFooter();
+    const unreadCount = this.animationDispatcher.getUnreadCount();
+
+    if (unreadCount == 0) {
+      const { showPageFooter } = this.props;
+
+      if (typeof showPageFooter == 'function') showPageFooter();
+    }
   },
 
   animationDispatcher: null,

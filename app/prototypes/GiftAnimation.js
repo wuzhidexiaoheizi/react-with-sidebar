@@ -5,7 +5,6 @@ function GiftAnimations(containment, config = {}) {
     isValidAnimation,
     animationCallback,
     animationFun,
-    hidePageFooter,
   } = config;
 
   this.containment = containment;
@@ -14,7 +13,6 @@ function GiftAnimations(containment, config = {}) {
   this.isValidAnimation = isValidAnimation;
   this.animationCallback = animationCallback;
   this.animationFun = animationFun;
-  this.hidePageFooter = hidePageFooter;
 
   this.init();
 }
@@ -22,7 +20,6 @@ function GiftAnimations(containment, config = {}) {
 GiftAnimations.prototype = {
   init() {
     this.render();
-    if (typeof this.hidePageFooter == 'function') this.hidePageFooter();
     this.attachEvents();
   },
 
@@ -81,7 +78,7 @@ GiftAnimations.prototype = {
       animationElement.addEventListener('oAnimationEnd', this.animationEnd, false);
       animationElement.addEventListener('animationend', this.animationEnd, false);
     } else {
-      setTimeout(this.animationCallback.bind(this), 2000);
+      setTimeout(this.animationEndHandler.bind(this), 2000);
     }
   },
 
@@ -91,11 +88,13 @@ GiftAnimations.prototype = {
       return;
     }
 
-    const animationElement = this.animationElement;
+    if (this.isValidAnimation) {
+      const animationElement = this.animationElement;
 
-    animationElement.removeEventListener('webkitAnimationEnd', this.animationEnd, false);
-    animationElement.removeEventListener('oAnimationEnd', this.animationEnd, false);
-    animationElement.removeEventListener('animationend', this.animationEnd, false);
+      animationElement.removeEventListener('webkitAnimationEnd', this.animationEnd, false);
+      animationElement.removeEventListener('oAnimationEnd', this.animationEnd, false);
+      animationElement.removeEventListener('animationend', this.animationEnd, false);
+    }
   },
 
   closeAnimation() {
@@ -108,15 +107,19 @@ GiftAnimations.prototype = {
     if (typeof this.animationFun == 'function') this.addBlessToList(bless);
   },
 
+  animationEndHandler() {
+    this.closeAnimation();
+
+    if (typeof this.animationCallback == 'function') {
+      this.animationCallback();
+    }
+  },
+
   addBlessToList(bless) {
     this.animationFun(this.animationElement, bless, () => {
       if (this.animationBlesses.length == 0) {
-        if (typeof this.animationCallback == 'function') {
-          this.closeAnimation();
-          this.animationCallback();
-        }
+        this.animationEndHandler();
       } else {
-        this.animationElement.style.display = 'block';
         const _bless = this.animationBlesses.shift();
         this.updateDoneeName(_bless);
         this.addBlessToList(_bless);
