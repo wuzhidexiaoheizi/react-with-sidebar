@@ -24,13 +24,13 @@ GiftList.prototype = {
       this.insertBlesses();
     }
 
-    this.attachEvents();
+    // this.attachEvents();
   },
 
   destroy() {
     this.blesses.length = 0;
     this.progress.destroy();
-    this.detachEvents();
+    // this.detachEvents();
   },
 
   initState() {

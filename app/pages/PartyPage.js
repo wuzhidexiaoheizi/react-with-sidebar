@@ -35,7 +35,7 @@ class PartyPage extends Component {
       rotate_status: true,
       earliestId: '',
       showAnimationCloseBtn: false,
-      showBullet: true,
+      showBullet: false,
       showBulletToggle: false,
       playOnAdded: true,
     };
@@ -236,10 +236,11 @@ class PartyPage extends Component {
 
   toggleBullet() {
     const { bulletScreen } = this.refs;
-    const { showBullet } = this.state;
+    let { showBullet } = this.state;
+    showBullet = !showBullet;
 
-    this.setState({ showBullet: !showBullet });
-    bulletScreen.toggleShow();
+    this.setState({ showBullet: showBullet });
+    bulletScreen.toggleShow(showBullet);
   }
 
   showAnimation(bless) {
@@ -472,7 +473,7 @@ class PartyPage extends Component {
                   }
                   <MusicPlayer resource={audio} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
                   { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
-                    textFieldName="message" />}
+                    textFieldName="message" showBullet={showBullet} />}
                 </div>
                 <div className="party-body">
                   {/* <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />*/}

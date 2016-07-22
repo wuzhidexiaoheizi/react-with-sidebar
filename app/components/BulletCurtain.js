@@ -4,12 +4,6 @@ import Curtain from '../prototypes/Curtain';
 export default React.createClass({
   displayName: 'BulletCurtain',
 
-  getInitialState() {
-    return {
-      isShow: true
-    };
-  },
-
   componentDidMount() {
     const {
       config: { color, fontSize, fontWeight, speed, alpha, lineSpacing, trackCount, loop, stopOnHover },
@@ -82,7 +76,7 @@ export default React.createClass({
   curtainInstance: null,
 
   assignmentData() {
-    const { bullets, textFieldName } = this.props;
+    const { bullets, textFieldName, showBullet } = this.props;
 
     if (!bullets.length) return;
 
@@ -92,15 +86,18 @@ export default React.createClass({
       });
     });
 
-    this.curtainInstance.play();
+    if (showBullet) this.curtainInstance.play();
   },
 
-  toggleShow() {
-    const { isShow } = this.state;
+  toggleShow(showBullet) {
     const { bulletScreen } = this.refs;
-    bulletScreen.style.display = isShow ? 'none' : 'block';
+    bulletScreen.style.display = showBullet ? 'block' : 'none';
 
-    this.setState({ isShow: !isShow });
+    if (showBullet) {
+      this.curtainInstance.play();
+    } else {
+      this.curtainInstance.stop();
+    }
   },
 
   render() {
