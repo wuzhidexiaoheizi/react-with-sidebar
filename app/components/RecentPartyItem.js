@@ -45,7 +45,7 @@ export default class RecentPartyItem extends Component {
             </div>
           </div>
           <div className="progress">
-            <div className="progress-bar progress-bar-danger"
+            <div className="progress-bar"
               style={{ width: `${percent}%` }}></div>
           </div>
         </div>
