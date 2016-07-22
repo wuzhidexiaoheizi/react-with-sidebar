@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import Slider from '../components/Slider';
 import BlessCard from '../components/BlessCard';
 import { connect } from 'react-redux';
-import { fethcCakeItem } from '../actions/cakeList';
+import { fetchCakeItem } from '../actions/cakeList';
 import lovePNG from '../images/love.png';
 import Constants from '../constants';
-import { checkUserHasLogged } from '../helper';
+import { checkUserHasLogged, updateDocumentTitle } from '../helper';
 import BuyerList from '../components/BuyerList';
 
 class DetailPage extends Component {
@@ -20,11 +20,15 @@ class DetailPage extends Component {
   componentDidMount() {
     const { params: {id}, dispatch } = this.props;
 
-    dispatch(fethcCakeItem(id));
+    dispatch(fetchCakeItem(id));
   }
 
   componentWillReceiveProps() {
     if (window.location.href.indexOf('#showBlessCard') > -1) this.setState({ showBlessCard: true });
+  }
+
+  updateTitle(title) {
+    updateDocumentTitle('生日趴-' + title);
   }
 
   snapUp() {

@@ -70,13 +70,16 @@ export function fetchShop(id) {
   };
 }
 
-export function fethcCakeItem(id) {
+export function fetchCakeItem(id, callback) {
   return dispatch => {
     const { DOMAIN, API_PROMOTION_PREFIX, CAKE_URL } = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${CAKE_URL}/${id}`;
 
     return _fetch(url)
       .then(json => {
+        const { title } = json;
+        if (typeof callback == 'function') callback(title);
+
         dispatch(setCakeItem(id, json));
 
         const { item_id, shop_id } = json;

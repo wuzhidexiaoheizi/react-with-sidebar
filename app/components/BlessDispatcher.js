@@ -76,7 +76,7 @@ export default React.createClass({
 
     if (unreadCount > 0) {
       const { animationBtn } = this.refs;
-      this.effect = new Effect(animationBtn, { bottom: '+5px' },
+      this.effect = new Effect(animationBtn, { bottom: '+=5px' },
         'flip', 100, null, { effectInterval: 2000 });
     } else {
       if (this.effect) {
@@ -93,6 +93,9 @@ export default React.createClass({
   animationCallback(animationDoneCallback) {
     animationDoneCallback();
     this.updateUnreadCount();
+
+    const { showPageFooter } = this.props;
+    if (typeof showPageFooter == 'function') showPageFooter();
   },
 
   animationDispatcher: null,

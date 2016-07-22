@@ -1,7 +1,7 @@
 export default {
-  'DOMAIN': __ENV__ == 'PRODUCTION' ? 'http://m.wanliu.biz' : 'http://0.0.0.0:8080',
+  'DOMAIN': __ENV__ == 'PRODUCTION' ? 'http://test.wanliu.biz' : 'http://0.0.0.0:8080',
   'QRCODE': true,
-  'WEIXIN_JS_API_LIST': ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'],
+  'WEIXIN_JS_API_LIST': ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'onMenuShareAppMessage'],
   'API_PROMOTION_PREFIX': '/api/promotions',
   'CAKE_URL': '/cakes',
   'SALE_COUNT_URL': '/saled_count',

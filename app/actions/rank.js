@@ -1,6 +1,6 @@
 import { _fetch, serializeParams } from '../helper';
 import Constants from '../constants';
-import { fethcCakeItem } from './cakeList';
+import { fetchCakeItem } from './cakeList';
 
 export function fetchRankPageData(page = 1, per = 10, loadCake) {
   return (dispatch, getState) => {
@@ -26,7 +26,7 @@ export function fetchRankPageData(page = 1, per = 10, loadCake) {
             const cakeItem = cakeItems.find(item => item.id == cake_id);
 
             if (!cakeItem) {
-              dispatch(fethcCakeItem(cake_id));
+              dispatch(fetchCakeItem(cake_id));
             }
           });
         }

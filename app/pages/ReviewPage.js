@@ -28,7 +28,7 @@ export default class ReviewPage extends Component {
 
     dispatch(fetchCurrentUser());
     dispatch(fetchBlessList(id, earliestId, blessPer));
-    dispatch(fetchParty(id, true));
+    dispatch(fetchParty(id, { loadCake: true}));
   }
 
   onScrollStart() {

@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import Constants from '../constants';
-import { _fetch } from '../helper';
-import DismissTip from '../components/DismissTip';
-
-const WEIXIN_CONFIG = 'wexin_config';
+import DismissTip from '../prototypes/DismissTip';
 
 export default class AvatarUpload extends Component {
   constructor(props) {
@@ -15,31 +12,6 @@ export default class AvatarUpload extends Component {
 
     this.resizeHandler = this.resizeAvatarContainer.bind(this);
     window.addEventListener('resize', this.resizeHandler, false);
-
-    if (!this.isWeixin()) return;
-
-    const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG) || '{}');
-    const isExpire = config && config.expired_at ? config.expired_at < Date.now() : true;
-
-    if (isExpire) {
-      this.getWeixinConfig();
-    } else {
-      this.initWeixinConfig(config);
-    }
-  }
-
-  getWeixinConfig() {
-    const { DOMAIN, WEIXIN_API_SIGNATURE_URL } = Constants;
-    const href = window.location.href;
-    const query = `?url=${encodeURIComponent(href)}`;
-    const url = `${DOMAIN}${WEIXIN_API_SIGNATURE_URL}${query}`;
-
-    _fetch(url)
-      .then(json => {
-        localStorage.setItem(WEIXIN_CONFIG, JSON.stringify(json));
-
-        this.initWeixinConfig(json);
-      });
   }
 
   componetWillUnmount() {
@@ -56,22 +28,6 @@ export default class AvatarUpload extends Component {
     const ua = window.navigator.userAgent.toLowerCase();
 
     return ua.match(/MicroMessenger/i) == 'micromessenger';
-  }
-
-  initWeixinConfig(config) {
-    const { appId, timestamp, nonceStr, signature} = config;
-    const { WEIXIN_JS_API_LIST } = Constants;
-
-    if (window.wx) {
-      window.wx.config({
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId, // 必填，公众号的唯一标识
-        timestamp, // 必填，生成签名的时间戳
-        nonceStr, // 必填，生成签名的随机串
-        signature, // 必填，签名，见附录1
-        jsApiList: WEIXIN_JS_API_LIST // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-      });
-    }
   }
 
   handlUpload() {
@@ -112,15 +68,19 @@ export default class AvatarUpload extends Component {
   }
 
   showUploadSuccessTip() {
-    const { uploadTip } = this.refs;
+    const { avatarContainer } = this.refs;
 
-    uploadTip.resetTypeAndMessage('success', '头像上传成功！');
+    /*eslint-disable */
+    new DismissTip(avatarContainer, 'success', '头像上传成功！');
+    /*eslint-enable */
   }
 
   showUploadErrorTip(errors) {
-    const { uploadTip } = this.refs;
+    const { avatarContainer } = this.refs;
 
-    uploadTip.resetTypeAndMessage('error', errors);
+    /*eslint-disable */
+    new DismissTip(avatarContainer, 'error', errors);
+    /*eslint-enable */
   }
 
   showGifts() {
@@ -152,8 +112,6 @@ export default class AvatarUpload extends Component {
       <div className="avatar-container" ref="avatarContainer">
         <img src={avatarImage} />
         { fragment }
-
-        <DismissTip ref="uploadTip" />
       </div>
     );
   }

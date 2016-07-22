@@ -6,7 +6,7 @@ import { fetchParty } from '../actions/party';
 import { fetchBlessList } from '../actions/bless';
 import { fetchCurrentUser } from '../actions/user';
 import { connect } from 'react-redux';
-import { formatDate, checkUserHasLogged } from '../helper';
+import { formatDate, checkUserHasLogged, updateDocumentTitle, _fetch } from '../helper';
 import { bindActionCreators } from 'redux';
 import * as PartyActions from '../actions/party';
 import * as PresentActions from '../actions/virtualPresent';
@@ -21,6 +21,9 @@ import BlessDispatcher from '../components/BlessDispatcher';
 import { checkPresentIsForbidden } from '../actions/virtualPresent';
 import GiftList from '../prototypes/GiftList';
 import GiftAnimation from '../prototypes/GiftAnimation';
+import Effect from '../prototypes/Effect';
+
+const WEIXIN_CONFIG = 'wexin_config';
 
 class PartyPage extends Component {
   constructor(props) {
@@ -43,12 +46,23 @@ class PartyPage extends Component {
     const { blessPer, playOnAdded } = this.state;
 
     dispatch(fetchCurrentUser());
-    dispatch(fetchParty(id, true));
+    dispatch(fetchParty(id, { loadCake: true }));
     dispatch(fetchBlessList(id, '', blessPer));
 
     const { giftList, blessDispatcher } = this.refs;
     this.giftList = new GiftList(giftList, blesses, { playOnAdded, showAnimation: this.showAnimation.bind(this) });
     blessDispatcher.insertAnimations(blesses);
+
+    if (!this.isWeixin()) return;
+
+    const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG) || '{}');
+    const isExpire = config && config.expired_at ? config.expired_at < Date.now() : true;
+
+    if (isExpire) {
+      this.getWeixinConfig();
+    } else {
+      this.initWeixinConfig(config);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,7 +73,7 @@ class PartyPage extends Component {
     }
 
     const { party: { party }, user: { currentUser }, cakeList: { cakeItems } } = nextProps;
-    const { user_id, cake_id } = party;
+    const { user_id, cake_id, person_avatar, birthday_person, message } = party;
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
 
@@ -71,9 +85,29 @@ class PartyPage extends Component {
       this.giftList.updateProgressTotal(hearts_limit);
     }
 
-    const { blessDispatcher } = this.refs;
+    if (this.isWeixin() && person_avatar && !this.shareConfiged) {
+      this.shareConfiged = true;
+      const title = `欢迎参加${birthday_person}的生日趴`;
+      this.initShareConfig(title, message, person_avatar);
+    }
+
     const { bless: { blesses } } = nextProps;
     const lastBlesses = this.props.bless.blesses;
+
+    this.onBlessChanged(blesses, lastBlesses);
+
+    if (currentUser && !this.hasShowAnimation) {
+      this.hasShowAnimation = true;
+      this.lookupAnimationName();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.giftList) this.giftList.destroy();
+  }
+
+  onBlessChanged(blesses, lastBlesses) {
+    const { blessDispatcher } = this.refs;
 
     if (blesses != lastBlesses) {
       if (lastBlesses.length == 0) {
@@ -90,15 +124,59 @@ class PartyPage extends Component {
         }
       }
     }
+  }
 
-    if (currentUser && !this.hasShowAnimation) {
-      this.hasShowAnimation = true;
-      this.lookupAnimationName();
+  getWeixinConfig() {
+    const { DOMAIN, WEIXIN_API_SIGNATURE_URL } = Constants;
+    const href = window.location.href;
+    const query = `?url=${encodeURIComponent(href)}`;
+    const url = `${DOMAIN}${WEIXIN_API_SIGNATURE_URL}${query}`;
+
+    _fetch(url)
+      .then(json => {
+        localStorage.setItem(WEIXIN_CONFIG, JSON.stringify(json));
+
+        this.initWeixinConfig(json);
+      });
+  }
+
+  isWeixin() {
+    const ua = window.navigator.userAgent.toLowerCase();
+
+    return ua.match(/MicroMessenger/i) == 'micromessenger';
+  }
+
+  initWeixinConfig(config) {
+    const { appId, timestamp, nonceStr, signature} = config;
+    const { WEIXIN_JS_API_LIST } = Constants;
+
+    if (window.wx) {
+      window.wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId, // 必填，公众号的唯一标识
+        timestamp, // 必填，生成签名的时间戳
+        nonceStr, // 必填，生成签名的随机串
+        signature, // 必填，签名，见附录1
+        jsApiList: WEIXIN_JS_API_LIST // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      });
     }
   }
 
-  componentWillUnmount() {
-    if (this.giftList) this.giftList.destroy();
+  initShareConfig(title, desc, avatar) {
+    const { DONEE_DEFAULT_AVATAR } = Constants;
+
+    if (window.wx) {
+      window.wx.onMenuShareAppMessage({
+        title: title || '生日趴', // 分享标题
+        desc: desc || '这是生日趴', // 分享描述
+        link: window.location.href, // 分享链接
+        imgUrl: avatar || DONEE_DEFAULT_AVATAR, // 分享图标
+      });
+    }
+  }
+
+  updateTitle(title) {
+    updateDocumentTitle('生日趴-' + title);
   }
 
   openPhaseModal() {
@@ -137,6 +215,24 @@ class PartyPage extends Component {
     this.setState({ showAnimationCloseBtn: false });
   }
 
+  hidePageFooter() {
+    const { pageFooter } = this.refs;
+    const { clientHeight } = pageFooter;
+
+    /*eslint-disable */
+    new Effect(pageFooter, { bottom: '-=' + clientHeight }, 'swing', '250ms');
+    /*eslint-enable */
+  }
+
+  showPageFooter() {
+    const { pageFooter } = this.refs;
+    const { clientHeight } = pageFooter;
+
+    /*eslint-disable */
+    new Effect(pageFooter, { bottom: '+=' + clientHeight }, 'swing', '250ms');
+    /*eslint-enable */
+  }
+
   toggleBullet() {
     const { bulletScreen } = this.refs;
     const { showBullet } = this.state;
@@ -164,6 +260,7 @@ class PartyPage extends Component {
     const { virtual_present: { name } } = blesses[0];
     const { animationContainer } = this.refs;
     const animationFun = this.animateToGiftGroup.bind(this);
+    const hidePageFooter = this.hidePageFooter.bind(this);
 
     this.checkIfExist(name, (isValidAnimation) => {
       /*eslint-disable */
@@ -173,6 +270,7 @@ class PartyPage extends Component {
         animationFun,
         isValidAnimation,
         animationCallback,
+        hidePageFooter,
       });
       /*eslint-enable */
     });
@@ -334,7 +432,6 @@ class PartyPage extends Component {
 
     return (
       <div className="page-container party-container" ref="animationContainer">
-
         <div className="container-nano">
           <div className="container-content" onScroll={this.handleScroll.bind(this)}>
             <div className="container">
@@ -385,7 +482,7 @@ class PartyPage extends Component {
               </div>
             </div>
           </div>
-          <div className="page-footer party-footer">
+          <div className="page-footer party-footer" ref="pageFooter">
             <div className="container">
               <div className="row">
                 <div className="party-actions">
@@ -404,7 +501,6 @@ class PartyPage extends Component {
               <div className="loading-container"><Loading color="#FF280B" size="9px" /></div>
             }
           </div>
-
         </div>
 
         { showPhaseModal && <BlessPhase onClose={this.closePhaseModal.bind(this)}
@@ -420,6 +516,7 @@ class PartyPage extends Component {
           config={animationConfig}
           ref="blessDispatcher"
           showCloseBtn={this.displayAnimateCloseBtn.bind(this)}
+          showPageFooter={this.showPageFooter.bind(this)}
         />
 
         { showAnimationCloseBtn &&

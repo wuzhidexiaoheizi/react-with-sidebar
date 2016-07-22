@@ -28,6 +28,12 @@
     .container
       background none
       
+  .err-tip
+    color $red
+    position absolute
+    right 0
+    font-size 20px
+      
   .distribute-content
     width 80%
     margin 50px auto
@@ -38,12 +44,13 @@
     border-radius 5px
     background $grayBgColor
     
-    .err-tip
-      color $red
-    
     .distribute-header
       .header-label
         margin-bottom 15px
+        position relative
+        
+        .err-tip
+          bottom 0
 
       .present-group
         .present-item
@@ -79,6 +86,10 @@
     .distribute-body
       .body-label
         padding 15px 0
+        position relative
+        
+        .err-tip
+          bottom 15px
         
     .distribute-footer
       padding 15px 0
@@ -111,7 +122,13 @@
 
   .bless-distribute-modal .message-textarea
     height 100px
+    
+  .bless-distribute-modal .err-tip
+    font-size 14px
    
 @media (max-width: 576px)
   .bless-distribute-modal .message-textarea
     height 120px
+    
+  .bless-distribute-modal .err-tip
+    font-size 16px

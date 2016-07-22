@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { _fetch } from '../helper';
 import Constants from '../constants';
-import { fethcCakeItem } from './cakeList';
+import { fetchCakeItem } from './cakeList';
 
 export function setParty(id, party) {
   return dispatch => {
@@ -21,7 +21,7 @@ export function updateAvatar(url) {
   };
 }
 
-export function fetchParty(partyId, loadCake) {
+export function fetchParty(partyId, config = {}) {
   return (dispatch, getState) => {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL } = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}`;
@@ -29,14 +29,17 @@ export function fetchParty(partyId, loadCake) {
     return _fetch(url)
       .then(json => {
         const state = getState();
+        const { loadCake, callback } = config;
 
         if (loadCake) {
           const { cakeList: { cakeItems } } = state;
           const { cake_id } = json;
           const cakeItem = cakeItems.find(item => item.id == cake_id);
 
-          if (!cakeItem) dispatch(fethcCakeItem(cake_id));
+          if (!cakeItem) dispatch(fetchCakeItem(cake_id));
         }
+
+        if (typeof callback == 'function') callback();
 
         return dispatch(setParty(partyId, json));
       });

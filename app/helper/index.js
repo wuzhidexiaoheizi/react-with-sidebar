@@ -286,3 +286,7 @@ export function getInterval(interval) {
 export function getRankImage(index) {
   return RANK_PNG_MAP[index];
 }
+
+export function updateDocumentTitle(title) {
+  document.title = title || '生日趴';
+}

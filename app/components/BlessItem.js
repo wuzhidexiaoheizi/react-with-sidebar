@@ -5,12 +5,35 @@ import Constants from '../constants';
 export default class BlessItem extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      isExpanded: false,
+    };
   }
 
-  handleGiftClick() {
+  handleGiftClick(e) {
+    e.stopPropagation();
+
     const { onShowAnimation, bless } = this.props;
 
     if (typeof onShowAnimation == 'function') onShowAnimation(bless);
+  }
+
+  toggleEllipsisMessage() {
+    const { isExpanded } = this.state;
+    const { blessFigure } = this.refs;
+    let className = blessFigure.className;
+
+    if (isExpanded) {
+      className = className + ' text-ellipsis';
+    } else {
+      const index = className.indexOf('text-ellipsis');
+      className = className.slice(0, index - 1);
+    }
+
+    blessFigure.className = className;
+
+    this.setState({ isExpanded: !isExpanded });
   }
 
   render() {
@@ -28,12 +51,12 @@ export default class BlessItem extends Component {
     const donorName = nickname || login;
 
     return (
-      <div className="bless-item">
+      <div className="bless-item" onClick={this.toggleEllipsisMessage.bind(this)}>
         <div className="benefactor-avatar">
           <img src={ url } />
         </div>
         <div className="bless-factors">
-          <div className="bless-figure text-ellipsis">
+          <div className="bless-figure text-ellipsis" ref="blessFigure">
             { donorName }：<span className="bless-message">{ message }</span>
           </div>
           <div className="bless-date">{ dateStr }</div>

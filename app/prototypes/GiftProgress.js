@@ -20,7 +20,7 @@ GiftProgress.prototype = {
     const element = this.element = document.createElement('div');
     element.setAttribute('class', 'progress');
     element.innerHTML = `
-      <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: ${this.initialPercent}%" />
+      <div class="progress-bar progress-bar-danger" style="width: ${this.initialPercent}%" />
     `;
     this.containment.appendChild(element);
   },

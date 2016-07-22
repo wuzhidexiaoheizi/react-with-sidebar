@@ -14,7 +14,7 @@ export default class BlessCard extends Component {
 
     this.state = {
       doneeName: '',
-      bless: '生日快乐，幸福健康！',
+      bless: '',
       address: '',
       contact: '',
       birthday: new Date(),

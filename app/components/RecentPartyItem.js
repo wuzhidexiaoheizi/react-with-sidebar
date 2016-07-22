@@ -35,7 +35,7 @@ export default class RecentPartyItem extends Component {
                 <span className="amt">￥{withdrawable}</span>
               </div>
               <div className="progress">
-                <div className="progress-bar progress-bar-success progress-bar-striped active"
+                <div className="progress-bar progress-bar-danger"
                   style={{ width: `${percent}%` }}></div>
               </div>
             </div>

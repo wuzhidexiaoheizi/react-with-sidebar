@@ -5,6 +5,7 @@ function GiftAnimations(containment, config = {}) {
     isValidAnimation,
     animationCallback,
     animationFun,
+    hidePageFooter,
   } = config;
 
   this.containment = containment;
@@ -13,6 +14,7 @@ function GiftAnimations(containment, config = {}) {
   this.isValidAnimation = isValidAnimation;
   this.animationCallback = animationCallback;
   this.animationFun = animationFun;
+  this.hidePageFooter = hidePageFooter;
 
   this.init();
 }
@@ -20,6 +22,7 @@ function GiftAnimations(containment, config = {}) {
 GiftAnimations.prototype = {
   init() {
     this.render();
+    if (typeof this.hidePageFooter == 'function') this.hidePageFooter();
     this.attachEvents();
   },
 
