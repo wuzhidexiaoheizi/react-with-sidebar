@@ -73,7 +73,7 @@ class PartyPage extends Component {
     }
 
     const { party: { party }, user: { currentUser }, cakeList: { cakeItems } } = nextProps;
-    const { user_id, cake_id, person_avatar, birthday_person, message } = party;
+    const { user_id, cake_id } = party;
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
 
@@ -83,12 +83,6 @@ class PartyPage extends Component {
       this.hasSetTotal = true;
       const { hearts_limit } = cakeItem;
       this.giftList.updateProgressTotal(hearts_limit);
-    }
-
-    if (this.isWeixin() && person_avatar && !this.shareConfiged) {
-      this.shareConfiged = true;
-      const title = `欢迎参加${birthday_person}的生日趴`;
-      this.initShareConfig(title, message, person_avatar);
     }
 
     const { bless: { blesses } } = nextProps;
@@ -151,6 +145,13 @@ class PartyPage extends Component {
     const { WEIXIN_JS_API_LIST } = Constants;
 
     if (window.wx) {
+      window.wx.ready(() => {
+        const { party: { party } } = this.props;
+        const { person_avatar, birthday_person, message } = party;
+        const title = `欢迎参加${birthday_person}的生日趴`;
+        this.initShareConfig(title, message, person_avatar);
+      });
+
       window.wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId, // 必填，公众号的唯一标识
@@ -165,14 +166,12 @@ class PartyPage extends Component {
   initShareConfig(title, desc, avatar) {
     const { DONEE_DEFAULT_AVATAR } = Constants;
 
-    if (window.wx) {
-      window.wx.onMenuShareAppMessage({
-        title: title || '生日趴', // 分享标题
-        desc: desc || '这是生日趴', // 分享描述
-        link: window.location.href, // 分享链接
-        imgUrl: avatar || DONEE_DEFAULT_AVATAR, // 分享图标
-      });
-    }
+    window.wx.onMenuShareAppMessage({
+      title: title || '生日趴', // 分享标题
+      desc: desc || '这是生日趴', // 分享描述
+      link: window.location.href, // 分享链接
+      imgUrl: avatar || DONEE_DEFAULT_AVATAR, // 分享图标
+    });
   }
 
   updateTitle(title) {
