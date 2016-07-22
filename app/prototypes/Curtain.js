@@ -103,7 +103,7 @@ Curtain.prototype = {
 
     if (width > this.width) width = this.width;
     item.width = width;
-    item.x = this.width + Math.floor(Math.random() * 300 + 100); // 初始X轴位置
+    item.x = this.width; // 初始X轴位置
     item.y = lineN * this.fontSize + (lineN * this.lineSpacing); // 行数
     item.matrix = matrix;
 

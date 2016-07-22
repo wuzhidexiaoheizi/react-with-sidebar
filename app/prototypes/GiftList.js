@@ -24,13 +24,13 @@ GiftList.prototype = {
       this.insertBlesses();
     }
 
-    // this.attachEvents();
+    this.attachEvents();
   },
 
   destroy() {
     this.blesses.length = 0;
     this.progress.destroy();
-    // this.detachEvents();
+    this.detachEvents();
   },
 
   initState() {
@@ -200,6 +200,9 @@ GiftList.prototype = {
   clickHandler(e) {
     const evt = e || window.event;
     const target = evt.target || evt.srcElement;
+
+    if (this.detectClassName(target, 'gift-list')) return false;
+
     const parentNode = this.getAncestorNode(target, 'gift-item');
     const blessId = parentNode.getAttribute('bless-id');
     const bless = this.blesses.find(b => b.id == blessId);
