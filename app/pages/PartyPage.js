@@ -412,7 +412,7 @@ class PartyPage extends Component {
       lineSpacing: 4,
       trackCount: 5,
       loop: true,
-      stopOnHover: true,
+      stopOnHover: false,
     };
 
     const animationFlagField = 'id';
@@ -420,6 +420,8 @@ class PartyPage extends Component {
     const addBlessItem = this.addItemToGiftList.bind(this);
     const showPageFooter = this.showPageFooter.bind(this);
     const hidePageFooter = this.hidePageFooter.bind(this);
+    const showCloseBtn = this.displayAnimateCloseBtn.bind(this);
+    const hideCloseBtn = this.hideAnimationCloseBtn.bind(this);
 
     const animationConfig = {
       animationFlagField,
@@ -428,6 +430,8 @@ class PartyPage extends Component {
       addBlessItem,
       showPageFooter,
       hidePageFooter,
+      showCloseBtn,
+      hideCloseBtn,
     };
 
     const audio = 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac';
@@ -514,10 +518,8 @@ class PartyPage extends Component {
 
         <BlessDispatcher
           playAnimation={this.showAnimationWithCallback.bind(this)}
-          hideAnimations={this.hideAnimationCloseBtn.bind(this)}
           config={animationConfig}
           ref="blessDispatcher"
-          showCloseBtn={this.displayAnimateCloseBtn.bind(this)}
         />
 
         { showAnimationCloseBtn &&

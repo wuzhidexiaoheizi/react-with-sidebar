@@ -76,7 +76,7 @@ export default React.createClass({
   },
 
   mouseLeaveHandler() {
-    if (this.curtainInstance) this.curtainInstance.play();
+    if (this.curtainInstance) this.curtainInstance.resume();
   },
 
   curtainInstance: null,

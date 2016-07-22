@@ -33,27 +33,15 @@ export default React.createClass({
   },
 
   playAnimations() {
-    this.beforePlayAnimations();
     this.animationDispatcher.playAnimations();
   },
 
   displayAllAnimations() {
-    this.beforePlayAnimations();
     this.animationDispatcher.playAll();
-  },
-
-  beforePlayAnimations() {
-    const { showCloseBtn } = this.props;
-
-    if (typeof showCloseBtn == 'function') showCloseBtn();
   },
 
   skipAnimations() {
     this.animationDispatcher.skipAnimations();
-
-    const { hideAnimations } = this.props;
-
-    if (typeof hideAnimations == 'function') hideAnimations();
   },
 
   stopAnimations() {
@@ -94,14 +82,6 @@ export default React.createClass({
   animationCallback(animationDoneCallback) {
     animationDoneCallback();
     this.updateUnreadCount();
-
-    const unreadCount = this.animationDispatcher.getUnreadCount();
-
-    if (unreadCount == 0) {
-      const { showPageFooter } = this.props;
-
-      if (typeof showPageFooter == 'function') showPageFooter();
-    }
   },
 
   animationDispatcher: null,

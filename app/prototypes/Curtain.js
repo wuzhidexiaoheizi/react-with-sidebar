@@ -197,6 +197,11 @@ Curtain.prototype = {
     this.myReq = null;
   },
 
+  resume() {
+    this.playFlag = true;
+    this.render();
+  },
+
   clear() { // 清空所有数据
     this.children = [];
     this.renderChildren = [];

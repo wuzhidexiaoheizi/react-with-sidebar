@@ -11,12 +11,23 @@ AnimateDispatcher.prototype = {
   constructor: AnimateDispatcher,
 
   initConfig(config) {
-    const { animationFlagField, expireTime, addBlessItem, showPageFooter, hidePageFooter } = config;
+    const {
+      animationFlagField,
+      expireTime,
+      addBlessItem,
+      showPageFooter,
+      hidePageFooter,
+      showCloseBtn,
+      hideCloseBtn,
+    } = config;
+
     this.animationFlagField = animationFlagField;
     this.expireTime = expireTime;
     this.addBlessItem = addBlessItem;
     this.showPageFooter = showPageFooter;
     this.hidePageFooter = hidePageFooter;
+    this.showCloseBtn = showCloseBtn;
+    this.hideCloseBtn = hideCloseBtn;
   },
 
   addAnimation(animation) {
@@ -48,7 +59,7 @@ AnimateDispatcher.prototype = {
     this.animationsDone = false;
 
     if (!this.animationGroup.length) return;
-    if (typeof this.hidePageFooter == 'function') this.hidePageFooter();
+    this.beforePlayAnimations();
     this.playAnimation();
   },
 
@@ -56,8 +67,18 @@ AnimateDispatcher.prototype = {
     this.animationGroup = this.groupAnimations(this.allAnimations);
 
     if (!this.animationGroup.length) return;
-    if (typeof this.hidePageFooter == 'function') this.hidePageFooter();
+    this.beforePlayAnimations();
     this.playAnimation();
+  },
+
+  beforePlayAnimations() {
+    if (typeof this.showCloseBtn == 'function') this.showCloseBtn();
+    if (typeof this.hidePageFooter == 'function') this.hidePageFooter();
+  },
+
+  afterAnimationsDone() {
+    if (typeof this.hideCloseBtn == 'function') this.hideCloseBtn();
+    if (typeof this.showPageFooter == 'function') this.showPageFooter();
   },
 
   stopAnimations() {
@@ -73,7 +94,8 @@ AnimateDispatcher.prototype = {
     this.animations.length = 0;
     this.animationGroups.length = 0;
     this.paused = true;
-    if (typeof this.showPageFooter == 'function') this.showPageFooter();
+
+    this.afterAnimationsDone();
   },
 
   playAnimation() {
@@ -81,7 +103,7 @@ AnimateDispatcher.prototype = {
       this.animationsDone = true;
       this.updateUnreadCount();
 
-      if (typeof this.showPageFooter == 'function') this.showPageFooter();
+      this.afterAnimationsDone();
       return;
     }
 

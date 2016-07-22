@@ -70,15 +70,15 @@ GiftAnimations.prototype = {
       return;
     }
 
-    if (this.isValidAnimation) {
-      const animationElement = this.animationElement = this.element.querySelectorAll('.anim')[0];
-      this.animationEnd = this.autoDismissInAnimationDone.bind(this);
+    this.animationEnd = this.autoDismissInAnimationDone.bind(this);
+    const animationElement = this.animationElement = this.element.querySelectorAll('.anim')[0];
 
+    if (this.isValidAnimation) {
       animationElement.addEventListener('webkitAnimationEnd', this.animationEnd, false);
       animationElement.addEventListener('oAnimationEnd', this.animationEnd, false);
       animationElement.addEventListener('animationend', this.animationEnd, false);
     } else {
-      setTimeout(this.animationEndHandler.bind(this), 2000);
+      setTimeout(this.animationEnd, 2000);
     }
   },
 
