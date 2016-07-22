@@ -165,13 +165,15 @@ class PartyPage extends Component {
 
   initShareConfig(title, desc, avatar) {
     const { DONEE_DEFAULT_AVATAR } = Constants;
-
-    window.wx.onMenuShareAppMessage({
+    const config = {
       title: title || '生日趴', // 分享标题
       desc: desc || '这是生日趴', // 分享描述
       link: window.location.href, // 分享链接
       imgUrl: avatar || DONEE_DEFAULT_AVATAR, // 分享图标
-    });
+    };
+
+    window.wx.onMenuShareAppMessage(config);
+    window.wx.onMenuShareTimeline(config);
   }
 
   updateTitle(title) {
