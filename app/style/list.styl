@@ -51,6 +51,14 @@
     left 0
     right 0
     z-index 13
+    
+  .recent-parties
+    margin-bottom 30px
+    
+  .recent-poster, .cake-poster
+    display block
+    margin 15px auto
+    width 80%
 
   .cake-list
     padding 10px
@@ -124,38 +132,47 @@
         
   .party-link
     color #333
+    display block
+    padding 0 10px
+    margin-bottom 10px
+      
+  .item-wrap
+    border 1px solid $borderColor
+    background #FCFBF9
+    padding 10px
 
   .recent-item
     display table
     width 100%
-    padding 0 10px
+    font-size 14px
     
   .table-col
     display table-cell
-    padding 8px
+    vertical-align top
       
     &.gnh
       width 96px
       
     &.brief
-      max-width 0
+      width 50px
       
   .progress
-    margin-bottom 0
+    margin 10px 0 0 0
     height 12px
     
     .progress-bar
       line-height 12px
+      background $red
       
   .donee-avatar
-    width 50px
-    float left
+    width 100%
     box-shadow 0 0 3px $borderColor
     
   .other
-    margin-left 60px
-    text-align left
     word-break break-all
+    max-width 0
+    vertical-align middle
+    padding 0 8px
     
     .amt
       font-family $enFontFamily
@@ -173,20 +190,14 @@
   .gnh-title
     background $red
     text-align center
-    padding 3px
+    padding 1px
     color #fff
     
   .gnh-value
     text-align center
-    padding 3px
+    padding 1px
     color $red
     font-family $enFontFamily
-
-  .party-item
-    border-bottom 1px solid $darkBorderColor
-
-  .party-link:last-child .party-item
-    border-bottom none
         
   .empty-list
     line-height 120px
@@ -199,14 +210,17 @@
     .table-col.gnh
       width 126px
           
-    .donee-avatar
+    .table-col.brief
       width 75px
       
     .other
       margin-left 85px
           
     .gnh-title, .gnh-value
-      padding 5px  
+      padding 5px 
+      
+    .recent-item
+      font-size 16px 
 
 @media (max-width: 420px)
   .list-container
@@ -215,7 +229,7 @@
     .item-price .price
       font-size 2rem
 
-    img
+    .donee-count img
       width 1.5rem 
        
 @media (max-width: 368px)
@@ -225,7 +239,7 @@
     .item-price .price
       font-size 1.5rem
     
-    img
+    .donee-count img
       width 1.2rem
 
 

@@ -235,7 +235,7 @@ GiftList.prototype = {
   },
 
   detectClassName(node, targetName) {
-    const className = node.getAttribute('class');
+    const { className } = node;
 
     return className.indexOf(targetName) > -1;
   },
