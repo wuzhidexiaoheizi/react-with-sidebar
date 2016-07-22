@@ -42,6 +42,7 @@ function Curtain(container, config) {
   this.speed = speed || 10;  // 移动速度
   this.myReq = null;
   this.timer = null;
+  this.maxBulletCount = trackCount * 2;
 
   this.init();
 }
@@ -65,6 +66,8 @@ Curtain.prototype = {
 
   // 为整个Matrix分配将要渲染的弹幕
   allocationDataForMatrix() {
+    if (this.renderChildren.length >= this.maxBulletCount) return;
+
     let isEnd = false;
 
     // 分配子弹到弹道
