@@ -53,6 +53,8 @@ function Effect(element, effectObj, effectName, effectTime, callback, config = {
 }
 
 Effect.prototype = {
+  constructor: Effect,
+
   init() {
     this.initSrcAndChangeState();
     this.currentTime = 0;

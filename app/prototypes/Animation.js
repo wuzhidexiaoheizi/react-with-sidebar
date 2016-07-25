@@ -28,6 +28,8 @@ function Animation(element, config = {}) {
 }
 
 Animation.prototype = {
+  constructor: Animation,
+
   init() {
     const imageUrl = window.getComputedStyle(this.element, null).getPropertyValue('background-image');
     const position = window.getComputedStyle(this.element, null).getPropertyValue('background-position');

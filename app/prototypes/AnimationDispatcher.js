@@ -28,7 +28,11 @@ AnimateDispatcher.prototype = {
 
     const { playOnAdded } = this.config;
 
-    if (playOnAdded) this.playAnimations();
+    if (playOnAdded) {
+      this.playAnimations();
+    } else {
+      this.updateUnreadCount();
+    }
   },
 
   removeAnimation(animation) {

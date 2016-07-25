@@ -17,6 +17,8 @@ function GiftList(element, blesses = [], config = {}) {
 }
 
 GiftList.prototype = {
+  constructor: GiftList,
+
   init() {
     if (this.playOnAdded) {
       this.initProgressBar();

@@ -18,6 +18,8 @@ function GiftAnimations(containment, config = {}) {
 }
 
 GiftAnimations.prototype = {
+  constructor: GiftAnimations,
+
   init() {
     this.render();
     this.attachEvents();

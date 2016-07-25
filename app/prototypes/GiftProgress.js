@@ -8,6 +8,8 @@ function GiftProgress(containment, total, config = {}) {
 }
 
 GiftProgress.prototype = {
+  constructor: GiftProgress,
+
   init() {
     this.render();
   },

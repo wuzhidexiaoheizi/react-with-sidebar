@@ -35,6 +35,8 @@ function Animations(containment, config = {}) {
 }
 
 Animations.prototype = {
+  constructor: Animations,
+
   init() {
     const { name } = this.config;
     this.images = (Animations.BACKGROUNDMAP[name] || Object()).images;
