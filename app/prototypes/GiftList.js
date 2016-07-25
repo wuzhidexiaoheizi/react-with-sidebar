@@ -21,7 +21,8 @@ GiftList.prototype = {
     if (this.playOnAdded) {
       this.initProgressBar();
     } else {
-      this.insertBlesses();
+      const blesses = this.groupBlesses();
+      this.insertBlesses(blesses);
     }
 
     this.attachEvents();
@@ -40,13 +41,36 @@ GiftList.prototype = {
     this.countInLine = Math.floor(this.containerWidth / this.ITEM_SIZE);
   },
 
-  insertBlesses() {
+  insertBlesses(blesses) {
+    blesses.forEach((bless) => {
+      this.insertBless(bless);
+    });
+  },
+
+  groupBlesses() {
     const { length } = this.blesses;
 
     this.initProgressBar(length);
 
+    const groups = {};
+    const blesses = [];
+    let group;
+
     this.blesses.forEach((bless) => {
-      this.insertBless(bless);
+      const { virtual_present: { name } } = bless;
+      group = groups[name];
+
+      if (!group) {
+        group = [];
+        groups[name] = group;
+      }
+
+      group.push(bless);
+    });
+
+    Object.keys(groups).forEach((key) => {
+      const val = groups[key];
+      blesses.push([...val]);
     });
   },
 

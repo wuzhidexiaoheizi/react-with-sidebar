@@ -19,6 +19,7 @@ AnimateDispatcher.prototype = {
       hidePageFooter,
       showCloseBtn,
       hideCloseBtn,
+      skipHandler,
     } = config;
 
     this.animationFlagField = animationFlagField;
@@ -28,6 +29,7 @@ AnimateDispatcher.prototype = {
     this.hidePageFooter = hidePageFooter;
     this.showCloseBtn = showCloseBtn;
     this.hideCloseBtn = hideCloseBtn;
+    this.skipHandler = skipHandler;
   },
 
   addAnimation(animation) {
@@ -73,35 +75,48 @@ AnimateDispatcher.prototype = {
 
   beforePlayAnimations() {
     if (typeof this.showCloseBtn == 'function') this.showCloseBtn();
-    if (typeof this.hidePageFooter == 'function') this.hidePageFooter();
+    if (this.isPageVisible() && typeof this.hidePageFooter == 'function') this.hidePageFooter();
   },
 
   afterAnimationsDone() {
     if (typeof this.hideCloseBtn == 'function') this.hideCloseBtn();
-    if (typeof this.showPageFooter == 'function') this.showPageFooter();
+    if (!this.isPageVisible() && typeof this.showPageFooter == 'function') this.showPageFooter();
+  },
+
+  isPageVisible() {
+    const element = document.querySelectorAll('.page-footer')[0];
+
+    return window.parseInt(element.style.bottom) == 0;
   },
 
   stopAnimations() {
     this.paused = true;
   },
 
-  skipAnimations() {
-    for (let i = 0; i < this.animationGroups.length; i++) {
-      const group = this.animationGroups[i];
+  skipAnimations(animations) {
+    const remainAnimations = [];
+
+    if (animations) remainAnimations.push(...animations);
+
+    for (let i = 0; i < this.animationGroup.length; i++) {
+      const group = this.animationGroup[i];
       this.remarkAnimaitionGroupAsDisplayed(group);
+      remainAnimations.push(...group);
     }
 
-    this.animations.length = 0;
-    this.animationGroups.length = 0;
-    this.paused = true;
-
     this.afterAnimationsDone();
+    if (typeof this.skipHandler == 'function') this.skipHandler(remainAnimations);
+
+    this.animations.length = 0;
+    this.animationGroup.length = 0;
+    this.paused = true;
   },
 
   playAnimation() {
+    this.updateUnreadCount();
+
     if (this.paused || !this.animationGroup.length) {
       this.animationsDone = true;
-      this.updateUnreadCount();
 
       this.afterAnimationsDone();
       return;
@@ -132,7 +147,6 @@ AnimateDispatcher.prototype = {
 
   animationCallback() {
     this.playAnimation();
-    this.updateUnreadCount();
   },
 
   updateUnreadCount() {
@@ -172,6 +186,7 @@ AnimateDispatcher.prototype = {
       }
     }
 
+    this.updateUnreadCount();
     this.animationGroup = this.groupAnimations(this.animations);
   },
 
@@ -191,13 +206,11 @@ AnimateDispatcher.prototype = {
       group.push(animation);
     });
 
-    this.updateUnreadCount();
-
     return Object.values(animationGroup);
   },
 
   getUnreadCount() {
-    return this.animationGroup.length;
+    return this.animations.length;
   },
 
   animationsIsDone() {

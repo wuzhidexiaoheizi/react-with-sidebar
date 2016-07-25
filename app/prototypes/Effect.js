@@ -9,7 +9,7 @@ if (!window.requestAnimationFrame) {
       window.oRequestAnimationFrame ||
       window.msRequestAnimationFrame ||
       function request(callback) {
-        return setTimeout(callback, 1000 / 60);
+        return setTimeout(callback, 1000 / 50);
       };
   })();
 
@@ -43,7 +43,7 @@ function Effect(element, effectObj, effectName, effectTime, callback, config = {
   this.effectTime = getInterval(effectTime || time);
   this.onEffectEnd = callback || onEffectEnd;
   this.onEffectStart = onEffectStart;
-  this.fps = 60;
+  this.fps = 50;
   this.fpsInterval = 1000 / this.fps;
   this.isFlip = effectName == 'flip';
   this.flipCount = 0;
@@ -137,7 +137,7 @@ Effect.prototype = {
 
     this.currentTime += this.fpsInterval;
 
-    if (this.currentTime < this.effectTime) {
+    if (this.currentTime <= this.effectTime) {
       this.myReq = requestAnimationFrame(this.animate.bind(this));
       this.animationTimer = setTimeout(this.myReq, this.fpsInterval);
     } else {

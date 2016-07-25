@@ -40,8 +40,8 @@ export default React.createClass({
     this.animationDispatcher.playAll();
   },
 
-  skipAnimations() {
-    this.animationDispatcher.skipAnimations();
+  skipAnimations(animations) {
+    this.animationDispatcher.skipAnimations(animations);
   },
 
   stopAnimations() {
@@ -72,16 +72,11 @@ export default React.createClass({
         this.effect.stop();
         this.effect = null;
       }
-
-      const { hideAnimations } = this.props;
-
-      if (typeof hideAnimations == 'function') hideAnimations();
     }
   },
 
   animationCallback(animationDoneCallback) {
     animationDoneCallback();
-    this.updateUnreadCount();
   },
 
   animationDispatcher: null,

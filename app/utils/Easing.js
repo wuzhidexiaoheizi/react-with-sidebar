@@ -6,6 +6,9 @@
  */
 
 const Easing = {
+  linear(t, b, c, d) {
+    return t * c / d + b;
+  },
   swing(t, b, c, d) {
     return this.easeOutBounce(t, b, c, d);
   },

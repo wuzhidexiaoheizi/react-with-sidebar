@@ -221,16 +221,15 @@ class PartyPage extends Component {
     const { clientHeight } = pageFooter;
 
     /*eslint-disable */
-    new Effect(pageFooter, { bottom: '-=' + clientHeight }, 'swing', '250ms');
+    new Effect(pageFooter, { bottom: `-${clientHeight}px` }, 'swing', '240ms');
     /*eslint-enable */
   }
 
   showPageFooter() {
     const { pageFooter } = this.refs;
-    const { clientHeight } = pageFooter;
 
     /*eslint-disable */
-    new Effect(pageFooter, { bottom: '+=' + clientHeight }, 'swing', '250ms');
+    new Effect(pageFooter, { bottom: 0 }, 'swing', '240ms');
     /*eslint-enable */
   }
 
@@ -264,15 +263,13 @@ class PartyPage extends Component {
     const animationFun = this.animateToGiftGroup.bind(this);
 
     this.checkIfExist(name, (isValidAnimation) => {
-      /*eslint-disable */
-      new GiftAnimation(animationContainer, {
+      this.giftAnimation = new GiftAnimation(animationContainer, {
         autoDismiss: true,
         animationBlesses: blesses,
         animationFun,
         isValidAnimation,
         animationCallback,
       });
-      /*eslint-enable */
     });
   }
 
@@ -296,8 +293,10 @@ class PartyPage extends Component {
   }
 
   skipAnimations() {
-    const { blessDispatcher } = this.refs;
-    blessDispatcher.skipAnimations();
+    this.giftAnimation.jumpToEnd((animations) => {
+      const { blessDispatcher } = this.refs;
+      blessDispatcher.skipAnimations(animations);
+    });
   }
 
   showBulletToggle() {
@@ -372,6 +371,10 @@ class PartyPage extends Component {
     this.giftList.insertBless(bless);
   }
 
+  addItemsToGiftList(blesses) {
+    this.giftList.insertBlesses(blesses);
+  }
+
   render() {
     const { PARTY_HEADER_IMG } = Constants;
     const {
@@ -424,6 +427,7 @@ class PartyPage extends Component {
     const hidePageFooter = this.hidePageFooter.bind(this);
     const showCloseBtn = this.displayAnimateCloseBtn.bind(this);
     const hideCloseBtn = this.hideAnimationCloseBtn.bind(this);
+    const skipHandler = this.addItemsToGiftList.bind(this);
 
     const animationConfig = {
       animationFlagField,
@@ -434,6 +438,7 @@ class PartyPage extends Component {
       hidePageFooter,
       showCloseBtn,
       hideCloseBtn,
+      skipHandler,
     };
 
     const audio = 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac';

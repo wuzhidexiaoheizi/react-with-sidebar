@@ -104,6 +104,9 @@ GiftAnimations.prototype = {
   autoDismissInAnimationDone() {
     const bless = this.animationBlesses.shift();
 
+    this.started = true;
+    this.ended = false;
+
     if (typeof this.animationFun == 'function') this.addBlessToList(bless);
   },
 
@@ -116,8 +119,15 @@ GiftAnimations.prototype = {
   },
 
   addBlessToList(bless) {
+    if (this.ended) {
+      this.animationEndHandler();
+      return;
+    }
+
     this.animationFun(this.animationElement, bless, () => {
       if (this.animationBlesses.length == 0) {
+        this.started = false;
+        this.ended = true;
         this.animationEndHandler();
       } else {
         const _bless = this.animationBlesses.shift();
@@ -125,6 +135,15 @@ GiftAnimations.prototype = {
         this.addBlessToList(_bless);
       }
     });
+  },
+
+  jumpToEnd(interruptAnimation) {
+    this.ended = true;
+    this.destroy();
+
+    const blesses = this.animationBlesses;
+
+    if (typeof interruptAnimation == 'function') interruptAnimation(blesses);
   },
 };
 
