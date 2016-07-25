@@ -27,9 +27,6 @@ export default React.createClass({
 
     this.initDispatcherConfig();
     this.animationDispatcher.addAnimations(newAnimations);
-    const { config: { playOnAdded } } = this.props;
-
-    if (playOnAdded) this.playAnimations();
   },
 
   playAnimations() {
@@ -52,11 +49,7 @@ export default React.createClass({
   showAnimation(animations, animationDoneCallback) {
     const { playAnimation } = this.props;
 
-    if (typeof playAnimation == 'function') {
-      playAnimation(animations, () => {
-        this.animationCallback(animationDoneCallback);
-      });
-    }
+    if (typeof playAnimation == 'function') playAnimation(animations, animationDoneCallback);
   },
 
   updateUnreadCount() {
@@ -73,10 +66,6 @@ export default React.createClass({
         this.effect = null;
       }
     }
-  },
-
-  animationCallback(animationDoneCallback) {
-    animationDoneCallback();
   },
 
   animationDispatcher: null,

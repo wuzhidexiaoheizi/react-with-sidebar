@@ -10,26 +10,8 @@ function AnimateDispatcher(component, config = {}) {
 AnimateDispatcher.prototype = {
   constructor: AnimateDispatcher,
 
-  initConfig(config) {
-    const {
-      animationFlagField,
-      expireTime,
-      addBlessItem,
-      showPageFooter,
-      hidePageFooter,
-      showCloseBtn,
-      hideCloseBtn,
-      skipHandler,
-    } = config;
-
-    this.animationFlagField = animationFlagField;
-    this.expireTime = expireTime;
-    this.addBlessItem = addBlessItem;
-    this.showPageFooter = showPageFooter;
-    this.hidePageFooter = hidePageFooter;
-    this.showCloseBtn = showCloseBtn;
-    this.hideCloseBtn = hideCloseBtn;
-    this.skipHandler = skipHandler;
+  initConfig(config = {}) {
+    this.config = config;
   },
 
   addAnimation(animation) {
@@ -43,6 +25,10 @@ AnimateDispatcher.prototype = {
     }
 
     this.removePlayedAnimations();
+
+    const { playOnAdded } = this.config;
+
+    if (playOnAdded) this.playAnimations();
   },
 
   removeAnimation(animation) {
@@ -57,10 +43,11 @@ AnimateDispatcher.prototype = {
   },
 
   playAnimations() {
+    if (!this.animationGroup.length) return;
+
     this.paused = false;
     this.animationsDone = false;
-
-    if (!this.animationGroup.length) return;
+    this.animations.length = 0;
     this.beforePlayAnimations();
     this.playAnimation();
   },
@@ -74,13 +61,17 @@ AnimateDispatcher.prototype = {
   },
 
   beforePlayAnimations() {
-    if (typeof this.showCloseBtn == 'function') this.showCloseBtn();
-    if (this.isPageVisible() && typeof this.hidePageFooter == 'function') this.hidePageFooter();
+    const { showCloseBtn, hidePageFooter } = this.config;
+
+    if (typeof showCloseBtn == 'function') showCloseBtn();
+    if (typeof hidePageFooter == 'function') hidePageFooter();
   },
 
   afterAnimationsDone() {
-    if (typeof this.hideCloseBtn == 'function') this.hideCloseBtn();
-    if (!this.isPageVisible() && typeof this.showPageFooter == 'function') this.showPageFooter();
+    const { hideCloseBtn, showPageFooter } = this.config;
+
+    if (typeof hideCloseBtn == 'function') hideCloseBtn();
+    if (typeof showPageFooter == 'function') showPageFooter();
   },
 
   isPageVisible() {
@@ -105,7 +96,9 @@ AnimateDispatcher.prototype = {
     }
 
     this.afterAnimationsDone();
-    if (typeof this.skipHandler == 'function') this.skipHandler(remainAnimations);
+
+    const { skipHandler } = this.config;
+    if (typeof skipHandler == 'function') skipHandler(remainAnimations);
 
     this.animations.length = 0;
     this.animationGroup.length = 0;
@@ -135,12 +128,13 @@ AnimateDispatcher.prototype = {
   },
 
   remarkAsDisplayed(animation) {
-    const animationFlag = this.getFieldValue(animation, this.animationFlagField);
+    const { animationFlagField, expireTime } = this.config;
+    const animationFlag = this.getFieldValue(animation, animationFlagField);
     const key = `bless-${animationFlag}`;
     let val = localStorage.getItem(key);
 
     if (!val) {
-      val = { hasPlayed: true, expireTime: this.expireTime };
+      val = { hasPlayed: true, expireTime: expireTime };
       localStorage.setItem(key, JSON.stringify(val));
     }
   },
@@ -169,16 +163,19 @@ AnimateDispatcher.prototype = {
   },
 
   removePlayedAnimations() {
+    const { animationFlagField, addBlessItem } = this.config;
+
     for (let i = this.animations.length - 1; i >= 0; i--) {
       const animation = this.animations[i];
-      const animationFlag = this.getFieldValue(animation, this.animationFlagField);
+      const animationFlag = this.getFieldValue(animation, animationFlagField);
       const key = `bless-${animationFlag}`;
       const val = JSON.parse(localStorage.getItem(key) || '{}');
       const { hasPlayed, expireTime } = val;
 
       if (hasPlayed) {
         this.animations.splice(i, 1);
-        if (typeof this.addBlessItem == 'function') this.addBlessItem(animation);
+
+        if (typeof addBlessItem == 'function') addBlessItem(animation);
       }
 
       if (expireTime && expireTime < Date.now()) {
@@ -186,7 +183,6 @@ AnimateDispatcher.prototype = {
       }
     }
 
-    this.updateUnreadCount();
     this.animationGroup = this.groupAnimations(this.animations);
   },
 
