@@ -60,6 +60,8 @@ AnimateDispatcher.prototype = {
     this.animationGroup = this.groupAnimations(this.allAnimations);
 
     if (!this.animationGroup.length) return;
+    this.paused = false;
+    this.animationsDone = false;
     this.beforePlayAnimations();
     this.playAnimation();
   },
