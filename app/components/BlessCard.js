@@ -33,7 +33,7 @@ export default class BlessCard extends Component {
     const { cardContent } = this.refs;
 
     /*eslint-disable */
-    new Effect(cardContent, { 'margin-top': '50px'}, 'easeOutExpo', '300ms');
+    new Effect(cardContent, { marginTop: '50px'}, 'easeOutExpo', '300ms');
     /*eslint-enable */
   }
 
@@ -135,7 +135,7 @@ export default class BlessCard extends Component {
     const { clientHeight } = cardContent;
 
     /*eslint-disable */
-    new Effect(cardContent, { 'margin-top': `-${clientHeight + 30}px`}, 'easeOutExpo', '300ms', () => {
+    new Effect(cardContent, { marginTop: `-${clientHeight + 30}px`}, 'easeOutExpo', '300ms', () => {
       const { onClose } = this.props;
 
       if (typeof onClose == 'function') onClose();

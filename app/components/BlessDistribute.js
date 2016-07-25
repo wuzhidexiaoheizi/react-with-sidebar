@@ -66,7 +66,7 @@ export default class BlessDistribute extends Component {
     const { distributeContent } = this.refs;
 
     /*eslint-disable */
-    new Effect(distributeContent, { 'margin-top': '50px'}, 'easeOutExpo', '300ms');
+    new Effect(distributeContent, { marginTop: '50px'}, 'easeOutExpo', '300ms');
     /*eslint-enable */
   }
 
@@ -85,7 +85,7 @@ export default class BlessDistribute extends Component {
     const { distributeContent } = this.refs;
     const { clientHeight } = distributeContent;
     /*eslint-disable */
-    new Effect(distributeContent, { 'margin-top': - (clientHeight + 50) + 'px'}, 'easeOutExpo', '300ms', () => {
+    new Effect(distributeContent, { marginTop: - (clientHeight + 50) + 'px'}, 'easeOutExpo', '300ms', () => {
       this.setState({
         isShow: false,
         message: '',

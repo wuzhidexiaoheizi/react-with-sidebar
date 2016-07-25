@@ -16,7 +16,7 @@ export default class BlessPhase extends Component {
     const { blessContent } = this.refs;
 
     /*eslint-disable */
-    new Effect(blessContent, { 'margin-top': '50px'}, 'easeOutExpo', '300ms');
+    new Effect(blessContent, { marginTop: '50px'}, 'easeOutExpo', '300ms');
     /*eslint-enable */
   }
 
@@ -25,7 +25,7 @@ export default class BlessPhase extends Component {
     const { clientHeight } = blessContent;
 
     /*eslint-disable */
-    new Effect(blessContent, { 'margin-top': `-${clientHeight + 30}px`}, 'easeOutExpo', '300ms', () => {
+    new Effect(blessContent, { marginTop: `-${clientHeight + 30}px`}, 'easeOutExpo', '300ms', () => {
       const { onClose } = this.props;
 
       if (typeof onClose == 'function') onClose();

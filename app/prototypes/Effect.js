@@ -1,5 +1,5 @@
 import Easing from '../utils/Easing';
-import { getInterval } from '../helper';
+import { getInterval, toStrikeCase } from '../helper';
 
 // 兼容低版本浏览器
 if (!window.requestAnimationFrame) {
@@ -77,7 +77,7 @@ Effect.prototype = {
       if (['left', 'top', 'width', 'height'].indexOf(key) > -1) {
         srcVal = this.element.getBoundingClientRect()[key];
       } else {
-        srcVal = window.parseInt(window.getComputedStyle(this.element, null).getPropertyValue(key));
+        srcVal = window.parseInt(window.getComputedStyle(this.element, null).getPropertyValue(toStrikeCase(key)));
       }
 
       this.srcState[key] = srcVal;
