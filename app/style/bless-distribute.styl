@@ -5,10 +5,9 @@
   top 0
   bottom 0
   z-index 20
-  display none
   
-  &.shown
-    display block
+  &.hidden
+    display none
 
   .distribute-overlayer
     position absolute
@@ -36,7 +35,7 @@
       
   .distribute-content
     width 80%
-    margin 50px auto
+    margin -1000px auto 50px
     position relative
     z-index 10
     border 5px solid $redBorderColor

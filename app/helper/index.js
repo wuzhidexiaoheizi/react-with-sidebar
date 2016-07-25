@@ -290,3 +290,16 @@ export function getRankImage(index) {
 export function updateDocumentTitle(title) {
   document.title = title || '生日趴';
 }
+
+export function toStrikeCase(str) {
+  return str.replace(/([ABCDEFGHIGKLMNOPQRSTUVWXYZ])/g, ($1) => {
+    return '-' + $1.toLowerCase();
+  });
+}
+
+export function toCamelCase(str) {
+  return str
+    .replace(/\s(.)/g, ($1) => { return $1.toUpperCase(); })
+    .replace(/\s/g, '')
+    .replace(/^(.)/, ($1) => { return $1.toLowerCase(); });
+}

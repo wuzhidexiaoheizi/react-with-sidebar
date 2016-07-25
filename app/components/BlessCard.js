@@ -4,6 +4,7 @@ import errPNG from '../images/err.png';
 import Constants from '../constants';
 import { serializeParams } from '../helper';
 import { getLunarDate } from '../helper/lunar';
+import Effect from '../prototypes/Effect';
 
 export default class BlessCard extends Component {
   constructor(props) {
@@ -26,6 +27,14 @@ export default class BlessCard extends Component {
       at_earliest,
       lunarDate,
     };
+  }
+
+  componentDidMount() {
+    const { cardContent } = this.refs;
+
+    /*eslint-disable */
+    new Effect(cardContent, { 'margin-top': '50px'}, 'easeOutExpo', '300ms');
+    /*eslint-enable */
   }
 
   setDoneeName(e) {
@@ -122,9 +131,15 @@ export default class BlessCard extends Component {
   }
 
   close() {
-    const { onClose } = this.props;
+    const { cardContent } = this.refs;
+    const { clientHeight } = cardContent;
 
-    if (typeof onClose == 'function') onClose();
+    /*eslint-disable */
+    new Effect(cardContent, { 'margin-top': `-${clientHeight + 30}px`}, 'easeOutExpo', '300ms', () => {
+      const { onClose } = this.props;
+
+      if (typeof onClose == 'function') onClose();
+    });
   }
 
   render() {
@@ -139,7 +154,7 @@ export default class BlessCard extends Component {
         <div className="donee-container">
           <div className="container">
             <div className="row">
-              <div className="donee-content">
+              <div className="donee-content" ref="cardContent">
                 <div className="donee-card">
                   <div className="donee-header">
                     <img src={BLESS_HEADER_IMG} />

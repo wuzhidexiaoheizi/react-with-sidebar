@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PresentGroup from '../components/PresentGroup';
 import Constants from '../constants';
 import DismissTip from '../prototypes/DismissTip';
+import Effect from '../prototypes/Effect';
 
 export default class BlessDistribute extends Component {
   constructor(props) {
@@ -62,6 +63,11 @@ export default class BlessDistribute extends Component {
 
   show() {
     this.setState({ isShow: true });
+    const { distributeContent } = this.refs;
+
+    /*eslint-disable */
+    new Effect(distributeContent, { 'margin-top': '50px'}, 'easeOutExpo', '300ms');
+    /*eslint-enable */
   }
 
   showResponseError(errors) {
@@ -76,14 +82,20 @@ export default class BlessDistribute extends Component {
   }
 
   hide() {
-    this.setState({
-      isShow: false,
-      message: '',
-      virtual_present_id: null,
-      showPresentErr: false,
-      showMessageErr: false,
-      disabled: false,
+    const { distributeContent } = this.refs;
+    const { clientHeight } = distributeContent;
+    /*eslint-disable */
+    new Effect(distributeContent, { 'margin-top': - (clientHeight + 50) + 'px'}, 'easeOutExpo', '300ms', () => {
+      this.setState({
+        isShow: false,
+        message: '',
+        virtual_present_id: null,
+        showPresentErr: false,
+        showMessageErr: false,
+        disabled: false,
+      });
     });
+    /*eslint-enable */
   }
 
   blessSendSuccess(callbackUrl) {
@@ -93,7 +105,7 @@ export default class BlessDistribute extends Component {
   render() {
     const { presents } = this.props;
     const { isShow } = this.state;
-    const klass = isShow ? 'shown' : '';
+    const klass = isShow ? '' : 'hidden';
     const { PICK_PRESENT_LABEL_IMG, MESSAGE_LABEL_IMG } = Constants;
 
     return (
@@ -102,7 +114,7 @@ export default class BlessDistribute extends Component {
         <div className="distribute-container">
           <div className="container">
             <div className="row">
-              <div className="distribute-content">
+              <div className="distribute-content" ref="distributeContent">
                 <div className="distribute-panel">
                   <div className="distribute-header">
                     <div className="header-label">
