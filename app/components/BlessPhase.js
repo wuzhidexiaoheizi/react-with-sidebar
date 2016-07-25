@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Effect from '../prototypes/Effect';
 
 export default class BlessPhase extends Component {
   constructor(props) {
@@ -11,10 +12,25 @@ export default class BlessPhase extends Component {
     };
   }
 
-  onCancel() {
-    const { onClose } = this.props;
+  componentDidMount() {
+    const { blessContent } = this.refs;
 
-    if (typeof onClose == 'function') onClose();
+    /*eslint-disable */
+    new Effect(blessContent, { marginTop: '50px'}, 'easeOutExpo', '300ms');
+    /*eslint-enable */
+  }
+
+  onCancel() {
+    const { blessContent } = this.refs;
+    const { clientHeight } = blessContent;
+
+    /*eslint-disable */
+    new Effect(blessContent, { marginTop: `-${clientHeight + 30}px`}, 'easeOutExpo', '300ms', () => {
+      const { onClose } = this.props;
+
+      if (typeof onClose == 'function') onClose();
+    });
+    /*eslint-enable */
   }
 
   onConfirm(e) {
@@ -51,7 +67,7 @@ export default class BlessPhase extends Component {
         <div className="bless-container">
           <div className="container">
             <div className="row">
-              <div className="bless-content">
+              <div className="bless-content" ref="blessContent">
                 <div className="bless-panel">
                   <div className="bless-header">
                     设置生日趴标题

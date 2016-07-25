@@ -10,11 +10,8 @@ function AnimateDispatcher(component, config = {}) {
 AnimateDispatcher.prototype = {
   constructor: AnimateDispatcher,
 
-  initConfig(config) {
-    const { animationFlagField, expireTime, addBlessItem } = config;
-    this.animationFlagField = animationFlagField;
-    this.expireTime = expireTime;
-    this.addBlessItem = addBlessItem;
+  initConfig(config = {}) {
+    this.config = config;
   },
 
   addAnimation(animation) {
@@ -28,6 +25,14 @@ AnimateDispatcher.prototype = {
     }
 
     this.removePlayedAnimations();
+
+    const { playOnAdded } = this.config;
+
+    if (playOnAdded) {
+      this.playAnimations();
+    } else {
+      this.updateUnreadCount();
+    }
   },
 
   removeAnimation(animation) {
@@ -42,35 +47,77 @@ AnimateDispatcher.prototype = {
   },
 
   playAnimations() {
+    if (!this.animationGroup.length) return;
+
     this.paused = false;
     this.animationsDone = false;
+    this.animations.length = 0;
+    this.beforePlayAnimations();
     this.playAnimation();
   },
 
   playAll() {
     this.animationGroup = this.groupAnimations(this.allAnimations);
-    this.playAnimations();
+
+    if (!this.animationGroup.length) return;
+    this.paused = false;
+    this.animationsDone = false;
+    this.beforePlayAnimations();
+    this.playAnimation();
+  },
+
+  beforePlayAnimations() {
+    const { showCloseBtn, hidePageFooter } = this.config;
+
+    if (typeof showCloseBtn == 'function') showCloseBtn();
+    if (typeof hidePageFooter == 'function') hidePageFooter();
+  },
+
+  afterAnimationsDone() {
+    const { hideCloseBtn, showPageFooter } = this.config;
+
+    if (typeof hideCloseBtn == 'function') hideCloseBtn();
+    if (typeof showPageFooter == 'function') showPageFooter();
+  },
+
+  isPageVisible() {
+    const element = document.querySelectorAll('.page-footer')[0];
+
+    return window.parseInt(element.style.bottom) == 0;
   },
 
   stopAnimations() {
     this.paused = true;
   },
 
-  skipAnimations() {
-    for (let i = 0; i < this.animationGroups.length; i++) {
-      const group = this.animationGroups[i];
+  skipAnimations(animations) {
+    const remainAnimations = [];
+
+    if (animations) remainAnimations.push(...animations);
+
+    for (let i = 0; i < this.animationGroup.length; i++) {
+      const group = this.animationGroup[i];
       this.remarkAnimaitionGroupAsDisplayed(group);
+      remainAnimations.push(...group);
     }
 
+    this.afterAnimationsDone();
+
+    const { skipHandler } = this.config;
+    if (typeof skipHandler == 'function') skipHandler(remainAnimations);
+
     this.animations.length = 0;
-    this.animationGroups.length = 0;
+    this.animationGroup.length = 0;
     this.paused = true;
   },
 
   playAnimation() {
+    this.updateUnreadCount();
+
     if (this.paused || !this.animationGroup.length) {
       this.animationsDone = true;
-      this.updateUnreadCount();
+
+      this.afterAnimationsDone();
       return;
     }
 
@@ -87,19 +134,19 @@ AnimateDispatcher.prototype = {
   },
 
   remarkAsDisplayed(animation) {
-    const animationFlag = this.getFieldValue(animation, this.animationFlagField);
+    const { animationFlagField, expireTime } = this.config;
+    const animationFlag = this.getFieldValue(animation, animationFlagField);
     const key = `bless-${animationFlag}`;
     let val = localStorage.getItem(key);
 
     if (!val) {
-      val = { hasPlayed: true, expireTime: this.expireTime };
+      val = { hasPlayed: true, expireTime: expireTime };
       localStorage.setItem(key, JSON.stringify(val));
     }
   },
 
   animationCallback() {
     this.playAnimation();
-    this.updateUnreadCount();
   },
 
   updateUnreadCount() {
@@ -122,16 +169,19 @@ AnimateDispatcher.prototype = {
   },
 
   removePlayedAnimations() {
+    const { animationFlagField, addBlessItem } = this.config;
+
     for (let i = this.animations.length - 1; i >= 0; i--) {
       const animation = this.animations[i];
-      const animationFlag = this.getFieldValue(animation, this.animationFlagField);
+      const animationFlag = this.getFieldValue(animation, animationFlagField);
       const key = `bless-${animationFlag}`;
       const val = JSON.parse(localStorage.getItem(key) || '{}');
       const { hasPlayed, expireTime } = val;
 
       if (hasPlayed) {
         this.animations.splice(i, 1);
-        if (typeof this.addBlessItem == 'function') this.addBlessItem(animation);
+
+        if (typeof addBlessItem == 'function') addBlessItem(animation);
       }
 
       if (expireTime && expireTime < Date.now()) {
@@ -158,13 +208,11 @@ AnimateDispatcher.prototype = {
       group.push(animation);
     });
 
-    this.updateUnreadCount();
-
     return Object.values(animationGroup);
   },
 
   getUnreadCount() {
-    return this.animationGroup.length;
+    return this.animations.length;
   },
 
   animationsIsDone() {

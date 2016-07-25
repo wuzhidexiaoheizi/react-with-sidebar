@@ -1,5 +1,5 @@
 import Easing from '../utils/Easing';
-import { getInterval } from '../helper';
+import { getInterval, toStrikeCase } from '../helper';
 
 // 兼容低版本浏览器
 if (!window.requestAnimationFrame) {
@@ -9,7 +9,7 @@ if (!window.requestAnimationFrame) {
       window.oRequestAnimationFrame ||
       window.msRequestAnimationFrame ||
       function request(callback) {
-        return setTimeout(callback, 1000 / 60);
+        return setTimeout(callback, 1000 / 50);
       };
   })();
 
@@ -26,22 +26,24 @@ if (!window.requestAnimationFrame) {
 
 /**
  * [Effect 效果]
- * @param { DOM }    element    [动画元素]
- * @param {Object}   effectObj  [动画属性对象]
- * @param {String}   effectName [动画效果名称]
- * @param {Number}   effectTime [动画效果时间]
- * @param {Function} callback   [动画回调]
- * @param {Object}   config     [可选参数]
+ * @param { DOM }    element     [动画元素]
+ * @param {Object}   effectObj   [动画属性对象]
+ * @param {String}   effectName  [动画效果名称]
+ * @param {Number}   effectTime  [动画效果时间]
+ * @param {Function} callback    [动画回调]
+ * @param {Object}   config      [可选参数]
  */
 function Effect(element, effectObj, effectName, effectTime, callback, config = {}) {
-  const { effectInterval } = config;
+  const { effectInterval, onEffectStart, onEffectEnd, time, name } = config;
   this.effectInterval = getInterval(effectInterval);
   this.element = element;
   this.effectObj = effectObj;
-  this.effectName = effectName == 'flip' ? 'easeInOutBack' : effectName;
-  this.effectTime = getInterval(effectTime);
-  this.callback = callback;
-  this.fps = 60;
+  const eName = effectName || name;
+  this.effectName = eName == 'flip' ? 'easeInOutBack' : eName;
+  this.effectTime = getInterval(effectTime || time);
+  this.onEffectEnd = callback || onEffectEnd;
+  this.onEffectStart = onEffectStart;
+  this.fps = 50;
   this.fpsInterval = 1000 / this.fps;
   this.isFlip = effectName == 'flip';
   this.flipCount = 0;
@@ -51,9 +53,14 @@ function Effect(element, effectObj, effectName, effectTime, callback, config = {
 }
 
 Effect.prototype = {
+  constructor: Effect,
+
   init() {
     this.initSrcAndChangeState();
     this.currentTime = 0;
+
+    if (typeof this.onEffectStart == 'function') this.onEffectStart();
+
     this.animate();
   },
 
@@ -72,16 +79,17 @@ Effect.prototype = {
       if (['left', 'top', 'width', 'height'].indexOf(key) > -1) {
         srcVal = this.element.getBoundingClientRect()[key];
       } else {
-        srcVal = window.parseInt(window.getComputedStyle(this.element, null).getPropertyValue(key));
+        srcVal = window.parseInt(window.getComputedStyle(this.element, null).getPropertyValue(toStrikeCase(key)));
       }
 
       this.srcState[key] = srcVal;
       val = String(this.effectObj[key]);
-      symbol = val[0];
-      index = ['+', '-', '*', '/'].indexOf(symbol);
+      symbol = val.slice(0, 2);
+      index = ['+=', '-=', '*=', '/='].indexOf(symbol);
 
       if (index > -1) {
-        factor = window.parseInt(val.slice(1).split('px')[0]);
+        symbol = symbol[0];
+        factor = window.parseInt(val.slice(2).split('px')[0]);
         destVal = this.getDestVal(symbol, factor, srcVal);
       } else {
         destVal = window.parseInt(val);
@@ -131,7 +139,7 @@ Effect.prototype = {
 
     this.currentTime += this.fpsInterval;
 
-    if (this.currentTime < this.effectTime) {
+    if (this.currentTime <= this.effectTime) {
       this.myReq = requestAnimationFrame(this.animate.bind(this));
       this.animationTimer = setTimeout(this.myReq, this.fpsInterval);
     } else {
@@ -143,7 +151,7 @@ Effect.prototype = {
       }
 
       if ((this.isFlip && this.flipCount == 4) || !this.isFlip) {
-        if (typeof this.callback == 'function') this.callback();
+        if (typeof this.onEffectEnd == 'function') this.onEffectEnd();
 
         if (this.effectInterval) {
           this.flipCount = 0;

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PresentGroup from '../components/PresentGroup';
 import Constants from '../constants';
-import DismissTip from '../components/DismissTip';
+import DismissTip from '../prototypes/DismissTip';
+import Effect from '../prototypes/Effect';
 
 export default class BlessDistribute extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ export default class BlessDistribute extends Component {
 
     this.state = {
       isShow: false,
-      message: '在这个属于你的日子里，祝你生日快乐！',
+      message: '',
       virtual_present_id: null,
       showPresentErr: false,
       showMessageErr: false,
@@ -24,19 +25,30 @@ export default class BlessDistribute extends Component {
   }
 
   changeMessage(e) {
-    this.setState({ message: e.target.value });
+    const message = e.target.value;
+    this.setState({ message, showMessageErr: !message.length });
   }
 
   pickPresent(id) {
-    this.setState({ virtual_present_id: id });
+    this.setState({ virtual_present_id: id, showPresentErr: !id });
   }
 
   sendBless() {
     const { partyId, sendBless } = this.props;
     const { message, virtual_present_id } = this.state;
+    let hasError = false;
 
-    if (message.length == 0) return this.setState({ showMessageErr: true });
-    if (virtual_present_id == 0) return this.setState({ showPresentErr: true});
+    if (message.length == 0) {
+      this.setState({ showMessageErr: true });
+      hasError = true;
+    }
+
+    if (!virtual_present_id) {
+      this.setState({ showPresentErr: true});
+      hasError = true;
+    }
+
+    if (hasError) return;
 
     const params = {
       bless: {
@@ -51,12 +63,18 @@ export default class BlessDistribute extends Component {
 
   show() {
     this.setState({ isShow: true });
+    const { distributeContent } = this.refs;
+
+    /*eslint-disable */
+    new Effect(distributeContent, { marginTop: '50px'}, 'easeOutExpo', '300ms');
+    /*eslint-enable */
   }
 
   showResponseError(errors) {
-    const dismissTip = this.refs.dismissTip;
-
-    dismissTip.resetTypeAndMessage('error', errors);
+    const { blessDistribute } = this.refs;
+    /*eslint-disable */
+    new DismissTip(blessDistribute, 'error', errors);
+    /*eslint-enable */
 
     this.setState({
       disabled: false,
@@ -64,14 +82,20 @@ export default class BlessDistribute extends Component {
   }
 
   hide() {
-    this.setState({
-      isShow: false,
-      message: '在这个属于你的日子里，祝你生日快乐！',
-      virtual_present_id: null,
-      showPresentErr: false,
-      showMessageErr: false,
-      disabled: false,
+    const { distributeContent } = this.refs;
+    const { clientHeight } = distributeContent;
+    /*eslint-disable */
+    new Effect(distributeContent, { marginTop: - (clientHeight + 50) + 'px'}, 'easeOutExpo', '300ms', () => {
+      this.setState({
+        isShow: false,
+        message: '',
+        virtual_present_id: null,
+        showPresentErr: false,
+        showMessageErr: false,
+        disabled: false,
+      });
     });
+    /*eslint-enable */
   }
 
   blessSendSuccess(callbackUrl) {
@@ -81,16 +105,16 @@ export default class BlessDistribute extends Component {
   render() {
     const { presents } = this.props;
     const { isShow } = this.state;
-    const klass = isShow ? 'shown' : '';
+    const klass = isShow ? '' : 'hidden';
     const { PICK_PRESENT_LABEL_IMG, MESSAGE_LABEL_IMG } = Constants;
 
     return (
-      <div className={`bless-distribute-modal ${klass}`}>
+      <div className={`bless-distribute-modal ${klass}`} ref="blessDistribute">
         <div className="distribute-overlayer" onClick={this.hide.bind(this)}></div>
         <div className="distribute-container">
           <div className="container">
             <div className="row">
-              <div className="distribute-content">
+              <div className="distribute-content" ref="distributeContent">
                 <div className="distribute-panel">
                   <div className="distribute-header">
                     <div className="header-label">
@@ -121,8 +145,6 @@ export default class BlessDistribute extends Component {
             </div>
           </div>
         </div>
-
-        { <DismissTip ref="dismissTip" /> }
       </div>
     );
   }

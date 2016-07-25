@@ -42,6 +42,7 @@ function Curtain(container, config) {
   this.speed = speed || 10;  // 移动速度
   this.myReq = null;
   this.timer = null;
+  this.maxBulletCount = trackCount * 2;
 
   this.init();
 }
@@ -65,6 +66,8 @@ Curtain.prototype = {
 
   // 为整个Matrix分配将要渲染的弹幕
   allocationDataForMatrix() {
+    if (this.renderChildren.length >= this.maxBulletCount) return;
+
     let isEnd = false;
 
     // 分配子弹到弹道
@@ -96,8 +99,11 @@ Curtain.prototype = {
 
   allocateDataForSingleLine(matrix, lineN, item) {
     delete item.node;
-    item.width = item.text.length * this.fontSize;
-    item.x = this.width + Math.floor(Math.random() * 300 + 100); // 初始X轴位置
+    let width = item.text.length * this.fontSize;
+
+    if (width > this.width) width = this.width;
+    item.width = width;
+    item.x = this.width; // 初始X轴位置
     item.y = lineN * this.fontSize + (lineN * this.lineSpacing); // 行数
     item.matrix = matrix;
 
@@ -107,7 +113,10 @@ Curtain.prototype = {
   },
 
   render() {
-    this.renderChildren.forEach((item, index) => {
+    let item;
+
+    for (let i = this.renderChildren.length - 1; i >= 0; i--) {
+      item = this.renderChildren[i];
       item.x = item.x - this.speed;
       let node = item.node;
 
@@ -127,7 +136,7 @@ Curtain.prototype = {
             delete item.matrix;
           }
 
-          this.renderChildren.splice(index, 1);
+          this.renderChildren.splice(i, 1);
 
           if (this.loop) {
             this.reAllocateData(item);
@@ -136,7 +145,7 @@ Curtain.prototype = {
           node.style.left = item.x + 'px';
         }
       }
-    });
+    }
 
     if (!this.loop && !this.renderChildren.length) {
       this.stop();
@@ -163,6 +172,8 @@ Curtain.prototype = {
     node.style.left = `${x}px`;
     node.style.top = `${y}px`;
     node.style.whiteSpace = 'nowrap';
+    node.style.overflow = 'hidden';
+    node.style.textOverflow = 'ellipsis';
     node.style.color = this.color;
     node.style.fontSize = `${this.fontSize}px`;
     node.style.fontWeight = this.fontWeight;
@@ -187,6 +198,11 @@ Curtain.prototype = {
     cancelAnimationFrame(this.myReq);
     clearTimeout(this.timer);
     this.myReq = null;
+  },
+
+  resume() {
+    this.playFlag = true;
+    this.render();
   },
 
   clear() { // 清空所有数据

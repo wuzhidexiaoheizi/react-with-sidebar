@@ -8,6 +8,8 @@ function GiftProgress(containment, total, config = {}) {
 }
 
 GiftProgress.prototype = {
+  constructor: GiftProgress,
+
   init() {
     this.render();
   },
@@ -20,7 +22,7 @@ GiftProgress.prototype = {
     const element = this.element = document.createElement('div');
     element.setAttribute('class', 'progress');
     element.innerHTML = `
-      <div class="progress-bar progress-bar-success progress-bar-striped active" style="width: ${this.initialPercent}%" />
+      <div class="progress-bar" style="width: ${this.initialPercent}%" />
     `;
     this.containment.appendChild(element);
   },

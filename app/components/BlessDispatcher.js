@@ -27,32 +27,18 @@ export default React.createClass({
 
     this.initDispatcherConfig();
     this.animationDispatcher.addAnimations(newAnimations);
-    const { config: { playOnAdded } } = this.props;
-
-    if (playOnAdded) this.playAnimations();
   },
 
   playAnimations() {
-    this.displayCloseBtn();
     this.animationDispatcher.playAnimations();
   },
 
   displayAllAnimations() {
-    this.displayCloseBtn();
     this.animationDispatcher.playAll();
   },
 
-  displayCloseBtn() {
-    const { showCloseBtn } = this.props;
-    if (typeof showCloseBtn == 'function') showCloseBtn();
-  },
-
-  skipAnimations() {
-    this.animationDispatcher.skipAnimations();
-
-    const { hideAnimations } = this.props;
-
-    if (typeof hideAnimations == 'function') hideAnimations();
+  skipAnimations(animations) {
+    this.animationDispatcher.skipAnimations(animations);
   },
 
   stopAnimations() {
@@ -63,11 +49,7 @@ export default React.createClass({
   showAnimation(animations, animationDoneCallback) {
     const { playAnimation } = this.props;
 
-    if (typeof playAnimation == 'function') {
-      playAnimation(animations, () => {
-        this.animationCallback(animationDoneCallback);
-      });
-    }
+    if (typeof playAnimation == 'function') playAnimation(animations, animationDoneCallback);
   },
 
   updateUnreadCount() {
@@ -76,23 +58,14 @@ export default React.createClass({
 
     if (unreadCount > 0) {
       const { animationBtn } = this.refs;
-      this.effect = new Effect(animationBtn, { bottom: '+5px' },
+      this.effect = new Effect(animationBtn, { bottom: '+=5px' },
         'flip', 100, null, { effectInterval: 2000 });
     } else {
       if (this.effect) {
         this.effect.stop();
         this.effect = null;
       }
-
-      const { hideAnimations } = this.props;
-
-      if (typeof hideAnimations == 'function') hideAnimations();
     }
-  },
-
-  animationCallback(animationDoneCallback) {
-    animationDoneCallback();
-    this.updateUnreadCount();
   },
 
   animationDispatcher: null,

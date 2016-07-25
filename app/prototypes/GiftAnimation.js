@@ -18,6 +18,8 @@ function GiftAnimations(containment, config = {}) {
 }
 
 GiftAnimations.prototype = {
+  constructor: GiftAnimations,
+
   init() {
     this.render();
     this.attachEvents();
@@ -58,7 +60,7 @@ GiftAnimations.prototype = {
   updateDoneeName(bless) {
     const { sender: { nickname, login } } = bless;
     const doneeName = nickname || login;
-    this.element.querySelectorAll('.name').innerText = doneeName;
+    this.element.querySelectorAll('.name')[0].innerText = doneeName;
   },
 
   attachEvents() {
@@ -70,15 +72,15 @@ GiftAnimations.prototype = {
       return;
     }
 
-    if (this.isValidAnimation) {
-      const animationElement = this.animationElement = this.element.querySelectorAll('.anim')[0];
-      this.animationEnd = this.autoDismissInAnimationDone.bind(this);
+    this.animationEnd = this.autoDismissInAnimationDone.bind(this);
+    const animationElement = this.animationElement = this.element.querySelectorAll('.anim')[0];
 
+    if (this.isValidAnimation) {
       animationElement.addEventListener('webkitAnimationEnd', this.animationEnd, false);
       animationElement.addEventListener('oAnimationEnd', this.animationEnd, false);
       animationElement.addEventListener('animationend', this.animationEnd, false);
     } else {
-      setTimeout(this.animationCallback.bind(this), 2000);
+      setTimeout(this.animationEnd, 2000);
     }
   },
 
@@ -88,11 +90,13 @@ GiftAnimations.prototype = {
       return;
     }
 
-    const animationElement = this.animationElement;
+    if (this.isValidAnimation) {
+      const animationElement = this.animationElement;
 
-    animationElement.removeEventListener('webkitAnimationEnd', this.animationEnd, false);
-    animationElement.removeEventListener('oAnimationEnd', this.animationEnd, false);
-    animationElement.removeEventListener('animationend', this.animationEnd, false);
+      animationElement.removeEventListener('webkitAnimationEnd', this.animationEnd, false);
+      animationElement.removeEventListener('oAnimationEnd', this.animationEnd, false);
+      animationElement.removeEventListener('animationend', this.animationEnd, false);
+    }
   },
 
   closeAnimation() {
@@ -102,23 +106,46 @@ GiftAnimations.prototype = {
   autoDismissInAnimationDone() {
     const bless = this.animationBlesses.shift();
 
+    this.started = true;
+    this.ended = false;
+
     if (typeof this.animationFun == 'function') this.addBlessToList(bless);
   },
 
+  animationEndHandler() {
+    this.closeAnimation();
+
+    if (typeof this.animationCallback == 'function') {
+      this.animationCallback();
+    }
+  },
+
   addBlessToList(bless) {
+    if (this.ended) {
+      this.animationEndHandler();
+      return;
+    }
+
     this.animationFun(this.animationElement, bless, () => {
       if (this.animationBlesses.length == 0) {
-        if (typeof this.animationCallback == 'function') {
-          this.closeAnimation();
-          this.animationCallback();
-        }
+        this.started = false;
+        this.ended = true;
+        this.animationEndHandler();
       } else {
-        this.animationElement.style.display = 'block';
         const _bless = this.animationBlesses.shift();
         this.updateDoneeName(_bless);
         this.addBlessToList(_bless);
       }
     });
+  },
+
+  jumpToEnd(interruptAnimation) {
+    this.ended = true;
+    this.destroy();
+
+    const blesses = this.animationBlesses;
+
+    if (typeof interruptAnimation == 'function') interruptAnimation(blesses);
   },
 };
 

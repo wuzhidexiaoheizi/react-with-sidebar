@@ -25,26 +25,28 @@ export default class RecentPartyItem extends Component {
 
     return (
       <Link to={`/party/${id}`} className="party-link">
-        <div className="recent-item">
-          <div className="table-col brief">
-            <img src={avatar} className="donee-avatar" />
-            <div className="other">
+        <div className="item-wrap">
+          <div className="recent-item">
+            <div className="table-col brief">
+              <img src={avatar} className="donee-avatar" />
+            </div>
+            <div className="table-col other">
               <div className="donee-name text-ellipsis">{birthday_person}</div>
               <div className="withdraw">
                 获得红包
                 <span className="amt">￥{withdrawable}</span>
               </div>
-              <div className="progress">
-                <div className="progress-bar progress-bar-success progress-bar-striped active"
-                  style={{ width: `${percent}%` }}></div>
+            </div>
+            <div className="table-col gnh">
+              <div className="gnh-card">
+                <div className="gnh-title">幸福指数</div>
+                <div className="gnh-value">{gnh}</div>
               </div>
             </div>
           </div>
-          <div className="table-col gnh">
-            <div className="gnh-card">
-              <div className="gnh-title">幸福指数</div>
-              <div className="gnh-value">{gnh}</div>
-            </div>
+          <div className="progress">
+            <div className="progress-bar"
+              style={{ width: `${percent}%` }}></div>
           </div>
         </div>
       </Link>
