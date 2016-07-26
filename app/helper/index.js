@@ -6,6 +6,7 @@ import tipPNG from '../images/tip.png';
 import firstPNG from '../images/xf1.png';
 import secondPNG from '../images/xf2.png';
 import thirdPNG from '../images/xf3.png';
+import DismissTip from '../prototypes/DismissTip';
 
 const {
   PRESENT_HEART_IMG,
@@ -37,22 +38,61 @@ const RANK_PNG_MAP = {
   '2': thirdPNG,
 };
 
-export function _fetch(url, method = 'get', body) {
-  return fetch(url, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
+export function _fetch(url, method = 'get', body, excludeHeaders) {
+  const params = {
     credentials: 'same-origin',
     method,
     body,
-  })
-  .then(res => {
-    if (res.status == 401 || res.status == 404) throw new Error(401);
+  };
 
-    return res;
-  })
-  .then(res => res.json());
+  if (!excludeHeaders) {
+    params.headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    };
+  }
+
+  return fetch(url, params)
+    .then(res => {
+      if (/^[4, 5][0-9]{2}$/.test(res.status)) throw new Error('');
+
+      return res;
+    })
+    .then(res => res.json())
+    .catch((error) => {
+      const { message } = error;
+      let err;
+
+      switch (message) {
+      case '400': {
+        err = '请求的格式不正确';
+        break;
+      }
+      case '401': {
+        err = '您没有权限访问所请求的资源';
+        break;
+      }
+      case '404': {
+        err = '您访问的请求地址不存在';
+        break;
+      }
+      case '500': {
+        err = '服务器异常';
+        break;
+      }
+      case '502': {
+        err = '无法连接服务器';
+        break;
+      }
+      default: err = '服务器异常';
+      }
+
+      const containment = document.querySelector('body');
+
+      /*eslint-disable */
+      new DismissTip(containment, 'error', err);
+      /*eslint-enable */
+    });
 }
 
 export function parseData(obj) {
