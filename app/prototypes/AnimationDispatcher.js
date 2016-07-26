@@ -87,10 +87,11 @@ AnimateDispatcher.prototype = {
     const { hideCloseBtn, showPageFooter } = this.config;
 
     if (typeof hideCloseBtn == 'function') hideCloseBtn();
-    if (typeof showPageFooter == 'function') showPageFooter();
 
     /*eslint-disable */
-    new WithdrawTip(this.withdraw);
+    new WithdrawTip(this.withdraw, () => {
+      if (typeof showPageFooter == 'function') showPageFooter();
+    });
     /*eslint-enable */
   },
 

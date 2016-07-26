@@ -1,5 +1,6 @@
-function WithdrawTip(withdraw) {
+function WithdrawTip(withdraw, callback) {
   this.withdraw = withdraw;
+  this.callback = callback;
   this.init();
 }
 
@@ -36,6 +37,8 @@ WithdrawTip.prototype = {
 
   destroy() {
     this.element.parentNode.removeChild(this.element);
+
+    if (typeof this.callback == 'function') this.callback();
   }
 };
 
