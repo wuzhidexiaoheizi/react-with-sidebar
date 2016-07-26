@@ -18,7 +18,7 @@ class DetailPage extends Component {
   }
 
   componentDidMount() {
-    const { params: {id}, dispatch } = this.props;
+    const { params: { id }, dispatch } = this.props;
 
     dispatch(fetchCakeItem(id, this.updateTitle.bind(this)));
   }

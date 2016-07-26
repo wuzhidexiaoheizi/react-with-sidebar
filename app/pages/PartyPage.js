@@ -435,7 +435,8 @@ class PartyPage extends Component {
     };
 
     const animationFlagField = 'id';
-    const expireTime = Date.parse(birth_day) + 7 * 24 * 60 * 60 * 1000;
+    const animationTimeField = 'created_at';
+    const birthday = Date.parse(birth_day);
     const addBlessItem = this.addItemToGiftList.bind(this);
     const showPageFooter = this.showPageFooter.bind(this);
     const hidePageFooter = this.hidePageFooter.bind(this);
@@ -445,7 +446,8 @@ class PartyPage extends Component {
 
     const animationConfig = {
       animationFlagField,
-      expireTime,
+      animationTimeField,
+      birthday,
       playOnAdded,
       addBlessItem,
       showPageFooter,

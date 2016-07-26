@@ -12,6 +12,8 @@ AnimateDispatcher.prototype = {
 
   initConfig(config = {}) {
     this.config = config;
+    const { birthday } = config;
+    this.expireTime = birthday + 2 * 7 * 24 * 60 * 60 * 1000;
   },
 
   addAnimation(animation) {
@@ -20,6 +22,8 @@ AnimateDispatcher.prototype = {
   },
 
   addAnimations(animations) {
+    if (Date.now() >= this.expireTime) return;
+
     for (let i = 0; i < animations.length; i++) {
       this.addAnimation(animations[i]);
     }
@@ -169,7 +173,7 @@ AnimateDispatcher.prototype = {
   },
 
   removePlayedAnimations() {
-    const { animationFlagField, addBlessItem } = this.config;
+    const { animationFlagField, addBlessItem, birthday } = this.config;
 
     for (let i = this.animations.length - 1; i >= 0; i--) {
       const animation = this.animations[i];
