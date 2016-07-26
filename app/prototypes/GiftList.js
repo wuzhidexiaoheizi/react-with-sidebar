@@ -20,9 +20,7 @@ GiftList.prototype = {
   constructor: GiftList,
 
   init() {
-    if (this.playOnAdded) {
-      this.initProgressBar();
-    } else {
+    if (!this.playOnAdded) {
       const blesses = this.groupBlesses();
       this.insertBlesses(blesses);
     }
@@ -32,7 +30,6 @@ GiftList.prototype = {
 
   destroy() {
     this.blesses.length = 0;
-    this.progress.destroy();
     this.detachEvents();
   },
 
@@ -50,10 +47,6 @@ GiftList.prototype = {
   },
 
   groupBlesses() {
-    const { length } = this.blesses;
-
-    this.initProgressBar(length);
-
     const groups = {};
     const blesses = [];
     let group;
@@ -86,8 +79,6 @@ GiftList.prototype = {
     this.element.appendChild(node);
 
     this.recalculateHeight();
-
-    if (name == 'heart') this.progress.increment();
   },
 
   insertNewBlesses(blesses) {
@@ -145,10 +136,8 @@ GiftList.prototype = {
     const offsetTop = this.element.offsetTop;
     const { clientHeight } = this.animateContainer;
     let y = offsetTop - top;
-    const progress = this.element.nextSibling;
-    const height = progress.clientHeight;
 
-    if (y == 0) y = (top + this.containerHeight + height - clientHeight) * 2;
+    if (y == 0) y = (top + this.containerHeight - clientHeight) * 2;
 
     this.animateContainer.scrollTop = y;
   },
@@ -271,7 +260,6 @@ GiftList.prototype = {
 
   removeAllChildren() {
     this.element.innerHTML = '';
-    this.progress.clearProgress();
   },
 };
 

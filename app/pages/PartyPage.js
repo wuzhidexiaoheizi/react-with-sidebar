@@ -42,7 +42,7 @@ class PartyPage extends Component {
   }
 
   componentDidMount() {
-    const { params: {id}, bless: { blesses }, dispatch } = this.props;
+    const { params: { id }, bless: { blesses }, dispatch } = this.props;
     const { blessPer, playOnAdded } = this.state;
 
     this.blessId = this.extractBlessId();
@@ -91,23 +91,14 @@ class PartyPage extends Component {
     const {
       party: { party },
       user: { currentUser },
-      cakeList: { cakeItems },
       bless: { blesses },
     } = nextProps;
 
-    const { user_id, cake_id, withdrawable } = party;
+    const { user_id, withdrawable } = party;
 
     blessDispatcher.updateWithdraw(withdrawable);
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
-
-    const cakeItem = cakeItems.find(item => item.id == cake_id);
-
-    if (cakeItem && !this.hasSetTotal) {
-      this.hasSetTotal = true;
-      const { hearts_limit } = cakeItem;
-      this.giftList.updateProgressTotal(hearts_limit);
-    }
 
     const lastBlesses = this.props.bless.blesses;
 
