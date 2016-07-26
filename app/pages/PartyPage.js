@@ -171,10 +171,12 @@ class PartyPage extends Component {
 
     if (window.wx) {
       window.wx.ready(() => {
-        const { party: { party } } = this.props;
-        const { person_avatar, birthday_person, message } = party;
+        const { party: { party }, cakeList: { cakeItems } } = this.props;
+        const { cake_id, birthday_person, message } = party;
+        const cake = cakeItems.find(cakeItem => cakeItem.id == cake_id) || {};
+        const { cover_url } = cake;
         const title = `欢迎参加${birthday_person}的生日趴`;
-        this.initShareConfig(title, message, person_avatar);
+        this.initShareConfig(title, message, cover_url);
       });
 
       window.wx.config({

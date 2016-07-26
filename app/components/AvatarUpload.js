@@ -113,14 +113,16 @@ export default class AvatarUpload extends Component {
       <div className="avatar-container" ref="avatarContainer">
         <img src={avatarImage} className="avatar-image"/>
         { fragment }
-        <div className="upload-overlayer">
-          <div className="rotate-arr">
-            <img src={arrow} />
+        { isCurrentUser &&
+          <div className="upload-overlayer">
+            <div className="rotate-arr">
+              <img src={arrow} />
+            </div>
+            <div className="upload-tip">
+              点击拍照上传
+            </div>
           </div>
-          <div className="upload-tip">
-            点击拍照上传
-          </div>
-        </div>
+        }
       </div>
     );
   }
