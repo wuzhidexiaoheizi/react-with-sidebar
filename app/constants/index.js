@@ -23,7 +23,7 @@ export default {
   'WEIXIN_ACCESS_TOKEN_URL': 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%APPID%&secret=%APPSECRET%',
   'WEIXIN_API_TICKET_URL': 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%ACCESS_TOKEN%&type=jsapi',
   'WEIXIN_API_SIGNATURE_URL': '/api/weixin_configs',
-  'DONEE_DEFAULT_AVATAR': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/c641b432732c432709730ad06d191dd9.jpg',
+  'DONEE_DEFAULT_AVATAR': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/8b0228171d41b841b3a96e86c3eeb4b0.jpg',
   'PARTY_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/82b00396a089c4ab0705bf71d99e2754.png',
   'HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/066a1063a4ca7c4225503f5de922c6c8.png',
   'BLESS_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/ca4cd3b9d0f049d5c6bb15fd50c1c176.jpg',

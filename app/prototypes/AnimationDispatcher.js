@@ -22,7 +22,11 @@ AnimateDispatcher.prototype = {
   },
 
   addAnimations(animations) {
-    if (Date.now() >= this.expireTime) return;
+    if (Date.now() >= this.expireTime) {
+      this.removeRemarkFlags(animations);
+
+      return;
+    }
 
     for (let i = 0; i < animations.length; i++) {
       this.addAnimation(animations[i]);
@@ -138,15 +142,29 @@ AnimateDispatcher.prototype = {
   },
 
   remarkAsDisplayed(animation) {
-    const { animationFlagField, expireTime } = this.config;
+    const { animationFlagField } = this.config;
     const animationFlag = this.getFieldValue(animation, animationFlagField);
     const key = `bless-${animationFlag}`;
     let val = localStorage.getItem(key);
 
     if (!val) {
-      val = { hasPlayed: true, expireTime: expireTime };
+      val = { hasPlayed: true };
       localStorage.setItem(key, JSON.stringify(val));
     }
+  },
+
+  removeRemarkFlags(animations) {
+    animations.forEach((animation) => {
+      this.removeRemarkFlag(animation);
+    });
+  },
+
+  removeRemarkFlag(animation) {
+    const { animationFlagField } = this.config;
+    const animationFlag = this.getFieldValue(animation, animationFlagField);
+    const key = `bless-${animationFlag}`;
+
+    localStorage.removeItem(key);
   },
 
   animationCallback() {
@@ -173,23 +191,19 @@ AnimateDispatcher.prototype = {
   },
 
   removePlayedAnimations() {
-    const { animationFlagField, addBlessItem, birthday } = this.config;
+    const { animationFlagField, addBlessItem } = this.config;
 
     for (let i = this.animations.length - 1; i >= 0; i--) {
       const animation = this.animations[i];
       const animationFlag = this.getFieldValue(animation, animationFlagField);
       const key = `bless-${animationFlag}`;
       const val = JSON.parse(localStorage.getItem(key) || '{}');
-      const { hasPlayed, expireTime } = val;
+      const { hasPlayed } = val;
 
       if (hasPlayed) {
         this.animations.splice(i, 1);
 
         if (typeof addBlessItem == 'function') addBlessItem(animation);
-      }
-
-      if (expireTime && expireTime < Date.now()) {
-        localStorage.removeItem(key);
       }
     }
 

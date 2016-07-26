@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Constants from '../constants';
 import DismissTip from '../prototypes/DismissTip';
+import arrow from '../images/rotate-arr.png';
 
 export default class AvatarUpload extends Component {
   constructor(props) {
@@ -110,8 +111,16 @@ export default class AvatarUpload extends Component {
 
     return (
       <div className="avatar-container" ref="avatarContainer">
-        <img src={avatarImage} />
+        <img src={avatarImage} className="avatar-image"/>
         { fragment }
+        <div className="upload-overlayer">
+          <div className="rotate-arr">
+            <img src={arrow} />
+          </div>
+          <div className="upload-tip">
+            点击拍照上传
+          </div>
+        </div>
       </div>
     );
   }
