@@ -42,7 +42,7 @@ class PartyPage extends Component {
   }
 
   componentDidMount() {
-    const { params: {id}, bless: { blesses }, dispatch } = this.props;
+    const { params: { id }, bless: { blesses }, dispatch } = this.props;
     const { blessPer, playOnAdded } = this.state;
 
     this.blessId = this.extractBlessId();
@@ -82,30 +82,23 @@ class PartyPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (window.location.href.indexOf('#showDistribute') > -1) {
-      const blessDistribute = this.refs.blessDistribute;
+    const { blessDistribute, blessDispatcher } = this.refs;
 
-      if (blessDistribute) blessDistribute.show();
+    if (window.location.href.indexOf('#showDistribute') > -1) {
+      blessDistribute.show();
     }
 
     const {
       party: { party },
       user: { currentUser },
-      cakeList: { cakeItems },
       bless: { blesses },
     } = nextProps;
 
-    const { user_id, cake_id } = party;
+    const { user_id, withdrawable } = party;
+
+    blessDispatcher.updateWithdraw(withdrawable);
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
-
-    const cakeItem = cakeItems.find(item => item.id == cake_id);
-
-    if (cakeItem && !this.hasSetTotal) {
-      this.hasSetTotal = true;
-      const { hearts_limit } = cakeItem;
-      this.giftList.updateProgressTotal(hearts_limit);
-    }
 
     const lastBlesses = this.props.bless.blesses;
 
@@ -171,10 +164,12 @@ class PartyPage extends Component {
 
     if (window.wx) {
       window.wx.ready(() => {
-        const { party: { party } } = this.props;
-        const { person_avatar, birthday_person, message } = party;
+        const { party: { party }, cakeList: { cakeItems } } = this.props;
+        const { cake_id, birthday_person, message } = party;
+        const cake = cakeItems.find(cakeItem => cakeItem.id == cake_id) || {};
+        const { cover_url } = cake;
         const title = `欢迎参加${birthday_person}的生日趴`;
-        this.initShareConfig(title, message, person_avatar);
+        this.initShareConfig(title, message, cover_url);
       });
 
       window.wx.config({
@@ -216,7 +211,7 @@ class PartyPage extends Component {
   openPresentModal() {
     const blessDistribute = this.refs.blessDistribute;
 
-    if (blessDistribute) blessDistribute.show();
+    blessDistribute.show();
   }
 
   closePhaseModal() {
@@ -226,7 +221,7 @@ class PartyPage extends Component {
   closePresentModal() {
     const blessDistribute = this.refs.blessDistribute;
 
-    if (blessDistribute) blessDistribute.hide();
+    blessDistribute.hide();
   }
 
   handleScroll(e) {

@@ -1,3 +1,5 @@
+import WithdrawTip from './WithdrawTip';
+
 function AnimateDispatcher(component, config = {}) {
   this.component = component;
   this.animations = [];
@@ -85,7 +87,12 @@ AnimateDispatcher.prototype = {
     const { hideCloseBtn, showPageFooter } = this.config;
 
     if (typeof hideCloseBtn == 'function') hideCloseBtn();
-    if (typeof showPageFooter == 'function') showPageFooter();
+
+    /*eslint-disable */
+    new WithdrawTip(this.withdraw, () => {
+      if (typeof showPageFooter == 'function') showPageFooter();
+    });
+    /*eslint-enable */
   },
 
   isPageVisible() {
@@ -96,6 +103,10 @@ AnimateDispatcher.prototype = {
 
   stopAnimations() {
     this.paused = true;
+  },
+
+  updateWithdraw(withdraw) {
+    this.withdraw = withdraw;
   },
 
   skipAnimations(animations) {

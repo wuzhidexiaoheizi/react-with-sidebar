@@ -1,0 +1,39 @@
+.withdraw-modal
+  position fixed
+  top 0
+  bottom 0
+  left 0
+  right 0
+  z-index 10
+  background rgba(0, 0, 0, 0.5)
+  
+  .withdraw-tip
+    position relative
+    width 80%
+    margin 50% auto 0
+    font-size 32px
+    color $red
+    font-weight 700
+    word-break break-all
+    text-align center
+    animation rotate 2s ease-in-out alternate infinite
+    
+@keyframes rotate 
+  from 
+    transform rotateY(-20deg);
+    text-shadow 1px -1px #CCC,
+                2px -1px #BBB,
+                3px -2px #AAA,
+                4px -2px #999,
+                5px -3px #888,
+                6px -3px #777
+  
+  to 
+    transform rotateY(20deg)
+    text-shadow -1px -1px #CCC,
+                -2px -1px #BBB,
+                -3px -2px #AAA,
+                -4px -2px #999,
+                -5px -3px #888,
+                -6px -3px #777
+    

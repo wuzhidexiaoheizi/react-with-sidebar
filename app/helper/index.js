@@ -60,7 +60,9 @@ export function _fetch(url, method = 'get', body, excludeHeaders) {
 
   return fetch(url, params)
     .then(res => {
-      if (/^[4, 5][0-9]{2}$/.test(res.status)) throw new Error('');
+      const { status } = res;
+
+      if (status != 422 && /^[4, 5][0-9]{2}$/.test(status)) throw new Error(status);
 
       return res;
     })

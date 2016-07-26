@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
       const { length } = blesses;
 
       return update(state, {
-        blesses: { $merge: blesses },
+        blesses: { $set: blesses },
         listFetching: { $set: false },
         total: { $set: total },
         earliestId: { $set: length > 0 ? blesses[length - 1].id : ''},
@@ -27,8 +27,14 @@ export default function(state = initialState, action) {
     }
 
     if (blesses.length > 0) {
+      const newBlesses = [];
+
+      blesses.forEach((bless) => {
+        if (state.blesses.indexOf(bless) == -1) newBlesses.push(bless);
+      });
+
       return update(state, {
-        blesses: { $merge: [ ...blesses ] },
+        blesses: { $push: [ ...newBlesses ] },
         listFetching: { $set: false },
         total: { $set: total },
         earliestId: { $set: blesses[blesses.length - 1].id },

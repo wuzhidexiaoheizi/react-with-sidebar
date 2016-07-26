@@ -29,6 +29,10 @@ export default React.createClass({
     this.animationDispatcher.addAnimations(newAnimations);
   },
 
+  updateWithdraw(withdraw) {
+    this.animationDispatcher.updateWithdraw(withdraw);
+  },
+
   playAnimations() {
     this.animationDispatcher.playAnimations();
   },

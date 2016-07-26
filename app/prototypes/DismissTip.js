@@ -9,6 +9,8 @@ function DismissTip(containment, type, message) {
 }
 
 DismissTip.prototype = {
+  constructor: DismissTip,
+
   init() {
     this.render();
     this.adjustPosition();
