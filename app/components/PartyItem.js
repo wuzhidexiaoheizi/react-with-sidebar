@@ -27,10 +27,9 @@ export default class PartyItem extends Component {
     let fragment;
 
     if (image) {
-      // fragment = (<img src={image} />);
-      fragment = '04';
+      fragment = (<img src={image} />);
     } else {
-      fragment = zeroize(rankIndex + 1);
+      fragment = zeroize(rankIndex + 1, 2);
     }
 
     return (
@@ -44,7 +43,7 @@ export default class PartyItem extends Component {
             <div className="other">
               <div className="donee-name text-ellipsis">{birthday_person}</div>
               <div className="withdraw">
-                获得红包
+                获得返现
                 <span className="amt">￥{withdrawable}</span>
               </div>
             </div>

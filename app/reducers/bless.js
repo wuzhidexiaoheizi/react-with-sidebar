@@ -27,14 +27,14 @@ export default function(state = initialState, action) {
     }
 
     if (blesses.length > 0) {
-      const newBlesses = [];
+      // const newBlesses = [];
 
-      blesses.forEach((bless) => {
-        if (state.blesses.indexOf(bless) == -1) newBlesses.push(bless);
-      });
+      // blesses.forEach((bless) => {
+      //   if (state.blesses.indexOf(bless) == -1) newBlesses.push(bless);
+      // });
 
       return update(state, {
-        blesses: { $push: [ ...blesses ] },
+        blesses: { $merge: blesses },
         listFetching: { $set: false },
         total: { $set: total },
         earliestId: { $set: blesses[blesses.length - 1].id },

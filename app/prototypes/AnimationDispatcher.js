@@ -1,3 +1,5 @@
+import WithdrawTip from './WithdrawTip';
+
 function AnimateDispatcher(component, config = {}) {
   this.component = component;
   this.animations = [];
@@ -86,6 +88,10 @@ AnimateDispatcher.prototype = {
 
     if (typeof hideCloseBtn == 'function') hideCloseBtn();
     if (typeof showPageFooter == 'function') showPageFooter();
+
+    /*eslint-disable */
+    new WithdrawTip(this.withdraw);
+    /*eslint-enable */
   },
 
   isPageVisible() {
@@ -96,6 +102,10 @@ AnimateDispatcher.prototype = {
 
   stopAnimations() {
     this.paused = true;
+  },
+
+  updateWithdraw(withdraw) {
+    this.withdraw = withdraw;
   },
 
   skipAnimations(animations) {

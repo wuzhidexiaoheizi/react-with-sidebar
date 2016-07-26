@@ -82,10 +82,10 @@ class PartyPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (window.location.href.indexOf('#showDistribute') > -1) {
-      const blessDistribute = this.refs.blessDistribute;
+    const { blessDistribute, blessDispatcher } = this.refs;
 
-      if (blessDistribute) blessDistribute.show();
+    if (window.location.href.indexOf('#showDistribute') > -1) {
+      blessDistribute.show();
     }
 
     const {
@@ -95,7 +95,9 @@ class PartyPage extends Component {
       bless: { blesses },
     } = nextProps;
 
-    const { user_id, cake_id } = party;
+    const { user_id, cake_id, withdrawable } = party;
+
+    blessDispatcher.updateWithdraw(withdrawable);
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
 
@@ -218,7 +220,7 @@ class PartyPage extends Component {
   openPresentModal() {
     const blessDistribute = this.refs.blessDistribute;
 
-    if (blessDistribute) blessDistribute.show();
+    blessDistribute.show();
   }
 
   closePhaseModal() {
@@ -228,7 +230,7 @@ class PartyPage extends Component {
   closePresentModal() {
     const blessDistribute = this.refs.blessDistribute;
 
-    if (blessDistribute) blessDistribute.hide();
+    blessDistribute.hide();
   }
 
   handleScroll(e) {
