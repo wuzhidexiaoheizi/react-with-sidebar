@@ -45,6 +45,8 @@ class PartyPage extends Component {
     const { params: {id}, bless: { blesses }, dispatch } = this.props;
     const { blessPer, playOnAdded } = this.state;
 
+    this.blessId = this.extractBlessId();
+
     dispatch(fetchCurrentUser());
     dispatch(fetchParty(id, {
       loadCake: true,
@@ -86,7 +88,13 @@ class PartyPage extends Component {
       if (blessDistribute) blessDistribute.show();
     }
 
-    const { party: { party }, user: { currentUser }, cakeList: { cakeItems } } = nextProps;
+    const {
+      party: { party },
+      user: { currentUser },
+      cakeList: { cakeItems },
+      bless: { blesses },
+    } = nextProps;
+
     const { user_id, cake_id } = party;
 
     this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
@@ -99,14 +107,17 @@ class PartyPage extends Component {
       this.giftList.updateProgressTotal(hearts_limit);
     }
 
-    const { bless: { blesses } } = nextProps;
     const lastBlesses = this.props.bless.blesses;
 
     this.onBlessChanged(blesses, lastBlesses);
 
-    if (currentUser && !this.hasShowAnimation) {
+    if (!this.blessId) return;
+
+    const ownBless = blesses.find(b => b.id == this.blessId);
+
+    if (ownBless && !this.hasShowAnimation) {
       this.hasShowAnimation = true;
-      this.lookupAnimationName();
+      this.showDistributedBless(ownBless);
     }
   }
 
@@ -332,30 +343,32 @@ class PartyPage extends Component {
     dispatch(fetchBlessList(id, earliestId, blessPer));
   }
 
-  lookupAnimationName() {
+  extractBlessId() {
     const href = window.location.href;
-    const prefix = '#animation:';
+    const prefix = '#bless:';
     let index = href.indexOf(prefix);
 
-    if (index > -1) {
-      const str = href.slice(index + prefix.length);
-      index = str.indexOf('#');
+    if (index == -1) return null;
 
-      if (index > -1) {
-        const animationName = str.slice(0, index);
-        const { user: { currentUser: { nickname, username } } } = this.props;
-        const doneeName = nickname || username;
+    const str = href.slice(index + prefix.length);
+    index = str.indexOf('#');
 
-        this.checkIfExist(animationName, () => {
-          this.setState({
-            showAnimation: true,
-            autoDismiss: true,
-            animationName,
-            doneeName,
-          });
-        });
-      }
-    }
+    return str.slice(0, index);
+  }
+
+  showDistributedBless(bless) {
+    const { virtual_present: { name } } = bless;
+    const { animationContainer } = this.refs;
+
+    this.checkIfExist(name, (isValidAnimation) => {
+      /*eslint-disable */
+      new GiftAnimation(animationContainer, {
+        autoDismiss: true,
+        isValidAnimation,
+        animationBlesses: [ bless ]
+      });
+      /*eslint-enable */
+    });
   }
 
   giveBless() {
