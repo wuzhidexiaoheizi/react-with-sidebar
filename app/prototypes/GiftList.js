@@ -123,7 +123,7 @@ GiftList.prototype = {
     const { right, bottom } = rect;
     left = right;
 
-    if (right - this.offsetLeft > this.containerWidth) {
+    if (right - this.offsetLeft >= this.ITEM_SIZE * this.countInLine) {
       left = this.getContainerRect()[0];
       top = bottom;
     }
