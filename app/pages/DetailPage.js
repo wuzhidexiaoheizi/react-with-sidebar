@@ -18,9 +18,9 @@ class DetailPage extends Component {
   }
 
   componentDidMount() {
-    const { params: {id}, dispatch } = this.props;
+    const { params: { id }, dispatch } = this.props;
 
-    dispatch(fetchCakeItem(id));
+    dispatch(fetchCakeItem(id, this.updateTitle.bind(this)));
   }
 
   componentWillReceiveProps() {
@@ -28,7 +28,7 @@ class DetailPage extends Component {
   }
 
   updateTitle(title) {
-    updateDocumentTitle('生日趴-' + title);
+    updateDocumentTitle(title);
   }
 
   snapUp() {

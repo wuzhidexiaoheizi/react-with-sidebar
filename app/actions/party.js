@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-fetch';
 import { _fetch } from '../helper';
 import Constants from '../constants';
 import { fetchCakeItem } from './cakeList';
@@ -39,7 +38,7 @@ export function fetchParty(partyId, config = {}) {
           if (!cakeItem) dispatch(fetchCakeItem(cake_id));
         }
 
-        if (typeof callback == 'function') callback();
+        if (typeof callback == 'function') callback(json);
 
         return dispatch(setParty(partyId, json));
       });
@@ -71,32 +70,18 @@ export function uploadPartyAvatar(partyId, body, sucCallback, errCallback) {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, PARTY_AVATAR_UPLOAD_URL} = Constants;
     const path = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}/${partyId}${PARTY_AVATAR_UPLOAD_URL}`;
 
-    return fetch(path, {
-      header: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'same-origin',
-      method: 'POST',
-      body,
-    })
-    .then(res => {
-      if (res.status == 401 || res.status == 404) throw new Error(401);
+    return _fetch(path, 'POST', body, true)
+      .then((json) => {
+        const { errors, url } = json;
 
-      return res;
-    })
-    .then(res => res.json())
-    .then((json) => {
-      const { errors, url } = json;
+        if (errors) {
+          if (typeof errCallback == 'function') errCallback(errors);
+        } else {
+          if (typeof sucCallback == 'function') sucCallback();
 
-      if (errors) {
-        if (typeof errCallback == 'function') errCallback(errors);
-      } else {
-        if (typeof sucCallback == 'function') sucCallback();
-
-        return dispatch(updateAvatar(url));
-      }
-    });
+          return dispatch(updateAvatar(url));
+        }
+      });
   };
 }
 
@@ -111,7 +96,7 @@ export function updateAvatarMediaId(partyId, mediaId, sucCallback, errCallback) 
     };
     const body = JSON.stringify(params);
 
-    _fetch(url, 'post', body)
+    return _fetch(url, 'post', body)
       .then((json) => {
         const { errors, person_avatar } = json;
 
@@ -131,7 +116,7 @@ export function fetchRecentlyParties() {
     const { DOMAIN, API_PROMOTION_PREFIX, PARTY_URL, RECENTLY_PARTIES_URL } = Constants;
     const url = `${DOMAIN}${API_PROMOTION_PREFIX}${PARTY_URL}${RECENTLY_PARTIES_URL}`;
 
-    _fetch(url)
+    return _fetch(url)
       .then(json => {
         const { parties } = json;
 

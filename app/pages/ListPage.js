@@ -8,6 +8,7 @@ import Constants from '../constants';
 import CakeGroup from '../components/CakeGroup';
 import { Link } from 'react-router';
 import RecentPartyList from '../components/RecentPartyList';
+import { updateDocumentTitle } from '../helper';
 
 class ListPage extends Component {
   constructor(props) {
@@ -23,6 +24,9 @@ class ListPage extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     const { cakePage, cakePer } = this.state;
+
+    updateDocumentTitle('生日蛋糕');
+
     dispatch(fetchCakeList(cakePage, cakePer));
     dispatch(fetchRecentlyParties());
   }

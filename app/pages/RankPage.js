@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Loading from 'halogen/ScaleLoader';
 import PartyList from '../components/PartyList';
 import { fetchRankPageData } from '../actions/rank';
+import { updateDocumentTitle } from '../helper';
 
 export default class RankPage extends Component {
   constructor(props) {
@@ -20,6 +21,8 @@ export default class RankPage extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     const { partyPer, partyPage } = this.state;
+
+    updateDocumentTitle('幸福榜');
     dispatch(fetchRankPageData(partyPage, partyPer));
   }
 

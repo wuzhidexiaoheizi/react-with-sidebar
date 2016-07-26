@@ -10,6 +10,7 @@ import ReviewGroup from '../components/ReviewGroup';
 import Loading from 'halogen/ScaleLoader';
 import Constants from '../constants';
 import Envelope from '../components/Envelope';
+import { updateDocumentTitle } from '../helper';
 
 export default class ReviewPage extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ export default class ReviewPage extends Component {
     const { params: { id }, dispatch } = this.props;
     const { blessPer, earliestId } = this.state;
 
+    updateDocumentTitle('生日趴详情');
     dispatch(fetchCurrentUser());
     dispatch(fetchBlessList(id, earliestId, blessPer));
     dispatch(fetchParty(id, { loadCake: true}));
