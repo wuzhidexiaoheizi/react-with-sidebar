@@ -46,7 +46,14 @@ class PartyPage extends Component {
     const { blessPer, playOnAdded } = this.state;
 
     dispatch(fetchCurrentUser());
-    dispatch(fetchParty(id, { loadCake: true }));
+    dispatch(fetchParty(id, {
+      loadCake: true,
+      callback: (party) => {
+        const { birthday_person } = party;
+        const title = `${birthday_person}的生日趴`;
+        this.updateTitle(title);
+      }
+    }));
     dispatch(fetchBlessList(id, '', blessPer));
 
     const { giftList, blessDispatcher } = this.refs;
@@ -55,8 +62,15 @@ class PartyPage extends Component {
 
     if (!this.isWeixin()) return;
 
+    let isExpire;
     const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG) || '{}');
-    const isExpire = config && config.expired_at ? config.expired_at < Date.now() : true;
+
+    if (!window.hasEntered) {
+      isExpire = true;
+      window.hasEntered = true;
+    } else {
+      isExpire = config && config.expired_at ? config.expired_at < Date.now() : true;
+    }
 
     if (isExpire) {
       this.getWeixinConfig();
@@ -177,7 +191,7 @@ class PartyPage extends Component {
   }
 
   updateTitle(title) {
-    updateDocumentTitle('生日趴-' + title);
+    updateDocumentTitle(title);
   }
 
   openPhaseModal() {

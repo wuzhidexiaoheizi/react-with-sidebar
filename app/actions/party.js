@@ -38,7 +38,7 @@ export function fetchParty(partyId, config = {}) {
           if (!cakeItem) dispatch(fetchCakeItem(cake_id));
         }
 
-        if (typeof callback == 'function') callback();
+        if (typeof callback == 'function') callback(json);
 
         return dispatch(setParty(partyId, json));
       });
