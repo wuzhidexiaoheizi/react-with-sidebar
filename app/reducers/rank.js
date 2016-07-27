@@ -12,9 +12,17 @@ export default function(state = initialState, action) {
     const { parties, page } = action;
 
     if (page > state.loadedPage && parties.length > 0) {
+      const newParties = [];
+
+      parties.forEach((party) => {
+        const _party = state.parties.find(p => p.id == party.id);
+
+        if (!_party) newParties.push(party);
+      });
+
       return update(state, {
         listFetching: { $set: false },
-        parties: { $merge: [ ...parties ] },
+        parties: { $push: [ ...newParties ] },
         loadedPage: { $set: page }
       });
     }

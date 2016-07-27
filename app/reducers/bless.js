@@ -30,7 +30,9 @@ export default function(state = initialState, action) {
       const newBlesses = [];
 
       blesses.forEach((bless) => {
-        if (state.blesses.indexOf(bless) == -1) newBlesses.push(bless);
+        const _bless = state.blesses.find(b => b.id == bless.id);
+
+        if (!_bless) newBlesses.push(bless);
       });
 
       return update(state, {
