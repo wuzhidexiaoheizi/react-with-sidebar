@@ -1,4 +1,5 @@
 import { getTipImage } from '../helper';
+import Effect from './Effect';
 
 function DismissTip(containment, type, message) {
   this.containment = containment;
@@ -13,9 +14,21 @@ DismissTip.prototype = {
 
   init() {
     this.render();
+
+    this.content = this.element.querySelectorAll('.dismiss-tip-body')[0];
     this.adjustPosition();
 
-    setTimeout(this.destroy.bind(this), 4000);
+    setTimeout(() => {
+      /*eslint-disable */
+      new Effect(this.content, {
+        width: '*=0.9',
+        height: '*=0.9',
+        fontSize: '*=0.6',
+      }, 'easeOutBounce', '450ms', () => {
+        this.containment.removeChild(this.element);
+      });
+      /*eslint-disable */
+    }, 4000);
   },
 
   render() {
@@ -36,15 +49,10 @@ DismissTip.prototype = {
   },
 
   adjustPosition() {
-    const element = this.element.querySelectorAll('.dismiss-tip-body')[0];
-    const { clientHeight } = element;
+    const { clientHeight } = this.content;
     const height = this.element.clientHeight;
 
-    element.style.marginTop = (height - clientHeight) / 2 + 'px';
-  },
-
-  destroy() {
-    this.containment.removeChild(this.element);
+    this.content.style.marginTop = (height - clientHeight) / 2 + 'px';
   }
 };
 

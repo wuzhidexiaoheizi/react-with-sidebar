@@ -89,7 +89,7 @@ Effect.prototype = {
 
       if (index > -1) {
         symbol = symbol[0];
-        factor = window.parseInt(val.slice(2).split('px')[0]);
+        factor = +(val.slice(2).split('px')[0]);
         destVal = this.getDestVal(symbol, factor, srcVal);
       } else {
         destVal = window.parseInt(val);
