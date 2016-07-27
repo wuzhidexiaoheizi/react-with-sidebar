@@ -7,6 +7,7 @@ function Animation(element, config = {}) {
     iterationCount,
     direction,
     callback,
+    onAnimationStart,
   } = config;
 
   let { frameTime } = config;
@@ -19,6 +20,7 @@ function Animation(element, config = {}) {
   this.iterationCount = iterationCount || Infinity;
   this.direction = direction || 'normal'; // 'normal' or 'alternate'
   this.callback = callback;
+  this.onAnimationStart = onAnimationStart;
   this.isDone = false;
   this.fpsInterval = 1000 / 50;
   this.myReq = null;
@@ -49,6 +51,8 @@ Animation.prototype = {
 
       this.initState();
       this.symbol = Animation.SYMBOL.PLUS;
+
+      if (typeof this.onAnimationStart == 'function') this.onAnimationStart();
       this.animate();
     };
 

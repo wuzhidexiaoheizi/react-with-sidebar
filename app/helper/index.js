@@ -27,9 +27,9 @@ const PRESENT_IMG_MAP = {
   teddy_bear: PRESENT_TEDDY_BEAR_IMG,
   music_box: PRESENT_MUSIC_BOX_IMG,
   motor: PRESENT_MOTOR_IMG,
-  pleasant_shep: PRESENT_PLEASANT_SHEEP_IMG,
+  pleasant_sheep: PRESENT_PLEASANT_SHEEP_IMG,
   ultraman: PRESENT_ULTRAMAN_IMG,
-  boonie_bear: PRESENT_BOONIE_BEAR_IMG,
+  bonnie_bear: PRESENT_BOONIE_BEAR_IMG,
 };
 
 const TIP_IMG_MAP = {
