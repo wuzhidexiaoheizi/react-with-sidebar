@@ -20,10 +20,10 @@ cleanprepare:
 	@rm -rf $(TMP)
 
 cleanbuild: 
-	@rm -f build/*
+	@rm -rf build
 
 cleanrelease:
-	@rm -f release/*
+	@rm -rf release
 
 build: 
 	npm run deploy
