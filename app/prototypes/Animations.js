@@ -1,4 +1,5 @@
 import Animation from './Animation';
+import MusicDispatcher from './MusicDispatcher';
 
 // 兼容低版本浏览器
 if (!window.requestAnimationFrame) {
@@ -39,7 +40,10 @@ Animations.prototype = {
 
   init() {
     const { name } = this.config;
-    this.images = (Animations.BACKGROUNDMAP[name] || Object()).images;
+    const animation = Animations.BACKGROUNDMAP[name] || Object();
+    const { images, music } = animation;
+    this.images = images;
+    this.music = music;
 
     if (!this.images || !this.images.length) return;
     this.createElements();
@@ -62,9 +66,29 @@ Animations.prototype = {
       element.style.backgroundPosition = position;
 
       this.containment.appendChild(element);
-      const config = Object.assign({}, { iterationCount, direction }, this.config);
 
-      if (index != mainIndex) delete config.callback;
+      const callback = this.config.callback;
+      delete this.config.callback;
+
+      const config = Object.assign({}, {
+        iterationCount,
+        direction,
+        onAnimationStart: () => {
+          if (this.music) {
+            this.dispatcher = MusicDispatcher.getInstance();
+            this.dispatcher.pushMusic(this.music);
+          }
+        },
+        callback: () => {
+          if (index == mainIndex) {
+            if (typeof callback == 'function') callback();
+
+            if (this.dispatcher) {
+              this.dispatcher.popMusic();
+            }
+          }
+        }
+      }, this.config);
 
       animation = new Animation(element, config);
       this.animations.push(animation);
@@ -110,7 +134,12 @@ Animations.BACKGROUNDMAP = {
       position: '-5px -5px',
       iterationCount: 5,
       direction: 'alternate',
-    }]
+    }],
+    music: {
+      src: '',
+      loop: false,
+      unpopable: false,
+    }
   },
   flower: {
     images: [{
@@ -118,7 +147,12 @@ Animations.BACKGROUNDMAP = {
       position: '0 0',
       iterationCount: 5,
       direction: 'alternate',
-    }]
+    }],
+    music: {
+      src: '',
+      loop: false,
+      unpopable: false,
+    }
   },
   music_box: {
     images: [{
@@ -129,7 +163,12 @@ Animations.BACKGROUNDMAP = {
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png',
       position: '0 0',
       iterationCount: 10,
-    }]
+    }],
+    music: {
+      src: '',
+      loop: false,
+      unpopable: false,
+    }
   }
 };
 
