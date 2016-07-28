@@ -22,6 +22,7 @@ import { checkPresentIsForbidden } from '../actions/virtualPresent';
 import GiftList from '../prototypes/GiftList';
 import GiftAnimation from '../prototypes/GiftAnimation';
 import Effect from '../prototypes/Effect';
+import MusicDispatcher from '../prototypes/MusicDispatcher';
 
 const WEIXIN_CONFIG = 'wexin_config';
 
@@ -116,6 +117,9 @@ class PartyPage extends Component {
 
   componentWillUnmount() {
     if (this.giftList) this.giftList.destroy();
+
+    const dispatcher = MusicDispatcher.getInstance();
+    if (dispatcher) dispatcher.destroy();
   }
 
   onBlessChanged(blesses, lastBlesses) {

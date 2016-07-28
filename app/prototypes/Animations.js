@@ -82,10 +82,6 @@ Animations.prototype = {
         callback: () => {
           if (index == mainIndex) {
             if (typeof callback == 'function') callback();
-
-            if (this.dispatcher) {
-              this.dispatcher.popMusic();
-            }
           }
         }
       }, this.config);
@@ -136,9 +132,8 @@ Animations.BACKGROUNDMAP = {
       direction: 'alternate',
     }],
     music: {
-      src: '',
-      loop: false,
-      unpopable: false,
+      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E6%BB%91%E8%BF%87.mp3',
+      loop: true,
     }
   },
   flower: {
@@ -149,9 +144,8 @@ Animations.BACKGROUNDMAP = {
       direction: 'alternate',
     }],
     music: {
-      src: '',
-      loop: false,
-      unpopable: false,
+      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E7%A4%BC%E8%8A%B1.mp3',
+      loop: true,
     }
   },
   music_box: {
@@ -165,11 +159,43 @@ Animations.BACKGROUNDMAP = {
       iterationCount: 10,
     }],
     music: {
-      src: '',
-      loop: false,
-      unpopable: false,
+      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E5%85%AB%E9%9F%B3%E7%9B%92.mp3',
+      loop: true,
     }
-  }
+  },
+  pleasant_sheep: {
+    images: [{
+      url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/2.pic_hd.jpg',
+      position: '0 0',
+      iterationCount: 5,
+    }],
+    music: {
+      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E9%AD%94%E6%B3%95%E6%A3%92.mp3',
+      loop: true,
+    }
+  },
+  ultraman: {
+    images: [{
+      url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/3.pic_hd.jpg',
+      position: '0 0',
+      iterationCount: 5,
+    }],
+    music: {
+      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E8%BF%AA%E8%BF%A6%E5%A5%A5%E7%89%B9%E6%9B%BC.mp3',
+      loop: false,
+    }
+  },
+  bonnie_bear: {
+    images: [{
+      url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/11.pic_hd.jpg',
+      position: '0 0',
+      iterationCount: 5,
+    }],
+    music: {
+      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E7%86%8A%E5%87%BA%E6%B2%A1.mp3',
+      loop: false,
+    }
+  },
 };
 
 export default Animations;

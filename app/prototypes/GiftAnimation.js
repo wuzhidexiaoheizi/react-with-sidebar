@@ -1,4 +1,8 @@
-function GiftAnimations(containment, config = {}) {
+import Animations from './Animations';
+import MusicDispatcher from './MusicDispatcher';
+import Constants from '../constants';
+
+function GiftAnimation(containment, config = {}) {
   const {
     animationBlesses,
     autoDismiss,
@@ -17,8 +21,8 @@ function GiftAnimations(containment, config = {}) {
   this.init();
 }
 
-GiftAnimations.prototype = {
-  constructor: GiftAnimations,
+GiftAnimation.prototype = {
+  constructor: GiftAnimation,
 
   init() {
     this.render();
@@ -55,6 +59,16 @@ GiftAnimations.prototype = {
 
     element.innerHTML = fragment;
     this.containment.appendChild(element);
+
+    /*eslint-disable */
+    const animationElement = this.animationElement = element.querySelectorAll('.anim')[0];
+    new Animations(animationElement, {
+      name,
+      callback: () => {
+        if (this.autoDismiss) this.autoDismissInAnimationDone();
+      }
+    });
+    /*eslint-enable */
   },
 
   updateDoneeName(bless) {
@@ -71,31 +85,12 @@ GiftAnimations.prototype = {
       closeBtn.addEventListener('click', this.closeHandler, false);
       return;
     }
-
-    this.animationEnd = this.autoDismissInAnimationDone.bind(this);
-    const animationElement = this.animationElement = this.element.querySelectorAll('.anim')[0];
-
-    if (this.isValidAnimation) {
-      animationElement.addEventListener('webkitAnimationEnd', this.animationEnd, false);
-      animationElement.addEventListener('oAnimationEnd', this.animationEnd, false);
-      animationElement.addEventListener('animationend', this.animationEnd, false);
-    } else {
-      setTimeout(this.animationEnd, 2000);
-    }
   },
 
   detachEvents() {
     if (!this.autoDismiss) {
       this.closeBtn.removeEventListener('click', this.closeHandler, false);
       return;
-    }
-
-    if (this.isValidAnimation) {
-      const animationElement = this.animationElement;
-
-      animationElement.removeEventListener('webkitAnimationEnd', this.animationEnd, false);
-      animationElement.removeEventListener('oAnimationEnd', this.animationEnd, false);
-      animationElement.removeEventListener('animationend', this.animationEnd, false);
     }
   },
 
@@ -109,7 +104,10 @@ GiftAnimations.prototype = {
     this.started = true;
     this.ended = false;
 
-    if (typeof this.animationFun == 'function') this.addBlessToList(bless);
+    if (typeof this.animationFun == 'function') {
+      this.isFirstTime = true;
+      this.addBlessToList(bless);
+    }
   },
 
   animationEndHandler() {
@@ -126,6 +124,18 @@ GiftAnimations.prototype = {
       return;
     }
 
+    const dispatcher = MusicDispatcher.getInstance();
+    const { BUBBLE_MUSIC } = Constants;
+
+    if (this.isFirstTime) {
+      dispatcher.pushMusic({
+        src: BUBBLE_MUSIC,
+        loop: false,
+      });
+    } else {
+      dispatcher.replay();
+    }
+
     this.animationFun(this.animationElement, bless, () => {
       if (this.animationBlesses.length == 0) {
         this.started = false;
@@ -134,6 +144,7 @@ GiftAnimations.prototype = {
       } else {
         const _bless = this.animationBlesses.shift();
         this.updateDoneeName(_bless);
+        this.isFirstTime = false;
         this.addBlessToList(_bless);
       }
     });
@@ -149,4 +160,4 @@ GiftAnimations.prototype = {
   },
 };
 
-export default GiftAnimations;
+export default GiftAnimation;

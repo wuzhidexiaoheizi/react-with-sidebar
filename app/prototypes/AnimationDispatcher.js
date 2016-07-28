@@ -1,4 +1,5 @@
 import WithdrawTip from './WithdrawTip';
+import MusicDispatcher from './MusicDispatcher';
 
 function AnimateDispatcher(component, config = {}) {
   this.component = component;
@@ -91,6 +92,8 @@ AnimateDispatcher.prototype = {
     /*eslint-disable */
     new WithdrawTip(this.withdraw, () => {
       if (typeof showPageFooter == 'function') showPageFooter();
+      const dispatcher = MusicDispatcher.getInstance();
+      dispatcher.popMusic();
     });
     /*eslint-enable */
   },

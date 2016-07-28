@@ -1,33 +1,47 @@
 import React, { Component } from 'react';
+import MusicDispatcher from '../prototypes/MusicDispatcher';
 
 export default class MusicPlayer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      rotate: 'rotate',
-      play: true
+      isPlaying: true,
     };
   }
 
-  rotatePlayer() {
-    const { status, onRotate } = this.props;
+  componentDidMount() {
+    const dispatcher = MusicDispatcher.getInstance();
+    const { resource } = this.props;
 
-    if (typeof onRotate == 'function') onRotate();
+    dispatcher.pushMusic({
+      src: resource,
+      loop: true,
+      isBgMusic: true,
+    });
+  }
 
-    status ? this.refs.audio.pause() : this.refs.audio.play();
+  togglePlayingState() {
+    const { isPlaying } = this.state;
+    const dispatcher = MusicDispatcher.getInstance();
+
+    this.setState({ isPlaying: !isPlaying });
+
+    if (isPlaying) {
+      dispatcher.pauseBackgroundMusic();
+    } else {
+      dispatcher.playBackgroundMusic();
+    }
   }
 
   render() {
-    const status = this.props.status;
-    status ? this.state.rotate = 'rotate' : this.state.rotate = '';
+    const { isPlaying } = this.state;
+    const klass = isPlaying ? 'rotate' : '';
 
     return (
-        <section className="player-container" onClick={this.rotatePlayer.bind(this)}>
-          <audio src={this.props.resource} autoPlay="autoplay" ref="audio" loop="loop">your browser doesn't support</audio>
-          <div className={`music-player ${this.state.rotate}`}>
-          </div>
-        </section>
-      );
+      <div className="player-container" onClick={this.togglePlayingState.bind(this)}>
+        <div className={`music-player ${klass}`}></div>
+      </div>
+    );
   }
 }

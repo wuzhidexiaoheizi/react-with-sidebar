@@ -18,7 +18,7 @@ MusicDispatcher.prototype = {
   },
 
   destroy() {
-    this.audio.parentNode.removeChild(this.audio);
+    if (this.audio) this.audio.pause();
     this.musics.length = 0;
 
     if (this.interval) clearInterval(this.interval);
@@ -28,7 +28,7 @@ MusicDispatcher.prototype = {
     const audio = this.audio = document.createElement('audio');
     audio.style.display = 'none';
     const containment = document.querySelector('body');
-    containment.append(audio);
+    containment.appendChild(audio);
   },
 
   /**
@@ -37,7 +37,7 @@ MusicDispatcher.prototype = {
    *                 src: 音频资源
    *                 loop: 是否重复播放
    *                 volume: 音量
-   *                 unpopable: 是否可压出
+   *                 isBgMusic: 是否背景音乐
    */
   pushMusic(music) {
     const { length } = this.musics;
@@ -48,16 +48,16 @@ MusicDispatcher.prototype = {
       this.musics.push(music);
     } else {
       const last = this.musics[length - 1];
-      const { unpopable } = last;
+      const { isBgMusic } = last;
 
-      if (unpopable) {
+      if (isBgMusic) {
         this.musics.push(music);
       } else {
         this.musics[length - 1] = music;
       }
     }
 
-    this.play();
+    this.playMusic(music);
   },
 
   /**
@@ -69,10 +69,10 @@ MusicDispatcher.prototype = {
     if (length == 0) return;
 
     const last = this.musics[length - 1];
-    const { unpopable } = last;
+    const { isBgMusic } = last;
 
-    if (!unpopable) {
-      this.changeVolume(0.2, 2000, () => {
+    if (!isBgMusic) {
+      this.changeVolume(0.2, 500, () => {
         this.pause();
         this.musics.pop();
         this.play();
@@ -82,6 +82,14 @@ MusicDispatcher.prototype = {
 
   play() {
     const music = this.musics[this.musics.length - 1];
+    const { isBgMusic, isOff } = music;
+
+    if (!isBgMusic || (isBgMusic && !isOff)) {
+      this.playMusic(music);
+    }
+  },
+
+  playMusic(music) {
     const { src, loop } = music;
     let { volume } = music;
     if (typeof volume == 'undefined') volume = MusicDispatcher.defaults.volume;
@@ -96,7 +104,7 @@ MusicDispatcher.prototype = {
 
     this.audio.currentTime = 0;
 
-    this.changeVolume(volume, 2000, () => {
+    this.changeVolume(volume, 500, () => {
       this.audio.play();
     });
   },
@@ -121,9 +129,9 @@ MusicDispatcher.prototype = {
    * replay 从头重新播放当前音乐
    */
   replay() {
-    this.audio.pause();
-    this.currentTime = 0;
-    this.audio.play();
+    this.pause();
+    this.audio.currentTime = 0;
+    this.resume();
   },
 
   /**
@@ -147,7 +155,7 @@ MusicDispatcher.prototype = {
       currentTime += during;
       volume = this.volume + step;
 
-      this.resetvolume(volume);
+      this.resetVolume(volume);
 
       if (currentTime < time) {
         this.resetVolume(volume);
@@ -171,6 +179,30 @@ MusicDispatcher.prototype = {
 
     this.volume = vol;
     this.audio.volume = vol;
+  },
+
+  lookupBackgroundMusic() {
+    return this.musics.find(music => music.isBgMusic);
+  },
+
+  /**
+   * playBackgroundMusic 播放背景音乐
+   */
+  playBackgroundMusic() {
+    const music = this.lookupBackgroundMusic();
+
+    if (music) {
+      this.playMusic(music);
+      music.isOff = false;
+    }
+  },
+
+  pauseBackgroundMusic() {
+    const music = this.lookupBackgroundMusic();
+
+    if (music) music.isOff = true;
+
+    this.pause();
   },
 };
 
