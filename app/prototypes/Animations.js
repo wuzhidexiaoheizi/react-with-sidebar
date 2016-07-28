@@ -55,7 +55,7 @@ Animations.prototype = {
     const mainIndex = this.lookupMainAnimationIndex();
 
     this.images.forEach((image, index) => {
-      const { url, position, iterationCount, direction } = image;
+      const { url, position, iterationCount, direction, frameTime, frameCount } = image;
       element = document.createElement('div');
       element.style.position = 'absolute';
       element.style.top = '0';
@@ -68,11 +68,12 @@ Animations.prototype = {
       this.containment.appendChild(element);
 
       const callback = this.config.callback;
-      delete this.config.callback;
 
       const config = Object.assign({}, {
         iterationCount,
         direction,
+        frameTime,
+        frameCount,
         onAnimationStart: () => {
           if (this.music) {
             this.dispatcher = MusicDispatcher.getInstance();
@@ -152,7 +153,7 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/dde840de53fdb781337fa5b157668ba4.png',
       position: '0 0',
-      iterationCount: 5,
+      iterationCount: 6,
     }, {
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png',
       position: '0 0',
@@ -189,7 +190,8 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/11.pic_hd.jpg',
       position: '0 0',
-      iterationCount: 5,
+      iterationCount: 3,
+      frameCount: 33,
     }],
     music: {
       src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E7%86%8A%E5%87%BA%E6%B2%A1.mp3',

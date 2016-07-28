@@ -8,6 +8,7 @@ function Animation(element, config = {}) {
     direction,
     callback,
     onAnimationStart,
+    frameCount,
   } = config;
 
   let { frameTime } = config;
@@ -21,6 +22,7 @@ function Animation(element, config = {}) {
   this.direction = direction || 'normal'; // 'normal' or 'alternate'
   this.callback = callback;
   this.onAnimationStart = onAnimationStart;
+  this.frameCount = frameCount;
   this.isDone = false;
   this.fpsInterval = 1000 / 50;
   this.myReq = null;
@@ -45,8 +47,14 @@ Animation.prototype = {
 
     image.onload = () => {
       const { width, height } = image;
-      this.step = width;
-      this.frameCount = height / width;
+
+      if (this.frameCount) {
+        this.step = height / this.frameCount;
+      } else {
+        this.frameCount = height / width;
+        this.step = width;
+      }
+
       this.animationTime = this.frameTime * this.frameCount;
 
       this.initState();
