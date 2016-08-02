@@ -65,7 +65,14 @@ GiftAnimation.prototype = {
     new Animations(animationElement, {
       name,
       callback: () => {
-        if (this.autoDismiss) this.autoDismissInAnimationDone();
+        if (this.autoDismiss) {
+          this.autoDismissInAnimationDone();
+        } else {
+          if (this.isValidAnimation) {
+            const dispatcher = MusicDispatcher.getInstance();
+            dispatcher.popMusic();
+          }
+        }
       }
     });
     /*eslint-enable */
