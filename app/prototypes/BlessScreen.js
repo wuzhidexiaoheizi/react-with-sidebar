@@ -1,5 +1,5 @@
 import Animations from './Animations';
-import { extractPresentAvatar } from '../helper';
+import { extractPresentAvatar, extractPresentImage } from '../helper';
 import Effect from './Effect';
 import MusicDispatcher from './MusicDispatcher';
 import Constants from '../constants';
@@ -74,21 +74,25 @@ BlessScreen.prototype = {
     const { sender: { nickname, login }, virtual_present: { name } } = bless;
     const contributor = nickname || login;
     const text = contributor + '赠送';
+    const isHeart = name == 'heart';
 
     this.element.querySelectorAll('.contributor')[0].textContent = text;
 
     const node = this.element.querySelectorAll('.animate-zone')[0];
-    node.innerHTML = '';
 
     if (isValid) {
-      /*eslint-disable */
-      new Animations(node, {
-        name,
-        callback,
-      });
-      /*eslint-enable */
+      if (isHeart) {
+        const src = extractPresentImage(name);
+        node.innerHTML = `<img src="${src}" class="heart-img" />`;
+        setTimeout(callback, 2000);
+      } else {
+        node.innerHTML = '';
+        /*eslint-disable */
+        new Animations(node, { name, callback, });
+        /*eslint-enable */
+      }
     } else {
-      node.innerHTML = '<div class="invalid">无效动画</div>';
+      node.innerHTML = `<div class="invalid">无效动画</div>`;
       setTimeout(callback, 2000);
     }
   },
@@ -136,24 +140,14 @@ BlessScreen.prototype = {
     });
 
     const bless = group.shift();
-    const { virtual_present: {name} } = bless;
-    const isHeart = name == 'heart';
 
-    if (isHeart) {
-      setTimeout(() => {
-        this.animateToList(bless, () => {
+    setTimeout(() => {
+      this.animateToList(bless, () => {
+        this.resetMainZone(bless, isValid, () => {
           this.aminationCallback(group, isValid, callback);
         });
-      }, 100);
-    } else {
-      setTimeout(() => {
-        this.animateToList(bless, () => {
-          this.resetMainZone(bless, isValid, () => {
-            this.aminationCallback(group, isValid, callback);
-          });
-        });
-      }, 100);
-    }
+      });
+    }, 100);
   },
 
   aminationCallback(group, isValid, callback) {

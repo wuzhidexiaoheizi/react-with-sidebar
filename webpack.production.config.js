@@ -56,7 +56,7 @@ module.exports = {
       template: './app/index.html', // Load a custom template
       inject: 'body' // Inject all scripts into the body
     }),
-    new CleanWebpackPlugin(['build'], {
+    new CleanWebpackPlugin(['build', 'release'], {
       verbose: true,
       dry: false
     })
