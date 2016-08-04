@@ -1,5 +1,5 @@
 import Animations from './Animations';
-import { extractPresentAvatar, extractPresentImage } from '../helper';
+import { extractPresentAvatar, extractPresentImage, extractPresentDisplayName } from '../helper';
 import Effect from './Effect';
 import MusicDispatcher from './MusicDispatcher';
 import Constants from '../constants';
@@ -16,6 +16,9 @@ BlessScreen.prototype = {
     this.render();
     this.initState();
 
+    const giftZone = this.element.querySelectorAll('.gift-zone')[0];
+    this.originTop = window.parseInt(window.getComputedStyle(giftZone, false)
+      .getPropertyValue('top'));
     this.skipBtn = this.element.querySelectorAll('.skip-btn')[0];
     this.attachEvents();
   },
@@ -26,6 +29,7 @@ BlessScreen.prototype = {
 
   initState() {
     const containerWidth = this.element.clientWidth;
+    this.containerHeight = this.element.clientHeight;
     this.offsetLeft = this.element.offsetLeft;
     this.ITEM_SIZE = BlessScreen.CONSTANTS.ITEM_SIZE;
     this.countInLine = Math.floor(containerWidth / this.ITEM_SIZE);
@@ -39,17 +43,14 @@ BlessScreen.prototype = {
       <div class="light-overlayer"></div>
       <div class="dark-overlayer"></div>
       <div class="screen-container">
-        <div class="container">
-          <div class="row">
-            <div class="screen-content">
-              <div class="skip-btn">跳过动画</div>
-              <div class="main-zone">
-                <div class="text-ellipsis contributor"></div>
-                <div class="animate-zone"></div>
-              </div>
-              <div class="gift-zone"></div>
-            </div>
+        <div class="screen-content">
+          <div class="skip-btn">跳过动画</div>
+          <div class="main-zone">
+            <div class="text-ellipsis contributor"></div>
+            <div class="animate-zone"></div>
+            <div class="present-name"></div>
           </div>
+          <div class="gift-zone"></div>
         </div>
       </div>
     `;
@@ -73,10 +74,12 @@ BlessScreen.prototype = {
   resetMainZone(bless, isValid, callback) {
     const { sender: { nickname, login }, virtual_present: { name } } = bless;
     const contributor = nickname || login;
-    const text = contributor + '赠送';
+    const text = contributor + ' 赠送';
     const isHeart = name == 'heart';
+    const displayName = extractPresentDisplayName(name);
 
     this.element.querySelectorAll('.contributor')[0].textContent = text;
+    this.element.querySelectorAll('.present-name')[0].textContent = displayName;
 
     const node = this.element.querySelectorAll('.animate-zone')[0];
 
@@ -84,7 +87,7 @@ BlessScreen.prototype = {
       if (isHeart) {
         const src = extractPresentImage(name);
         node.innerHTML = `<img src="${src}" class="heart-img" />`;
-        setTimeout(callback, 2000);
+        setTimeout(callback, 1000);
       } else {
         node.innerHTML = '';
         /*eslint-disable */
@@ -93,18 +96,22 @@ BlessScreen.prototype = {
       }
     } else {
       node.innerHTML = `<div class="invalid">无效动画</div>`;
-      setTimeout(callback, 2000);
+      setTimeout(callback, 1000);
     }
+  },
+
+  clearMainZone() {
+    this.element.querySelectorAll('.contributor')[0].textContent = '';
+    this.element.querySelectorAll('.present-name')[0].textContent = '';
+    this.element.querySelectorAll('.animate-zone')[0].innerHTML = '';
   },
 
   resetGiftZone(st) {
     const nodeToClone = document.querySelector('.party-body .gift-group');
-    const node = nodeToClone.cloneNode(true);
     const containment = this.element.querySelectorAll('.gift-zone')[0];
-    containment.innerHTML = '';
-    containment.appendChild(node);
+    containment.innerHTML = nodeToClone.innerHTML;
 
-    if (st > 260) {
+    if (st > this.originTop) {
       containment.style.top = st + 'px';
     }
   },
@@ -125,6 +132,7 @@ BlessScreen.prototype = {
   afterPlayed() {
     this.hideSkipBtn();
     this.element.style.visibility = 'hidden';
+    this.clearMainZone();
   },
 
   playBlessGroup(group, isValid, callback) {
@@ -141,13 +149,11 @@ BlessScreen.prototype = {
 
     const bless = group.shift();
 
-    setTimeout(() => {
-      this.animateToList(bless, () => {
-        this.resetMainZone(bless, isValid, () => {
-          this.aminationCallback(group, isValid, callback);
-        });
+    this.animateToList(bless, () => {
+      this.resetMainZone(bless, isValid, () => {
+        this.aminationCallback(group, isValid, callback);
       });
-    }, 100);
+    });
   },
 
   aminationCallback(group, isValid, callback) {
@@ -194,7 +200,7 @@ BlessScreen.prototype = {
     const size = this.ITEM_SIZE;
     const { innerWidth, innerHeight } = window;
     const x = (innerWidth - size) / 2;
-    const y = innerHeight - size / 2;
+    const y = innerHeight;
     const { virtual_present: { name} } = bless;
 
     node.className = 'gift-animation';
@@ -212,20 +218,32 @@ BlessScreen.prototype = {
 
   // 飞入动画
   animateToList(bless, callback) {
-    const element = this.getElement(bless);
     const coordinate = this.getCoordinate();
     const [left, top] = coordinate;
-    const effectObj = { left, top };
+    const giftZone = this.element.querySelectorAll('.gift-zone')[0];
+    const bottom = window.parseInt(window.getComputedStyle(giftZone, false)
+      .getPropertyValue('bottom'));
 
-    /*eslint-disable */
-    new Effect(element, effectObj, 'easeInOutBack', '250ms', () => {
-      element.parentNode.removeChild(element);
-      this.insertBless(bless);
-      this.command.addBlessItemToGiftList(bless);
-      
-      if (typeof callback == 'function') callback();
-    });
-    /*eslint-enable */
+    if (top <= this.containerHeight - (this.ITEM_SIZE + bottom)) {
+      const element = this.getElement(bless);
+      const effectObj = { left, top };
+
+      /*eslint-disable */
+      new Effect(element, effectObj, 'easeInOutBack', '250ms', () => {
+        element.parentNode.removeChild(element);
+        this.afterAnimateToList(bless, callback);
+      });
+      /*eslint-enable */
+    } else {
+      this.afterAnimateToList(bless, callback);
+    }
+  },
+
+  afterAnimateToList(bless, callback) {
+    this.insertBless(bless);
+    this.command.addBlessItemToGiftList(bless);
+
+    if (typeof callback == 'function') callback();
   },
 
   // 插入礼物
@@ -244,6 +262,10 @@ BlessScreen.prototype = {
     this.ended = true;
     this.hideSkipBtn();
     this.command.insertSkippedBlesses(this.remained);
+  },
+
+  getOriginTop() {
+    return this.originTop;
   },
 };
 

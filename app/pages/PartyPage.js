@@ -30,7 +30,7 @@ class PartyPage extends Component {
 
     this.state = {
       showPhaseModal: false,
-      blessPer: 10,
+      blessPer: 30,
       rotate_status: true,
       earliestId: '',
       showBullet: false,

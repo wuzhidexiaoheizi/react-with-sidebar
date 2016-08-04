@@ -129,7 +129,7 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/fa2fbd0d1d1b6a3dc6afe0f5a7bad564.png',
       position: '-5px -5px',
-      iterationCount: 5,
+      iterationCount: 1,
       direction: 'alternate',
     }],
     music: {
@@ -141,7 +141,7 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/f6f4b746bb5650d9dfbb9faaf4b31232.png',
       position: '0 0',
-      iterationCount: 5,
+      iterationCount: 1,
       direction: 'alternate',
     }],
     music: {
@@ -153,11 +153,11 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/dde840de53fdb781337fa5b157668ba4.png',
       position: '0 0',
-      iterationCount: 6,
+      iterationCount: 1,
     }, {
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png',
       position: '0 0',
-      iterationCount: 10,
+      iterationCount: 2,
     }],
     music: {
       src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E5%85%AB%E9%9F%B3%E7%9B%92.mp3',
@@ -168,7 +168,7 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/2.pic_hd.jpg',
       position: '0 0',
-      iterationCount: 5,
+      iterationCount: 1,
     }],
     music: {
       src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E9%AD%94%E6%B3%95%E6%A3%92.mp3',
@@ -179,7 +179,7 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/3.pic_hd.jpg',
       position: '0 0',
-      iterationCount: 5,
+      iterationCount: 1,
     }],
     music: {
       src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E8%BF%AA%E8%BF%A6%E5%A5%A5%E7%89%B9%E6%9B%BC.mp3',
@@ -190,7 +190,7 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/11.pic_hd.jpg',
       position: '0 0',
-      iterationCount: 3,
+      iterationCount: 1,
       frameCount: 33,
     }],
     music: {

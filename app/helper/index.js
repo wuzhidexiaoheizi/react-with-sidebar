@@ -44,6 +44,18 @@ const RANK_PNG_MAP = {
   '2': thirdPNG,
 };
 
+const PRESENT_NAME_MAP = {
+  heart: '红桃',
+  flower: '鲜花',
+  car: '小轿车',
+  teddy_bear: '泰迪熊',
+  music_box: '音乐盒',
+  motor: '摩托',
+  pleasant_sheep: '喜羊羊',
+  ultraman: '奥特曼',
+  bonnie_bear: '熊出没',
+};
+
 export function _fetch(url, method = 'get', body, excludeHeaders) {
   const params = {
     credentials: 'same-origin',
@@ -284,6 +296,10 @@ export function extractPresentAvatar(presentName) {
   const image = extractPresentImage(presentName);
 
   return `${image}!avatar`;
+}
+
+export function extractPresentDisplayName(presentName) {
+  return PRESENT_NAME_MAP[presentName] || '佚名';
 }
 
 export function getTipImage(type) {

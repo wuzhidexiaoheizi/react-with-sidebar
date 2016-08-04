@@ -211,7 +211,8 @@ BlessCommand.prototype = {
     const rect = giftGroup.getBoundingClientRect();
     const { top } = rect;
     const offsetTop = top + scrollTop;
-    const min = Math.min(maxST, 260);
+    const originTop = this.screen.getOriginTop();
+    const min = Math.min(maxST, originTop);
     const st = offsetTop - min;
 
     nanoContent.scrollTop = st;
