@@ -72,11 +72,15 @@ MusicDispatcher.prototype = {
     const { isBgMusic } = last;
 
     if (!isBgMusic) {
-      this.changeVolume(0.2, 500, () => {
-        this.pause();
-        this.musics.pop();
-        this.play();
-      });
+      // this.changeVolume(0.2, 200, () => {
+      //   this.pause();
+      //   this.musics.pop();
+      //   this.play();
+      // });
+
+      this.pause();
+      this.musics.pop();
+      this.play();
     }
   },
 
@@ -103,10 +107,13 @@ MusicDispatcher.prototype = {
     }
 
     this.audio.currentTime = 0;
+    this.audio.volume = volume;
 
-    this.changeVolume(volume, 500, () => {
-      this.audio.play();
-    });
+    this.audio.play();
+
+    // this.changeVolume(volume, 200, () => {
+    //   this.audio.play();
+    // });
   },
 
   toggle() {
@@ -140,7 +147,7 @@ MusicDispatcher.prototype = {
    * @param  {Number}   time       调节时间
    * @param  {Function} callback   达到目标音量后的回调
    */
-  changeVolume(destVolume, time = 2000, callback) {
+  changeVolume(destVolume, time = 200, callback) {
     if (this.volume == destVolume) {
       if (typeof callback == 'function') callback();
       return;

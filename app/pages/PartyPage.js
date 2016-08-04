@@ -17,12 +17,10 @@ import AvatarUpload from '../components/AvatarUpload';
 import BulletCurtain from '../components/BulletCurtain';
 import MusicPlayer from '../components/MusicPlayer';
 import { Link } from 'react-router';
-import BlessDispatcher from '../components/BlessDispatcher';
 import { checkPresentIsForbidden } from '../actions/virtualPresent';
-import GiftList from '../prototypes/GiftList';
-import GiftAnimation from '../prototypes/GiftAnimation';
-import Effect from '../prototypes/Effect';
 import MusicDispatcher from '../prototypes/MusicDispatcher';
+import PartyCard from '../components/PartyCard';
+import BlessCommand from '../prototypes/BlessCommand';
 
 const WEIXIN_CONFIG = 'wexin_config';
 
@@ -35,19 +33,20 @@ class PartyPage extends Component {
       blessPer: 10,
       rotate_status: true,
       earliestId: '',
-      showAnimationCloseBtn: false,
       showBullet: false,
       showBulletToggle: false,
       playOnAdded: true,
+      showCard: false,
     };
   }
 
   componentDidMount() {
-    const { params: { id }, bless: { blesses }, dispatch } = this.props;
-    const { blessPer, playOnAdded } = this.state;
+    const { params: { id }, dispatch } = this.props;
+    const { blessPer } = this.state;
 
     this.blessId = this.extractBlessId();
 
+    // 请求资源
     dispatch(fetchCurrentUser());
     dispatch(fetchParty(id, {
       loadCake: true,
@@ -59,47 +58,47 @@ class PartyPage extends Component {
     }));
     dispatch(fetchBlessList(id, '', blessPer));
 
-    const { giftList, blessDispatcher } = this.refs;
-    this.giftList = new GiftList(giftList, blesses, { playOnAdded, showAnimation: this.showAnimation.bind(this) });
-    blessDispatcher.insertAnimations(blesses);
+    this.prepareWeixinResource();
 
-    if (!this.isWeixin()) return;
-
-    let isExpire;
-    const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG) || '{}');
-
-    if (!window.hasEntered) {
-      isExpire = true;
-      window.hasEntered = true;
-    } else {
-      isExpire = config && config.expired_at ? config.expired_at < Date.now() : true;
-    }
-
-    if (isExpire) {
-      this.getWeixinConfig();
-    } else {
-      this.initWeixinConfig(config);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { blessDistribute, blessDispatcher } = this.refs;
+    const { blessDistribute } = this.refs;
 
     if (window.location.href.indexOf('#showDistribute') > -1) {
       blessDistribute.show();
     }
 
+    this.prepareBlessCommand();
+  }
+
+  componentWillReceiveProps(nextProps) {
     const {
       party: { party },
       user: { currentUser },
       bless: { blesses },
     } = nextProps;
 
-    const { user_id, withdrawable } = party;
+    const { user_id, birth_day, hearts_limit } = party;
 
-    blessDispatcher.updateWithdraw(withdrawable);
+    const isCurrentUser = currentUser && user_id == currentUser.id;
 
-    this.setState({ isCurrentUser: currentUser && user_id == currentUser.id });
+    this.setState({ isCurrentUser });
+
+    if (!this.hasLoadCard) {
+      this.hasLoadCard = true;
+      this.setState({ showCard: true });
+    }
+
+    const birthday = Date.parse(birth_day);
+
+    if (!isNaN(birthday) && !this.hasSetExpireTime) {
+      this.hasSetExpireTime = true;
+      const expireTime = birthday + 2 * 7 * 24 * 60 * 60 * 1000;
+      this.command.updateExpireTime(expireTime);
+    }
+
+    if (hearts_limit && !this.hasSetProgressInitTotal) {
+      this.hasSetProgressInitTotal = true;
+      this.command.updateProgressTotal(+hearts_limit);
+    }
 
     const lastBlesses = this.props.bless.blesses;
 
@@ -123,20 +122,16 @@ class PartyPage extends Component {
   }
 
   onBlessChanged(blesses, lastBlesses) {
-    const { blessDispatcher } = this.refs;
-
     if (blesses != lastBlesses) {
       if (lastBlesses.length == 0) {
-        blessDispatcher.insertAnimations(blesses);
-        this.giftList.insertNewBlesses(blesses);
+        this.command.addBlesses(blesses);
       } else {
         const lastBless = lastBlesses[lastBlesses.length - 1];
         const index = blesses.indexOf(lastBless);
 
         if (index > -1) {
           const newBlesses = blesses.slice(index, blesses.length - 1);
-          blessDispatcher.insertAnimations(newBlesses);
-          this.giftList.insertNewBlesses(newBlesses);
+          this.command.addBlesses(newBlesses);
         }
       }
     }
@@ -154,6 +149,40 @@ class PartyPage extends Component {
 
         this.initWeixinConfig(json);
       });
+  }
+
+  prepareWeixinResource() {
+    if (!this.isWeixin()) return;
+
+    let isExpire;
+    const config = JSON.parse(localStorage.getItem(WEIXIN_CONFIG) || '{}');
+
+    if (!window.hasEntered) {
+      isExpire = true;
+      window.hasEntered = true;
+    } else {
+      isExpire = config && config.expired_at ? config.expired_at < Date.now() : true;
+    }
+
+    if (isExpire) {
+      this.getWeixinConfig();
+    } else {
+      this.initWeixinConfig(config);
+    }
+  }
+
+  prepareBlessCommand() {
+    const blessFlagField = 'id';
+    const { playOnAdded } = this.state;
+    const checkPresent = this.checkIfExist.bind(this);
+
+    const config = {
+      blessFlagField,
+      playOnAdded,
+      checkPresent,
+    };
+
+    this.command = new BlessCommand(config);
   }
 
   isWeixin() {
@@ -236,25 +265,10 @@ class PartyPage extends Component {
     }
   }
 
-  hideAnimationCloseBtn() {
-    this.setState({ showAnimationCloseBtn: false });
-  }
-
-  hidePageFooter() {
-    const { pageFooter } = this.refs;
-    const { clientHeight } = pageFooter;
-
-    /*eslint-disable */
-    new Effect(pageFooter, { bottom: `-${clientHeight}px` }, 'swing', '240ms');
-    /*eslint-enable */
-  }
-
-  showPageFooter() {
-    const { pageFooter } = this.refs;
-
-    /*eslint-disable */
-    new Effect(pageFooter, { bottom: 0 }, 'swing', '240ms');
-    /*eslint-enable */
+  hidePartyCard() {
+    this.setState({ showCard: false }, () => {
+      this.command.playUnplayedBlesses();
+    });
   }
 
   toggleBullet() {
@@ -266,44 +280,8 @@ class PartyPage extends Component {
     bulletScreen.toggleShow(showBullet);
   }
 
-  showAnimation(bless) {
-    const { virtual_present: { name } } = bless;
-    const { animationContainer } = this.refs;
-
-    this.checkIfExist(name, (isValidAnimation) => {
-      /*eslint-disable */
-      new GiftAnimation(animationContainer, {
-        autoDismiss: false,
-        isValidAnimation,
-        animationBlesses: [ bless ]
-      });
-      /*eslint-enable */
-    });
-  }
-
-  showAnimationWithCallback(blesses, animationCallback) {
-    const { virtual_present: { name } } = blesses[0];
-    const { animationContainer } = this.refs;
-    const animationFun = this.animateToGiftGroup.bind(this);
-
-    this.checkIfExist(name, (isValidAnimation) => {
-      this.giftAnimation = new GiftAnimation(animationContainer, {
-        autoDismiss: true,
-        animationBlesses: blesses,
-        animationFun,
-        isValidAnimation,
-        animationCallback,
-      });
-    });
-  }
-
   showAllAnimations() {
-    if (this.giftList) this.giftList.removeAllChildren();
-    const { blessDispatcher } = this.refs;
-
-    setTimeout(() => {
-      blessDispatcher.displayAllAnimations();
-    }, 1);
+    this.command.replayBlessGroup();
   }
 
   checkIfExist(animationName, callback) {
@@ -317,18 +295,11 @@ class PartyPage extends Component {
   }
 
   skipAnimations() {
-    this.giftAnimation.jumpToEnd((animations) => {
-      const { blessDispatcher } = this.refs;
-      blessDispatcher.skipAnimations(animations);
-    });
+    this.command.skipAnimations();
   }
 
   showBulletToggle() {
     this.setState({ showBulletToggle: true });
-  }
-
-  displayAnimateCloseBtn() {
-    this.setState({ showAnimationCloseBtn: true });
   }
 
   loadNextPageBlesses() {
@@ -389,18 +360,6 @@ class PartyPage extends Component {
     this.setState({ rotate_status: !rotate_status });
   }
 
-  animateToGiftGroup(element, bless, callback) {
-    this.giftList.animateToList(element, bless, callback);
-  }
-
-  addItemToGiftList(bless) {
-    this.giftList.insertBless(bless);
-  }
-
-  addItemsToGiftList(blesses) {
-    this.giftList.insertBlesses(blesses);
-  }
-
   render() {
     const { PARTY_HEADER_IMG } = Constants;
     const {
@@ -418,6 +377,7 @@ class PartyPage extends Component {
       message,
       person_avatar,
       avatar_media_id,
+      birthday_person,
     } = party;
 
     const {
@@ -426,7 +386,7 @@ class PartyPage extends Component {
       showAnimationCloseBtn,
       showBullet,
       showBulletToggle,
-      playOnAdded,
+      showCard,
     } = this.state;
 
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
@@ -444,27 +404,6 @@ class PartyPage extends Component {
       trackCount: 5,
       loop: true,
       stopOnHover: false,
-    };
-
-    const animationFlagField = 'id';
-    const birthday = Date.parse(birth_day);
-    const addBlessItem = this.addItemToGiftList.bind(this);
-    const showPageFooter = this.showPageFooter.bind(this);
-    const hidePageFooter = this.hidePageFooter.bind(this);
-    const showCloseBtn = this.displayAnimateCloseBtn.bind(this);
-    const hideCloseBtn = this.hideAnimationCloseBtn.bind(this);
-    const skipHandler = this.addItemsToGiftList.bind(this);
-
-    const animationConfig = {
-      animationFlagField,
-      birthday,
-      playOnAdded,
-      addBlessItem,
-      showPageFooter,
-      hidePageFooter,
-      showCloseBtn,
-      hideCloseBtn,
-      skipHandler,
     };
 
     const audio = 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac';
@@ -509,14 +448,29 @@ class PartyPage extends Component {
                 <div className="party-body">
                   {/* <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />*/}
                   <div className="gift-group">
+                    <div className="party-gnh">
+                      <div className="clearfix labels">
+                        <div className="gnh-label">幸福值</div>
+                        <div className="withdraw-label">返现金</div>
+                      </div>
+                      <div className="gnh-progress">
+                        <div className="progress-bar" style={{ width: '0%' }}></div>
+                      </div>
+                      <div className="clearfix values">
+                        <div className="gnh-value">0</div>
+                        <div className="withdraw-value">￥0.00</div>
+                      </div>
+                    </div>
                     <div className="gift-wrap">
+                      {/**
                       <div className="gift-desc" onClick={this.showAllAnimations.bind(this)}>
                         已收到的礼物（点击可播放动画）
                       </div>
+                      */}
                       <div className="gift-list" ref="giftList"></div>
                     </div>
                   </div>
-                  <BlessGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />
+                  <BlessGroup blesses={blesses} />
                 </div>
               </div>
             </div>
@@ -549,18 +503,18 @@ class PartyPage extends Component {
           partyId={id} presents={presents} {...presentActionCreators}
           {...blessActionCreators} ref="blessDistribute" />
 
-        <BlessDispatcher
-          playAnimation={this.showAnimationWithCallback.bind(this)}
-          config={animationConfig}
-          ref="blessDispatcher"
-        />
-
         { showAnimationCloseBtn &&
           <div className="animation-toggle">
             <div className="toggle-container">
               <div className="toggle-btn" onClick={this.skipAnimations.bind(this)}>跳过动画</div>
             </div>
           </div>
+        }
+
+        { showCard &&
+          <PartyCard avatar={person_avatar}
+            person={birthday_person}
+            onClose={this.hidePartyCard.bind(this)}/>
         }
       </div>
     );

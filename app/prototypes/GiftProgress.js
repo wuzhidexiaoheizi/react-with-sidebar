@@ -1,31 +1,12 @@
-function GiftProgress(containment, total, config = {}) {
-  const { initCount } = config;
-  this.containment = containment;
-  this.total = total;
-  this.initCount = initCount || 0;
-  this.initialPercent = this.getProgressPercent();
-  this.init();
+import { formatCurrency } from '../helper';
+
+function GiftProgress(total) {
+  this.total = total || 0;
+  this.withdraw = 0;
 }
 
 GiftProgress.prototype = {
   constructor: GiftProgress,
-
-  init() {
-    this.render();
-  },
-
-  destroy() {
-    this.containment.removeChild(this.element);
-  },
-
-  render() {
-    const element = this.element = document.createElement('div');
-    element.setAttribute('class', 'progress');
-    element.innerHTML = `
-      <div class="progress-bar" style="width: ${this.initialPercent}%" />
-    `;
-    this.containment.appendChild(element);
-  },
 
   updateTotal(total) {
     this.total = total;
@@ -34,30 +15,39 @@ GiftProgress.prototype = {
 
   getProgressPercent() {
     if (this.total == 0) return 0;
-    if (this.initCount >= this.total) return 100;
+    if (this.withdraw >= this.total) return 100;
 
-    return Math.floor(this.initCount / this.total * 100);
+    return Math.floor(this.withdraw / this.total * 100);
   },
 
-  increment() {
-    this.initCount ++;
-    this.updateProgress();
-  },
+  addWithdraw(withdraw, isHeart) {
+    if (isNaN(withdraw)) return;
 
-  decrement() {
-    this.initCount --;
+    if (!isHeart) this.total += +withdraw;
+    this.withdraw += +withdraw;
+
     this.updateProgress();
   },
 
   updateProgress() {
     const percent = this.getProgressPercent();
-    const bar = this.element.querySelectorAll('.progress-bar')[0];
-    const progress = percent + '%';
-    bar.style.width = progress;
+    const nodes = document.querySelectorAll('.party-gnh');
+
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
+      const bar = node.querySelectorAll('.progress-bar')[0];
+      const progress = percent + '%';
+      bar.style.width = progress;
+      const gnhValue = node.querySelectorAll('.gnh-value')[0];
+      const withdrawValue = node.querySelectorAll('.withdraw-value')[0];
+
+      withdrawValue.textContent = '￥' + formatCurrency(this.withdraw);
+      gnhValue.textContent = 10 * this.withdraw;
+    }
   },
 
   clearProgress() {
-    this.initCount = 0;
+    this.withdraw = 0;
     this.updateProgress();
   },
 };

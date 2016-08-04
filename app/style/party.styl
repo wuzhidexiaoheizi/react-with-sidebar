@@ -1,8 +1,4 @@
 .party-container 
-  .container-content > .container
-    background-image url(../images/bg.jpg)
-    background-repeat repeat
-
   .party-footer
     z-index 11
     
@@ -123,39 +119,8 @@
       
     .date-sentence
       top 0
-
-  // .party-body
-  //   padding 0 10px 10px
-    
-  .gift-wrap
-    padding 10px
-    // margin 0 -10px 10px
-    margin-bottom 10px
-    border-width 1px 0
-    border-style solid
-    border-color $red
-    background #F5E7E7
-    
-    .gift-item
-      display inline-block
-      padding 5px
-      
-      .gift-avatar
-        width 40px
-        
-    .progress
-      margin 10px 0 0 0
-      height 14px
-      background #ddd
-      
-      .progress-bar
-        line-height 14px
-        background #F24E5B
-      
+  
   .bless-list
-    // padding 10px
-    // border-radius 5px
-    // background $red
     border-top 1px solid $borderColor
   
   .bless-summary
@@ -168,65 +133,24 @@
       &:last-child
         border-right none
         
-  .bless-dispatcher
-    position absolute
-    right 12px
-    left 12px
-    bottom 45px
-    z-index 25
-    display none
+
+.unread-gifts
+  position absolute
+  right 0
+  bottom 50px
+  display none
+  
+  img
+    width 60px
     
-    .unread-container
-      position relative
-      width 100%
-      max-width 640px
-      margin 0 auto
-      height 60px
-    
-    .unread-gifts
-      position absolute
-      right 0
-      
-      img
-        width 60px
-        
-      .unread-desc
-        position absolute
-        left 0
-        top 12px
-        right 0
-        text-align center
-        font-size 12px
-        color $red
-        
-    &.shown
-      display block
-        
-  .animation-toggle
+  .unread-desc
     position absolute
-    top 8%
     left 0
+    top 12px
     right 0
-    z-index 27
-    
-    .toggle-container
-      position relative
-      top 0
-      max-width 640px
-      margin 0 auto
-      height 100%
-      width 100%
-      
-      .toggle-btn
-        position absolute
-        bottom 0
-        right 5%
-        height 30px
-        line-height 30px
-        padding 0 8px
-        border-radius 8px
-        background rgba(0, 0, 0, 0.3)
-        color #fff
+    text-align center
+    font-size 12px
+    color $red
          
 @media (max-width: 480px)
   .party-container

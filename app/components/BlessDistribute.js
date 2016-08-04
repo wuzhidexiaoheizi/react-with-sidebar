@@ -105,7 +105,7 @@ export default class BlessDistribute extends Component {
   render() {
     const { presents } = this.props;
     const { isShow } = this.state;
-    const klass = isShow ? '' : 'hidden';
+    const klass = isShow ? '' : 'hide';
     const { PICK_PRESENT_LABEL_IMG, MESSAGE_LABEL_IMG } = Constants;
 
     return (
