@@ -52,7 +52,7 @@ GiftAnimation.prototype = {
       name,
       callback: () => {
         const dispatcher = MusicDispatcher.getInstance();
-        dispatcher.popMusic();
+        dispatcher.playBackgroundSound();
       }
     });
     /*eslint-enable */

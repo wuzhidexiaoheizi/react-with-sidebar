@@ -53,7 +53,7 @@ Animations.prototype = {
     const animation = Animations.BACKGROUNDMAP[name] || Object();
     const { images, music } = animation;
     this.images = images;
-    this.music = music;
+    this.music = Object.assign({}, music, { name });
 
     if (!this.images || !this.images.length) return;
     this.createElements();
@@ -84,21 +84,16 @@ Animations.prototype = {
         direction,
         frameTime,
         frameCount,
-        onAnimationStart: () => {
-          if (this.music) {
-            this.dispatcher = MusicDispatcher.getInstance();
-            this.dispatcher.pushMusic(this.music);
-          }
-        },
         callback: () => {
-          if (index == mainIndex) {
-            if (typeof callback == 'function') callback();
-          }
+          if (index == mainIndex && typeof callback == 'function') callback();
         }
       }, this.config);
 
-      animation = new Animation(element, config);
-      this.animations.push(animation);
+      const dispatcher = MusicDispatcher.getInstance();
+      dispatcher.pushSound(this.music, () => {
+        animation = new Animation(element, config);
+        this.animations.push(animation);
+      });
     });
   },
 
@@ -139,12 +134,12 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/fa2fbd0d1d1b6a3dc6afe0f5a7bad564.png',
       position: '-5px -5px',
-      iterationCount: 1,
+      iterationCount: 3,
       direction: 'alternate',
     }],
     music: {
       src: PRESENT_HEART_MUSIC,
-      loop: true,
+      loop: false,
     }
   },
   flower: {
@@ -156,22 +151,22 @@ Animations.BACKGROUNDMAP = {
     }],
     music: {
       src: PRESENT_FLOWER_MUSIC,
-      loop: true,
+      loop: false,
     }
   },
   music_box: {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/dde840de53fdb781337fa5b157668ba4.png',
       position: '0 0',
-      iterationCount: 1,
+      iterationCount: 3,
     }, {
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png',
       position: '0 0',
-      iterationCount: 2,
+      iterationCount: 6,
     }],
     music: {
       src: PRESENT_MUSIC_BOX_MUSIC,
-      loop: true,
+      loop: false,
     }
   },
   pleasant_sheep: {
@@ -181,8 +176,8 @@ Animations.BACKGROUNDMAP = {
       iterationCount: 1,
     }],
     music: {
-      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E9%AD%94%E6%B3%95%E6%A3%92.mp3',
-      loop: true,
+      src: PRESENT_PLEASANT_SHEEP_MUSIC,
+      loop: false,
     }
   },
   ultraman: {

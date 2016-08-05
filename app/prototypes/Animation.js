@@ -12,7 +12,7 @@ function Animation(element, config = {}) {
   } = config;
 
   let { frameTime } = config;
-  frameTime = frameTime || '60ms'; //  3的倍数
+  frameTime = frameTime || '60ms';
 
   this.element = element;
   this.name = name;

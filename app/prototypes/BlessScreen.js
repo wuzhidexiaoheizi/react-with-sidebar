@@ -87,7 +87,7 @@ BlessScreen.prototype = {
       if (isHeart) {
         const src = extractPresentImage(name);
         node.innerHTML = `<img src="${src}" class="heart-img" />`;
-        setTimeout(callback, 300);
+        setTimeout(callback, 100);
       } else {
         node.innerHTML = '';
         /*eslint-disable */
@@ -142,11 +142,17 @@ BlessScreen.prototype = {
 
     const { BUBBLE_MUSIC } = Constants;
     const dispatcher = MusicDispatcher.getInstance();
-    dispatcher.pushMusic({
+
+    dispatcher.pushSound({
       src: BUBBLE_MUSIC,
       loop: false,
+      name: 'bubble',
+    }, () => {
+      this.afterPushMusic(group, isValid, callback);
     });
+  },
 
+  afterPushMusic(group, isValid, callback) {
     const bless = group.shift();
 
     this.animateToList(bless, () => {

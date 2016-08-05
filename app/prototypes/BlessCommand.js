@@ -173,7 +173,7 @@ BlessCommand.prototype = {
   // 多组动画结束后的操作
   afterBlessGroupsPlayed() {
     const dispatcher = MusicDispatcher.getInstance();
-    dispatcher.popMusic();
+    dispatcher.playBackgroundSound();
     this.screen.afterPlayed();
   },
 

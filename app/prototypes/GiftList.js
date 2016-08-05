@@ -84,9 +84,12 @@ GiftList.prototype = {
     const evt = e || window.event;
     const target = evt.target || evt.srcElement;
 
-    if (this.detectClassName(target, 'gift-list')) return false;
+    if (this.command.detectClassName(target, 'gift-list')) return;
 
-    const parentNode = this.getAncestorNode(target, 'gift-item');
+    const parentNode = this.command.getAncestorNode(target, 'gift-item');
+
+    if (!parentNode) return;
+
     const blessId = parentNode.getAttribute('bless-id');
     const bless = this.blesses.find(b => b.id == blessId);
 
@@ -97,31 +100,17 @@ GiftList.prototype = {
     const evt = e || window.event;
     const target = evt.target || evt.srcElement;
 
-    if (this.detectClassName(target, 'bless-list')) return;
+    if (this.command.detectClassName(target, 'bless-list')) return;
 
-    const parentNode = this.getAncestorNode(target, 'bless-gift');
+    const parentNode = this.command.getAncestorNode(target, 'bless-gift');
+
+    if (!parentNode) return;
+
     const blessId = parentNode.dataset.blessId;
 
     const bless = this.blesses.find(b => b.id == blessId);
 
     this.command.manuallyPlayBless(bless);
-  },
-
-  getAncestorNode(node, targetName) {
-    if (this.detectClassName(node, targetName)) return node;
-    let parent = node.parentNode;
-
-    while (!this.detectClassName(parent, targetName)) {
-      parent = parent.parentNode;
-    }
-
-    return parent;
-  },
-
-  detectClassName(node, targetName) {
-    const { className } = node;
-
-    return className.indexOf(targetName) > -1;
   },
 
   removeAllChildren() {

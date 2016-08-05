@@ -14,10 +14,11 @@ export default class MusicPlayer extends Component {
     const dispatcher = MusicDispatcher.getInstance();
     const { resource } = this.props;
 
-    dispatcher.pushMusic({
+    dispatcher.pushSound({
       src: resource,
       loop: true,
-      isBgMusic: true,
+      isBgSound: true,
+      name: 'background',
     });
   }
 
@@ -28,9 +29,9 @@ export default class MusicPlayer extends Component {
     this.setState({ isPlaying: !isPlaying });
 
     if (isPlaying) {
-      dispatcher.pauseBackgroundMusic();
+      dispatcher.pauseBackgroundSound();
     } else {
-      dispatcher.playBackgroundMusic();
+      dispatcher.playBackgroundSound();
     }
   }
 
