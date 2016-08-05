@@ -25,6 +25,7 @@ BlessScreen.prototype = {
 
   destroy() {
     this.detachEvents();
+    this.element.parentNode.removeChild(this.element);
   },
 
   initState() {
@@ -87,7 +88,7 @@ BlessScreen.prototype = {
       if (isHeart) {
         const src = extractPresentImage(name);
         node.innerHTML = `<img src="${src}" class="heart-img" />`;
-        setTimeout(callback, 1000);
+        setTimeout(callback, 300);
       } else {
         node.innerHTML = '';
         /*eslint-disable */

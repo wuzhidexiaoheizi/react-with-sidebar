@@ -21,7 +21,8 @@ MusicDispatcher.prototype = {
     if (this.audio) this.audio.pause();
     this.musics.length = 0;
 
-    if (this.interval) clearInterval(this.interval);
+    this.audio.parentNode.removeChild(this.audio);
+    musicDispatcher = null;
   },
 
   render() {

@@ -33,11 +33,21 @@ BlessStore.prototype = {
     this.allBlesses.push(...blesses);
   },
 
-  addBlesses(blesses) {
-    if (blesses.length == 0) return;
+  getToInsertBlesses(blesses) {
+    const toInsertBlesses = [];
 
-    this.insertToNewBlesses(blesses);
-    this.insertToAllBlesses(blesses);
+    blesses.forEach((bless) => {
+      if (this.allBlesses.indexOf(bless) == -1) toInsertBlesses.push(bless);
+    });
+
+    return toInsertBlesses;
+  },
+
+  addBlesses(toInsertBlesses) {
+    if (toInsertBlesses.length == 0) return;
+
+    this.insertToNewBlesses(toInsertBlesses);
+    this.insertToAllBlesses(toInsertBlesses);
 
     this.removePlayedBlesses();
     this.blessGroup = this.groupBlesses(this.blesses);

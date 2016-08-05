@@ -58,12 +58,14 @@ BlessCommand.prototype = {
   addBlesses(blesses) {
     const { expireTime } = this.config;
 
+    const toInsertBlesses = this.store.getToInsertBlesses(blesses);
+
     if (Date.now() > expireTime) {
       this.remark.removeRemarkFlags(blesses);
-      this.addBlessesToGiftList(blesses);
-      this.store.insertToAllBlesses(blesses);
+      this.addBlessesToGiftList(toInsertBlesses);
+      this.store.insertToAllBlesses(toInsertBlesses);
     } else {
-      this.store.addBlesses(blesses);
+      this.store.addBlesses(toInsertBlesses);
     }
   },
 

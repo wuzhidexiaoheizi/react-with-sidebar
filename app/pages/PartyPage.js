@@ -70,6 +70,10 @@ class PartyPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { hash } = window.location;
+
+    if (hash.indexOf('/party') == -1) return;
+
     const {
       party: { party },
       user: { currentUser },
@@ -87,22 +91,22 @@ class PartyPage extends Component {
       this.setState({ showCard: true });
     }
 
-    const birthday = Date.parse(birth_day);
+    if (this.command) {
+      const birthday = Date.parse(birth_day);
 
-    if (!isNaN(birthday) && !this.hasSetExpireTime) {
-      this.hasSetExpireTime = true;
-      const expireTime = birthday + 2 * 7 * 24 * 60 * 60 * 1000;
-      this.command.updateExpireTime(expireTime);
+      if (!isNaN(birthday) && !this.hasSetExpireTime) {
+        this.hasSetExpireTime = true;
+        const expireTime = birthday + 2 * 7 * 24 * 60 * 60 * 1000;
+        this.command.updateExpireTime(expireTime);
+      }
+
+      if (hearts_limit && !this.hasSetProgressInitTotal) {
+        this.hasSetProgressInitTotal = true;
+        this.command.updateProgressTotal(+hearts_limit);
+      }
+
+      this.command.addBlesses(blesses);
     }
-
-    if (hearts_limit && !this.hasSetProgressInitTotal) {
-      this.hasSetProgressInitTotal = true;
-      this.command.updateProgressTotal(+hearts_limit);
-    }
-
-    const lastBlesses = this.props.bless.blesses;
-
-    this.onBlessChanged(blesses, lastBlesses);
 
     if (!this.blessId) return;
 
@@ -115,26 +119,13 @@ class PartyPage extends Component {
   }
 
   componentWillUnmount() {
-    if (this.giftList) this.giftList.destroy();
+    if (this.command) {
+      this.command.destroy();
+      this.command = null;
+    }
 
     const dispatcher = MusicDispatcher.getInstance();
     if (dispatcher) dispatcher.destroy();
-  }
-
-  onBlessChanged(blesses, lastBlesses) {
-    if (blesses != lastBlesses) {
-      if (lastBlesses.length == 0) {
-        this.command.addBlesses(blesses);
-      } else {
-        const lastBless = lastBlesses[lastBlesses.length - 1];
-        const index = blesses.indexOf(lastBless);
-
-        if (index > -1) {
-          const newBlesses = blesses.slice(index, blesses.length - 1);
-          this.command.addBlesses(newBlesses);
-        }
-      }
-    }
   }
 
   getWeixinConfig() {
