@@ -1,5 +1,5 @@
 import Animations from './Animations';
-import { extractPresentAvatar, extractPresentImage, extractPresentDisplayName } from '../helper';
+import { extractPresentAvatar, extractPresentImage } from '../helper';
 import Effect from './Effect';
 import MusicDispatcher from './MusicDispatcher';
 import Constants from '../constants';
@@ -73,14 +73,13 @@ BlessScreen.prototype = {
   },
 
   resetMainZone(bless, isValid, callback) {
-    const { sender: { nickname, login }, virtual_present: { name } } = bless;
+    const { sender: { nickname, login }, virtual_present: { name, title } } = bless;
     const contributor = nickname || login;
     const text = contributor + ' 赠送';
     const isHeart = name == 'heart';
-    const displayName = extractPresentDisplayName(name);
 
     this.element.querySelectorAll('.contributor')[0].textContent = text;
-    this.element.querySelectorAll('.present-name')[0].textContent = displayName;
+    this.element.querySelectorAll('.present-name')[0].textContent = title;
 
     const node = this.element.querySelectorAll('.animate-zone')[0];
 
