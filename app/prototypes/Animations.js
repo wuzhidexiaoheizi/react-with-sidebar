@@ -1,5 +1,6 @@
 import Animation from './Animation';
 import MusicDispatcher from './MusicDispatcher';
+import Constants from '../constants';
 
 // 兼容低版本浏览器
 if (!window.requestAnimationFrame) {
@@ -34,6 +35,15 @@ function Animations(containment, config = {}) {
 
   this.init();
 }
+
+const {
+  PRESENT_HEART_MUSIC,
+  PRESENT_FLOWER_MUSIC,
+  PRESENT_MUSIC_BOX_MUSIC,
+  PRESENT_PLEASANT_SHEEP_MUSIC,
+  PRESENT_BOONIE_BEAR_MUSIC,
+  PRESENT_ULTRAMAN_MUSIC,
+} = Constants;
 
 Animations.prototype = {
   constructor: Animations,
@@ -133,7 +143,7 @@ Animations.BACKGROUNDMAP = {
       direction: 'alternate',
     }],
     music: {
-      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E6%BB%91%E8%BF%87.mp3',
+      src: PRESENT_HEART_MUSIC,
       loop: true,
     }
   },
@@ -145,7 +155,7 @@ Animations.BACKGROUNDMAP = {
       direction: 'alternate',
     }],
     music: {
-      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E7%A4%BC%E8%8A%B1.mp3',
+      src: PRESENT_FLOWER_MUSIC,
       loop: true,
     }
   },
@@ -160,7 +170,7 @@ Animations.BACKGROUNDMAP = {
       iterationCount: 2,
     }],
     music: {
-      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E5%85%AB%E9%9F%B3%E7%9B%92.mp3',
+      src: PRESENT_MUSIC_BOX_MUSIC,
       loop: true,
     }
   },
@@ -182,7 +192,7 @@ Animations.BACKGROUNDMAP = {
       iterationCount: 1,
     }],
     music: {
-      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E8%BF%AA%E8%BF%A6%E5%A5%A5%E7%89%B9%E6%9B%BC.mp3',
+      src: PRESENT_ULTRAMAN_MUSIC,
       loop: false,
     }
   },
@@ -194,7 +204,7 @@ Animations.BACKGROUNDMAP = {
       frameCount: 33,
     }],
     music: {
-      src: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/%E7%86%8A%E5%87%BA%E6%B2%A1.mp3',
+      src: PRESENT_BOONIE_BEAR_MUSIC,
       loop: false,
     }
   },

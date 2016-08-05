@@ -327,7 +327,7 @@ export function formatCurrency(amount) {
   const currency = String(amount);
   const index = currency.indexOf('.');
 
-  return index > -1 ? +amount.toFixed(2) : `${currency}.00`;
+  return index > -1 ? Number(amount).toFixed(2) : `${currency}.00`;
 }
 
 export function getInterval(interval) {
