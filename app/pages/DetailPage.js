@@ -140,9 +140,7 @@ class DetailPage extends Component {
                       </p>
                     </div>
                   </div>
-                  <div className="item-description">
-                    { description }
-                  </div>
+                  <div className="item-description" dangerouslySetInnerHTML={{__html: description }} />
                 </div>
               </div>
             </div>
