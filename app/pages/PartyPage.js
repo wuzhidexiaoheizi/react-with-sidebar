@@ -86,7 +86,7 @@ class PartyPage extends Component {
 
     this.setState({ isCurrentUser });
 
-    if (!this.hasLoadCard) {
+    if (window.location.href.indexOf('#showDistribute') == -1 && !this.hasLoadCard) {
       this.hasLoadCard = true;
       this.setState({ showCard: true });
     }
@@ -352,11 +352,12 @@ class PartyPage extends Component {
   }
 
   render() {
-    const { PARTY_HEADER_IMG } = Constants;
+    const { PARTY_HEADER_IMG, BACKGROUND_MUSIC } = Constants;
     const {
       party: { party },
       virtualPresent: { presents },
       bless: { blesses, listFetching },
+      user: { currentUser },
       dispatch,
       params,
     } = this.props;
@@ -380,6 +381,8 @@ class PartyPage extends Component {
       showCard,
     } = this.state;
 
+    const invited = currentUser ? currentUser.nickname : null;
+
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
@@ -396,8 +399,6 @@ class PartyPage extends Component {
       loop: true,
       stopOnHover: false,
     };
-
-    const audio = 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac';
 
     return (
       <div className="page-container party-container" ref="animationContainer">
@@ -432,7 +433,7 @@ class PartyPage extends Component {
                       </div>
                     </div>
                   }
-                  <MusicPlayer resource={audio} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
+                  <MusicPlayer resource={BACKGROUND_MUSIC} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
                   { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
                     textFieldName="message" showBullet={showBullet} />}
                 </div>
@@ -505,7 +506,9 @@ class PartyPage extends Component {
         { showCard &&
           <PartyCard avatar={person_avatar}
             person={birthday_person}
-            onClose={this.hidePartyCard.bind(this)}/>
+            onClose={this.hidePartyCard.bind(this)}
+            invited={invited}
+          />
         }
       </div>
     );

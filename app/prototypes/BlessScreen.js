@@ -3,6 +3,7 @@ import { extractPresentAvatar, extractPresentImage } from '../helper';
 import Effect from './Effect';
 import MusicDispatcher from './MusicDispatcher';
 import Constants from '../constants';
+import Culmulate from './Culmulate';
 
 function BlessScreen(command) {
   this.command = command;
@@ -41,14 +42,16 @@ BlessScreen.prototype = {
     const element = this.element = document.createElement('div');
     element.className = 'cut-screen';
     element.innerHTML = `
-      <div class="light-overlayer"></div>
       <div class="dark-overlayer"></div>
       <div class="screen-container">
         <div class="screen-content">
           <div class="skip-btn">跳过动画</div>
           <div class="main-zone">
             <div class="text-ellipsis contributor"></div>
-            <div class="animate-zone"></div>
+            <div class="animation-zone-wrap">
+              <div class="animate-zone"></div>
+              <div class="culmulate-zone"></div>
+            </div>
             <div class="present-name"></div>
           </div>
           <div class="gift-zone"></div>
@@ -73,7 +76,7 @@ BlessScreen.prototype = {
   },
 
   resetMainZone(bless, isValid, callback) {
-    const { sender: { nickname, login }, virtual_present: { name, title } } = bless;
+    const { sender: { nickname, login }, virtual_present: { name, title, value } } = bless;
     const contributor = nickname || login;
     const text = contributor + ' 赠送';
     const isHeart = name == 'heart';
@@ -98,6 +101,20 @@ BlessScreen.prototype = {
       node.innerHTML = `<div class="invalid">无效动画</div>`;
       setTimeout(callback, 1000);
     }
+
+    /*eslint-disable */
+    const element = this.element.querySelectorAll('.culmulate-zone')[0];
+    const dom = this.element.querySelectorAll('.withdraw-value')[0];
+    const time = isHeart ? 100  : 250;
+    new Culmulate(element, value, time, {
+      onStart: () => {
+        dom.style.color = BlessScreen.CONSTANTS.YELLOW_COLOR;
+      },
+      onEnd: () => {
+        dom.style.color = BlessScreen.CONSTANTS.RED_COLOR;
+      },
+    });
+    /*eslint-enable */
   },
 
   clearMainZone() {
@@ -118,6 +135,8 @@ BlessScreen.prototype = {
 
   beforePlaying() {
     this.element.style.visibility = 'visible';
+    const element = this.element.querySelectorAll('.dark-overlayer')[0];
+    element.style.opacity = 1;
     this.showSkipBtn();
   },
 
@@ -131,8 +150,18 @@ BlessScreen.prototype = {
 
   afterPlayed() {
     this.hideSkipBtn();
-    this.element.style.visibility = 'hidden';
+    const element = this.element.querySelectorAll('.dark-overlayer')[0];
     this.clearMainZone();
+
+    /*eslint-disable */
+    new Effect(element, { opacity: 0 }, 'easeInExpo', 2500, () => {
+      this.element.style.visibility = 'hidden';
+      setTimeout(() => {
+        const dispatcher = MusicDispatcher.getInstance();
+        dispatcher.playBackgroundSound();
+      }, 2000);
+    });
+    /*eslint-enable */
   },
 
   playBlessGroup(group, isValid, callback) {
@@ -226,23 +255,16 @@ BlessScreen.prototype = {
   animateToList(bless, callback) {
     const coordinate = this.getCoordinate();
     const [left, top] = coordinate;
-    const giftZone = this.element.querySelectorAll('.gift-zone')[0];
-    const bottom = window.parseInt(window.getComputedStyle(giftZone, false)
-      .getPropertyValue('bottom'));
 
-    if (top <= this.containerHeight - (this.ITEM_SIZE + bottom)) {
-      const element = this.getElement(bless);
-      const effectObj = { left, top };
+    const element = this.getElement(bless);
+    const effectObj = { left, top };
 
-      /*eslint-disable */
-      new Effect(element, effectObj, 'easeInOutBack', '250ms', () => {
-        element.parentNode.removeChild(element);
-        this.afterAnimateToList(bless, callback);
-      });
-      /*eslint-enable */
-    } else {
+    /*eslint-disable */
+    new Effect(element, effectObj, 'easeInOutBack', '250ms', () => {
+      element.parentNode.removeChild(element);
       this.afterAnimateToList(bless, callback);
-    }
+    });
+    /*eslint-enable */
   },
 
   afterAnimateToList(bless, callback) {
@@ -277,6 +299,8 @@ BlessScreen.prototype = {
 
 BlessScreen.CONSTANTS = {
   ITEM_SIZE: 50,
+  YELLOW_COLOR: '#F7D92C',
+  RED_COLOR: '#F23747',
 };
 
 export default BlessScreen;

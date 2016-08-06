@@ -64,6 +64,8 @@ Sound.prototype = {
   },
 
   pause() {
+    if (this.audio.paused) return;
+
     this.audio.pause();
 
     if (!this.isBgSound()) this.audio.currentTime = 0;

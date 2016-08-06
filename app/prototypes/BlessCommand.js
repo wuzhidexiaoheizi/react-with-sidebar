@@ -1,11 +1,11 @@
 import BlessStore from './BlessStore';
 import GiftList from './GiftList';
 import BlessNotification from './BlessNotification';
-import MusicDispatcher from './MusicDispatcher';
 import GiftAnimation from './GiftAnimation';
 import BlessRemark from './BlessRemark';
 import GiftProgress from './GiftProgress';
 import BlessScreen from './BlessScreen';
+import MusicDispatcher from './MusicDispatcher';
 
 function BlessCommand(config = {}) {
   this.config = config;
@@ -173,7 +173,7 @@ BlessCommand.prototype = {
   // 多组动画结束后的操作
   afterBlessGroupsPlayed() {
     const dispatcher = MusicDispatcher.getInstance();
-    dispatcher.playBackgroundSound();
+    dispatcher.pauseAllSound();
     this.screen.afterPlayed();
   },
 

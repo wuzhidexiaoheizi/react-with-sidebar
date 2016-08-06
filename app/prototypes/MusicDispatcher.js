@@ -43,6 +43,10 @@ MusicDispatcher.prototype = {
     if (lastSound) lastSound.play();
   },
 
+  pauseAllSound() {
+    Object.values(this.soundMap).forEach(sound => sound.pause());
+  },
+
   playBackgroundSound() {
     const bgSound = this.loopupBackgroundSound();
 

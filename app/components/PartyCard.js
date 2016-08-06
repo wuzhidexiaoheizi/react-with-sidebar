@@ -29,7 +29,7 @@ export default class PartyCard extends Component {
   }
 
   render() {
-    const { avatar, person } = this.props;
+    const { avatar, person, invited } = this.props;
     const { DONEE_DEFAULT_AVATAR } = Constants;
     const imgSrc = avatar || DONEE_DEFAULT_AVATAR;
 
@@ -46,7 +46,7 @@ export default class PartyCard extends Component {
                   </div>
                   <div className="card-top">
                     <div className="birthman-name">{person}</div>
-                    <p>我的朋友</p>
+                    <p>亲爱的 {invited}</p>
                     <p className="indent">您好，诚挚地邀请您参加我的生日趴！</p>
                     <p>您的到来是我莫大的荣幸。愿您在我的生日趴上玩得愉快！</p>
                   </div>
