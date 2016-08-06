@@ -352,7 +352,7 @@ class PartyPage extends Component {
   }
 
   render() {
-    const { PARTY_HEADER_IMG, BACKGROUND_MUSIC } = Constants;
+    const { PARTY_HEADER_IMG } = Constants;
     const {
       party: { party },
       virtualPresent: { presents },
@@ -433,7 +433,7 @@ class PartyPage extends Component {
                       </div>
                     </div>
                   }
-                  <MusicPlayer resource={BACKGROUND_MUSIC} status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
+                  <MusicPlayer status={this.state.rotate_status} onRotate={this.shouldPlayerRotation.bind(this)} />
                   { <BulletCurtain config={bulletConfig} ref="bulletScreen" bullets={blesses}
                     textFieldName="message" showBullet={showBullet} />}
                 </div>

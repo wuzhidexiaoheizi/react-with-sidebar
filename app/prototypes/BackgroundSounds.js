@@ -1,11 +1,10 @@
 import Constants from '../constants';
 
-function BackgroundSounds() {
-  const { BACKGROUND_MUSICS } = Constants;
-  this.musics = [...BACKGROUND_MUSICS];
+function BackgroundSounds(playOnInit) {
+  this.playOnInit = playOnInit;
   this.readyState = {};
   this.currentAudio = null;
-  this.setOff(false);
+  this.setOff(!playOnInit);
   this.handlerMap = {};
   this.init();
 }
@@ -14,6 +13,8 @@ BackgroundSounds.prototype = {
   constructor: BackgroundSounds,
 
   init() {
+    const { BACKGROUND_MUSICS } = Constants;
+    this.musics = [...BACKGROUND_MUSICS];
     this.createAudios();
     this.musicOptions = this.getAllOptions();
   },
@@ -63,7 +64,7 @@ BackgroundSounds.prototype = {
     const audioLoadedCallback = () => {
       this.remarkAsReadyed(music);
 
-      if (this.checkAllReadyed()) {
+      if (this.checkAllReadyed() && this.playOnInit) {
         this.randomPlay();
       }
     };
@@ -119,11 +120,15 @@ BackgroundSounds.prototype = {
   },
 
   pause() {
-    this.currentAudio.pause();
+    if (this.currentAudio) this.currentAudio.pause();
   },
 
   play() {
-    this.currentAudio.play();
+    if (this.currentAudio) {
+      this.currentAudio.play();
+    } else {
+      this.randomPlay();
+    }
   },
 
   getName() {
@@ -141,9 +146,9 @@ BackgroundSounds.prototype = {
 
 let instance = null;
 
-BackgroundSounds.getInstance = function getInstance() {
+BackgroundSounds.getInstance = function getInstance(playOnInit) {
   if (!instance) {
-    instance = new BackgroundSounds();
+    instance = new BackgroundSounds(playOnInit);
   }
 
   return instance;

@@ -10,6 +10,7 @@ function MusicDispatcher() {
   this.soundMap = {};
   this.currentSound = null;
   this.lastSoundName = null;
+  this.backgroundSound = null;
 }
 
 MusicDispatcher.prototype = {
@@ -48,8 +49,8 @@ MusicDispatcher.prototype = {
     Object.values(this.soundMap).forEach(sound => sound.pause());
   },
 
-  initBackgroundSound() {
-    const sound = this.backgroundSound = new BackgroundSounds();
+  initBackgroundSound(playOnInit) {
+    const sound = this.backgroundSound = new BackgroundSounds(playOnInit);
     this.currentSound = sound;
     this.soundMap[sound.getName()] = sound;
   },
@@ -67,7 +68,7 @@ MusicDispatcher.prototype = {
   },
 
   pauseBackgroundSound() {
-    const bgSound = this.loopupBackgroundSound();
+    const bgSound = this.backgroundSound;
 
     if (bgSound) {
       bgSound.setOff(true);
@@ -80,12 +81,6 @@ MusicDispatcher.prototype = {
       this.currentSound.pause();
       this.lastSoundName = this.currentSound.getName();
     }
-  },
-
-  loopupBackgroundSound() {
-    const sounds = Object.values(this.soundMap);
-
-    return sounds.find(sound => sound.isBgSound);
   },
 
   getLastSound(soundName) {

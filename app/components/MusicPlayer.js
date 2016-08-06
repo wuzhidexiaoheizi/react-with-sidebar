@@ -4,33 +4,30 @@ import MusicDispatcher from '../prototypes/MusicDispatcher';
 export default class MusicPlayer extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isPlaying: true,
-    };
   }
 
   componentDidMount() {
+    const { status } = this.props;
     const dispatcher = MusicDispatcher.getInstance();
-    dispatcher.initBackgroundSound();
+    dispatcher.initBackgroundSound(status);
   }
 
   togglePlayingState() {
-    const { isPlaying } = this.state;
+    const { status, onRotate } = this.props;
     const dispatcher = MusicDispatcher.getInstance();
 
-    this.setState({ isPlaying: !isPlaying });
-
-    if (isPlaying) {
+    if (status) {
       dispatcher.pauseBackgroundSound();
     } else {
       dispatcher.playBackgroundSound();
     }
+
+    if (typeof onRotate == 'function') onRotate();
   }
 
   render() {
-    const { isPlaying } = this.state;
-    const klass = isPlaying ? 'rotate' : '';
+    const { status } = this.props;
+    const klass = status ? 'rotate' : '';
 
     return (
       <div className="player-container" onClick={this.togglePlayingState.bind(this)}>
