@@ -36,7 +36,7 @@ GiftAnimation.prototype = {
         <div class="name">${distributorName}</div>
         赠送
       </div>
-      <div class="anim">
+      <div class="anim ${name}">
         ${tip}
       </div>
       <button class="anim-close">X</button>

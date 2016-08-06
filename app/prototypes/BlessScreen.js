@@ -86,27 +86,34 @@ BlessScreen.prototype = {
 
     const node = this.element.querySelectorAll('.animate-zone')[0];
 
+    const afterAnimation = () => {
+      this.mainAnimationDone(callback, isHeart, value);
+    };
+
     if (isValid) {
       if (isHeart) {
         const src = extractPresentImage(name);
         node.innerHTML = `<img src="${src}" class="heart-img" />`;
-        setTimeout(callback, 100);
+        setTimeout(afterAnimation, 100);
       } else {
         node.innerHTML = '';
         /*eslint-disable */
-        new Animations(node, { name, callback, });
+        new Animations(node, { name, callback: afterAnimation });
         /*eslint-enable */
       }
     } else {
       node.innerHTML = `<div class="invalid">无效动画</div>`;
-      setTimeout(callback, 1000);
+      setTimeout(afterAnimation, 1000);
     }
+  },
 
-    /*eslint-disable */
+  mainAnimationDone(callback, isHeart, value) {
     const element = this.element.querySelectorAll('.culmulate-zone')[0];
     const dom = this.element.querySelectorAll('.withdraw-value')[0];
-    const time = isHeart ? 100  : 250;
-    new Culmulate(element, value, time, {
+
+    /*eslint-disable */
+    const time = isHeart ? 100  : 600;
+    new Culmulate(element, value, 600, {
       onStart: () => {
         dom.style.color = BlessScreen.CONSTANTS.YELLOW_COLOR;
       },
@@ -115,6 +122,8 @@ BlessScreen.prototype = {
       },
     });
     /*eslint-enable */
+
+    if (typeof callback == 'function') callback();
   },
 
   clearMainZone() {
@@ -212,7 +221,7 @@ BlessScreen.prototype = {
     const { right, bottom } = rect;
     left = right;
 
-    if (right - this.offsetLeft >= this.ITEM_SIZE * this.countInLine) {
+    if (right - this.offsetLeft > this.ITEM_SIZE * this.countInLine) {
       left = this.getContainerRect()[0];
       top = bottom;
     }

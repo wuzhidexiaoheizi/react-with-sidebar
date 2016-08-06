@@ -1,9 +1,6 @@
 function Sound(music, callback) {
   this.music = music;
-  const { isBgSound } = music;
   this.loadedCallback = callback;
-
-  if (isBgSound) this.setOff(false);
   this.loaded = false;
   this.init();
 }
@@ -22,7 +19,6 @@ Sound.prototype = {
 
   render() {
     const audio = this.audio = document.createElement('audio');
-    audio.style.display = 'none';
     const containment = document.querySelector('body');
     containment.appendChild(audio);
   },
@@ -40,6 +36,7 @@ Sound.prototype = {
   musicLoadedCallback() {
     this.loaded = true;
     this.audio.play();
+
     if (typeof this.loadedCallback == 'function') {
       this.loadedCallback();
       this.loadedCallback = undefined;
@@ -56,9 +53,7 @@ Sound.prototype = {
   },
 
   play(callback) {
-    const isBgSound = this.isBgSound();
-
-    if (!isBgSound || (isBgSound && !this.isOff())) this.audio.play();
+    this.audio.play();
 
     if (typeof callback == 'function') callback();
   },
@@ -68,23 +63,11 @@ Sound.prototype = {
 
     this.audio.pause();
 
-    if (!this.isBgSound()) this.audio.currentTime = 0;
-  },
-
-  setOff(state) {
-    this.offsetState = state;
-  },
-
-  isOff() {
-    return this.offsetState;
+    this.audio.currentTime = 0;
   },
 
   getName() {
     return this.music.name;
-  },
-
-  isBgSound() {
-    return this.music.isBgSound;
   },
 
   /**

@@ -17,12 +17,14 @@ Culmulate.prototype = {
   },
 
   render() {
-    let right = 30;
-    let bottom = 50;
+    const rect = this.containment.getBoundingClientRect();
+    const { left, right } = rect;
+    let x = (left + right) / 2;
+    let top = 100;
     const element = document.createElement('div');
     element.style.position = 'absolute';
-    element.style.right = right + 'px';
-    element.style.bottom = bottom + 'px';
+    element.style.left = x + 'px';
+    element.style.top = top + 'px';
     element.style.color = '#F7D92C';
     element.style.fontSize = this.fontSize + 'px';
     element.style.fontWeight = 700;
@@ -31,15 +33,15 @@ Culmulate.prototype = {
     this.containment.appendChild(element);
     const { onStart, onEnd } = this.config;
 
-    right -= 30;
-    bottom += 30;
+    x -= 30;
+    top -= 60;
     this.fontSize = 64;
-    const effectObj = { right, bottom, fontSize: this.fontSize };
+    const effectObj = { left: x, top, fontSize: this.fontSize };
 
     if (typeof onStart == 'function') onStart();
 
     /*eslint-disable */
-    new Effect(element, effectObj, 'easeInExpo', this.time, () => {
+    new Effect(element, effectObj, 'easeOutExpo', this.time, () => {
       element.parentNode.removeChild(element);
       if (typeof onEnd == 'function') onEnd();
     });

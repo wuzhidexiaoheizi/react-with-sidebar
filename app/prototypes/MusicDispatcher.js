@@ -2,6 +2,7 @@
  * 音乐播放控制器
  */
 import Sound from './Sound';
+import BackgroundSounds from './BackgroundSounds';
 
 let musicDispatcher = null;
 
@@ -47,8 +48,14 @@ MusicDispatcher.prototype = {
     Object.values(this.soundMap).forEach(sound => sound.pause());
   },
 
+  initBackgroundSound() {
+    const sound = this.backgroundSound = new BackgroundSounds();
+    this.currentSound = sound;
+    this.soundMap[sound.getName()] = sound;
+  },
+
   playBackgroundSound() {
-    const bgSound = this.loopupBackgroundSound();
+    const bgSound = this.backgroundSound;
 
     this.resetLastSoundName();
 

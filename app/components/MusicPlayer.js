@@ -12,14 +12,7 @@ export default class MusicPlayer extends Component {
 
   componentDidMount() {
     const dispatcher = MusicDispatcher.getInstance();
-    const { resource } = this.props;
-
-    dispatcher.pushSound({
-      src: resource,
-      loop: true,
-      isBgSound: true,
-      name: 'background',
-    });
+    dispatcher.initBackgroundSound();
   }
 
   togglePlayingState() {

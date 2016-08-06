@@ -54,4 +54,5 @@ export default {
   'PRESENT_BOONIE_BEAR_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bonnie_bear.mp3',
   'PRESENT_ULTRAMAN_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/ultraman.mp3',
   'BACKGROUND_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac',
+  'BACKGROUND_MUSICS': [ 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac' ],
 };

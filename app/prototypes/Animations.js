@@ -72,18 +72,17 @@ Animations.prototype = {
       element.style.left = '0';
       element.style.width = this.containerWidth + 'px';
       element.style.height = this.containerHeight + 'px';
-      element.style.backgroundImage = `url(${url})`;
-      element.style.backgroundPosition = position;
 
       this.containment.appendChild(element);
 
       const callback = this.config.callback;
-
       const config = Object.assign({}, {
         iterationCount,
         direction,
         frameTime,
         frameCount,
+        url,
+        position,
         callback: () => {
           if (index == mainIndex && typeof callback == 'function') callback();
         }
@@ -158,7 +157,7 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/dde840de53fdb781337fa5b157668ba4.png',
       position: '0 0',
-      iterationCount: 3,
+      iterationCount: 4,
     }, {
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png',
       position: '0 0',
