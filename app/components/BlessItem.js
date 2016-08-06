@@ -11,14 +11,6 @@ export default class BlessItem extends Component {
     };
   }
 
-  handleGiftClick(e) {
-    e.stopPropagation();
-
-    const { onShowAnimation, bless } = this.props;
-
-    if (typeof onShowAnimation == 'function') onShowAnimation(bless);
-  }
-
   toggleEllipsisMessage() {
     const { isExpanded } = this.state;
     const { blessFigure } = this.refs;
@@ -43,6 +35,7 @@ export default class BlessItem extends Component {
       created_at,
       sender: { avatar_url, nickname, login },
       virtual_present: { name },
+      id,
     } = bless;
 
     const dateStr = formatDate(created_at, 'yyyy年MM月dd日 HH:mm');
@@ -61,7 +54,7 @@ export default class BlessItem extends Component {
           </div>
           <div className="bless-date">{ dateStr }</div>
         </div>
-        <div className="bless-gift" onClick={ this.handleGiftClick.bind(this) }>
+        <div className="bless-gift" data-bless-id={id}>
           <img src={imageUrl} className="gift-image" />
         </div>
       </div>

@@ -46,4 +46,13 @@ export default {
   'RANK_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/5908419ebe8e65632954b7203de6b5b6.png',
   'RECENTLY_PARTY_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/19ff986a7fb16b8bc719f4e86f0023b5.png',
   'CAKE_LIST_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/6e11f7038856d92d4f140d7c73dd3079.png',
+  'BUBBLE_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bubble.mp3',
+  'PRESENT_HEART_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/heart.mp3',
+  'PRESENT_FLOWER_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/flower.mp3',
+  'PRESENT_MUSIC_BOX_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/music_box.mp3',
+  'PRESENT_PLEASANT_SHEEP_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/pleasant_sheep.mp3',
+  'PRESENT_BOONIE_BEAR_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bonnie_bear.mp3',
+  'PRESENT_ULTRAMAN_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/ultraman.mp3',
+  'BACKGROUND_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac',
+  'BACKGROUND_MUSICS': [ 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac' ],
 };

@@ -8,10 +8,13 @@ function Animation(element, config = {}) {
     direction,
     callback,
     onAnimationStart,
+    frameCount,
+    url,
+    position,
   } = config;
 
   let { frameTime } = config;
-  frameTime = frameTime || '60ms'; //  3的倍数
+  frameTime = frameTime || '60ms';
 
   this.element = element;
   this.name = name;
@@ -21,10 +24,15 @@ function Animation(element, config = {}) {
   this.direction = direction || 'normal'; // 'normal' or 'alternate'
   this.callback = callback;
   this.onAnimationStart = onAnimationStart;
+  this.frameCount = frameCount;
+  this.url = url;
+  this.position = position;
   this.isDone = false;
   this.fpsInterval = 1000 / 50;
   this.myReq = null;
   this.timer = null;
+  this.elementWidth = this.element.clientWidth;
+  this.elementHeight = this.element.clientHeight;
 
   this.init();
 }
@@ -33,9 +41,8 @@ Animation.prototype = {
   constructor: Animation,
 
   init() {
-    const imageUrl = window.getComputedStyle(this.element, null).getPropertyValue('background-image');
-    const position = window.getComputedStyle(this.element, null).getPropertyValue('background-position');
-    const url = imageUrl.slice(4, imageUrl.length - 1);
+    const imageUrl = this.url;
+    const position = this.position;
     const image = new Image();
     this.playedCount = 0;
     this.backgroundUrl = imageUrl;
@@ -45,8 +52,26 @@ Animation.prototype = {
 
     image.onload = () => {
       const { width, height } = image;
-      this.step = width;
-      this.frameCount = height / width;
+
+      if (this.elementWidth > width) {
+        this.element.style.width = width + 'px';
+        this.element.style.left = (this.elementWidth - width) / 2 + 'px';
+      }
+
+      if (this.frameCount) {
+        this.step = height / this.frameCount;
+      } else {
+        this.frameCount = height / width;
+        this.step = width;
+      }
+
+      if (this.elementHeight > this.step) {
+        this.element.style.height = this.step + 'px';
+      }
+
+      this.element.style.backgroundImage = `url(${imageUrl})`;
+      this.element.style.backgroundPosition = position;
+
       this.animationTime = this.frameTime * this.frameCount;
 
       this.initState();
@@ -56,7 +81,7 @@ Animation.prototype = {
       this.animate();
     };
 
-    image.src = url;
+    image.src = imageUrl;
   },
 
   destroy() {

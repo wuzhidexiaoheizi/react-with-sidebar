@@ -86,9 +86,9 @@ Effect.prototype = {
       val = String(this.effectObj[key]);
       symbol = val.slice(0, 2);
       index = ['+=', '-=', '*=', '/='].indexOf(symbol);
+      if (index > -1) symbol = symbol[0];
 
       if (index > -1) {
-        symbol = symbol[0];
         factor = +(val.slice(2).split('px')[0]);
         destVal = this.getDestVal(symbol, factor, srcVal);
       } else {
@@ -109,14 +109,18 @@ Effect.prototype = {
     let factor;
     let val;
     let destVal;
+    let index;
+    let firstTwo;
 
     Object.keys(this.effectObj).forEach((key) => {
-      val = this.effectObj[key];
+      val = String(this.effectObj[key]);
       symbol = this.symbolState[key];
       symbol = this.switchSymbol(symbol);
       this.symbolState[key] = symbol;
       srcVal = this.srcState[key];
-      factor = window.parseInt(val.slice(1).split('px')[0]);
+      firstTwo = val.slice(0, 2);
+      index = ['+=', '-=', '*=', '/='].indexOf(firstTwo);
+      factor = index > -1 ? +(val.slice(2).split('px')[0]) : window.parseInt(val);
 
       if (this.flipCount == 4) {
         destVal = this.getDestVal(symbol, factor, srcVal);
@@ -134,7 +138,9 @@ Effect.prototype = {
       const srcValue = this.srcState[key];
       const destVal = Easing[this.effectName](this.currentTime, srcValue,
         changedValue, this.effectTime);
-      this.element.style[key] = destVal + 'px';
+
+      const unit = key == 'opacity' ? '' : 'px';
+      this.element.style[key] = destVal + unit;
     });
 
     this.currentTime += this.fpsInterval;

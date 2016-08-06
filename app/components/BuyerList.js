@@ -13,7 +13,7 @@ export default class BuyerList extends Component {
     return (
       <div className="buyer-list clearfix">
         { buyerCount > 0 && buyers.map(buyer =>
-          <BuyerItem key={`buyer-{buyer.id}`} buyer={buyer} />
+          <BuyerItem key={buyer.party_id} buyer={buyer} />
         ) }
       </div>
     );

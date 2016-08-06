@@ -1,5 +1,6 @@
 import Animation from './Animation';
 import MusicDispatcher from './MusicDispatcher';
+import Constants from '../constants';
 
 // 兼容低版本浏览器
 if (!window.requestAnimationFrame) {
@@ -35,6 +36,15 @@ function Animations(containment, config = {}) {
   this.init();
 }
 
+const {
+  PRESENT_HEART_MUSIC,
+  PRESENT_FLOWER_MUSIC,
+  PRESENT_MUSIC_BOX_MUSIC,
+  PRESENT_PLEASANT_SHEEP_MUSIC,
+  PRESENT_BOONIE_BEAR_MUSIC,
+  PRESENT_ULTRAMAN_MUSIC,
+} = Constants;
+
 Animations.prototype = {
   constructor: Animations,
 
@@ -43,7 +53,7 @@ Animations.prototype = {
     const animation = Animations.BACKGROUNDMAP[name] || Object();
     const { images, music } = animation;
     this.images = images;
-    this.music = music;
+    this.music = Object.assign({}, music, { name });
 
     if (!this.images || !this.images.length) return;
     this.createElements();
@@ -55,43 +65,34 @@ Animations.prototype = {
     const mainIndex = this.lookupMainAnimationIndex();
 
     this.images.forEach((image, index) => {
-      const { url, position, iterationCount, direction } = image;
+      const { url, position, iterationCount, direction, frameTime, frameCount } = image;
       element = document.createElement('div');
       element.style.position = 'absolute';
       element.style.top = '0';
       element.style.left = '0';
       element.style.width = this.containerWidth + 'px';
       element.style.height = this.containerHeight + 'px';
-      element.style.backgroundImage = `url(${url})`;
-      element.style.backgroundPosition = position;
 
       this.containment.appendChild(element);
 
       const callback = this.config.callback;
-      delete this.config.callback;
-
       const config = Object.assign({}, {
         iterationCount,
         direction,
-        onAnimationStart: () => {
-          if (this.music) {
-            this.dispatcher = MusicDispatcher.getInstance();
-            this.dispatcher.pushMusic(this.music);
-          }
-        },
+        frameTime,
+        frameCount,
+        url,
+        position,
         callback: () => {
-          if (index == mainIndex) {
-            if (typeof callback == 'function') callback();
-
-            if (this.dispatcher) {
-              this.dispatcher.popMusic();
-            }
-          }
+          if (index == mainIndex && typeof callback == 'function') callback();
         }
       }, this.config);
 
-      animation = new Animation(element, config);
-      this.animations.push(animation);
+      const dispatcher = MusicDispatcher.getInstance();
+      dispatcher.pushSound(this.music, () => {
+        animation = new Animation(element, config);
+        this.animations.push(animation);
+      });
     });
   },
 
@@ -132,44 +133,75 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/fa2fbd0d1d1b6a3dc6afe0f5a7bad564.png',
       position: '-5px -5px',
-      iterationCount: 5,
+      iterationCount: 3,
       direction: 'alternate',
     }],
     music: {
-      src: '',
+      src: PRESENT_HEART_MUSIC,
       loop: false,
-      unpopable: false,
     }
   },
   flower: {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/f6f4b746bb5650d9dfbb9faaf4b31232.png',
       position: '0 0',
-      iterationCount: 5,
+      iterationCount: 1,
       direction: 'alternate',
     }],
     music: {
-      src: '',
+      src: PRESENT_FLOWER_MUSIC,
       loop: false,
-      unpopable: false,
     }
   },
   music_box: {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/dde840de53fdb781337fa5b157668ba4.png',
       position: '0 0',
-      iterationCount: 5,
+      iterationCount: 4,
     }, {
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png',
       position: '0 0',
-      iterationCount: 10,
+      iterationCount: 6,
     }],
     music: {
-      src: '',
+      src: PRESENT_MUSIC_BOX_MUSIC,
       loop: false,
-      unpopable: false,
     }
-  }
+  },
+  pleasant_sheep: {
+    images: [{
+      url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/2.pic_hd.jpg',
+      position: '0 0',
+      iterationCount: 1,
+    }],
+    music: {
+      src: PRESENT_PLEASANT_SHEEP_MUSIC,
+      loop: false,
+    }
+  },
+  ultraman: {
+    images: [{
+      url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/3.pic_hd.jpg',
+      position: '0 0',
+      iterationCount: 1,
+    }],
+    music: {
+      src: PRESENT_ULTRAMAN_MUSIC,
+      loop: false,
+    }
+  },
+  bonnie_bear: {
+    images: [{
+      url: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/11.pic_hd.jpg',
+      position: '0 0',
+      iterationCount: 1,
+      frameCount: 33,
+    }],
+    music: {
+      src: PRESENT_BOONIE_BEAR_MUSIC,
+      loop: false,
+    }
+  },
 };
 
 export default Animations;

@@ -1,1 +1,0 @@
-WithdrawTip.js
