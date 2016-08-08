@@ -97,7 +97,7 @@ class DetailPage extends Component {
                       </div>
                       <div className="media-body media-middle">
                         <div className="favor-count">
-                          赠{hearts_limit}个返现<img src={ lovePNG } />
+                          &#165;{hearts_limit}元返现<img src={ lovePNG } />
                         </div>
                       </div>
                     </div>
@@ -140,9 +140,7 @@ class DetailPage extends Component {
                       </p>
                     </div>
                   </div>
-                  <div className="item-description">
-                    { description }
-                  </div>
+                  <div className="item-description" dangerouslySetInnerHTML={{__html: description }} />
                 </div>
               </div>
             </div>
