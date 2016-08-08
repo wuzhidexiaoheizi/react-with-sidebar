@@ -92,7 +92,7 @@ class DetailPage extends Component {
                         <div className="sales-price">{ income_price }元</div>
                         <div className="price-amount">
                           <div className="origin-price"><s>&#165;{ public_price }元</s></div>
-                          <span className="saled-count">已售100件</span>
+                          <span className="saled-count">已售{saled_count}件</span>
                         </div>
                       </div>
                       <div className="media-body media-middle">

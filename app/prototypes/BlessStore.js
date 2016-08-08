@@ -84,7 +84,23 @@ BlessStore.prototype = {
       group.push(bless);
     });
 
-    return Object.values(blessGroup);
+    const groups = Object.values(blessGroup);
+
+    return this.sortGroups(groups);
+  },
+
+  sortGroups(groups) {
+    groups.sort((prev, next) => {
+      return this.getPresentValue(next) - this.getPresentValue(prev);
+    });
+
+    return groups;
+  },
+
+  getPresentValue(group) {
+    const { virtual_present: { value } } = group[0];
+
+    return value;
   },
 
   getBlessGroup() {

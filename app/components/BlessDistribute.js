@@ -98,8 +98,12 @@ export default class BlessDistribute extends Component {
     /*eslint-enable */
   }
 
-  blessSendSuccess(callbackUrl) {
-    window.location.href = callbackUrl;
+  blessSendSuccess(paid, callbackUrl) {
+    if (paid) {
+      this.hide();
+    } else {
+      window.location.href = callbackUrl;
+    }
   }
 
   render() {

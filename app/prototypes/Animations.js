@@ -56,13 +56,17 @@ Animations.prototype = {
     this.music = Object.assign({}, music, { name });
 
     if (!this.images || !this.images.length) return;
-    this.createElements();
+
+    const mainIndex = this.lookupMainAnimationIndex();
+    const dispatcher = MusicDispatcher.getInstance();
+    dispatcher.pushSound(this.music, () => {
+      this.createAnimations(mainIndex);
+    });
   },
 
-  createElements() {
+  createAnimations(mainIndex) {
     let element;
     let animation;
-    const mainIndex = this.lookupMainAnimationIndex();
 
     this.images.forEach((image, index) => {
       const { url, position, iterationCount, direction, frameTime, frameCount } = image;
@@ -97,17 +101,18 @@ Animations.prototype = {
   },
 
   lookupMainAnimationIndex() {
-    if (this.images.length == 1) return 0;
+    let mainIndex = 0;
 
-    this.images.forEach((image) => {
+    this.images.forEach((image, index) => {
       const { iterationCount } = image;
 
       if ((this.iterationCount && iterationCount < this.iterationCount) || !this.iterationCount) {
         this.iterationCount = iterationCount;
+        mainIndex = index;
       }
     });
 
-    return this.iterationCount;
+    return mainIndex;
   },
 
   destroy() {
@@ -157,11 +162,11 @@ Animations.BACKGROUNDMAP = {
     images: [{
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/dde840de53fdb781337fa5b157668ba4.png',
       position: '0 0',
-      iterationCount: 4,
+      iterationCount: 2,
     }, {
       url: 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bf7b89ce08855b6a2df4ed78df011a76.png',
       position: '0 0',
-      iterationCount: 6,
+      iterationCount: 4,
     }],
     music: {
       src: PRESENT_MUSIC_BOX_MUSIC,

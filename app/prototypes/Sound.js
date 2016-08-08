@@ -34,6 +34,7 @@ Sound.prototype = {
   },
 
   musicLoadedCallback() {
+    if (this.loaded) return;
     this.loaded = true;
     this.audio.play();
 

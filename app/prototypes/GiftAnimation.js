@@ -1,9 +1,10 @@
 import Animations from './Animations';
 import MusicDispatcher from './MusicDispatcher';
 
-function GiftAnimation(bless, isValid) {
+function GiftAnimation(bless, isValid, autoDismiss) {
   this.bless = bless;
   this.isValid = isValid;
+  this.autoDismiss = autoDismiss;
 
   this.init();
 }
@@ -51,8 +52,12 @@ GiftAnimation.prototype = {
     new Animations(animationElement, {
       name,
       callback: () => {
-        const dispatcher = MusicDispatcher.getInstance();
-        dispatcher.playBackgroundSound();
+        if (this.autoDismiss) this.closeAnimation();
+        
+        setTimeout(() =>  {
+          const dispatcher = MusicDispatcher.getInstance();
+          dispatcher.playBackgroundSound();
+        }, 2000);
       }
     });
     /*eslint-enable */
