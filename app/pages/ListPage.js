@@ -9,6 +9,7 @@ import CakeGroup from '../components/CakeGroup';
 import { Link } from 'react-router';
 import RecentPartyList from '../components/RecentPartyList';
 import { updateDocumentTitle } from '../helper';
+import Guide from '../components/Guide';
 
 class ListPage extends Component {
   constructor(props) {
@@ -51,6 +52,21 @@ class ListPage extends Component {
     dispatch(fetchCakeList(loadedPage + 1, cakePer));
   }
 
+  showGuide() {
+    const { guide } = this.refs;
+    guide.showNoviceGuide();
+  }
+
+  showOverlayer() {
+    const { overlayer } = this.refs;
+    overlayer.style.display = 'block';
+  }
+
+  hideOverlayer() {
+    const { overlayer } = this.refs;
+    overlayer.style.display = 'none';
+  }
+
   render() {
     const {
       cakeList: { listFetching, cakeItems },
@@ -65,7 +81,6 @@ class ListPage extends Component {
         <div className="container">
           <div className="row">
             {Constants.QRCODE && <DRCode showText={this.state.showDRText}/>}
-
             {listFetching && <div className="loading-container"><Loading color="#FF280B" size="9px" margin="4px"/></div>}
           </div>
         </div>
@@ -81,13 +96,24 @@ class ListPage extends Component {
                     <Link to="/rank" className="happiness-rank">幸福榜</Link>
                   </div>
                 </div>
-                <img className="list-poster" src={Constants.HEADER_IMG} />
-                <RecentPartyList parties={recentlyParties} />
-                <CakeGroup cakeItems={cakeItems} />
+                <div className="list-header">
+                  <img className="list-poster" src={Constants.HEADER_IMG} />
+                  <div className="guide-entrance" onClick={this.showGuide.bind(this)}></div>
+                </div>
+                <div className="party-body">
+                  <RecentPartyList parties={recentlyParties} />
+                  <CakeGroup cakeItems={cakeItems} />
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <Guide ref="guide"
+          showOverlayer={this.showOverlayer.bind(this)}
+          hideOverlayer={this.hideOverlayer.bind(this)}
+        />
+        <div className="modal-overlayer" ref="overlayer"></div>
       </div>
     );
   }

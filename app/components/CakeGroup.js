@@ -36,7 +36,7 @@ export default class CakeGroup extends Component {
                       <span className="ori_price">原价:<s>&#165;{cakeItem.public_price}元</s></span>
                     </div>
                     <div className="donee-count">
-                      获得30个返现<img src={lovePNG} />
+                      &#165;{cakeItem.hearts_limit}元返现<img src={lovePNG} />
                     </div>
                   </div>
                 </div>

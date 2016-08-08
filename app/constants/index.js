@@ -55,4 +55,21 @@ export default {
   'PRESENT_ULTRAMAN_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/ultraman.mp3',
   'BACKGROUND_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac',
   'BACKGROUND_MUSICS': [ 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac' ],
+  'WHITE_DOWN_ARROW_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/17f5c4fb9babb034ac10439036473b85.png',
+  'GUIDE_DATAS': [{
+    image: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/step1.png',
+    description: '在生日蛋糕页面挑选一款您心仪的蛋糕。点击立即抢购，按流程提交订单。',
+  }, {
+    image: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/step2.png',
+    description: '点击生日蛋糕订单里的“进入生日趴”。拍照或选择相册中寿星的头像并上传。',
+  }, {
+    image: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/step3.png',
+    description: '将生日趴页面分享给您的好友。邀请大家一起来为寿星祝福。',
+  }, {
+    image: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/step4.png',
+    description: '好友挑选礼物送出祝福。',
+  }, {
+    image: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/step5.png',
+    description: '您可点击生日趴页面的“查看详情”或者直接打开生日趴详情页面, 查看或领取返现红包。收到的祝福越多返现越多。',
+  }]
 };
