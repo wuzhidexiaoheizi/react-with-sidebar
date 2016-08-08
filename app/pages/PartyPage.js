@@ -21,6 +21,7 @@ import { checkPresentIsForbidden } from '../actions/virtualPresent';
 import MusicDispatcher from '../prototypes/MusicDispatcher';
 import PartyCard from '../components/PartyCard';
 import BlessCommand from '../prototypes/BlessCommand';
+import lovePNG from '../images/love.png';
 
 const WEIXIN_CONFIG = 'wexin_config';
 
@@ -355,6 +356,7 @@ class PartyPage extends Component {
       virtualPresent: { presents },
       bless: { blesses, listFetching },
       user: { currentUser },
+      cakeList: { cakeItems },
       dispatch,
       params,
     } = this.props;
@@ -367,7 +369,19 @@ class PartyPage extends Component {
       person_avatar,
       avatar_media_id,
       birthday_person,
+      cake_id,
+      hearts_count,
     } = party;
+
+    const cakeItem = cakeItems.find(cake => cake.id == cake_id) || {};
+    const {
+      cover_url,
+      income_price,
+      title,
+      hearts_limit,
+    } = cakeItem;
+
+    const remaind_count = hearts_limit - hearts_count;
 
     const {
       isCurrentUser,
@@ -379,7 +393,6 @@ class PartyPage extends Component {
     } = this.state;
 
     const invited = currentUser ? currentUser.nickname : null;
-
     const dateStr = formatDate(birth_day, 'yyyy年MM月dd日');
     const partyActionCreators = bindActionCreators(PartyActions, dispatch);
     const presentActionCreators = bindActionCreators(PresentActions, dispatch);
@@ -435,7 +448,19 @@ class PartyPage extends Component {
                     textFieldName="message" showBullet={showBullet} />}
                 </div>
                 <div className="party-body">
-                  {/* <GiftGroup blesses={blesses} onShowAnimation={ this.showAnimation.bind(this) } />*/}
+                  <div className="cake-detail clearfix">
+                    <div className="cake-image">
+                      <img src={cover_url} />
+                    </div>
+                    <div className="cake-other">
+                      <div className="cake-title text-ellipsis">{title}</div>
+                      <div className="cake-price">&#165;{income_price}</div>
+                      <div className="remain-amount">
+                        还剩{remaind_count}个返现
+                        <img src={lovePNG} className="heart-png" />
+                      </div>
+                    </div>
+                  </div>
                   <div className="gift-group">
                     <div className="party-gnh">
                       <div className="clearfix labels">
