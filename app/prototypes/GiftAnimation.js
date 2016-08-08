@@ -54,8 +54,10 @@ GiftAnimation.prototype = {
       callback: () => {
         if (this.autoDismiss) this.closeAnimation();
         
-        const dispatcher = MusicDispatcher.getInstance();
-        dispatcher.playBackgroundSound();
+        setTimeout(() =>  {
+          const dispatcher = MusicDispatcher.getInstance();
+          dispatcher.playBackgroundSound();
+        }, 2000);
       }
     });
     /*eslint-enable */
