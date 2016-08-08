@@ -29,8 +29,10 @@ GiftAnimation.prototype = {
     const element = this.element = document.createElement('div');
     element.setAttribute('class', 'anim-container');
     let tip = '';
+    let button = '';
 
     if (!this.isValid) tip = '<div class="invalid">无效动画</div>';
+    if (!this.autoDismiss) button = '<button class="anim-close">X</button>';
 
     const fragment = `
       <div class="donee-name">
@@ -40,7 +42,7 @@ GiftAnimation.prototype = {
       <div class="anim ${name}">
         ${tip}
       </div>
-      <button class="anim-close">X</button>
+      ${button}
     `;
 
     element.innerHTML = fragment;
