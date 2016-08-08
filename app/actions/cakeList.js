@@ -7,9 +7,9 @@ export function setCakeItems(json) {
   };
 }
 
-export function setCakeItemSaleCount(id, saleCount) {
+export function setCakeItemSaleCount(id, saleData) {
   return dispatch => {
-    dispatch({ type: 'FETCH_CAKE_ITEM_SALED_COUNT_DONE', id, saleCount });
+    dispatch({ type: 'FETCH_CAKE_ITEM_SALED_COUNT_DONE', id, saleData });
   };
 }
 
@@ -45,15 +45,15 @@ export function fetchCakeList(page = 1, per = 10) {
   };
 }
 
-export function fetchCakeItemSaledCount(id) {
+export function fetchCakeItemSaledCount(itemId, cakeId) {
   return dispatch => {
     const { DOMAIN, CAKE_ITEM_URL, SALE_COUNT_URL } = Constants;
-    const path = CAKE_ITEM_URL.replace(/%id%/, id);
+    const path = CAKE_ITEM_URL.replace(/%id%/, itemId);
     const url = `${DOMAIN}${path}${SALE_COUNT_URL}`;
 
     return _fetch(url)
       .then(json => {
-        dispatch(setCakeItemSaleCount(id, json));
+        dispatch(setCakeItemSaleCount(cakeId, json));
       });
   };
 }
@@ -84,7 +84,7 @@ export function fetchCakeItem(id, callback) {
 
         const { item_id, shop_id } = json;
 
-        dispatch(fetchCakeItemSaledCount(item_id));
+        dispatch(fetchCakeItemSaledCount(item_id, id));
         dispatch(fetchShop(shop_id));
       });
   };

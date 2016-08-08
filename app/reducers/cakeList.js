@@ -34,15 +34,13 @@ export default function(state = initialState, action) {
   }
 
   case 'FETCH_CAKE_ITEM_SALED_COUNT_DONE': {
-    const { saledCount } = action;
+    const { saleData: { saled_count, stock } } = action;
     const index = state.cakeItems.findIndex(item => item.id == action.id);
 
     if (index > -1) {
       return update(state, {
         cakeItems: {
-          [index]: {
-            saled_count: { $set: saledCount }
-          }
+          [index]: { $merge: { saled_count, current_stock: stock } }
         }
       });
     }

@@ -86,7 +86,9 @@ class PartyPage extends Component {
 
     this.setState({ isCurrentUser });
 
-    if (window.location.href.indexOf('#showDistribute') == -1 && !this.hasLoadCard) {
+    const showDistribute = window.location.href.indexOf('#showDistribute') > -1;
+
+    if (!showDistribute && !this.blessId && !this.hasLoadCard) {
       this.hasLoadCard = true;
       this.setState({ showCard: true });
     }
@@ -319,15 +321,10 @@ class PartyPage extends Component {
 
   showDistributedBless(bless) {
     const { virtual_present: { name } } = bless;
-    const { animationContainer } = this.refs;
 
-    this.checkIfExist(name, (isValidAnimation) => {
+    this.checkIfExist(name, (isValid) => {
       /*eslint-disable */
-      new GiftAnimation(animationContainer, {
-        autoDismiss: true,
-        isValidAnimation,
-        animationBlesses: [ bless ]
-      });
+      new GiftAnimation(bless, isValid, true);
       /*eslint-enable */
     });
   }

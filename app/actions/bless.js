@@ -48,9 +48,9 @@ export function sendBless(partyId, params = {}, sucCallback, errCallback) {
         } else {
           if (paid) {
             dispatch(insertBless(json));
-          } else {
-            if (typeof sucCallback == 'function') sucCallback(wx_pay_url);
           }
+
+          if (typeof sucCallback == 'function') sucCallback(paid, wx_pay_url);
         }
       });
   };
