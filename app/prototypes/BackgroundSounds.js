@@ -71,7 +71,7 @@ BackgroundSounds.prototype = {
 
     audio.addEventListener('canplaythrough', audioLoadedCallback, false);
 
-    const audioPlayEndedCallback = () => { this.randomPlay(); };
+    const audioPlayEndedCallback = this.randomPlay.bind(this);
 
     audio.addEventListener('ended', audioPlayEndedCallback, false);
 
