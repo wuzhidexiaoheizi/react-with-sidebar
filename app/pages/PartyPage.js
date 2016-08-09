@@ -45,8 +45,6 @@ class PartyPage extends Component {
     const { params: { id }, dispatch } = this.props;
     const { blessPer } = this.state;
 
-    this.blessId = this.extractBlessId();
-
     // 请求资源
     dispatch(fetchCurrentUser());
     dispatch(fetchParty(id, {
@@ -67,6 +65,8 @@ class PartyPage extends Component {
       blessDistribute.show();
     }
 
+    this.partyId = this.getCurrentPartyId();
+
     this.prepareBlessCommand();
   }
 
@@ -81,7 +81,9 @@ class PartyPage extends Component {
       bless: { blesses },
     } = nextProps;
 
-    const { user_id, birth_day, hearts_limit } = party;
+    const { user_id, birth_day, hearts_limit, id } = party;
+
+    if (id != this.partyId) return;
 
     const isCurrentUser = currentUser && user_id == currentUser.id;
 
@@ -94,34 +96,28 @@ class PartyPage extends Component {
       this.setState({ showCard: true });
     }
 
-    if (this.command) {
-      const birthday = Date.parse(birth_day);
+    if (!this.command) return;
 
-      if (!isNaN(birthday) && !this.hasSetExpireTime) {
-        this.hasSetExpireTime = true;
-        const expireTime = birthday + 2 * 7 * 24 * 60 * 60 * 1000;
-        this.command.updateExpireTime(expireTime);
-      }
+    const birthday = Date.parse(birth_day);
 
-      if (hearts_limit && !this.hasSetProgressInitTotal) {
-        this.hasSetProgressInitTotal = true;
-        this.command.updateProgressTotal(+hearts_limit);
-      }
-
-      this.command.addBlesses(blesses);
+    if (!isNaN(birthday) && !this.hasSetExpireTime) {
+      this.hasSetExpireTime = true;
+      const expireTime = birthday + 2 * 7 * 24 * 60 * 60 * 1000;
+      this.command.updateExpireTime(expireTime);
     }
 
-    if (!this.blessId) return;
-
-    const ownBless = blesses.find(b => b.id == this.blessId);
-
-    if (ownBless && !this.hasShowAnimation) {
-      this.hasShowAnimation = true;
-      this.showDistributedBless(ownBless);
+    if (hearts_limit && !this.hasSetProgressInitTotal) {
+      this.hasSetProgressInitTotal = true;
+      this.command.updateProgressTotal(+hearts_limit);
     }
+
+    const _blesses = blesses.filter(bless => bless.birthday_party_id == this.partyId);
+    this.command.addBlesses(_blesses);
   }
 
   componentWillUnmount() {
+    this.partyId = null;
+
     if (this.command) {
       this.command.destroy();
       this.command = null;
@@ -143,6 +139,11 @@ class PartyPage extends Component {
 
         this.initWeixinConfig(json);
       });
+  }
+
+  getCurrentPartyId() {
+    const hash = window.location.hash.slice(1);
+    return hash.match(/\/party\/([0-9]+)(\/\w*)?/)[1];
   }
 
   prepareWeixinResource() {
@@ -350,7 +351,7 @@ class PartyPage extends Component {
   }
 
   render() {
-    const { PARTY_HEADER_IMG } = Constants;
+    const { PARTY_HEADER_IMG, ANIMATE_LOGO_IMG } = Constants;
     const {
       party: { party },
       virtualPresent: { presents },
@@ -358,12 +359,12 @@ class PartyPage extends Component {
       user: { currentUser },
       cakeList: { cakeItems },
       dispatch,
-      params,
     } = this.props;
 
-    const partyId = params.id;
+    const partyId = this.partyId;
+    const filterBlesses = blesses.filter(bless => bless.birthday_party_id == partyId);
+
     const {
-      id,
       birth_day,
       message,
       person_avatar,
@@ -418,6 +419,9 @@ class PartyPage extends Component {
               <div className="row">
                 <div className="party-header">
                   <img className="party-poster" src={PARTY_HEADER_IMG} onLoad={this.showBulletToggle.bind(this)} />
+                  <Link to="/list" className="logo-link">
+                    <img src={ANIMATE_LOGO_IMG} />
+                  </Link>
                   <AvatarUpload avatarUrl={person_avatar} partyId={partyId} isCurrentUser={isCurrentUser}
                     avatarMediaId={avatar_media_id} {...partyActionCreators}
                     showAnimations={this.showAllAnimations.bind(this)} />
@@ -486,7 +490,7 @@ class PartyPage extends Component {
                       <div className="gift-list" ref="giftList"></div>
                     </div>
                   </div>
-                  <BlessGroup blesses={blesses} />
+                  <BlessGroup blesses={filterBlesses} />
                 </div>
               </div>
             </div>
@@ -513,10 +517,10 @@ class PartyPage extends Component {
         </div>
 
         { showPhaseModal && <BlessPhase onClose={this.closePhaseModal.bind(this)}
-          partyId={id} message={message} {...partyActionCreators} /> }
+          partyId={partyId} message={message} {...partyActionCreators} /> }
 
         <BlessDistribute onClose={this.closePresentModal.bind(this)}
-          partyId={id} presents={presents} {...presentActionCreators}
+          partyId={partyId} presents={presents} {...presentActionCreators}
           {...blessActionCreators} ref="blessDistribute" />
 
         { showAnimationCloseBtn &&

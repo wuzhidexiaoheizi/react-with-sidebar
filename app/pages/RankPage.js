@@ -6,6 +6,7 @@ import Loading from 'halogen/ScaleLoader';
 import PartyList from '../components/PartyList';
 import { fetchRankPageData } from '../actions/rank';
 import { updateDocumentTitle } from '../helper';
+import { Link } from 'react-router';
 
 export default class RankPage extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ export default class RankPage extends Component {
 
   render() {
     const { rank: { listFetching, parties } } = this.props;
-    const { RANK_HEADER_IMG } = Constants;
+    const { RANK_HEADER_IMG, ANIMATE_LOGO_IMG } = Constants;
 
     return (
       <div className="page-container rank-page">
@@ -63,7 +64,10 @@ export default class RankPage extends Component {
             <div className="container">
               <div className="row">
                 <div className="rank-page-header">
-                  <img src={RANK_HEADER_IMG} />
+                  <img src={RANK_HEADER_IMG} className="rank_header"/>
+                  <Link to="/list" className="logo-link">
+                    <img src={ANIMATE_LOGO_IMG} />
+                  </Link>
                 </div>
                 <div className="rank-page-body">
                   <PartyList parties={parties} />

@@ -25,6 +25,7 @@ MusicDispatcher.prototype = {
     this.currentSound = null;
     this.lastSoundName = null;
     this.backgroundSound = null;
+    musicDispatcher = null;
   },
 
   pushSound(music, callback) {

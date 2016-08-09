@@ -24,7 +24,7 @@ export default {
   'WEIXIN_API_TICKET_URL': 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%ACCESS_TOKEN%&type=jsapi',
   'WEIXIN_API_SIGNATURE_URL': '/api/weixin_configs',
   'DONEE_DEFAULT_AVATAR': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/8b0228171d41b841b3a96e86c3eeb4b0.jpg',
-  'PARTY_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/bc5af8d51936e3e59cdf6258bdc95bc7.png',
+  'PARTY_HEADER_IMG': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/party_header.png',
   'HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/066a1063a4ca7c4225503f5de922c6c8.png',
   'BLESS_HEADER_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/198/ca4cd3b9d0f049d5c6bb15fd50c1c176.jpg',
   'PRESENT_HEART_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/logo/102/e470299fa15eae73df92e47e2fa70d30.png',
@@ -53,7 +53,12 @@ export default {
   'PRESENT_PLEASANT_SHEEP_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/pleasant_sheep.mp3',
   'PRESENT_BOONIE_BEAR_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bonnie_bear.mp3',
   'PRESENT_ULTRAMAN_MUSIC': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/ultraman.mp3',
-  'BACKGROUND_MUSICS': [ 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac' ],
+  'BACKGROUND_MUSICS': [ 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/1.aac',
+                         'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bgm1.aac',
+                         'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bgm2.aac',
+                         'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bgm3.aac',
+                         'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bgm4.aac',
+                         'https://s3.cn-north-1.amazonaws.com.cn/wlassets/bgm5.aac' ],
   'WHITE_DOWN_ARROW_IMG': 'http://wanliu-piano.b0.upaiyun.com/uploads/shop/poster/102/17f5c4fb9babb034ac10439036473b85.png',
   'GUIDE_DATAS': [{
     image: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/step1.png',
@@ -70,5 +75,6 @@ export default {
   }, {
     image: 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/step5.png',
     description: '您可点击生日趴页面的“查看详情”或者直接打开生日趴详情页面, 查看或领取返现红包。收到的祝福越多返现越多。',
-  }]
+  }],
+  'ANIMATE_LOGO_IMG': 'https://s3.cn-north-1.amazonaws.com.cn/wlassets/123.gif',
 };

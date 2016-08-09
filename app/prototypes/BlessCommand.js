@@ -73,6 +73,8 @@ BlessCommand.prototype = {
 
   // 插入新的祝福
   addBlesses(blesses) {
+    if (blesses.length == 0) return;
+
     const { expireTime } = this.config;
 
     const toInsertBlesses = this.store.getToInsertBlesses(blesses);

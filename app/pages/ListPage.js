@@ -72,7 +72,15 @@ class ListPage extends Component {
       cakeList: { listFetching, cakeItems },
       party: { recentlyParties },
     } = this.props;
-    const { DOMAIN, MINE_LAUCHED_PARTY_URL, MINE_ATTEND_PARTY_URL } = Constants;
+
+    const {
+      DOMAIN,
+      MINE_LAUCHED_PARTY_URL,
+      MINE_ATTEND_PARTY_URL,
+      HEADER_IMG,
+      QRCODE,
+    } = Constants;
+
     const launchUrl = `${DOMAIN}${MINE_LAUCHED_PARTY_URL}`;
     const attendUrl = `${DOMAIN}${MINE_ATTEND_PARTY_URL}`;
 
@@ -80,7 +88,7 @@ class ListPage extends Component {
       <div className="page-container list-container">
         <div className="container">
           <div className="row">
-            {Constants.QRCODE && <DRCode showText={this.state.showDRText}/>}
+            {QRCODE && <DRCode showText={this.state.showDRText}/>}
             {listFetching && <div className="loading-container"><Loading color="#FF280B" size="9px" margin="4px"/></div>}
           </div>
         </div>
@@ -97,7 +105,7 @@ class ListPage extends Component {
                   </div>
                 </div>
                 <div className="list-header">
-                  <img className="list-poster" src={Constants.HEADER_IMG} />
+                  <img className="list-poster" src={HEADER_IMG} />
                   <div className="guide-entrance" onClick={this.showGuide.bind(this)}></div>
                 </div>
                 <div className="party-body">
