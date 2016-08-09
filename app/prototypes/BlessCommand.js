@@ -241,7 +241,7 @@ BlessCommand.prototype = {
     this.progress.clearProgress();
     this.giftList.removeAllChildren();
 
-    this.screen.resetGiftZone(st);
+    this.screen.resetGiftZone(offsetTop - st);
   },
 
   scrollToTop() {

@@ -1,5 +1,7 @@
 import Constants from '../constants';
 
+let instance = null;
+
 function BackgroundSounds(playOnInit) {
   this.playOnInit = playOnInit;
   this.readyState = {};
@@ -37,6 +39,7 @@ BackgroundSounds.prototype = {
     this.musicOptions.length = 0;
     this.handlerMap = null;
     this.readyState = null;
+    instance = null;
   },
 
   getAllOptions() {
@@ -143,8 +146,6 @@ BackgroundSounds.prototype = {
     return this.offsetState;
   },
 };
-
-let instance = null;
 
 BackgroundSounds.getInstance = function getInstance(playOnInit) {
   if (!instance) {

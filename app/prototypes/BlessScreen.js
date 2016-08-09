@@ -137,7 +137,7 @@ BlessScreen.prototype = {
     const containment = this.element.querySelectorAll('.gift-zone')[0];
     containment.innerHTML = nodeToClone.innerHTML;
 
-    if (st > this.originTop + 10) {
+    if (st > this.originTop) {
       containment.style.top = st + 'px';
     }
   },
