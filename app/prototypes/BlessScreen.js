@@ -147,6 +147,7 @@ BlessScreen.prototype = {
     const element = this.element.querySelectorAll('.dark-overlayer')[0];
     element.style.opacity = 1;
     this.showSkipBtn();
+    this.ended = false;
   },
 
   showSkipBtn() {
@@ -165,6 +166,8 @@ BlessScreen.prototype = {
     /*eslint-disable */
     new Effect(element, { opacity: 0 }, 'easeInExpo', 2500, () => {
       this.element.style.visibility = 'hidden';
+      this.ended = true;
+
       setTimeout(() => {
         const dispatcher = MusicDispatcher.getInstance();
         dispatcher.resumeBackgroundSound();

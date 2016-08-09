@@ -35,13 +35,26 @@ GiftList.prototype = {
   },
 
   insertBless(bless) {
+    this.appendItem(bless, false);
+  },
+
+  prependNewBless(bless) {
+    this.appendItem(bless, true);
+  },
+
+  appendItem(bless, isPrepend) {
     const { virtual_present: { name }, id } = bless;
     const imageAvatar = extractPresentAvatar(name);
     const node = document.createElement('div');
     node.setAttribute('class', 'gift-item');
     node.setAttribute('bless-id', id);
     node.innerHTML = `<img src="${imageAvatar}" class="gift-avatar" />`;
-    this.element.appendChild(node);
+
+    if (isPrepend) {
+      this.element.insertBefore(node, this.element.childNodes[0]);
+    } else {
+      this.element.appendChild(node);
+    }
 
     this.command.increseWithdraw(bless);
   },

@@ -448,19 +448,21 @@ class PartyPage extends Component {
                     textFieldName="message" showBullet={showBullet} />}
                 </div>
                 <div className="party-body">
-                  <div className="cake-detail clearfix">
-                    <div className="cake-image">
-                      <img src={cover_url} />
-                    </div>
-                    <div className="cake-other">
-                      <div className="cake-title text-ellipsis">{title}</div>
-                      <div className="cake-price">&#165;{income_price}</div>
-                      <div className="remain-amount">
-                        还剩{remaind_count}个返现
-                        <img src={lovePNG} className="heart-png" />
+                  <Link to={`/detail/${cake_id}`} className="cake-link">
+                    <div className="cake-detail clearfix">
+                      <div className="cake-image">
+                        <img src={cover_url} />
+                      </div>
+                      <div className="cake-other">
+                        <div className="cake-title text-ellipsis">{title}</div>
+                        <div className="cake-price">&#165;{income_price}</div>
+                        <div className="remain-amount">
+                          还剩{remaind_count}个返现
+                          <img src={lovePNG} className="heart-png" />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                   <div className="gift-group">
                     <div className="party-gnh">
                       <div className="clearfix labels">

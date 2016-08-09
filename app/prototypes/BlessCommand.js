@@ -39,19 +39,36 @@ BlessCommand.prototype = {
 
     // 过场动画画布
     this.screen = new BlessScreen(this);
-  },
 
+    this.attachEvents();
+  },
 
   destroy() {
     this.store.destroy();
     this.giftList.destroy();
     this.notification.destroy();
     this.screen.destroy();
+    this.detachEvents();
+  },
+
+  attachEvents() {
+    this.progressElement = document.querySelector('.party-body .party-gnh');
+    this.progressHandler = this.replayBlessGroup.bind(this);
+    this.progressElement.addEventListener('click', this.progressHandler, false);
+  },
+
+  detachEvents() {
+    this.progressElement.removeEventListener('click', this.progressHandler, false);
   },
 
   // 将已播放的祝福加入到礼物列表中
   addBlessItemToGiftList(bless) {
     this.giftList.insertNewBless(bless);
+  },
+
+  // 将已播放的祝福插入到礼物列表最前面
+  prependBlessItemToGiftList(bless) {
+    this.giftList.prependNewBless(bless);
   },
 
   // 插入新的祝福
