@@ -63,7 +63,7 @@ BlessStore.prototype = {
 
       if (hasPlayed) {
         this.blesses.splice(i, 1);
-        this.command.addBlessItemToGiftList(bless);
+        this.command.prependBlessItemToGiftList(bless);
       }
     }
   },
@@ -84,9 +84,7 @@ BlessStore.prototype = {
       group.push(bless);
     });
 
-    const groups = Object.values(blessGroup);
-
-    return this.sortGroups(groups);
+    return Object.values(blessGroup);
   },
 
   sortGroups(groups) {

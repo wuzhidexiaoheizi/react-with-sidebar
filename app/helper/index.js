@@ -44,6 +44,14 @@ const RANK_PNG_MAP = {
   '2': thirdPNG,
 };
 
+const ERROR_MESSAGE = {
+  '400': '请求的格式不正确',
+  '401': '您没有权限访问所请求的资源',
+  '404': '您访问的请求地址不存在',
+  '500': '服务器异常',
+  '502': '无法连接服务器',
+};
+
 export function _fetch(url, method = 'get', body, excludeHeaders) {
   const params = {
     credentials: 'same-origin',
@@ -69,32 +77,7 @@ export function _fetch(url, method = 'get', body, excludeHeaders) {
     .then(res => res.json())
     .catch((error) => {
       const { message } = error;
-      let err;
-
-      switch (message) {
-      case '400': {
-        err = '请求的格式不正确';
-        break;
-      }
-      case '401': {
-        err = '您没有权限访问所请求的资源';
-        break;
-      }
-      case '404': {
-        err = '您访问的请求地址不存在';
-        break;
-      }
-      case '500': {
-        err = '服务器异常';
-        break;
-      }
-      case '502': {
-        err = '无法连接服务器';
-        break;
-      }
-      default: err = '服务器异常';
-      }
-
+      const err = ERROR_MESSAGE[message] || '服务器异常';
       const containment = document.querySelector('body');
 
       /*eslint-disable */

@@ -14,7 +14,7 @@ Sound.prototype = {
 
   destroy() {
     this.detachEvent();
-    this.audio.parentNode.removeClass(this.audio);
+    this.audio.parentNode.removeChild(this.audio);
   },
 
   render() {

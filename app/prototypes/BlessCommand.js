@@ -39,14 +39,26 @@ BlessCommand.prototype = {
 
     // 过场动画画布
     this.screen = new BlessScreen(this);
-  },
 
+    this.attachEvents();
+  },
 
   destroy() {
     this.store.destroy();
     this.giftList.destroy();
     this.notification.destroy();
     this.screen.destroy();
+    this.detachEvents();
+  },
+
+  attachEvents() {
+    this.progressElement = document.querySelector('.party-body .party-gnh');
+    this.progressHandler = this.replayBlessGroup.bind(this);
+    this.progressElement.addEventListener('click', this.progressHandler, false);
+  },
+
+  detachEvents() {
+    this.progressElement.removeEventListener('click', this.progressHandler, false);
   },
 
   // 将已播放的祝福加入到礼物列表中
@@ -54,8 +66,15 @@ BlessCommand.prototype = {
     this.giftList.insertNewBless(bless);
   },
 
+  // 将已播放的祝福插入到礼物列表最前面
+  prependBlessItemToGiftList(bless) {
+    this.giftList.prependNewBless(bless);
+  },
+
   // 插入新的祝福
   addBlesses(blesses) {
+    if (blesses.length == 0) return;
+
     const { expireTime } = this.config;
 
     const toInsertBlesses = this.store.getToInsertBlesses(blesses);
@@ -158,8 +177,6 @@ BlessCommand.prototype = {
 
   // 重新播放
   replayBlessGroup() {
-    this.progress.clearProgress();
-    this.giftList.removeAllChildren();
     this.blessGroup = this.store.getAllBlessGroup();
     this.playBlessGroups();
   },
@@ -214,10 +231,15 @@ BlessCommand.prototype = {
     const { top } = rect;
     const offsetTop = top + scrollTop;
     const originTop = this.screen.getOriginTop();
-    const min = Math.min(maxST, originTop);
-    const st = offsetTop - min;
+
+    let st = maxST;
+
+    if (offsetTop - st < originTop) st = offsetTop - originTop;
 
     nanoContent.scrollTop = st;
+
+    this.progress.clearProgress();
+    this.giftList.removeAllChildren();
 
     this.screen.resetGiftZone(st);
   },

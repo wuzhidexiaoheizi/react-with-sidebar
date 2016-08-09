@@ -20,6 +20,12 @@ MusicDispatcher.prototype = {
     Object.values(this.soundMap).forEach((sound) => {
       sound.destroy();
     });
+
+    this.soundMap = {};
+    this.currentSound = null;
+    this.lastSoundName = null;
+    this.backgroundSound = null;
+    musicDispatcher = null;
   },
 
   pushSound(music, callback) {
@@ -53,6 +59,16 @@ MusicDispatcher.prototype = {
     const sound = this.backgroundSound = new BackgroundSounds(playOnInit);
     this.currentSound = sound;
     this.soundMap[sound.getName()] = sound;
+  },
+
+  resumeBackgroundSound() {
+    const bgSound = this.backgroundSound;
+    this.resetLastSoundName();
+
+    if (bgSound && !bgSound.isOff()) {
+      bgSound.play();
+      this.currentSound = bgSound;
+    }
   },
 
   playBackgroundSound() {

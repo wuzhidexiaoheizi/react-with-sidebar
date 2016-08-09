@@ -87,7 +87,7 @@ BlessScreen.prototype = {
     const node = this.element.querySelectorAll('.animate-zone')[0];
 
     const afterAnimation = () => {
-      this.mainAnimationDone(callback, isHeart, value);
+      this.mainAnimationDone(callback, value);
     };
 
     if (isValid) {
@@ -107,13 +107,13 @@ BlessScreen.prototype = {
     }
   },
 
-  mainAnimationDone(callback, isHeart, value) {
+  mainAnimationDone(callback, value) {
     const element = this.element.querySelectorAll('.culmulate-zone')[0];
     const dom = this.element.querySelectorAll('.withdraw-value')[0];
 
     /*eslint-disable */
-    const time = isHeart ? 100  : 600;
-    new Culmulate(element, value, 600, {
+    const time = 600;
+    new Culmulate(element, value, time, {
       onStart: () => {
         dom.style.color = BlessScreen.CONSTANTS.YELLOW_COLOR;
       },
@@ -137,7 +137,7 @@ BlessScreen.prototype = {
     const containment = this.element.querySelectorAll('.gift-zone')[0];
     containment.innerHTML = nodeToClone.innerHTML;
 
-    if (st > this.originTop) {
+    if (st > this.originTop + 10) {
       containment.style.top = st + 'px';
     }
   },
@@ -147,6 +147,7 @@ BlessScreen.prototype = {
     const element = this.element.querySelectorAll('.dark-overlayer')[0];
     element.style.opacity = 1;
     this.showSkipBtn();
+    this.ended = false;
   },
 
   showSkipBtn() {
@@ -165,9 +166,11 @@ BlessScreen.prototype = {
     /*eslint-disable */
     new Effect(element, { opacity: 0 }, 'easeInExpo', 2500, () => {
       this.element.style.visibility = 'hidden';
+      this.ended = true;
+
       setTimeout(() => {
         const dispatcher = MusicDispatcher.getInstance();
-        dispatcher.playBackgroundSound();
+        dispatcher.resumeBackgroundSound();
       }, 2000);
     });
     /*eslint-enable */

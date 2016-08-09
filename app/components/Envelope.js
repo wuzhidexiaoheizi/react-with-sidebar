@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Constants from '../constants';
 import Confirm from './Confirm';
 import { formatCurrency } from '../helper';
+import Effect from '../prototypes/Effect';
 
 export default class Envelope extends Component {
   constructor(props) {
@@ -12,6 +13,16 @@ export default class Envelope extends Component {
     };
   }
 
+  componentDidMount() {
+    const { envelopContent } = this.refs;
+    const { clientHeight } = envelopContent;
+    envelopContent.style.marginTop = `-${clientHeight}px`;
+
+    /*eslint-disable */
+    new Effect(envelopContent, { marginTop: '30px' }, 'easeOutExpo', '300ms');
+    /*eslint-enable */
+  }
+
   drawEnvelope() {
     const { withdrawUrl, withdrew } = this.props;
 
@@ -19,9 +30,16 @@ export default class Envelope extends Component {
   }
 
   closeEnvelope() {
-    const { onClose } = this.props;
+    const { envelopContent } = this.refs;
+    const { clientHeight } = envelopContent;
 
-    if (typeof onClose == 'function') onClose();
+    /*eslint-disable */
+    new Effect(envelopContent, { marginTop: `-${clientHeight}px` }, 'easeOutExpo', '300ms', () => {
+      const { onClose } = this.props;
+
+      if (typeof onClose == 'function') onClose();
+    });
+    /*eslint-enable */
   }
 
   showConfirm() {
@@ -47,7 +65,7 @@ export default class Envelope extends Component {
         <div className="envelope-content">
           <div className="container">
             <div className="row">
-              <div className="envelope" onClick={this.showConfirm.bind(this)}>
+              <div className="envelope" onClick={this.showConfirm.bind(this)} ref="envelopContent">
                 <img src={bgImage} className="envelope-image"/>
                 <div className="cake-image">
                   <img src={cakeImage} />

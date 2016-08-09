@@ -68,6 +68,9 @@ Animations.prototype = {
     let element;
     let animation;
 
+    const callback = this.config.callback;
+    delete this.config.callback;
+
     this.images.forEach((image, index) => {
       const { url, position, iterationCount, direction, frameTime, frameCount } = image;
       element = document.createElement('div');
@@ -79,7 +82,6 @@ Animations.prototype = {
 
       this.containment.appendChild(element);
 
-      const callback = this.config.callback;
       const config = Object.assign({}, {
         iterationCount,
         direction,

@@ -38,7 +38,7 @@ export default class BlessItem extends Component {
       id,
     } = bless;
 
-    const dateStr = formatDate(created_at, 'yyyy年MM月dd日 HH:mm');
+    const dateStr = formatDate(created_at, 'MM月dd日 HH:mm');
     const url = avatar_url || Constants.DEFAULT_AVATAR;
     const imageUrl = extractPresentAvatar(name);
     const donorName = nickname || login;

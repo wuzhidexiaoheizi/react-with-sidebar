@@ -75,7 +75,6 @@ class App extends Component {
 
     return (
       <div>
-        {this.devNav()}
         <TransitionGroup transitionName={this.state.transitionName} component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
           {cloneElement(this.props.children || <div/>, { key: pathname })}
         </TransitionGroup>
