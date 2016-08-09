@@ -58,7 +58,7 @@ GiftAnimation.prototype = {
         
         setTimeout(() =>  {
           const dispatcher = MusicDispatcher.getInstance();
-          dispatcher.playBackgroundSound();
+          dispatcher.resumeBackgroundSound();
         }, 2000);
       }
     });

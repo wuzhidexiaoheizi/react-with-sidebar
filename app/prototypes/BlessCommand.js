@@ -158,8 +158,6 @@ BlessCommand.prototype = {
 
   // 重新播放
   replayBlessGroup() {
-    this.progress.clearProgress();
-    this.giftList.removeAllChildren();
     this.blessGroup = this.store.getAllBlessGroup();
     this.playBlessGroups();
   },
@@ -214,10 +212,15 @@ BlessCommand.prototype = {
     const { top } = rect;
     const offsetTop = top + scrollTop;
     const originTop = this.screen.getOriginTop();
-    const min = Math.min(maxST, originTop);
-    const st = offsetTop - min;
+
+    let st = maxST;
+
+    if (offsetTop - st < originTop) st = offsetTop - originTop;
 
     nanoContent.scrollTop = st;
+
+    this.progress.clearProgress();
+    this.giftList.removeAllChildren();
 
     this.screen.resetGiftZone(st);
   },

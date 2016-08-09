@@ -39,6 +39,8 @@ class DetailPage extends Component {
       callback = `${callback}#showBlessCard`;
     }
 
+    callback = encodeURIComponent(callback);
+
     checkUserHasLogged(this.showBlessCard.bind(this), () => {
       window.location.href = `${DOMAIN}${USER_SIGNIN_URL}?callback=${callback}&goto_one_money=true`;
     });
