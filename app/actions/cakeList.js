@@ -13,9 +13,9 @@ export function setCakeItemSaleCount(id, saleData) {
   };
 }
 
-export function setCakeItem(id, cakeItem) {
+export function setCakeItem(cakeItem) {
   return dispatch => {
-    dispatch({ type: 'FETCH_CAKE_ITEM_DONE', id, cakeItem });
+    dispatch({ type: 'FETCH_CAKE_ITEM_DONE', cakeItem });
   };
 }
 
@@ -29,9 +29,9 @@ export function setShop(shop) {
 export function fetchCakeList(page = 1, per = 10) {
   return (dispatch, getState) => {
     const state = getState();
-    const { cakeList: { loadedPage, listFetching } } = state;
+    const { cakeList: { listFetching } } = state;
 
-    if (listFetching || page < loadedPage) return false;
+    if (listFetching) return false;
 
     dispatch({ type: 'FETCH_CAKE_PAGE_DATA_START' });
 
@@ -80,7 +80,7 @@ export function fetchCakeItem(id, callback) {
         const { title } = json;
         if (typeof callback == 'function') callback(title);
 
-        dispatch(setCakeItem(id, json));
+        dispatch(setCakeItem(json));
 
         const { item_id, shop_id } = json;
 

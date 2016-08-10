@@ -50,7 +50,7 @@ export default function(state = initialState, action) {
 
   case 'FETCH_CAKE_ITEM_DONE': {
     const { cakeItem } = action;
-    const index = state.cakeItems.findIndex(item => item.id == action.id);
+    const index = state.cakeItems.findIndex(item => item.id == cakeItem.id);
 
     if (index > -1) {
       return update(state, {

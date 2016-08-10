@@ -7,6 +7,7 @@ import lovePNG from '../images/love.png';
 import Constants from '../constants';
 import { checkUserHasLogged, updateDocumentTitle } from '../helper';
 import BuyerList from '../components/BuyerList';
+import { Link } from 'react-router';
 
 class DetailPage extends Component {
   constructor(props) {
@@ -77,6 +78,7 @@ class DetailPage extends Component {
     const images = cover_url ? [ cover_url ] : [];
     const buyerCount = buyers ? buyers.length : 0;
     const shop = shop_id ? shops.find(s => s.id == shop_id) : {};
+    const { ANIMATE_LOGO_IMG } = Constants;
 
     return (
       <div className="page-container detail-container">
@@ -85,6 +87,9 @@ class DetailPage extends Component {
             <div className="container">
               <div className="row">
                 <div className="detail-header">
+                  <Link to="/list" className="logo-link">
+                    <img src={ANIMATE_LOGO_IMG} />
+                  </Link>
                   <div className="detail-posters">
                     <Slider images={images} auto />
                   </div>
