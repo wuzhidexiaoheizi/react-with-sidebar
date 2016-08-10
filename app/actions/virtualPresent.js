@@ -10,9 +10,9 @@ export function setVirtualPresentPageData(json) {
 export function fetchVirtualPresent(page = 1, per = 10) {
   return (dispatch, getState) => {
     const state = getState();
-    const { virtualPresent: { loadedPage, listFetching } } = state;
+    const { virtualPresent: { listFetching } } = state;
 
-    if (listFetching || page <= loadedPage) return false;
+    if (listFetching) return false;
 
     dispatch({ type: 'FETCH_PRESENT_PAGE_DATA_START' });
 

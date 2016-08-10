@@ -117,6 +117,7 @@ class PartyPage extends Component {
 
   componentWillUnmount() {
     this.partyId = null;
+    window.hasEntered = false;
 
     if (this.command) {
       this.command.destroy();
