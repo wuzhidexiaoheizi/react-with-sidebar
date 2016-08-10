@@ -112,7 +112,7 @@ class PartyPage extends Component {
     }
 
     const _blesses = blesses.filter(bless => bless.birthday_party_id == this.partyId);
-    this.command.addBlesses(_blesses);
+    this.command.addBlesses(_blesses, this.hasLoadCard);
   }
 
   componentWillUnmount() {

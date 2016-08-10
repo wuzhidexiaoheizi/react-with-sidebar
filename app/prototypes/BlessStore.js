@@ -11,7 +11,6 @@ BlessStore.prototype = {
     this.blesses = [];
     this.allBlesses = [];
     this.blessGroup = [];
-    this.blessesDone = true;
   },
 
   destroy() {
@@ -35,12 +34,32 @@ BlessStore.prototype = {
 
   getToInsertBlesses(blesses) {
     const toInsertBlesses = [];
+    const rejectedBlesses = [];
 
     blesses.forEach((bless) => {
-      if (this.allBlesses.indexOf(bless) == -1) toInsertBlesses.push(bless);
+      if (this.allBlesses.indexOf(bless) > -1) {
+        rejectedBlesses.push(bless);
+      } else {
+        toInsertBlesses.push(bless);
+      }
     });
 
     return toInsertBlesses;
+  },
+
+  getFiltedBlessArray(blesses) {
+    const toInsertBlesses = [];
+    const rejectedBlesses = [];
+
+    blesses.forEach((bless) => {
+      if (this.allBlesses.indexOf(bless) > -1) {
+        rejectedBlesses.push(bless);
+      } else {
+        toInsertBlesses.push(bless);
+      }
+    });
+
+    return [toInsertBlesses, rejectedBlesses];
   },
 
   addBlesses(toInsertBlesses) {

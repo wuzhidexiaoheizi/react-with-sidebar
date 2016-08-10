@@ -38,10 +38,6 @@ GiftList.prototype = {
     this.appendItem(bless, false);
   },
 
-  prependNewBless(bless) {
-    this.appendItem(bless, true);
-  },
-
   appendItem(bless, isPrepend) {
     const { virtual_present: { name }, id } = bless;
     const imageAvatar = extractPresentAvatar(name);
@@ -63,6 +59,12 @@ GiftList.prototype = {
     this.blesses.push(bless);
 
     this.insertBless(bless);
+  },
+
+  prependNewBless(bless) {
+    this.blesses.unshift(bless);
+
+    this.appendItem(bless, true);
   },
 
   insertNewBlesses(blesses) {

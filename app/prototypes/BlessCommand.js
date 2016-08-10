@@ -72,19 +72,22 @@ BlessCommand.prototype = {
   },
 
   // 插入新的祝福
-  addBlesses(blesses) {
+  addBlesses(blesses, playAfterAdded) {
     if (blesses.length == 0) return;
 
     const { expireTime } = this.config;
-
-    const toInsertBlesses = this.store.getToInsertBlesses(blesses);
+    const [ toInsertBlesses ] = this.store.getFiltedBlessArray(blesses);
 
     if (Date.now() > expireTime) {
       this.remark.removeRemarkFlags(blesses);
       this.addBlessesToGiftList(toInsertBlesses);
       this.store.insertToAllBlesses(toInsertBlesses);
     } else {
-      this.store.addBlesses(toInsertBlesses);
+      this.store.addBlesses(toInsertBlesses, playAfterAdded);
+
+      if (playAfterAdded) {
+        this.playUnplayedBlesses();
+      }
     }
   },
 
@@ -117,7 +120,7 @@ BlessCommand.prototype = {
     const flag = this.getPlayOnAddedFlag();
 
     if (flag) {
-      this.playBlessGroups();
+      this.playBlessGroups(true);
     } else {
       this.updateUnreadCount();
     }
@@ -129,12 +132,12 @@ BlessCommand.prototype = {
   },
 
   // 播放多组动画
-  playBlessGroups() {
+  playBlessGroups(keepExisted) {
     if (!this.blessGroup.length) return;
 
     this.paused = false;
     this.animationsDone = false;
-    this.beforePlayBlessGroups();
+    this.beforePlayBlessGroups(keepExisted);
     this.playBlessGroup();
   },
 
@@ -182,8 +185,8 @@ BlessCommand.prototype = {
   },
 
   // 多组动画播放前的操作
-  beforePlayBlessGroups() {
-    this.scrollToCertainPosition();
+  beforePlayBlessGroups(keepExisted) {
+    this.scrollToCertainPosition(keepExisted);
     this.screen.beforePlaying();
   },
 
@@ -222,7 +225,7 @@ BlessCommand.prototype = {
     this.paused = true;
   },
 
-  scrollToCertainPosition() {
+  scrollToCertainPosition(keepExisted) {
     const nanoContent = document.querySelector('.container-content');
     const { scrollHeight, clientHeight, scrollTop } = nanoContent;
     const maxST = scrollHeight - clientHeight;
@@ -238,10 +241,12 @@ BlessCommand.prototype = {
 
     nanoContent.scrollTop = st;
 
-    this.progress.clearProgress();
-    this.giftList.removeAllChildren();
+    if (!keepExisted) {
+      this.progress.clearProgress();
+      this.giftList.removeAllChildren();
+    }
 
-    this.screen.resetGiftZone(st);
+    this.screen.resetGiftZone(offsetTop - st);
   },
 
   scrollToTop() {
