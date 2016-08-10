@@ -112,7 +112,7 @@ class PartyPage extends Component {
     }
 
     const _blesses = blesses.filter(bless => bless.birthday_party_id == this.partyId);
-    this.command.addBlesses(_blesses, this.hasLoadCard);
+    this.command.addBlesses(_blesses, this.cardClosed);
   }
 
   componentWillUnmount() {
@@ -262,6 +262,7 @@ class PartyPage extends Component {
 
   hidePartyCard() {
     this.setState({ showCard: false }, () => {
+      this.cardClosed = true;
       this.command.playUnplayedBlesses();
     });
   }

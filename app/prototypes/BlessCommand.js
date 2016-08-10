@@ -97,8 +97,7 @@ BlessCommand.prototype = {
   },
 
   // 更新未读祝福数量
-  updateUnreadCount() {
-    const unreadCount = this.store.getUnreadCount();
+  updateUnreadCount(unreadCount) {
     this.notification.updateUnreadCount(unreadCount);
   },
 
@@ -120,15 +119,18 @@ BlessCommand.prototype = {
     const flag = this.getPlayOnAddedFlag();
 
     if (flag) {
+      this.updateUnreadCount(0);
       this.playBlessGroups(true);
     } else {
-      this.updateUnreadCount();
+      this.updateUnreadCount(this.blessGroup.length);
     }
   },
 
+  // 点击“新礼物”播放未读动画
   manuallyPlayUnplayedBlesses() {
+    this.updateUnreadCount(0);
     this.blessGroup = this.store.getBlessGroup();
-    this.playBlessGroups();
+    this.playBlessGroups(true);
   },
 
   // 播放多组动画
@@ -143,8 +145,6 @@ BlessCommand.prototype = {
 
   // 播放一组动画
   playBlessGroup() {
-    this.updateUnreadCount();
-
     if (this.paused || !this.blessGroup.length) {
       this.animationsDone = true;
       this.afterBlessGroupsPlayed();

@@ -48,6 +48,7 @@ function Effect(element, effectObj, effectName, effectTime, callback, config = {
   this.isFlip = effectName == 'flip';
   this.flipCount = 0;
   this.myReq = null;
+  this.playFlag = true;
 
   this.init();
 }
@@ -145,6 +146,8 @@ Effect.prototype = {
 
     this.currentTime += this.fpsInterval;
 
+    if (!this.playFlag) return;
+
     if (this.currentTime <= this.effectTime) {
       this.myReq = requestAnimationFrame(this.animate.bind(this));
       this.animationTimer = setTimeout(this.myReq, this.fpsInterval);
@@ -174,8 +177,11 @@ Effect.prototype = {
   },
 
   stop() {
+    this.playFlag = false;
     cancelAnimationFrame(this.myReq);
     clearTimeout(this.animationTimer);
+    this.myReq = null;
+    this.animationTimer = null;
 
     Object.keys(this.effectObj).forEach((key) => {
       const changedValue = this.changedState[key];
