@@ -12,7 +12,7 @@ import PartyPage from './pages/PartyPage';
 import ReviewPage from './pages/ReviewPage';
 import GuidePage from './pages/GuidePage';
 import RankPage from './pages/RankPage';
-// import Alert from './components/Alert';
+import SideBar from './components/SideBar';
 import './style/main.styl';
 import 'react-fastclick';
 
@@ -70,12 +70,25 @@ class App extends Component {
     }
   }
 
+  createSideBarMenu() {
+    const menus = [{
+      title: '生日蛋糕', link: '/list'
+    }, {
+      title: '排行榜', link: '/rank'
+    }]
+
+    return (<SideBar menus={menus} />);
+  }
+
   render() {
     const {pathname} = this.props.location;
 
     return (
-      <div>
-        <TransitionGroup transitionName={this.state.transitionName} component="div" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+      <div className="top-container">
+        {this.createSideBarMenu()}
+        <TransitionGroup transitionName={this.state.transitionName}
+          component="div"
+          transitionEnterTimeout={500} transitionLeaveTimeout={500}>
           {cloneElement(this.props.children || <div/>, { key: pathname })}
         </TransitionGroup>
       </div>
