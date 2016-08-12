@@ -1,0 +1,46 @@
+.top-container
+  position absolute
+  right 0
+  height 100%
+  left 200px
+  overflow hidden
+  transition left 0.45s ease-in-out 0s
+
+.sidebar-menu
+  position fixed
+  left 0
+  top 0
+  bottom 0
+  width 200px
+  overflow-y auto
+  overflow-x hidden
+  background #eee
+  box-shadow 0 0 10px #ccc
+  z-index 999
+  transition left 0.45s ease-in-out 0s
+  
+  .sidebar-group
+    position relative
+    
+    a
+      display block
+      padding 8px
+      color #333
+      
+    .group-item
+      display none
+      transition height 0.45s ease-in-out 0s
+    
+    .sidebar-item
+      background #F9F9F9
+      
+      &.active
+        background $red
+        
+@media (max-width 568px)
+  .top-container
+    left 0
+    
+  .sidebar-menu
+    left -100%
+      
